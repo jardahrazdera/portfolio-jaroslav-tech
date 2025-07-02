@@ -1,0 +1,5 @@
+# src/requirements.txt
+Django
+gunicorn
+psycopg2-binary
+python-dotenv
