@@ -8,6 +8,7 @@ on:
     branches: [ "main" ]
 
 env:
+  # Nahraď 'jardahrazdera' svým GitHub jménem, pokud je jiné
   IMAGE_NAME: ghcr.io/jardahrazdera/portfolio-jaroslav-tech
 
 jobs:
@@ -41,12 +42,11 @@ jobs:
             # Navigate to the project directory on the server
             cd /opt/stacks/3-apps/jaroslav.tech
 
-            # === THIS IS THE CRUCIAL NEW STEP ===
             # Pull the latest source code changes from GitHub
             git pull origin main
 
             # Now, pull the new Docker image that was just built
             docker compose pull app
 
-            # And finally, restart the application container with the new code and image
+            # And finally, restart the application container
             docker compose up -d --no-deps app
