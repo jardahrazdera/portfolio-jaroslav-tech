@@ -36,7 +36,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: . # Build from the root of the repository
+          context: ./src # Build from the root of the repository
           push: true
           tags: ${{ env.IMAGE_NAME }}:latest # Tag the image
 
