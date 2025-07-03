@@ -1,16 +1,18 @@
 # docker-compose.yml
-# Base configuration for both production and local development
-# This version includes a healthcheck to ensure the database is ready before the app starts.
+# FINAL PRODUCTION VERSION
 
 services:
   app:
-    build: ./src
+    # This is the key change:
+    # Instead of building locally, we now pull the pre-built image from our registry.
+    image: ghcr.io/jardahrazdera/portfolio-jaroslav-tech:latest
+    restart: always # Use 'always' for production services
     volumes:
-      - ./src:/app
+      # We no longer mount the source code, the code is inside the image.
+      # We only mount the volume for static files.
       - static_volume:/app/staticfiles
     env_file:
       - .env
-    # This condition tells the 'app' to wait until the 'db' service is 'healthy'
     depends_on:
       db:
         condition: service_healthy
@@ -20,13 +22,13 @@ services:
 
   db:
     image: postgres:16-alpine
+    restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data
     env_file:
       - .env
     networks:
       - default
-    # This section defines how to check if the database is ready
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 5s
