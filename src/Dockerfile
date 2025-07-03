@@ -22,4 +22,4 @@ RUN python manage.py collectstatic --noinput
 
 # Gunicorn will be run by the 'app' service in docker-compose,
 # but we can set a default command as well.
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "portfolio.wsgi:application"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "jaroslav_tech.wsgi:application"]

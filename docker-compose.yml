@@ -1,5 +1,6 @@
 # docker-compose.yml
 # Base configuration for both production and local development
+# This version includes a healthcheck to ensure the database is ready before the app starts.
 
 services:
   app:
@@ -9,8 +10,10 @@ services:
       - static_volume:/app/staticfiles
     env_file:
       - .env
+    # This condition tells the 'app' to wait until the 'db' service is 'healthy'
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - default
       - proxy
@@ -18,12 +21,17 @@ services:
   db:
     image: postgres:16-alpine
     volumes:
-      # Use a named volume for portability between dev and prod
       - postgres_data:/var/lib/postgresql/data
     env_file:
       - .env
     networks:
       - default
+    # This section defines how to check if the database is ready
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 volumes:
   postgres_data:
