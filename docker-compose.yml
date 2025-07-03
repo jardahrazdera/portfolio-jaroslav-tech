@@ -13,10 +13,12 @@ services:
       - proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.jaroslavtech.rule=Host(`jaroslav.tech`, `www.jaroslav.tech`)"
+      # HTTP Router (for redirection) - CORRECTED SYNTAX
+      - "traefik.http.routers.jaroslavtech.rule=Host(`jaroslav.tech`) || Host(`www.jaroslav.tech`)"
       - "traefik.http.routers.jaroslavtech.entrypoints=web"
       - "traefik.http.routers.jaroslavtech.middlewares=https-redirect@file"
-      - "traefik.http.routers.jaroslavtech-secure.rule=Host(`jaroslav.tech`, `www.jaroslav.tech`)"
+      # HTTPS Router - CORRECTED SYNTAX
+      - "traefik.http.routers.jaroslavtech-secure.rule=Host(`jaroslav.tech`) || Host(`www.jaroslav.tech`)"
       - "traefik.http.routers.jaroslavtech-secure.entrypoints=websecure"
       - "traefik.http.routers.jaroslavtech-secure.tls.certresolver=letsencrypt"
       - "traefik.http.services.jaroslavtech.loadbalancer.server.port=8000"
