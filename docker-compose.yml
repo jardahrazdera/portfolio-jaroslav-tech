@@ -1,0 +1,35 @@
+# docker-compose.yml
+# Base configuration for both production and local development
+
+services:
+  app:
+    build: ./src
+    volumes:
+      - ./src:/app
+      - static_volume:/app/staticfiles
+    env_file:
+      - .env
+    depends_on:
+      - db
+    networks:
+      - default
+      - proxy
+
+  db:
+    image: postgres:16-alpine
+    volumes:
+      # Use a named volume for portability between dev and prod
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    networks:
+      - default
+
+volumes:
+  postgres_data:
+  static_volume:
+
+networks:
+  default: {}
+  proxy:
+    external: true

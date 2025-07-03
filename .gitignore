@@ -74,3 +74,4 @@ venv.bak
 # IDE settings
 .idea/
 .vscode/
+docker-compose.override.yml
