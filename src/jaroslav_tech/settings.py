@@ -20,12 +20,24 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
+# ---
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-il4zc6ogl-62%ux)((sa6m4a%0llq9!@#=lr0@%2gusaeq085q'
+# We are reading the secret key from an environment variable for security.
+# ---
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
+# ---
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# We read the debug setting from an environment variable.
+# It should be '1' for development and '0' for production.
+# ---
+DEBUG = os.environ.get('DJANGO_DEBUG', '0') == '1'
 
+
+# ---
+# Read allowed hosts from an environment variable.
+# This should be a comma-separated string like "jaroslav.tech,www.jaroslav.tech"
+# ---
 ALLOWED_HOSTS_ENV = os.environ.get('DJANGO_ALLOWED_HOSTS')
 if ALLOWED_HOSTS_ENV:
     ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_ENV.split(',')]
@@ -42,8 +54,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # New applications
-    'core.apps.CoreConfig',
 ]
 
 MIDDLEWARE = [
@@ -65,6 +75,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -76,9 +87,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'jaroslav_tech.wsgi.application'
 
 
-# Database
+# ---
+# Database configuration
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
+# We are replacing the default SQLite configuration with PostgreSQL,
+# reading all connection details from environment variables.
+# ---
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -89,6 +103,7 @@ DATABASES = {
         'PORT': os.environ.get('POSTGRES_PORT', '5432'),
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -121,14 +136,18 @@ USE_I18N = True
 USE_TZ = True
 
 
+# ---
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
-
+# ---
 STATIC_URL = 'static/'
+
+# This is the directory where `collectstatic` will gather all static files
+# for production deployment.
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
