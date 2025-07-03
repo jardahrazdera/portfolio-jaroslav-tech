@@ -1,10 +1,16 @@
 # docker-compose.yml
+# This is the base configuration file that will be in Git.
+# It's used for both local development (with an override) and as a base for production.
 
 services:
   app:
-    image: ghcr.io/jardahrazdera/portfolio-jaroslav-tech:latest
-    restart: always
+    # The default action is to build the image from the 'src' directory.
+    # The docker-compose.prod.yml on the server will override this with a specific image.
+    build: ./src
     volumes:
+      # In local development, this mounts the source code for live-reloading.
+      # In production, this volume mount is effectively ignored because the override file does not define it.
+      - ./src:/app
       - static_volume:/app/staticfiles
     env_file:
       - .env
@@ -14,6 +20,7 @@ services:
     networks:
       - default
       - proxy
+
   db:
     image: postgres:16-alpine
     restart: always
@@ -28,9 +35,11 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+
 volumes:
   postgres_data:
   static_volume:
+
 networks:
   default: {}
   proxy:

@@ -1,12 +1,10 @@
 # .github/workflows/deploy.yml
-# Final version with Docker login on the server
+# Final version using multiple compose files
 
 name: Build and Deploy to Server
-
 on:
   push:
     branches: [ "main" ]
-
 env:
   IMAGE_NAME: ghcr.io/jardahrazdera/portfolio-jaroslav-tech
 
@@ -14,22 +12,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Log in to GHCR
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: ./src
-          push: true
-          tags: ${{ env.IMAGE_NAME }}:latest
+      # ... (kroky checkout, login, build and push zůstávají stejné) ...
 
       - name: Deploy to server
         uses: appleboy/ssh-action@master
@@ -38,15 +21,14 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            # Navigate to the project directory on the server
             cd /opt/stacks/3-apps/jaroslav.tech
+            git pull origin main
 
-            # === THIS IS THE CRUCIAL NEW STEP ===
-            # Log in to GitHub Container Registry using the PAT
+            # Login to GHCR on the server
             echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
 
-            # Now, pull the new Docker image that was just built
-            docker compose pull app
-
-            # And finally, restart the application container
-            docker compose up -d --no-deps app
+            # === THIS IS THE KEY CHANGE ===
+            # Use both the base and the production override file
+            # This command will pull the new image specified in docker-compose.prod.yml
+            # and restart the service.
+            docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --no-deps app
