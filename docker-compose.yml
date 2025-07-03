@@ -1,15 +1,10 @@
 # docker-compose.yml
-# FINAL PRODUCTION VERSION
 
 services:
   app:
-    # This is the key change:
-    # Instead of building locally, we now pull the pre-built image from our registry.
     image: ghcr.io/jardahrazdera/portfolio-jaroslav-tech:latest
-    restart: always # Use 'always' for production services
+    restart: always
     volumes:
-      # We no longer mount the source code, the code is inside the image.
-      # We only mount the volume for static files.
       - static_volume:/app/staticfiles
     env_file:
       - .env
@@ -19,7 +14,6 @@ services:
     networks:
       - default
       - proxy
-
   db:
     image: postgres:16-alpine
     restart: always
@@ -34,11 +28,9 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-
 volumes:
   postgres_data:
   static_volume:
-
 networks:
   default: {}
   proxy:
