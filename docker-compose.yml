@@ -1,13 +1,10 @@
-# docker-compose.yml (Base file for Git, development-first)
+# docker-compose.yml (Final Base Version for Git)
 
 services:
   app:
-    # By default, we build the image from the local source code.
+    # The 'build' context is defined here, as it's needed for local dev.
+    # The production override will ignore this and use a specific 'image'.
     build: ./src
-    # We mount the source code for live-reloading during development.
-    volumes:
-      - ./src:/app
-      - static_volume:/app/staticfiles
     env_file: .env
     depends_on:
       db:
