@@ -1,6 +1,5 @@
 # .github/workflows/deploy.yml
 # Final version using multiple compose files
-
 name: Build and Deploy to Server
 on:
   push:
@@ -12,7 +11,22 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      # ... (kroky checkout, login, build and push zůstávají stejné) ...
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./src
+          push: true
+          tags: ${{ env.IMAGE_NAME }}:latest
 
       - name: Deploy to server
         uses: appleboy/ssh-action@master
@@ -24,11 +38,8 @@ jobs:
             cd /opt/stacks/3-apps/jaroslav.tech
             git pull origin main
 
-            # Login to GHCR on the server
             echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
 
-            # === THIS IS THE KEY CHANGE ===
-            # Use both the base and the production override file
-            # This command will pull the new image specified in docker-compose.prod.yml
-            # and restart the service.
+            # Use both the base and the production override file.
+            # This will pull the new image and restart the service correctly.
             docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --no-deps app
