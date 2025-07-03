@@ -40,6 +40,6 @@ jobs:
 
             echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
 
-            # Use both the base and the production override file.
-            # This will pull the new image and restart the service correctly.
-            docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --no-deps app
+            # We no longer need the prod file, the main file is now production-ready
+            docker compose pull app
+            docker compose up -d --no-deps app
