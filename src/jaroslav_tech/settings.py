@@ -42,7 +42,7 @@ ALLOWED_HOSTS_ENV = os.environ.get('DJANGO_ALLOWED_HOSTS')
 if ALLOWED_HOSTS_ENV:
     ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS_ENV.split(',')]
 else:
-    ALLOWED_HOSTS = ['*']
+    ALLOWED_HOSTS = []
 
 
 # Application definition
