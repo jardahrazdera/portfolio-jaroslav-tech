@@ -60,6 +60,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -147,6 +148,16 @@ STATIC_URL = 'static/'
 # This is the directory where `collectstatic` will gather all static files
 # for production deployment.
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# This setting defines the additional locations the staticfiles app will traverse.
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# This setting defines the additional locations the staticfiles app will traverse.
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 
 # Default primary key field type

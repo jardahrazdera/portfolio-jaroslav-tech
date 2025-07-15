@@ -17,5 +17,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application's code
 COPY . .
 
+# Collect static files
+RUN python manage.py collectstatic --no-input
+
 # Run Gunicorn, pointing to the correct WSGI application
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "jaroslav_tech.wsgi:application"]

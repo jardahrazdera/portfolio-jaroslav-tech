@@ -5,6 +5,8 @@ services:
     image: ghcr.io/jardahrazdera/portfolio-jaroslav-tech:latest
     restart: always
     env_file: .env
+    volumes:
+      - static_volume:/app/staticfiles
     depends_on:
       db:
         condition: service_healthy
