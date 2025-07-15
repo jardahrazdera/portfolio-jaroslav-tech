@@ -45,6 +45,14 @@ else:
     ALLOWED_HOSTS = []
 
 
+# ---
+# CSRF Trusted Origins
+# We need to tell Django which domains are allowed to make POST requests
+# when running behind a reverse proxy with HTTPS.
+# ---
+CSRF_TRUSTED_ORIGINS = ['https://jaroslav.tech', 'https://www.jaroslav.tech']
+
+
 # Application definition
 
 INSTALLED_APPS = [
