@@ -1,4 +1,6 @@
-# Portfolio - Jaroslav Tech
+# Portfolio - jaroslav.tech
+
+**Live Project:** [**https://jaroslav.tech**](https://jaroslav.tech)
 
 This repository contains the source code for my personal portfolio website. The project is a demonstration of modern web development practices, including a containerized Django application, a robust CI/CD pipeline, and a clean, scalable project structure.
 
@@ -24,6 +26,30 @@ The project is built with a focus on best practices in security, deployment, and
 *   **Containerization:** Docker, Docker Compose
 *   **Reverse Proxy:** Traefik
 *   **CI/CD:** GitHub Actions
+
+## Project Structure
+
+Below is a simplified tree representing the high-level architecture of the project. It highlights the key files and directories that define the structure.
+
+```
+.
+├── .github/              # CI/CD workflows (GitHub Actions)
+├── .gitignore            # Files and directories ignored by Git
+├── docker-compose.yml    # Docker configuration for services
+├── LICENSE               # MIT License
+├── README.md             # You are here!
+└── src/                  # Main source code directory
+    ├── core/             # The primary Django application
+    │   ├── models.py     # Database models
+    │   ├── views.py      # View logic
+    │   ├── urls.py       # App-specific URL routing
+    │   └── templates/    # HTML templates
+    ├── jaroslav_tech/    # Django project-level configuration
+    │   ├── settings.py   # Project settings
+    │   └── urls.py       # Root URL configuration
+    ├── manage.py         # Django's command-line utility
+    └── requirements.txt  # Python dependencies
+```
 
 ## Local Development
 
