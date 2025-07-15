@@ -3,4 +3,5 @@ Django
 gunicorn
 psycopg2-binary
 python-dotenv
-django-extensionswhitenoise
+django-extensions
+whitenoise
