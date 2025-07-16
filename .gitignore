@@ -79,3 +79,6 @@ venv.bak
 .vscode/
 docker-compose.override.yml
 docker-compose.dev.yml
+
+# Development data
+dev_data/
