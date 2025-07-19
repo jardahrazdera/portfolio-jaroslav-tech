@@ -82,3 +82,6 @@ docker-compose.dev.yml
 
 # Development data
 dev_data/
+
+# Python version (Pyenv)
+.python-version
