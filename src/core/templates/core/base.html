@@ -1,0 +1,91 @@
+{% comment %}
+File: src/core/templates/core/base.html
+{% endcomment %}
+
+{% load static i18n %}
+<!DOCTYPE html>
+<html lang="{% get_current_language as LANGUAGE_CODE %}{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>{% block title %}Jarek Hrazdera{% endblock %}</title>
+    
+    <link rel="stylesheet" href="{% static 'core/css/fonts.css' %}">
+    
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+    
+</head>
+<body class="{% if site_settings.coming_soon_mode %}coming-soon-active{% endif %}">
+
+    {% if site_settings.coming_soon_mode %}
+    <div class="coming-soon-overlay">
+        <div class="overlay-theme-switcher">
+            <button class="theme-switcher theme-toggle-btn" aria-label="{% trans 'Toggle theme' %}">
+                <svg class="theme-icon" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                    <path id="moon-part" d="M 14,24 A 10,10 0 0 0 24,34 V 14 A 10,10 0 0 0 14,24 Z"></path>
+                    <path id="sun-part" d="M 24,2 A 22,22 0 1 0 46,24 21.9,21.9 0 0 0 24,2 Z M 6,24 A 18.1,18.1 0 0 1 24,6 v 8 a 10,10 0 0 1 0,20 v 8 A 18.1,18.1 0 0 1 6,24 Z"></path>
+                </svg>
+            </button>
+        </div>
+        <div class="coming-soon-content">
+            <h1>{% trans "Coming soon" %}</h1>
+            <p>{% trans "I'm working on it :)" %}</p>
+        </div>
+    </div>
+    {% endif %}
+
+    <header class="main-header">
+        <div class="container">
+            <a href="{% url 'core:home' %}" class="logo">Jarek Hrazdera</a>
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="#about">{% trans "About" %}</a></li>
+                    <li><a href="#skills">{% trans "Skills" %}</a></li>
+                    <li><a href="#projects">{% trans "Projects" %}</a></li>
+                    <li><a href="#contact">{% trans "Contact" %}</a></li>
+                    {% get_current_language as LANGUAGE_CODE %}
+                    {% get_available_languages as LANGUAGES %}
+                    {% get_language_info_list for LANGUAGES as languages %}
+                    {% for language in languages %}
+                      {% if language.code != LANGUAGE_CODE %}
+                      <li class="lang-switch">
+                        <a href="/{{ language.code }}{{ request.get_full_path | slice:'3:' }}">
+                            {{ language.name_local }}
+                            <img src="{% static 'core/assets/' %}{% if language.code == 'cs' %}czech-republic.png{% elif language.code == 'en' %}united-states.png{% endif %}" alt="{{ language.name_local }} Flag" class="lang-flag">
+                        </a>
+                      </li>
+                      {% endif %}
+                    {% endfor %}
+                    <li>
+                        <button class="theme-switcher theme-toggle-btn" aria-label="{% trans 'Toggle theme' %}">
+                            <svg class="theme-icon" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                <path id="moon-part" d="M 14,24 A 10,10 0 0 0 24,34 V 14 A 10,10 0 0 0 14,24 Z" />
+                                <path id="sun-part" d="M 24,2 A 22,22 0 1 0 46,24 21.9,21.9 0 0 0 24,2 Z M 6,24 A 18.1,18.1 0 0 1 24,6 v 8 a 10,10 0 0 1 0,20 v 8 A 18.1,18.1 0 0 1 6,24 Z" />
+                            </svg>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+            <button class="hamburger" id="hamburger-menu" aria-label="{% trans 'Open menu' %}">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; {% now "Y" %} Jarek. {% trans "All rights reserved." %}</p>
+            <p>{% trans "Catppuccin Mocha Theme" %}</p>
+        </div>
+    </footer>
+
+    <script src="{% static 'core/js/main.js' %}"></script>
+</body>
+</html>
