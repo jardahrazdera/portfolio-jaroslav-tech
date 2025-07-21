@@ -1,86 +1,114 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# django.po
+# Czech translation for a personal portfolio website.
+# Copyright (C) 2025 Jarek
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Jarek <jarek@jaroslav.tech>, 2025.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: Portfolio Jarka\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-20 10:29+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2025-07-21 07:03+0000\n"
+"PO-Revision-Date: 2025-07-21 09:07+0200\n"
+"Last-Translator: Jarek <jarek@example.com>\n"
+"Language-Team: Czech <cs@li.org>\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n "
 "<= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
-#: core/templates/core/base.html:26
+"X-Generator: Gemini\n"
+
+#: core/models.py:12
+msgid "Activate 'Coming Soon' Mode"
+msgstr "Aktivovat režim 'Brzy spustíme'"
+
+#: core/models.py:13
+msgid ""
+"If checked, visitors will see the 'Coming Soon' overlay instead of the main "
+"site content."
+msgstr "Pokud je zaškrtnuto, návštěvníci uvidí překryvnou vrstvu 'Brzy spustíme' namísto hlavního obsahu webu."
+
+#: core/models.py:17
+msgid "Site Setting"
+msgstr "Nastavení stránky"
+
+#: core/models.py:18 core/models.py:21
+msgid "Site Settings"
+msgstr "Nastavení stránek"
+
+#: core/templates/core/base.html:25 core/templates/core/base.html:68
+msgid "Toggle theme"
+msgstr "Přepnout motiv"
+
+#: core/templates/core/base.html:33
+msgid "Coming soon"
+msgstr "Brzy spustíme"
+
+#: core/templates/core/base.html:34
+msgid "I'm working on it :)"
+msgstr "Pracuji na tom :)"
+
+#: core/templates/core/base.html:44
 msgid "About"
 msgstr "O mně"
 
-#: core/templates/core/base.html:27
+#: core/templates/core/base.html:45
 msgid "Skills"
-msgstr ""
+msgstr "Dovednosti"
 
-#: core/templates/core/base.html:28 core/templates/core/index.html:74
+#: core/templates/core/base.html:46 core/templates/core/index.html:76
 msgid "Projects"
-msgstr ""
+msgstr "Projekty"
 
-#: core/templates/core/base.html:29
+#: core/templates/core/base.html:47
 msgid "Contact"
-msgstr ""
+msgstr "Kontakt"
 
-#: core/templates/core/base.html:46
-msgid "Toggle theme"
-msgstr ""
-
-#: core/templates/core/base.html:55
+#: core/templates/core/base.html:77
 msgid "Open menu"
-msgstr ""
+msgstr "Otevřít menu"
 
-#: core/templates/core/base.html:71
+#: core/templates/core/base.html:91
 msgid "All rights reserved."
-msgstr ""
+msgstr "Všechna práva vyhrazena."
 
-#: core/templates/core/base.html:72
+#: core/templates/core/base.html:92
 msgid "Catppuccin Mocha Theme"
-msgstr ""
+msgstr "Motiv Catppuccin Mocha"
 
-#: core/templates/core/index.html:9
+#: core/templates/core/index.html:10
 msgid "Jarek - Emerging Python Developer"
-msgstr ""
-
-#: core/templates/core/index.html:15
-msgid "Hello, I'm Jarek."
-msgstr ""
+msgstr "Jarek - Začínající Python vývojář"
 
 #: core/templates/core/index.html:16
-msgid "Emerging Python Developer"
-msgstr ""
+msgid "Hello, I'm Jarek."
+msgstr "Ahoj, jsem Jarek."
 
 #: core/templates/core/index.html:17
+msgid "Emerging Python Developer"
+msgstr "Začínající Python vývojář"
+
+#: core/templates/core/index.html:18
 msgid ""
 "I build robust backends and elegant web solutions. Passionate about clean "
 "code and object-oriented principles."
-msgstr ""
-
-#: core/templates/core/index.html:19
-msgid "View My Work"
-msgstr ""
+msgstr "Tvořím robustní backendy a elegantní webová řešení. Jsem nadšený pro čistý kód a principy objektově orientovaného programování."
 
 #: core/templates/core/index.html:20
+msgid "View My Work"
+msgstr "Zobrazit mé práce"
+
+#: core/templates/core/index.html:21
 msgid "Get In Touch"
-msgstr ""
+msgstr "Kontaktujte mě"
 
-#: core/templates/core/index.html:28
+#: core/templates/core/index.html:29
 msgid "About Me"
-msgstr ""
+msgstr "O mně"
 
-#: core/templates/core/index.html:31
+#: core/templates/core/index.html:32
 msgid ""
 "\n"
 "                    <p>I am a beginner developer from the Czech Republic "
@@ -90,87 +118,86 @@ msgid ""
 "Django and Flask, and I'm comfortable with front-end technologies such as "
 "HTML, CSS, and JavaScript. Understanding the core principles of Object-"
 "Oriented Programming is a key focus of my learning. I'm currently working on "
-"CachyOS with Hyprland, which shows my comfort with Linux-based environments."
-"</p>\n"
+"Manjaro Sway community edition, which shows my comfort with Linux-based "
+"environments.</p>\n"
 "                    "
 msgstr ""
+"\n"
+"                    <p>Jsem začínající vývojář z České republiky se silnou ambicí stát se profesionálním Python vývojářem. Moje cesta do světa technologií je poháněna vášní pro řešení problémů a tvorbu užitečných aplikací. Mám praktické zkušenosti s webovými frameworky jako Django a Flask a jsem zběhlý v technologiích front-endu, jako jsou HTML, CSS a JavaScript. Pochopení základních principů objektově orientovaného programování je klíčovým bodem mého učení. V současné době pracuji na komunitní edici Manjaro Sway, což ukazuje mé pohodlí v prostředích založených na Linuxu.</p>\n"
+"                    "
 
-#: core/templates/core/index.html:41
+#: core/templates/core/index.html:42
 msgid "My Skillset"
-msgstr ""
+msgstr "Moje dovednosti"
 
-#: core/templates/core/index.html:44
+#: core/templates/core/index.html:45
 msgid "Backend"
-msgstr ""
+msgstr "Backend"
 
-#: core/templates/core/index.html:53
+#: core/templates/core/index.html:54
 msgid "Frontend"
-msgstr ""
+msgstr "Frontend"
 
-#: core/templates/core/index.html:61
+#: core/templates/core/index.html:62
 msgid "Tools & Environment"
-msgstr ""
+msgstr "Nástroje a prostředí"
 
-#: core/templates/core/index.html:65
-msgid "Docker (Learning)"
-msgstr ""
-
-#: core/templates/core/index.html:77
+#: core/templates/core/index.html:79
 msgid "Project One Title"
-msgstr ""
+msgstr "Název prvního projektu"
 
-#: core/templates/core/index.html:78
+#: core/templates/core/index.html:80
 msgid ""
 "A brief description of the project, what it does, and the problem it solves. "
 "Keep it concise and impactful."
-msgstr ""
-
-#: core/templates/core/index.html:79 core/templates/core/index.html:88
-#: core/templates/core/index.html:97
-msgid "Technologies:"
-msgstr ""
+msgstr "Stručný popis projektu, co dělá a jaký problém řeší. Buďte struční a výstižní."
 
 #: core/templates/core/index.html:81 core/templates/core/index.html:90
 #: core/templates/core/index.html:99
+msgid "Technologies:"
+msgstr "Technologie:"
+
+#: core/templates/core/index.html:83 core/templates/core/index.html:92
+#: core/templates/core/index.html:101
 msgid "GitHub"
-msgstr ""
+msgstr "GitHub"
 
-#: core/templates/core/index.html:82 core/templates/core/index.html:91
+#: core/templates/core/index.html:84 core/templates/core/index.html:93
 msgid "Live Demo"
-msgstr ""
+msgstr "Živá ukázka"
 
-#: core/templates/core/index.html:86
+#: core/templates/core/index.html:88
 msgid "Project Two Title"
-msgstr ""
+msgstr "Název druhého projektu"
 
-#: core/templates/core/index.html:87
+#: core/templates/core/index.html:89
 msgid ""
 "Another project description. This one might focus on a different technology, "
 "like Flask, to show your versatility."
-msgstr ""
+msgstr "Popis dalšího projektu. Tento by se mohl zaměřit na jinou technologii, například Flask, aby ukázal vaši všestrannost."
 
-#: core/templates/core/index.html:95
+#: core/templates/core/index.html:97
 msgid "Project Three Title"
-msgstr ""
+msgstr "Název třetího projektu"
 
-#: core/templates/core/index.html:96
+#: core/templates/core/index.html:98
 msgid ""
 "Describe a third project here. You can also use this space for a project you "
 "are currently working on."
-msgstr ""
+msgstr "Zde popište třetí projekt. Tento prostor můžete také využít pro projekt, na kterém právě pracujete."
 
-#: core/templates/core/index.html:108
+#: core/templates/core/index.html:110
 msgid "Contact Me"
-msgstr ""
+msgstr "Kontaktujte mě"
 
-#: core/templates/core/index.html:109
+#: core/templates/core/index.html:111
 msgid "I'm currently looking for new opportunities. Feel free to reach out!"
-msgstr ""
+msgstr "Momentálně hledám nové příležitosti. Neváhejte se ozvat!"
 
-#: core/templates/core/index.html:112
+#: core/templates/core/index.html:114
 msgid "Visit my GitHub profile"
-msgstr ""
+msgstr "Navštivte můj profil na GitHubu"
 
-#: core/templates/core/index.html:117
+#: core/templates/core/index.html:119
 msgid "Visit my LinkedIn profile"
-msgstr ""
+msgstr "Navštivte můj profil na LinkedInu"
