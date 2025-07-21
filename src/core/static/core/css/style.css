@@ -181,7 +181,7 @@ a:hover {
 .hero-subtitle {
     font-size: 1.2rem;
     max-width: 600px;
-    margin: 0 auto 30px;
+    margin: 30px auto 30px;
     color: var(--subtext);
 }
 
@@ -510,4 +510,61 @@ body.light-theme .coming-soon-overlay {
     .coming-soon-content p {
         font-size: 1.2rem;
     }
+}
+
+/*
+=================================
+Terminal Title
+=================================
+*/
+
+.title-container.terminal {
+    font-family: 'JetBrains Mono', monospace;
+    background-color: var(--mantle); /* Darker, more integrated background */
+    color: var(--text);
+
+    /* Tighter, more compact look */
+    padding: 1.75rem 1.75rem;
+    border-radius: 6px;
+    border: 1px solid var(--crust); /* Using theme colors for border */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    
+    display: inline-block;
+    text-align: left;
+    position: relative;
+}
+
+.terminal .title-line {
+    display: block;
+    /* Larger, responsive font size */
+    font-size: clamp(1.5rem, 4vw, 2.2rem); 
+    /* Reduced line-height for compactness */
+    line-height: 1.3; 
+    font-weight: 700; /* Bolder font for more impact */
+    margin: 0;
+}
+
+/* Color for the '$' prompt */
+.terminal .prompt {
+    color: #aae522; /* Using a green color for the prompt */
+    margin-right: 0.5em;
+}
+
+/* The blinking cursor element */
+.terminal .cursor {
+    /* Set the color of the cursor character itself */
+    
+    /* Apply the animation */
+    animation: blink-opacity 1.2s infinite step-end;
+}
+
+
+/* Keyframe animation for the blinking effect using OPACITY */
+@keyframes blink-opacity {
+  0%, 100% {
+    opacity: 1; /* Visible */
+  }
+  50% {
+    opacity: 0; /* Invisible */
+  }
 }

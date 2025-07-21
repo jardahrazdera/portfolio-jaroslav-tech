@@ -14,8 +14,15 @@ This template extends base.html and provides the actual content for the main pag
         <div class="container">
             <div class="hero-content">
                 <p class="hero-intro">{% trans "Hello, I'm Jarek." %}</p>
-                <h1 class="hero-title">{% trans "Emerging Python Developer" %}</h1>
-                <p class="hero-subtitle">{% trans "I build robust backends and elegant web solutions. Passionate about clean code and object-oriented principles." %}</p>
+                    <div class="title-container terminal">
+                        <h1 class="title-line">
+                            <span class="prompt">$/~</span> {% trans "Fullstack Developer >>" %}
+                        </h1>
+                        <h1 class="title-line">
+                            {% trans "DevOps Enthusiast" %}<span class="cursor">_</span>
+                        </h1>
+                    </div>
+                <p class="hero-subtitle">{% trans "I build robust backends and elegant web solutions. Passionate about clean code and object-oriented principles. I actively use AI as a tool to boost my productivity and explore creative solutions." %}</p>
                 <div class="hero-buttons">
                     <a href="#projects" class="btn btn-primary">{% trans "View My Work" %}</a>
                     <a href="#contact" class="btn btn-secondary">{% trans "Get In Touch" %}</a>
@@ -30,7 +37,7 @@ This template extends base.html and provides the actual content for the main pag
             <div class="about-content">
                 <div class="about-text">
                     {% blocktrans %}
-                    <p>I am a beginner developer from the Czech Republic with a strong ambition to become a professional Python developer. My journey into technology is driven by a passion for problem-solving and building useful applications. I have hands-on experience with web frameworks like Django and Flask, and I'm comfortable with front-end technologies such as HTML, CSS, and JavaScript. Understanding the core principles of Object-Oriented Programming is a key focus of my learning. I'm currently working on Manjaro Sway community edition, which shows my comfort with Linux-based environments.</p>
+                    <p>I am a developer from the Czech Republic, driven by a passion for transforming complex problems into elegant software solutions. My focus is on building robust and maintainable applications using Python, with practical experience in frameworks like Django and Flask. I am proficient in crafting user interfaces with HTML, CSS, and JavaScript, and I am deeply committed to applying the principles of Object-Oriented Programming to write clean and scalable code. My choice of Manjaro Sway as a daily driver reflects my philosophy: I thrive in efficient, terminal-centric environments that give me full control over my workflow.</p>
                     {% endblocktrans %}
                 </div>
             </div>
@@ -48,23 +55,25 @@ This template extends base.html and provides the actual content for the main pag
                         <li>Django</li>
                         <li>Flask</li>
                         <li>PostgreSQL</li>
+                        <li>{% trans "Gunicorn" %}</li> 
                     </ul>
                 </div>
                 <div class="skill-card">
                     <h3>{% trans "Frontend" %}</h3>
                     <ul>
-                        <li>HTML5</li>
-                        <li>CSS3</li>
-                        <li>JavaScript</li>
+                        <li>HTML5 & CSS3</li>
+                        <li>JavaScript (ES6+)</li>
+                        <li>{% trans "Responsive Design" %}</li>
                     </ul>
                 </div>
                 <div class="skill-card">
-                    <h3>{% trans "Tools & Environment" %}</h3>
+                    <h3>{% trans "DevOps & Tooling" %}</h3>
                     <ul>
                         <li>Git & GitHub</li>
-                        <li>Linux (Manjaro Sway)</li>
-                        <li>Docker</li>
-                        <li>Podman</li>
+                        <li>Linux & Self-hosting</li>
+                        <li>Docker & Docker Compose</li>
+                        <li>{% trans "CI/CD (GitHub Actions)" %}</li>
+                        <li>Proxmox</li>
                     </ul>
                 </div>
             </div>
@@ -76,29 +85,28 @@ This template extends base.html and provides the actual content for the main pag
             <h2>{% trans "Projects" %}</h2>
             <div class="projects-grid">
                 <div class="project-card">
-                    <h3>{% trans "Project One Title" %}</h3>
-                    <p>{% trans "A brief description of the project, what it does, and the problem it solves. Keep it concise and impactful." %}</p>
-                    <p class="project-tech"><strong>{% trans "Technologies:" %}</strong> Django, PostgreSQL, CSS</p>
+                    <h3>{% trans "The Portfolio Meta-Project" %}</h3>
+                    <p>{% blocktrans %}What better showcases my skills than the very page presenting them? This entire website, from code to deployment, is my project. It all runs on my own server using virtualization, which I personally manage, and demonstrates the practical use of technologies like Python, Django, Docker, and CI/CD to build a complete, robust solution.{% endblocktrans %}</p>
+                    <p class="project-tech"><strong>{% trans "Technologies:" %}</strong> Django, PostgreSQL, Docker, CI/CD</p>
                     <div class="project-links">
-                        <a href="#" class="btn btn-secondary">{% trans "GitHub" %}</a>
-                        <a href="#" class="btn btn-secondary">{% trans "Live Demo" %}</a>
+                        <a href="https://github.com/jardahrazdera/portfolio-jaroslav-tech" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">{% trans "GitHub" %}</a>
+                        <a href="https://jaroslav.tech" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">{% trans "Live Demo" %}</a>
                     </div>
                 </div>
                 <div class="project-card">
-                    <h3>{% trans "Project Two Title" %}</h3>
-                    <p>{% trans "Another project description. This one might focus on a different technology, like Flask, to show your versatility." %}</p>
-                    <p class="project-tech"><strong>{% trans "Technologies:" %}</strong> Flask, JavaScript, PostgreSQL</p>
+                    <h3>{% trans "Personal Dashboard 'Freedom Hub'" %}</h3>
+                    <p>{% blocktrans %}A self-hosted dashboard to reclaim control over my digital world. Instead of dozens of tabs, this app brings RSS feeds, weather, to-do lists, and quick notes into one fully customizable space. It's a step towards digital independence, built with Django and a touch of JavaScript for interactive widgets.{% endblocktrans %}</p>
+                    <p class="project-tech"><strong>{% trans "Technologies:" %}</strong> Django, PostgreSQL, JavaScript</p>
                     <div class="project-links">
-                        <a href="#" class="btn btn-secondary">{% trans "GitHub" %}</a>
-                        <a href="#" class="btn btn-secondary">{% trans "Live Demo" %}</a>
+                        <a href="#" class="btn btn-secondary btn-disabled" aria-disabled="true">{% trans "In Development" %}</a>
                     </div>
                 </div>
                 <div class="project-card">
-                    <h3>{% trans "Project Three Title" %}</h3>
-                    <p>{% trans "Describe a third project here. You can also use this space for a project you are currently working on." %}</p>
-                    <p class="project-tech"><strong>{% trans "Technologies:" %}</strong> Python, HTML, CSS</p>
+                    <h3>{% trans "CLI Toolbox" %}</h3>
+                    <p>{% blocktrans %}A curated collection of small, useful Python scripts designed for the command line. From automating boring tasks to simple data processing, this toolbox is my personal testament to the power and elegance of scripting. More tools to be added soon.{% endblocktrans %}</p>
+                    <p class="project-tech"><strong>{% trans "Technologies:" %}</strong> Python, CLI</p>
                     <div class="project-links">
-                        <a href="#" class="btn btn-secondary">{% trans "GitHub" %}</a>
+                        <a href="#" class="btn btn-secondary btn-disabled" aria-disabled="true">{% trans "Idea Stage" %}</a>
                     </div>
                 </div>
             </div>
