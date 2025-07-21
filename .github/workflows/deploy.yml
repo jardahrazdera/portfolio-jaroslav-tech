@@ -37,12 +37,14 @@ jobs:
           script: |
             cd /opt/stacks/3-apps/jaroslav.tech
             git pull origin main
-
+          
             echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
-
-            # We no longer need the prod file, the main file is now production-ready
+          
             docker compose pull app
             docker compose up -d --no-deps app
-
-            # Run database migrations inside the newly started app container
+          
+            # Run database migrations first
             docker compose exec app python manage.py migrate --no-input
+          
+            # THEN, collect static files into the shared volume
+            docker compose exec app python manage.py collectstatic --no-input --clear
