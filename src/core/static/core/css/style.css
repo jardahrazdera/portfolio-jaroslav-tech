@@ -1,0 +1,570 @@
+/* --- Catppuccin Mocha (Dark) & Solarized Light Palettes --- */
+:root {
+    /* DARK (Mocha) THEME - Default */
+    --base: #1E1E2E;
+    --mantle: #181825;
+    --crust: #11111B;
+    --text: #CDD6F4;
+    --subtext: #A6ADC8;
+    --overlay: #9399B2;
+    --mauve: #CBA6F7;
+    --pink: #F5C2E7;
+    --maroon: #EBA0AC;
+    --peach: #FAB387;
+    --font-family: 'JetBrains Mono', monospace;
+    --shadow-color: rgba(0,0,0,0.2);
+}
+
+body.light-theme {
+    /* LIGHT (Solarized) THEME - Softer & less bright */
+    --base: #fdf6e3;
+    --mantle: #f5efdc;
+    --crust: #eee8d5;
+    --text: #586e75;
+    --subtext: #657b83;
+    --overlay: #93a1a1;
+    --mauve: #6c71c4;
+    --pink: #d33682;
+    --maroon: #dc322f;
+    --peach: #cb4b16;
+    --shadow-color: rgba(101, 123, 131, 0.15);
+}
+
+/* --- Basic Reset & Setup --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--base);
+    color: var(--text);
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* --- General Styling --- */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+h1, h2 {
+    font-weight: 700;
+    color: var(--mauve);
+    margin-bottom: 20px;
+}
+
+h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+}
+
+p {
+    margin-bottom: 1rem;
+    color: var(--subtext);
+}
+
+a {
+    color: var(--pink);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--mauve);
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.btn-primary {
+    background-color: var(--mauve);
+    color: var(--base);
+}
+
+.btn-primary:hover {
+    background-color: transparent;
+    border-color: var(--mauve);
+    color: var(--mauve);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border: 2px solid var(--overlay);
+    color: var(--text);
+}
+
+.btn-secondary:hover {
+    background-color: var(--overlay);
+    color: var(--base);
+}
+
+/* --- Header & Navigation --- */
+.main-header {
+    background-color: var(--mantle);
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px var(--shadow-color);
+    transition: background-color 0.3s ease;
+}
+
+.main-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--peach);
+}
+.logo:hover {
+    color: var(--peach);
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.nav-links li {
+    margin-left: 25px;
+}
+
+.nav-links a {
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+/* --- Hero Section --- */
+.hero-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 80px; /* Header height */
+    background-color: var(--crust);
+}
+
+.hero-intro {
+    font-size: 1.2rem;
+    color: var(--peach);
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin: 10px 0;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 30px auto 30px;
+    color: var(--subtext);
+}
+
+.hero-buttons .btn {
+    margin: 0 10px;
+}
+
+/* --- Content Sections --- */
+.content-section {
+    padding: 80px 0;
+    transition: background-color 0.3s ease;
+}
+
+.content-section:nth-child(odd) {
+    background-color: var(--mantle);
+}
+
+/* About Section */
+.about-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* Skills Section */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.skill-card {
+    background: var(--crust);
+    padding: 30px;
+    border-radius: 8px;
+    border-left: 4px solid var(--maroon);
+    transition: background-color 0.3s ease;
+}
+
+.skill-card h3 {
+    color: var(--peach);
+    margin-bottom: 15px;
+}
+
+.skill-card ul {
+    list-style: none;
+}
+
+.skill-card li {
+    margin-bottom: 10px;
+    color: var(--subtext);
+}
+
+/* Projects Section */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.project-card {
+    background: var(--mantle);
+    border-radius: 8px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--overlay);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px var(--shadow-color);
+}
+
+.project-card h3 {
+    color: var(--pink);
+}
+
+.project-tech {
+    margin-top: auto;
+    padding-top: 15px;
+    font-size: 0.9rem;
+}
+
+.project-links {
+    margin-top: 20px;
+}
+
+.project-links .btn {
+    margin-right: 10px;
+}
+
+/* Contact Section */
+#contact {
+    text-align: center;
+}
+
+#contact .btn {
+    margin-top: 20px;
+    font-size: 1.2rem;
+}
+
+.social-links {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+}
+
+.social-links a {
+    margin: 0; 
+}
+
+.social-icon {
+    width: 32px;
+    height: 32px;
+    color: var(--subtext);
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover .social-icon {
+    color: var(--pink);
+    transform: scale(1.1);
+}
+
+/* --- Footer --- */
+.main-footer {
+    background: var(--crust);
+    text-align: center;
+    padding: 20px 0;
+    font-size: 0.9rem;
+    color: var(--subtext);
+    transition: background-color 0.3s ease;
+}
+
+.main-footer p {
+    margin-bottom: 5px;
+}
+
+
+/* --- Responsive & Mobile Menu --- */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.hamburger span {
+    width: 100%;
+    height: 3px;
+    background-color: var(--text);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+
+@media (max-width: 768px) {
+    h2 { font-size: 2rem; }
+    .hero-title { font-size: 2.5rem; }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--mantle);
+        padding: 20px 0;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links li {
+        margin: 10px 0;
+        text-align: center;
+    }
+    
+    .nav-links li:has(.theme-switcher) {
+        margin-left: 0;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+    
+    .lang-switch a {
+        justify-content: center;
+    }
+}
+
+/* --- Language Switcher with Flags --- */
+.lang-switch a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.lang-flag {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* --- Theme Switcher Styles --- */
+.theme-switcher {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text);
+    border-radius: 50%;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 40px;
+    height: 40px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.theme-switcher:hover {
+    background-color: var(--crust);
+}
+
+.theme-switcher .theme-icon {
+    width: 100%;
+    height: 100%;
+}
+
+#moon-part, #sun-part {
+    fill: currentColor; 
+}
+
+/* --- Light Theme Adjustments --- */
+.light-theme .nav-links a {
+    color: var(--mauve);
+}
+
+.light-theme .nav-links a:hover {
+    color: var(--maroon);
+}
+
+
+/*
+================================================================
+STYLES FOR COMING SOON MODE
+================================================================
+*/
+
+/* This class is added to the body when 'Coming Soon' mode is active */
+body.coming-soon-active > header,
+body.coming-soon-active > main,
+body.coming-soon-active > footer {
+    filter: grayscale(100%);
+    pointer-events: none; /* Prevents interaction with the background content */
+    user-select: none; /* Prevents text selection */
+}
+
+.coming-soon-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000; /* Ensure it's on top of everything */
+    
+    font-family: var(--font-family);
+    
+    /* Semi-transparent background using your theme's base color */
+    background-color: rgba(30, 30, 46, 0.6); /* Corresponds to --base color with alpha */
+    
+    /* Use backdrop-filter for a modern "glassmorphism" effect */
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+body.light-theme .coming-soon-overlay {
+    /* Adjust overlay background for the light theme */
+    background-color: rgba(253, 246, 227, 0.5); /* Corresponds to light --base color */
+}
+
+.coming-soon-content {
+    color: var(--text);
+}
+
+.coming-soon-content h1 {
+    font-size: 4.5rem; /* Larger font size for the message */
+    font-weight: 700;
+    color: var(--peach); /* Use a prominent color from your theme */
+    margin-bottom: 1rem;
+}
+
+.coming-soon-content p {
+    font-size: 1.5rem;
+    color: var(--subtext);
+}
+
+/* This positions the theme switcher within the overlay. */
+.overlay-theme-switcher {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 2001; /* Must be higher than the overlay itself */
+}
+
+@media (max-width: 768px) {
+    .coming-soon-content h1 {
+        font-size: 2.5rem;
+    }
+    .coming-soon-content p {
+        font-size: 1.2rem;
+    }
+}
+
+/*
+=================================
+Terminal Title
+=================================
+*/
+
+.title-container.terminal {
+    font-family: 'JetBrains Mono', monospace;
+    background-color: var(--mantle); /* Darker, more integrated background */
+    color: var(--text);
+
+    /* Tighter, more compact look */
+    padding: 1.75rem 1.75rem;
+    border-radius: 6px;
+    border: 1px solid var(--crust); /* Using theme colors for border */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    
+    display: inline-block;
+    text-align: left;
+    position: relative;
+}
+
+.terminal .title-line {
+    display: block;
+    /* Larger, responsive font size */
+    font-size: clamp(1.5rem, 4vw, 2.2rem); 
+    /* Reduced line-height for compactness */
+    line-height: 1.3; 
+    font-weight: 700; /* Bolder font for more impact */
+    margin: 0;
+}
+
+/* Color for the '$' prompt */
+.terminal .prompt {
+    color: #00FF00; /* Using a green color for the prompt */
+    margin-right: 0.5em;
+}
+
+/* The blinking cursor element */
+.terminal .cursor {
+    /* Set the color of the cursor character itself */
+    
+    /* Apply the animation */
+    animation: blink-opacity 1.2s infinite step-end;
+}
+
+
+/* Keyframe animation for the blinking effect using OPACITY */
+@keyframes blink-opacity {
+  0%, 100% {
+    opacity: 1; /* Visible */
+  }
+  50% {
+    opacity: 0; /* Invisible */
+  }
+}

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 import os
 from pathlib import Path
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,13 +23,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ---
 # SECURITY WARNING: keep the secret key used in production secret!
-# We are reading the secret key from an environment variable for security.
+# Reading the secret key from an environment variable for security.
 # ---
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # ---
 # SECURITY WARNING: don't run with debug turned on in production!
-# We read the debug setting from an environment variable.
+# Read the debug setting from an environment variable.
 # It should be '1' for development and '0' for production.
 # ---
 DEBUG = os.environ.get('DJANGO_DEBUG', '0') == '1'
@@ -47,7 +48,7 @@ else:
 
 # ---
 # CSRF Trusted Origins
-# We need to tell Django which domains are allowed to make POST requests
+# Need to tell Django which domains are allowed to make POST requests
 # when running behind a reverse proxy with HTTPS.
 # ---
 CSRF_TRUSTED_ORIGINS = ['https://jaroslav.tech', 'https://www.jaroslav.tech']
@@ -70,6 +71,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -90,6 +92,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'core.context_processors.site_settings',
             ],
         },
     },
@@ -101,7 +104,7 @@ WSGI_APPLICATION = 'jaroslav_tech.wsgi.application'
 # ---
 # Database configuration
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-# We are replacing the default SQLite configuration with PostgreSQL,
+# Replacing the default SQLite configuration with PostgreSQL,
 # reading all connection details from environment variables.
 # ---
 DATABASES = {
@@ -138,7 +141,16 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
+
+LANGUAGES = [
+    ('en', 'English'),
+    ('cs', 'Czech'),
+]
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
 
 TIME_ZONE = 'UTC'
 
@@ -158,14 +170,11 @@ STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # This setting defines the additional locations the staticfiles app will traverse.
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-# This setting defines the additional locations the staticfiles app will traverse.
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 
 # Default primary key field type

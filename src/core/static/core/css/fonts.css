@@ -1,0 +1,19 @@
+/*
+ * File: src/core/static/core/css/fonts.css
+ */
+
+@font-face {
+  font-display: swap;
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/JetBrainsMono-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/JetBrainsMono-Bold.woff2') format('woff2');
+}
