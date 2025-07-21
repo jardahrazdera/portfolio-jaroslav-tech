@@ -546,7 +546,7 @@ Terminal Title
 
 /* Color for the '$' prompt */
 .terminal .prompt {
-    color: #aae522; /* Using a green color for the prompt */
+    color: #00FF00; /* Using a green color for the prompt */
     margin-right: 0.5em;
 }
 
