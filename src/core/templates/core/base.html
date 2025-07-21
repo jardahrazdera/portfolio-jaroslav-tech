@@ -1,6 +1,6 @@
 {% comment %}
 File: src/core/templates/core/base.html
-Final version with a robust language switcher.
+Version with a robust language switcher.
 {% endcomment %}
 
 {% load static i18n %}
@@ -52,14 +52,14 @@ Final version with a robust language switcher.
                         <li class="lang-switch">
                             <a href="/cs{{ request.get_full_path | slice:'3:' }}">
                                 Česky
-                                <img src="{% static 'core/assets/czech-republic.png' %}" alt="Czech Flag" class="lang-flag">
+                                <img src="{% static 'core/assets/czech-republic.svg' %}" alt="Czech Flag" class="lang-flag">
                             </a>
                         </li>
                     {% elif LANGUAGE_CODE == 'cs' %}
                         <li class="lang-switch">
                             <a href="/en{{ request.get_full_path | slice:'3:' }}">
                                 English
-                                <img src="{% static 'core/assets/united-states.png' %}" alt="USA Flag" class="lang-flag">
+                                <img src="{% static 'core/assets/united-states.svg' %}" alt="USA Flag" class="lang-flag">
                             </a>
                         </li>
                     {% endif %}
