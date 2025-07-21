@@ -40,11 +40,11 @@ jobs:
           
             echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
           
-            docker compose pull app
-            docker compose up -d --no-deps app
-          
             # Run database migrations first
             docker compose exec app python manage.py migrate --no-input
           
-            # THEN, collect static files into the shared volume
+            # THEN, compile translation files
+            docker compose exec app python manage.py compilemessages
+          
+            # AND FINALLY, collect static files
             docker compose exec app python manage.py collectstatic --no-input --clear
