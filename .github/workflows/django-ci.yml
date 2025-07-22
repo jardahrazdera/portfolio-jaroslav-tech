@@ -18,11 +18,6 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
 
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
@@ -30,7 +25,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create .env file
+      - name: Create .env file for testing
         run: |
           echo "POSTGRES_DB=testdb" > .env
           echo "POSTGRES_USER=testuser" >> .env
@@ -39,6 +34,16 @@ jobs:
           echo "DEBUG=True" >> .env
           echo "ALLOWED_HOSTS=*" >> .env
           echo "DATABASE_URL=postgres://testuser:testpass@db:5432/testdb" >> .env
+
+      - name: Create Docker Compose override file
+        run: |
+          echo "services:" > docker-compose.override.yml
+          echo "  app:" >> docker-compose.override.yml
+          echo "    networks:" >> docker-compose.override.yml
+          echo "      - proxy" >> docker-compose.override.yml
+          echo "networks:" >> docker-compose.override.yml
+          echo "  proxy:" >> docker-compose.override.yml
+          echo "    driver: bridge" >> docker-compose.override.yml
 
       - name: Build and start services
         run: docker compose up --build -d
