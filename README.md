@@ -163,6 +163,39 @@ This automated process not only accelerates the development cycle but also enhan
 
 ---
 
+## 🧪 Testing & Quality Assurance
+
+This project is committed to maintaining a high standard of code quality and stability. To achieve this, a comprehensive suite of automated tests has been developed using Django's built-in `TestCase` framework.
+
+The goal of these tests is to ensure that all core functionalities work as expected and to prevent regressions as the project evolves.
+
+### Test Coverage
+
+The test suite is designed to cover various layers of the application:
+
+* **View & Template Integrity:** Tests verify that all primary views return a successful status code (`200 OK`) and that they render the correct templates. This ensures the basic navigation and structure of the site remain intact.
+* **Context Data Validation:** We test that the correct context data is passed to the templates. For example, we verify that the `general_setup` object from the context processor is available, ensuring dynamic data from the database is displayed properly on the frontend.
+* **Business Logic & Design Patterns:** Beyond standard checks, the tests validate the core application logic. A key example is the test for the **Singleton pattern** on the `GeneralSetup` model. This critical test guarantees that the architectural rule of having only one instance of site-wide settings is strictly enforced, preventing potential configuration conflicts.
+
+### Automated Testing with GitHub Actions
+
+To fully automate the testing process, a dedicated **Continuous Integration (CI)** pipeline has been set up using GitHub Actions. This workflow runs independently of the deployment pipeline and focuses solely on quality assurance.
+
+[![Django CI](https://github.com/jardahrazdera/portfolio-jaroslav-tech/actions/workflows/django-ci.yml/badge.svg)](https://github.com/jardahrazdera/portfolio-jaroslav-tech/actions/workflows/django-ci.yml)
+
+This CI workflow is configured to run on multiple triggers for comprehensive coverage:
+* **On every `push` and `pull request`** to the `main` branch, providing immediate feedback on new changes.
+* **On a regular schedule (nightly),** which helps to catch any potential issues that might arise over time, such as upstream dependency breakages or subtle bugs that were not triggered by recent commits.
+
+The workflow's job is to:
+1.  Set up a clean Python environment.
+2.  Install all project dependencies from `requirements.txt`.
+3.  Run the entire test suite.
+
+This multi-pronged approach acts as a robust safety net, ensuring that the project's stability and integrity are maintained at all times.
+
+---
+
 ## 📫 Contact
 
 If you have any questions, suggestions, or just want to connect, feel free to reach out.
