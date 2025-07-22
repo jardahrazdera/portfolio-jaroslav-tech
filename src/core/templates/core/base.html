@@ -15,6 +15,29 @@ Version with a robust language switcher.
     
     <title>{% block title %}Jarek Hrazdera{% endblock %}</title>
 
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Jaroslav Hrazdera",
+      "url": "https://jaroslav.tech",
+      "jobTitle": "Fullstack Python Developer",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Freelancer"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "CZ",
+        "addressLocality": "Czech Republic"
+      },
+      "sameAs": [
+        "https://github.com/jardahrazdera"
+        // "https://linkedin.com/in/your-profile-url"
+      ]
+    }
+    </script>
+
     {# Hreflang links for multilingual SEO #}
     {% get_available_languages as LANGUAGES %}
     {% get_language_info_list for LANGUAGES as languages %}
