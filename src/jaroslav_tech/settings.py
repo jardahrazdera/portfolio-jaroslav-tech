@@ -181,3 +181,10 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# ... other settings
+
+# Silencing the specific warning about the static directory not existing.
+# This is useful in development/testing environments where the directory
+# is created later in the CI/CD pipeline.
+SILENCED_SYSTEM_CHECKS = ['staticfiles.W004']
