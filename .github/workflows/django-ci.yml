@@ -5,10 +5,8 @@ name: Django CI/CD
 on:
   push:
     branches: [ "main" ]
-  
   pull_request:
     branches: [ "main" ]
-
   schedule:
     - cron: '0 6 * * *'
 
@@ -25,11 +23,17 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Create .env file
+        run: |
+          echo "POSTGRES_DB=testdb" > .env
+          echo "POSTGRES_USER=testuser" >> .env
+          echo "POSTGRES_PASSWORD=testpass" >> .env
+          echo "SECRET_KEY=dummy-secret-key-for-ci" >> .env
+          echo "DEBUG=True" >> .env
+          echo "ALLOWED_HOSTS=*" >> .env
+          echo "DATABASE_URL=postgres://testuser:testpass@db:5432/testdb" >> .env
+
       - name: Build and Run Tests with Docker Compose
         run: |
-          docker compose up --build --no-start
+          docker compose up --build -d
           docker compose exec app python manage.py test
-      
-      - name: Notify on failure
-        if: failure()
-        run: echo "🔴 Tests failed! Check the logs for details."
