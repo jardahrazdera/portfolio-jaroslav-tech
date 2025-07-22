@@ -53,6 +53,9 @@ else:
 # ---
 CSRF_TRUSTED_ORIGINS = ['https://jaroslav.tech', 'https://www.jaroslav.tech']
 
+# Force Django to read ID=1 from database
+SITE_ID = 1
+
 
 # Application definition
 
@@ -64,6 +67,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
+    'django.contrib.sites',
     'django_extensions',
     'core.apps.CoreConfig',
 ]
