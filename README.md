@@ -1,35 +1,51 @@
-# Portfolio - jaroslav.tech
+# Portfolio Jaroslav Tech
 
-**Live Project:** [**https://jaroslav.tech**](https://jaroslav.tech)
+[![Portfolio CI/CD](https://github.com/jardahrazdera/portfolio-jaroslav-tech/actions/workflows/deploy.yml/badge.svg)](https://github.com/jardahrazdera/portfolio-jaroslav-tech/actions/workflows/deploy.yml)
 
-This repository contains the source code for my personal portfolio website. The project is a demonstration of modern web development practices, including a containerized Django application, a robust CI/CD pipeline, and a clean, scalable project structure.
+Welcome to the official repository for my personal portfolio, [jaroslav.tech](https://jaroslav.tech). This project is more than just a website; it's a comprehensive demonstration of my capabilities in full-stack web development, showcasing a robust backend built with Python and Django, a clean frontend, and modern, automated DevOps practices. The core philosophy is to build a scalable, maintainable, and high-quality web application from the ground up.
 
-## Project Overview
+---
 
-The goal of this project is to serve as a professional portfolio and a showcase of my technical skills. It follows a **monolithic architecture**, where a single Django application is responsible for both backend logic and serving server-rendered frontend templates. This approach is chosen for its simplicity and rapid development capabilities.
+## 🚀 Live Demo
 
-The project is built with a focus on best practices in security, deployment, and code organization.
+You can view the live site at: **[https://jaroslav.tech](https://jaroslav.tech)**
 
-### Key Features
+---
 
-*   **Containerized Environment:** The entire application stack (web app and database) is managed with Docker and Docker Compose, ensuring consistency across development and production environments.
-*   **Automated Deployments:** A CI/CD pipeline using GitHub Actions automatically builds the Docker image, pushes it to a container registry, and deploys the new version to the production server on every push to the `main` branch.
-*   **Secure by Design:** The application is configured to use environment variables for all sensitive data, following the principles of a twelve-factor app. It also includes a production-ready setup with Gunicorn, Whitenoise for static file serving, and Traefik as a reverse proxy with automated SSL certificate generation from Let's Encrypt.
-*   **Scalable Architecture:** The project follows a standard `src` layout for clean separation of code and includes a dedicated Django app (`core`) for the main portfolio functionality.
+## ✨ Key Features
 
-## Tech Stack
+This project is built with a focus on modern features and best practices to ensure a great user experience and easy maintenance.
 
-*   **Backend:** Django
-*   **Database:** PostgreSQL
-*   **Web Server:** Gunicorn
-*   **Static Files:** Whitenoise
-*   **Containerization:** Docker, Docker Compose
-*   **Reverse Proxy:** Traefik
-*   **CI/CD:** GitHub Actions
+* **Fully Responsive Design:** The user interface is crafted with a mobile-first approach, ensuring a seamless experience across all devices. It uses a combination of CSS Flexbox and Grid along with media queries to adapt flawlessly to any screen size, from small mobile phones to large desktop monitors.
+* **Light & Dark Mode:** The application includes a theme switcher that supports both light and dark modes. It automatically detects the user's operating system preference via the `prefers-color-scheme` media query. The user's choice is then saved in their browser's `localStorage`, so their selected theme persists across sessions. This is implemented using CSS variables for easy color management.
+* **Internationalization (i18n):** To reach a broader audience, the website is fully bilingual (Czech and English). This is achieved using Django's built-in internationalization framework, including `gettext` for translating strings in both the backend and templates. The language can be switched seamlessly via a UI control that updates the session's language setting.
+* **Dynamic Content Management:** To avoid hardcoding content, most of the text and configuration on the site is managed through a customized Django admin panel. This allows for easy updates without touching the codebase. For instance, project descriptions, job titles, and even the "Coming Soon" mode can be toggled with a simple checkbox in the admin.
+* **Singleton Pattern for Global Settings:** To manage site-wide settings, the project employs the Singleton design pattern for a specific Django model. This ensures that there is only one row in the database for global configurations (like the "Coming Soon" switch), preventing inconsistencies and providing a single source of truth for the application's state.
+* **Clean and Sustainable Code:** The codebase adheres to the PEP 8 style guide and emphasizes readability and maintainability. It follows the "fat models, thin views" philosophy, with clear separation of concerns. Comprehensive comments and a logical project structure make the code easy to navigate and understand for other developers.
+* **Automated Deployment with CI/CD:** The entire deployment process is automated using GitHub Actions. Every push to the `main` branch triggers a workflow that builds, tests, and deploys the application to the production server. This ensures that every update is delivered quickly, reliably, and consistently, minimizing the risk of human error.
 
-## Project Structure
+---
 
-Below is a simplified tree representing the high-level architecture of the project. It highlights the key files and directories that define the structure.
+## 🛠️ Tech Stack
+
+The project leverages a modern and robust technology stack to deliver high performance and scalability.
+
+<p align="left">
+  <a href="https://www.python.org" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="40" height="40"/></a>
+  <a href="https://www.djangoproject.com/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/django/django-plain.svg" alt="django" width="40" height="40"/></a>
+  <a href="https://www.postgresql.org" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="40" height="40"/></a>
+  <a href="https://www.docker.com/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg" alt="docker" width="40" height="40"/></a>
+  <a href="https://docs.github.com/en/actions" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original-wordmark.svg" alt="githubactions" width="40" height="40"/></a>
+  <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="html5" width="40" height="40"/></a>
+  <a href="https://developer.mozilla.org/en-US/docs/Web/CSS" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="css3" width="40" height="40"/></a>
+  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="40" height="40"/></a>
+</p>
+
+---
+
+## 📂 Project Structure
+
+The project uses a `src` layout for a clean separation between the application code and the project's root-level configuration files (like `docker-compose.yml`).
 
 ```
 .
@@ -51,61 +67,105 @@ Below is a simplified tree representing the high-level architecture of the proje
     └── requirements.txt  # Python dependencies
 ```
 
-## Local Development
+## ⚙️ Local Development
 
-To run this project locally, follow these steps:
+To run the project on your local machine, you can choose one of the following methods. The Docker method is recommended as it perfectly mirrors the production setup.
+
+### Method 1: Running with Docker (Recommended)
+
+This approach automatically sets up the application, database, and all dependencies in isolated containers.
 
 1.  **Clone the repository:**
-
     ```bash
-    git clone https://github.com/jardahrazdera/portfolio-jaroslav-tech.git
+    git clone [https://github.com/jardahrazdera/portfolio-jaroslav-tech.git](https://github.com/jardahrazdera/portfolio-jaroslav-tech.git)
     cd portfolio-jaroslav-tech
     ```
 
-2.  **Set up the environment:**
-
-    *   Create a virtual environment:
-
-        ```bash
-        python -m venv .venv
-        source .venv/bin/activate
-        ```
-
-    *   Install the dependencies:
-
-        ```bash
-        pip install -r src/requirements.txt
-        ```
-
-3.  **Configure the environment variables:**
-
-    *   Copy the example environment file:
-
-        ```bash
-        cp .env.example .env
-        ```
-
-    *   Open the `.env` file and fill in the required values for your local database and a new Django secret key.
-
-4.  **Run the database migrations:**
-
+2.  **Create the `.env` file:**
+    This file stores your environment-specific configurations. Copy the example file to create your own.
     ```bash
-    python src/manage.py migrate
+    cp .env.example .env
+    ```
+    For local development, you only need to ensure `DEBUG=True` is set. The default database credentials will work with Docker Compose out of the box.
+
+3.  **Run with Docker Compose:**
+    This single command builds the Docker image from the `Dockerfile`, creates a network for the containers to communicate, and starts the web application and PostgreSQL database services.
+    ```bash
+    docker compose up --build
+    ```
+
+4.  **The application is now running** and available at `http://localhost:8000`. The admin panel is at `http://localhost:8000/admin`.
+
+### Method 2: Running Locally without Docker
+
+This method is for developers who prefer to run the application directly on their host machine. It requires Python and PostgreSQL to be installed.
+
+1.  **Clone the repository and navigate to the `src` directory:**
+    ```bash
+    git clone [https://github.com/jardahrazdera/portfolio-jaroslav-tech.git](https://github.com/jardahrazdera/portfolio-jaroslav-tech.git)
+    cd portfolio-jaroslav-tech/src
+    ```
+
+2.  **Create a virtual environment and install dependencies:**
+    It's a best practice to isolate project dependencies.
+    ```bash
+    python -m venv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+    ```
+
+3.  **Set up environment variables:**
+    Create a `.env` file inside the `src` directory and configure it to connect to your local PostgreSQL instance.
+    ```
+    # Example .env file in src/
+    SECRET_KEY=yourlongrandomsecretkey
+    DEBUG=True
+    POSTGRES_DB=portfolio_db
+    POSTGRES_USER=user
+    POSTGRES_PASSWORD=password
+    POSTGRES_HOST=localhost
+    POSTGRES_PORT=5432
+    ```
+
+4.  **Run database migrations and create a superuser:**
+    This sets up the database schema and creates an admin account.
+    ```bash
+    python manage.py migrate
+    python manage.py createsuperuser
     ```
 
 5.  **Start the development server:**
-
     ```bash
-    python src/manage.py runserver
+    python manage.py runserver
     ```
 
-The application will be available at `http://127.0.0.1:8000`.
+6.  **The application is now available** at `http://localhost:8000`.
 
-## Docker Deployment
+---
 
-This project is configured for Docker deployment. To build and run the Docker containers, use the following commands:
+## 🔄 Deployment & CI/CD
 
-```bash
-docker-compose build
-docker-compose up
-```
+The project is configured for a fully automated, zero-downtime deployment using **GitHub Actions**. This CI/CD pipeline ensures that every change pushed to the `main` branch is automatically and safely deployed to production.
+
+**The deployment process is as follows:**
+
+1.  **Trigger:** The workflow is automatically triggered by a `push` event to the `main` branch.
+2.  **Build Docker Image:** A new Docker image is built based on the `src/Dockerfile`. This image contains the application code and all its dependencies, ensuring a consistent environment.
+3.  **Push to GitHub Container Registry (GHCR):** The newly built image is tagged and pushed to GHCR, a private container registry provided by GitHub.
+4.  **Deploy to Production Server:**
+    * The workflow securely connects to the production server using SSH keys stored in GitHub Secrets.
+    * It pulls the latest version of the `docker-compose.yml` file from the repository to ensure the server has the latest service definitions.
+    * It runs `docker compose pull` to download the new application image from GHCR.
+    * The services are gracefully restarted using `docker compose up -d`. Docker handles the process of stopping the old container and starting the new one with minimal downtime.
+    * Finally, post-deployment commands (`migrate`, `collectstatic`, `compilemessages`) are executed inside the newly running application container to apply any database changes and update static files or translations.
+
+This automated process not only accelerates the development cycle but also enhances reliability by eliminating manual deployment steps.
+
+---
+
+## 📫 Contact
+
+If you have any questions, suggestions, or just want to connect, feel free to reach out.
+
+* **GitHub:** [jardahrazdera](https://github.com/jardahrazdera)
+* **Email:** [jarek@jaroslav.tech](mailto:jarek@jaroslav.tech)
