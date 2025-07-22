@@ -30,10 +30,11 @@ jobs:
           echo "POSTGRES_DB=testdb" > .env
           echo "POSTGRES_USER=testuser" >> .env
           echo "POSTGRES_PASSWORD=testpass" >> .env
+          echo "POSTGRES_HOST=db" >> .env
+          echo "POSTGRES_PORT=5432" >> .env
           echo "SECRET_KEY=dummy-secret-key-for-ci" >> .env
           echo "DEBUG=True" >> .env
           echo "ALLOWED_HOSTS=*" >> .env
-          echo "DATABASE_URL=postgres://testuser:testpass@db:5432/testdb" >> .env
 
       - name: Create Docker Compose override file for CI
         run: |
@@ -50,7 +51,7 @@ jobs:
         run: |
           echo "Waiting for PostgreSQL to start..."
           for i in {1..20}; do
-            if docker compose exec db pg_isready -U "testuser" -d "testdb" -q; then
+            if docker compose exec db pg_isready -U "testuser" -d "testdb" -h "db" -q; then
               echo "✅ PostgreSQL is ready."
               exit 0
             fi
