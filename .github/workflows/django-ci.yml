@@ -1,6 +1,6 @@
 # .github/workflows/django-ci.yml
 
-name: Django CI/CD
+name: Django CI Tests
 
 on:
   push:
@@ -35,15 +35,13 @@ jobs:
           echo "ALLOWED_HOSTS=*" >> .env
           echo "DATABASE_URL=postgres://testuser:testpass@db:5432/testdb" >> .env
 
-      - name: Create Docker Compose override file
+      - name: Create Docker Compose override file for CI
         run: |
-          echo "services:" > docker-compose.override.yml
-          echo "  app:" >> docker-compose.override.yml
-          echo "    networks:" >> docker-compose.override.yml
-          echo "      - proxy" >> docker-compose.override.yml
-          echo "networks:" >> docker-compose.override.yml
-          echo "  proxy:" >> docker-compose.override.yml
-          echo "    driver: bridge" >> docker-compose.override.yml
+          cat <<EOF > docker-compose.override.yml
+          networks:
+            proxy:
+              external: false
+          EOF
 
       - name: Build and start services
         run: docker compose up --build -d
