@@ -30,7 +30,7 @@ class CoreFunctionalityTests(TestCase):
         - A successful test (status code 200) is a fundamental check for any web application.
         """
         print("  - Running test: Accessing the main page...")
-        url = reverse('core:home')
+        url = reverse('core:index')
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)

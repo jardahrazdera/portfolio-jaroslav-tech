@@ -8,7 +8,7 @@ class StaticViewSitemap(Sitemap):
     i18n = True
 
     def items(self):
-        return ['core:home']
+        return ['core:index']
 
     def location(self, item):
         return reverse(item)
