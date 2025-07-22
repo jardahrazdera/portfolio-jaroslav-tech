@@ -32,9 +32,9 @@ jobs:
           echo "POSTGRES_PASSWORD=testpass" >> .env
           echo "POSTGRES_HOST=db" >> .env
           echo "POSTGRES_PORT=5432" >> .env
-          echo "SECRET_KEY=dummy-secret-key-for-ci" >> .env
-          echo "DEBUG=True" >> .env
-          echo "ALLOWED_HOSTS=*" >> .env
+          echo "DJANGO_SECRET_KEY=dummy-secret-key-for-ci" >> .env
+          echo "DJANGO_DEBUG=1" >> .env
+          echo "DJANGO_ALLOWED_HOSTS=*" >> .env
 
       - name: Create Docker Compose override file for CI
         run: |
