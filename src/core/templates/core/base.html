@@ -10,8 +10,18 @@ Version with a robust language switcher.
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    {# SEO Meta Tags #}
+    <meta name="description" content="{% block meta_description %}{% trans 'Personal portfolio of a passionate Fullstack Developer and DevOps enthusiast from the Czech Republic.' %}{% endblock %}">
+    
     <title>{% block title %}Jarek Hrazdera{% endblock %}</title>
 
+    {# Hreflang links for multilingual SEO #}
+    {% get_available_languages as LANGUAGES %}
+    {% get_language_info_list for LANGUAGES as languages %}
+    {% for language in languages %}
+        <link rel="alternate" hreflang="{{ language.code }}" href="https://jaroslav.tech/{{ language.code }}{{ request.get_full_path | slice:'3:' }}">
+    {% endfor %}
+    
     <link rel="shortcut icon" href="{% static 'core/assets/favicon.svg' %}">
     
     <link rel="stylesheet" href="{% static 'core/css/fonts.css' %}">
