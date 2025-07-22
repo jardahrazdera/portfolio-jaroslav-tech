@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Portfolio Jarka\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-21 14:08+0000\n"
+"POT-Creation-Date: 2025-07-22 13:22+0000\n"
 "PO-Revision-Date: 2025-07-21 13:31+0200\n"
 "Last-Translator: Jarek <jarek@jaroslav.tech>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -40,49 +40,56 @@ msgstr "Nastavení stránky"
 msgid "Site Settings"
 msgstr "Nastavení stránek"
 
-#: core/templates/core/base.html:25 core/templates/core/base.html:68
+#: core/templates/core/base.html:14
+msgid ""
+"Personal portfolio of a passionate Fullstack Developer and DevOps enthusiast "
+"from the Czech Republic."
+msgstr "Osobní portfolio vášnivého Fullstack vývojáře a "
+"DevOps nadšence z České republiky."
+
+#: core/templates/core/base.html:35 core/templates/core/base.html:78
 msgid "Toggle theme"
 msgstr "Přepnout motiv"
 
-#: core/templates/core/base.html:33
+#: core/templates/core/base.html:43
 msgid "Coming soon"
 msgstr "Brzy spustíme"
 
-#: core/templates/core/base.html:34
+#: core/templates/core/base.html:44
 msgid "I'm working on it :)"
 msgstr "Pracuji na tom :)"
 
-#: core/templates/core/base.html:44
+#: core/templates/core/base.html:54
 msgid "About"
 msgstr "O mně"
 
-#: core/templates/core/base.html:45
+#: core/templates/core/base.html:55
 msgid "Skills"
 msgstr "Dovednosti"
 
-#: core/templates/core/base.html:46 core/templates/core/index.html:85
+#: core/templates/core/base.html:56 core/templates/core/index.html:85
 msgid "Projects"
 msgstr "Projekty"
 
-#: core/templates/core/base.html:47
+#: core/templates/core/base.html:57
 msgid "Contact"
 msgstr "Kontakt"
 
-#: core/templates/core/base.html:77
+#: core/templates/core/base.html:87
 msgid "Open menu"
 msgstr "Otevřít menu"
 
-#: core/templates/core/base.html:91
+#: core/templates/core/base.html:101
 msgid "All rights reserved."
 msgstr "Všechna práva vyhrazena."
 
-#: core/templates/core/base.html:92
+#: core/templates/core/base.html:102
 msgid "Catppuccin Mocha Theme"
 msgstr "Motiv Catppuccin Mocha"
 
 #: core/templates/core/index.html:10
 msgid "Jarek - Fullstack Developer && DevOps Enthusiast"
-msgstr ""
+msgstr "Jarek - Fullstack vývojář && DevOps nadšenec"
 
 #: core/templates/core/index.html:16
 msgid "Hello, I'm Jarek."
@@ -137,8 +144,8 @@ msgstr ""
 "přeměnu komplexních problémů v elegantní softwarová řešení. Soustředím se na "
 "tvorbu robustních a udržitelných aplikací v Pythonu, s praktickými "
 "zkušenostmi ve frameworcích jako Django a Flask. Ovládám tvorbu "
-"uživatelských rozhraní pomocí HTML, CSS a JavaScriptu a věnuji se "
-"aplikaci principů objektově orientovaného programování pro psaní čistého a "
+"uživatelských rozhraní pomocí HTML, CSS a JavaScriptu a věnuji se aplikaci "
+"principů objektově orientovaného programování pro psaní čistého a "
 "škálovatelného kódu. Moje volba Manjaro Sway jako hlavního systému odráží "
 "mou filozofii: daří se mi v efektivním, terminálově orientovaném prostředí, "
 "které mi dává plnou kontrolu nad mým workflow.</p>\n"
@@ -217,9 +224,9 @@ msgid ""
 msgstr ""
 "Self-hostovaný dashboard pro znovuzískání kontroly nad mým digitálním "
 "světem. Místo desítek záložek přináší tato aplikace RSS kanály, počasí, "
-"úkoly, rychlé poznámky do jednoho plně přizpůsobitelného prostoru a mnoho dalšího."
-"Je to krok k digitální nezávislosti, postavený na Djangu s kapkou JavaScriptu pro "
-"interaktivní widgety."
+"úkoly, rychlé poznámky do jednoho plně přizpůsobitelného prostoru a mnoho "
+"dalšího.Je to krok k digitální nezávislosti, postavený na Djangu s kapkou "
+"JavaScriptu pro interaktivní widgety."
 
 #: core/templates/core/index.html:101
 msgid "In Development"
