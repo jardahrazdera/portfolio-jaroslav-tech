@@ -79,7 +79,6 @@ Version with a robust language switcher.
                     <li><a href="#projects">{% trans "Projects" %}</a></li>
                     <li><a href="#contact">{% trans "Contact" %}</a></li>
                     
-                    {# NEW: Explicit and robust language switcher #}
                     {% get_current_language as LANGUAGE_CODE %}
                     {% if LANGUAGE_CODE == 'en' %}
                         <li class="lang-switch">
