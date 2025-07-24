@@ -10,9 +10,11 @@ Welcome to the official repository for my personal portfolio, [jaroslav.tech](ht
 
 You can view the live site at: **[https://jaroslav.tech](https://jaroslav.tech)**
 
-**Click to the picture to see a short video on Vimeo.com**
+**Click to the picture to see a short video on Vimeo.com:**
 
-[![Portfolio Demo](assets/thumbnail.jpg)](https://vimeo.com/1104136541)
+<a href="https://vimeo.com/1104136541" target="_blank" rel="noopener noreferrer">
+  <img src="assets/thumbnail.jpg" alt="Click to see a short video on Vimeo.com">
+</a>
 
 ---
 
