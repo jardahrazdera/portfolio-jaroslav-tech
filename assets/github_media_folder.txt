@@ -1,0 +1,1 @@
+Folder to store a necessary media files of README.md
