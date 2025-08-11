@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django_extensions',
     'core.apps.CoreConfig',
+    'projects.apps.ProjectsConfig',
 ]
 
 MIDDLEWARE = [
