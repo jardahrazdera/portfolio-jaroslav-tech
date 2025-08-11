@@ -83,5 +83,9 @@ docker-compose.dev.yml
 # Development data
 dev_data/
 
-# Dev Environment settings 
+# Dev Environment settings
 mise.toml
+
+# MCP servers config
+.mcp.json
+
