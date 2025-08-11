@@ -49,6 +49,76 @@ Version with a robust language switcher.
     
     <link rel="stylesheet" href="{% static 'core/css/fonts.css' %}">
     <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/tailwind-integration.css' %}">
+    
+    {# Tailwind CSS CDN with custom configuration #}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Catppuccin color mappings using CSS custom properties
+                        'catppuccin': {
+                            'base': 'var(--base)',
+                            'mantle': 'var(--mantle)',
+                            'crust': 'var(--crust)',
+                            'text': 'var(--text)',
+                            'subtext': 'var(--subtext)',
+                            'overlay': 'var(--overlay)',
+                            'mauve': 'var(--mauve)',
+                            'pink': 'var(--pink)',
+                            'maroon': 'var(--maroon)',
+                            'peach': 'var(--peach)'
+                        },
+                        // Semantic color mappings for easier usage
+                        'theme': {
+                            'bg': 'var(--base)',
+                            'bg-alt': 'var(--mantle)',
+                            'bg-accent': 'var(--crust)',
+                            'text': 'var(--text)',
+                            'text-muted': 'var(--subtext)',
+                            'text-subtle': 'var(--overlay)',
+                            'primary': 'var(--mauve)',
+                            'secondary': 'var(--pink)',
+                            'accent': 'var(--peach)',
+                            'error': 'var(--maroon)'
+                        }
+                    },
+                    fontFamily: {
+                        'mono': ['JetBrains Mono', 'monospace'],
+                        'code': ['JetBrains Mono', 'monospace']
+                    },
+                    boxShadow: {
+                        'theme': '0 2px 10px var(--shadow-color)',
+                        'theme-lg': '0 10px 20px var(--shadow-color)',
+                        'theme-xl': '0 4px 15px rgba(0, 0, 0, 0.2)'
+                    },
+                    animation: {
+                        'blink': 'blink-opacity 1.2s infinite step-end'
+                    },
+                    keyframes: {
+                        'blink-opacity': {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0' }
+                        }
+                    }
+                },
+                // Override default breakpoints if needed
+                screens: {
+                    'sm': '640px',
+                    'md': '768px',
+                    'lg': '1024px',
+                    'xl': '1280px',
+                    '2xl': '1536px'
+                }
+            },
+            // Ensure Tailwind doesn't interfere with existing styles
+            corePlugins: {
+                preflight: false // This prevents Tailwind from overriding your existing CSS reset
+            }
+        }
+    </script>
 </head>
 <body class="{% if site_settings.coming_soon_mode %}coming-soon-active{% endif %}">
 
@@ -74,9 +144,13 @@ Version with a robust language switcher.
             <a href="{% url 'core:index' %}" class="logo">Jarek Hrazdera</a>
             <nav class="main-nav">
                 <ul class="nav-links">
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'projects:dashboard' %}">{% trans "Dashboard" %}</a></li>
+                        <li><a href="{% url 'projects:project_list' %}">{% trans "My Projects" %}</a></li>
+                    {% endif %}
                     <li><a href="#about">{% trans "About" %}</a></li>
                     <li><a href="#skills">{% trans "Skills" %}</a></li>
-                    <li><a href="#projects">{% trans "Projects" %}</a></li>
+                    <li><a href="{% url 'projects:project_list' %}">{% trans "Projects" %}</a></li>
                     <li><a href="#contact">{% trans "Contact" %}</a></li>
                     
                     {% get_current_language as LANGUAGE_CODE %}

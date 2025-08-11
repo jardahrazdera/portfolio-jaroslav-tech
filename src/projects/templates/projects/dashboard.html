@@ -1,0 +1,359 @@
+{% extends "core/base.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "DevFlow Dashboard" %} - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-theme-bg py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header Section -->
+        <div class="mb-12">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+                <div class="flex-1">
+                    <h1 class="text-4xl font-bold text-theme-text mb-4">
+                        {% trans "Welcome back" %}, {{ user.first_name|default:user.username }}! 👋
+                    </h1>
+                    <p class="text-xl text-theme-text-muted">
+                        {% trans "Here's what's happening with your projects" %}
+                    </p>
+                </div>
+                
+                <!-- Active Session Indicator -->
+                {% if active_session %}
+                <div class="mt-6 lg:mt-0">
+                    <div class="bg-gradient-to-r from-theme-primary to-theme-secondary rounded-2xl p-6 shadow-theme-lg border border-theme-accent/20">
+                        <div class="flex items-center space-x-4">
+                            <div class="flex-shrink-0">
+                                <div class="w-4 h-4 bg-green-400 rounded-full animate-pulse"></div>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-white/90">
+                                    {% trans "Active Session" %}
+                                </p>
+                                <p class="text-lg font-bold text-white truncate">
+                                    {{ active_session.project.title }}
+                                </p>
+                                <p class="text-sm text-white/80">
+                                    {% trans "Started" %} {{ active_session.start_time|timesince }} {% trans "ago" %}
+                                </p>
+                            </div>
+                            <div class="flex-shrink-0">
+                                <a href="{% url 'projects:stop_session' active_session.pk %}" 
+                                   class="inline-flex items-center px-4 py-2 border border-white/30 rounded-lg text-sm font-medium text-white hover:bg-white/10 transition-all duration-200">
+                                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 7a1 1 0 00-1 1v4a1 1 0 001 1h4a1 1 0 001-1V8a1 1 0 00-1-1H8z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    {% trans "Stop" %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <!-- Total Projects Card -->
+            <div class="bg-theme-bg-alt rounded-2xl p-6 shadow-theme border border-theme-text/5 hover:shadow-theme-lg transition-all duration-300 hover:-translate-y-1">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-gradient-to-br from-theme-primary to-theme-secondary rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="ml-4 flex-1">
+                        <p class="text-sm font-medium text-theme-text-muted uppercase tracking-wide">
+                            {% trans "Total Projects" %}
+                        </p>
+                        <p class="text-3xl font-bold text-theme-text">{{ total_projects }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Projects Card -->
+            <div class="bg-theme-bg-alt rounded-2xl p-6 shadow-theme border border-theme-text/5 hover:shadow-theme-lg transition-all duration-300 hover:-translate-y-1">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="ml-4 flex-1">
+                        <p class="text-sm font-medium text-theme-text-muted uppercase tracking-wide">
+                            {% trans "In Progress" %}
+                        </p>
+                        <p class="text-3xl font-bold text-theme-text">{{ active_projects }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Completed Projects Card -->
+            <div class="bg-theme-bg-alt rounded-2xl p-6 shadow-theme border border-theme-text/5 hover:shadow-theme-lg transition-all duration-300 hover:-translate-y-1">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="ml-4 flex-1">
+                        <p class="text-sm font-medium text-theme-text-muted uppercase tracking-wide">
+                            {% trans "Completed" %}
+                        </p>
+                        <p class="text-3xl font-bold text-theme-text">{{ completed_projects }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Hours Card -->
+            <div class="bg-theme-bg-alt rounded-2xl p-6 shadow-theme border border-theme-text/5 hover:shadow-theme-lg transition-all duration-300 hover:-translate-y-1">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-indigo-500 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="ml-4 flex-1">
+                        <p class="text-sm font-medium text-theme-text-muted uppercase tracking-wide">
+                            {% trans "Total Hours" %}
+                        </p>
+                        <p class="text-3xl font-bold text-theme-text">{{ total_hours|floatformat:1 }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+            <!-- Recent Projects Section -->
+            <div class="xl:col-span-2">
+                <div class="bg-theme-bg-alt rounded-2xl shadow-theme border border-theme-text/5">
+                    <div class="p-6 border-b border-theme-text/10">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-2xl font-bold text-theme-text">
+                                {% trans "Recent Projects" %}
+                            </h2>
+                            <a href="{% url 'projects:project_list' %}" 
+                               class="inline-flex items-center px-4 py-2 bg-theme-primary text-white text-sm font-medium rounded-lg hover:bg-theme-secondary transition-colors duration-200">
+                                {% trans "View All" %}
+                                <svg class="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    {% if recent_projects %}
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {% for project in recent_projects %}
+                            <div class="group">
+                                <a href="{{ project.get_absolute_url }}" class="block">
+                                    <div class="bg-theme-bg rounded-xl p-6 shadow-sm border border-theme-text/5 hover:shadow-theme hover:border-theme-primary/20 transition-all duration-300 group-hover:-translate-y-1">
+                                        <!-- Project Header -->
+                                        <div class="flex items-start justify-between mb-4">
+                                            <div class="flex-1">
+                                                <h3 class="text-lg font-semibold text-theme-text group-hover:text-theme-primary transition-colors duration-200 line-clamp-1">
+                                                    {{ project.title }}
+                                                </h3>
+                                                <p class="text-sm text-theme-text-muted mt-1 line-clamp-2">
+                                                    {{ project.short_description }}
+                                                </p>
+                                            </div>
+                                            <div class="ml-4 flex-shrink-0">
+                                                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium
+                                                    {% if project.status == 'completed' %}bg-green-100 text-green-800{% elif project.status == 'development' %}bg-blue-100 text-blue-800{% elif project.status == 'testing' %}bg-yellow-100 text-yellow-800{% else %}bg-gray-100 text-gray-800{% endif %}">
+                                                    {{ project.get_status_display }}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Technology Stack -->
+                                        {% if project.technologies.all %}
+                                        <div class="flex flex-wrap gap-2 mb-4">
+                                            {% for tech in project.technologies.all|slice:":4" %}
+                                            <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-theme-accent/10 text-theme-accent border border-theme-accent/20">
+                                                {{ tech.name }}
+                                            </span>
+                                            {% endfor %}
+                                            {% if project.technologies.all|length > 4 %}
+                                            <span class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-theme-text-muted/10 text-theme-text-muted">
+                                                +{{ project.technologies.all|length|add:"-4" }} {% trans "more" %}
+                                            </span>
+                                            {% endif %}
+                                        </div>
+                                        {% endif %}
+
+                                        <!-- Project Stats -->
+                                        <div class="flex items-center justify-between text-sm text-theme-text-muted">
+                                            <span>{{ project.total_hours_worked|floatformat:1 }}h {% trans "logged" %}</span>
+                                            <span>{{ project.created_at|date:"M j, Y" }}</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="p-12 text-center">
+                        <div class="w-16 h-16 bg-theme-text/5 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-theme-text-muted" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-medium text-theme-text mb-2">
+                            {% trans "No projects yet" %}
+                        </h3>
+                        <p class="text-theme-text-muted mb-6">
+                            {% trans "Get started by creating your first project" %}
+                        </p>
+                        <a href="{% url 'projects:project_create' %}" 
+                           class="inline-flex items-center px-6 py-3 bg-theme-primary text-white font-medium rounded-lg hover:bg-theme-secondary transition-colors duration-200">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"></path>
+                            </svg>
+                            {% trans "Create Project" %}
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Recent Activity Sidebar -->
+            <div class="space-y-8">
+                <!-- Recent Work Sessions -->
+                <div class="bg-theme-bg-alt rounded-2xl shadow-theme border border-theme-text/5">
+                    <div class="p-6 border-b border-theme-text/10">
+                        <h2 class="text-xl font-bold text-theme-text">
+                            {% trans "Recent Activity" %}
+                        </h2>
+                    </div>
+
+                    {% if recent_sessions %}
+                    <div class="p-6">
+                        <div class="flow-root">
+                            <ul class="-mb-8">
+                                {% for session in recent_sessions %}
+                                <li>
+                                    <div class="relative pb-8">
+                                        {% if not forloop.last %}
+                                        <span class="absolute top-5 left-5 -ml-px h-full w-0.5 bg-theme-text/10"></span>
+                                        {% endif %}
+                                        <div class="relative flex items-start space-x-3">
+                                            <div class="relative">
+                                                <div class="h-10 w-10 rounded-full bg-gradient-to-br from-theme-primary to-theme-secondary flex items-center justify-center">
+                                                    {% if session.is_active %}
+                                                    <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                                                    {% else %}
+                                                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                                                    </svg>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="min-w-0 flex-1">
+                                                <div>
+                                                    <div class="text-sm">
+                                                        <a href="{{ session.project.get_absolute_url }}" class="font-medium text-theme-text hover:text-theme-primary transition-colors duration-200">
+                                                            {{ session.project.title }}
+                                                        </a>
+                                                    </div>
+                                                    <p class="mt-1 text-sm text-theme-text-muted">
+                                                        {{ session.title }}
+                                                    </p>
+                                                </div>
+                                                <div class="mt-2 text-xs text-theme-text-muted flex items-center justify-between">
+                                                    <span>
+                                                        {% if session.is_active %}
+                                                            {% trans "Started" %} {{ session.start_time|timesince }} {% trans "ago" %}
+                                                        {% else %}
+                                                            {{ session.duration_hours|floatformat:1 }}h • {{ session.start_time|date:"M j" }}
+                                                        {% endif %}
+                                                    </span>
+                                                    {% if session.productivity_rating %}
+                                                    <div class="flex items-center">
+                                                        {% for i in "12345" %}
+                                                            {% if forloop.counter <= session.productivity_rating %}
+                                                                <svg class="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                                                </svg>
+                                                            {% else %}
+                                                                <svg class="w-3 h-3 text-theme-text/20" fill="currentColor" viewBox="0 0 20 20">
+                                                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                                                </svg>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="p-8 text-center">
+                        <div class="w-12 h-12 bg-theme-text/5 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-6 h-6 text-theme-text-muted" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                            </svg>
+                        </div>
+                        <p class="text-theme-text-muted text-sm">
+                            {% trans "No recent activity" %}
+                        </p>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-theme-bg-alt rounded-2xl shadow-theme border border-theme-text/5 p-6">
+                    <h2 class="text-xl font-bold text-theme-text mb-6">
+                        {% trans "Quick Actions" %}
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <a href="{% url 'projects:project_create' %}" 
+                           class="flex items-center p-4 bg-theme-bg rounded-xl hover:bg-theme-primary hover:text-white transition-all duration-200 group">
+                            <div class="w-10 h-10 bg-theme-primary/10 group-hover:bg-white/20 rounded-lg flex items-center justify-center mr-4">
+                                <svg class="w-5 h-5 text-theme-primary group-hover:text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-medium">{% trans "New Project" %}</p>
+                                <p class="text-sm opacity-75">{% trans "Start tracking a new project" %}</p>
+                            </div>
+                        </a>
+
+                        <a href="{% url 'projects:project_list' %}" 
+                           class="flex items-center p-4 bg-theme-bg rounded-xl hover:bg-theme-secondary hover:text-white transition-all duration-200 group">
+                            <div class="w-10 h-10 bg-theme-secondary/10 group-hover:bg-white/20 rounded-lg flex items-center justify-center mr-4">
+                                <svg class="w-5 h-5 text-theme-secondary group-hover:text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-medium">{% trans "Browse Projects" %}</p>
+                                <p class="text-sm opacity-75">{% trans "View and manage all projects" %}</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

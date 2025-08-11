@@ -194,3 +194,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # This is useful in development/testing environments where the directory
 # is created later in the CI/CD pipeline.
 SILENCED_SYSTEM_CHECKS = ['staticfiles.W004']
+
+# Media files (user uploads)
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
