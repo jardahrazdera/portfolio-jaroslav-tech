@@ -1,0 +1,57 @@
+{% extends "core/base.html" %}
+
+{% block title %}Delete Session{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-base p-6">
+    <div class="max-w-2xl mx-auto">
+        <div class="bg-mantle rounded-lg border border-overlay p-8">
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 mx-auto mb-4 bg-red/10 rounded-full flex items-center justify-center">
+                    <svg class="w-8 h-8 text-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 18.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-bold text-text mb-2">Delete Work Session</h1>
+                <p class="text-subtext0">Are you sure you want to delete this work session?</p>
+            </div>
+
+            <div class="bg-base rounded-lg p-6 mb-6 border border-overlay">
+                <h3 class="text-xl font-semibold text-text mb-4">{{ object.title }}</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <span class="text-subtext0">Project:</span>
+                        <span class="ml-2 text-text">{{ object.project.title }}</span>
+                    </div>
+                    <div>
+                        <span class="text-subtext0">Duration:</span>
+                        <span class="ml-2 text-text">{{ object.duration_hours|floatformat:2 }} hours</span>
+                    </div>
+                    <div>
+                        <span class="text-subtext0">Date:</span>
+                        <span class="ml-2 text-text">{{ object.start_time|date:"M d, Y" }}</span>
+                    </div>
+                    <div>
+                        <span class="text-subtext0">Productivity:</span>
+                        <span class="ml-2 text-text">{{ object.productivity_rating }}/5</span>
+                    </div>
+                </div>
+            </div>
+
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                <div class="flex items-center justify-end space-x-4">
+                    <a href="{% url 'projects:project_detail' pk=object.project.pk %}" 
+                       class="px-4 py-2 border border-overlay rounded-lg text-text hover:bg-overlay transition-colors">
+                        Cancel
+                    </a>
+                    <button type="submit" 
+                            class="px-6 py-2 bg-red text-crust rounded-lg hover:bg-red/90 transition-colors">
+                        Delete Session
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

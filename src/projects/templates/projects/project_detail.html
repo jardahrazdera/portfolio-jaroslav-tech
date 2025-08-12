@@ -227,6 +227,34 @@
                                     </div>
                                 </a>
                                 {% endif %}
+
+                                {% if can_edit %}
+                                <a href="{% url 'projects:upload_image' project.pk %}" 
+                                   class="flex items-center p-3 bg-theme-bg-alt rounded-lg hover:bg-theme-primary hover:text-white transition-all duration-200 group">
+                                    <div class="w-8 h-8 bg-theme-primary/10 group-hover:bg-white/20 rounded-lg flex items-center justify-center mr-3">
+                                        <svg class="w-4 h-4 text-theme-primary group-hover:text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">{% trans "Upload Image" %}</p>
+                                        <p class="text-sm opacity-75">{% trans "Add project screenshots" %}</p>
+                                    </div>
+                                </a>
+
+                                <a href="{% url 'projects:project_delete' project.pk %}" 
+                                   class="flex items-center p-3 bg-theme-bg-alt rounded-lg hover:bg-red-600 hover:text-white transition-all duration-200 group">
+                                    <div class="w-8 h-8 bg-red-500/10 group-hover:bg-white/20 rounded-lg flex items-center justify-center mr-3">
+                                        <svg class="w-4 h-4 text-red-500 group-hover:text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">{% trans "Delete Project" %}</p>
+                                        <p class="text-sm opacity-75">{% trans "Permanently remove project" %}</p>
+                                    </div>
+                                </a>
+                                {% endif %}
                             </div>
                         </div>
 

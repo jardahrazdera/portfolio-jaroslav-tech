@@ -1,0 +1,122 @@
+{% extends "core/base.html" %}
+{% load i18n %}
+
+{% block title %}{% if object %}Edit Session{% else %}New Session{% endif %}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-base p-6">
+    <div class="max-w-3xl mx-auto">
+        <nav class="flex items-center space-x-2 text-sm text-subtext0 mb-6">
+            <a href="{% url 'projects:dashboard' %}" class="hover:text-mauve">Dashboard</a>
+            <span>/</span>
+            <span class="text-mauve">{% if object %}Edit Session{% else %}New Session{% endif %}</span>
+        </nav>
+
+        <div class="bg-mantle rounded-lg border border-overlay p-8">
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-text mb-2">{% if object %}Edit Work Session{% else %}New Work Session{% endif %}</h1>
+                <p class="text-subtext0">Track your development progress</p>
+            </div>
+
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+                
+                <div class="bg-base rounded-lg p-6 border border-overlay space-y-4">
+                    <h2 class="text-xl font-semibold text-text mb-4">Session Details</h2>
+                    
+                    <div>
+                        <label for="{{ form.project.id_for_label }}" class="block text-sm font-medium text-text mb-2">
+                            Project <span class="text-red">*</span>
+                        </label>
+                        {{ form.project }}
+                        {% if form.project.errors %}
+                        <p class="text-red text-sm mt-1">{{ form.project.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-text mb-2">
+                            Session Title <span class="text-red">*</span>
+                        </label>
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                        <p class="text-red text-sm mt-1">{{ form.title.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-text mb-2">
+                            Description
+                        </label>
+                        {{ form.description }}
+                        {% if form.description.errors %}
+                        <p class="text-red text-sm mt-1">{{ form.description.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="bg-base rounded-lg p-6 border border-overlay space-y-4">
+                    <h2 class="text-xl font-semibold text-text mb-4">Time Tracking</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="{{ form.start_time.id_for_label }}" class="block text-sm font-medium text-text mb-2">
+                                Start Time <span class="text-red">*</span>
+                            </label>
+                            {{ form.start_time }}
+                            {% if form.start_time.errors %}
+                            <p class="text-red text-sm mt-1">{{ form.start_time.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+
+                        <div>
+                            <label for="{{ form.end_time.id_for_label }}" class="block text-sm font-medium text-text mb-2">
+                                End Time
+                            </label>
+                            {{ form.end_time }}
+                            {% if form.end_time.errors %}
+                            <p class="text-red text-sm mt-1">{{ form.end_time.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-base rounded-lg p-6 border border-overlay space-y-4">
+                    <h2 class="text-xl font-semibold text-text mb-4">Productivity & Notes</h2>
+                    
+                    <div>
+                        <label for="{{ form.productivity_rating.id_for_label }}" class="block text-sm font-medium text-text mb-2">
+                            Productivity Rating
+                        </label>
+                        {{ form.productivity_rating }}
+                        {% if form.productivity_rating.errors %}
+                        <p class="text-red text-sm mt-1">{{ form.productivity_rating.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <label for="{{ form.notes.id_for_label }}" class="block text-sm font-medium text-text mb-2">
+                            Notes
+                        </label>
+                        {{ form.notes }}
+                        {% if form.notes.errors %}
+                        <p class="text-red text-sm mt-1">{{ form.notes.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-end space-x-4 pt-6">
+                    <a href="{% url 'projects:dashboard' %}" 
+                       class="px-6 py-2 border border-overlay rounded-lg text-text hover:bg-overlay transition-colors">
+                        Cancel
+                    </a>
+                    <button type="submit" 
+                            class="px-6 py-2 bg-mauve text-crust rounded-lg hover:bg-mauve/90 transition-colors">
+                        {% if object %}Update Session{% else %}Create Session{% endif %}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

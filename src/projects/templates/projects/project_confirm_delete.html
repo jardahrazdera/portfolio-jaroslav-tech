@@ -1,0 +1,113 @@
+{% extends "core/base.html" %}
+{% load i18n %}
+
+{% block title %}Delete Project - {{ project.title }}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-base p-6">
+    <div class="max-w-2xl mx-auto">
+        <\!-- Breadcrumb -->
+        <nav class="flex items-center space-x-2 text-sm text-subtext0 mb-6">
+            <a href="{% url 'projects:dashboard' %}" class="hover:text-mauve">Dashboard</a>
+            <span>/</span>
+            <a href="{% url 'projects:project_detail' pk=project.pk %}" class="hover:text-mauve">{{ project.title }}</a>
+            <span>/</span>
+            <span class="text-red">Delete</span>
+        </nav>
+
+        <\!-- Delete Confirmation Card -->
+        <div class="bg-mantle rounded-lg border border-overlay p-8">
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 mx-auto mb-4 bg-red/10 rounded-full flex items-center justify-center">
+                    <svg class="w-8 h-8 text-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 18.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-bold text-text mb-2">Delete Project</h1>
+                <p class="text-subtext0">This action cannot be undone. Please confirm below.</p>
+            </div>
+
+            <\!-- Project Details -->
+            <div class="bg-base rounded-lg p-6 mb-6 border border-overlay">
+                <h3 class="text-xl font-semibold text-text mb-4">{{ project.title }}</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <span class="text-subtext0">Status:</span>
+                        <span class="ml-2 text-text">{{ project.get_status_display }}</span>
+                    </div>
+                    <div>
+                        <span class="text-subtext0">Priority:</span>
+                        <span class="ml-2 text-text">{{ project.get_priority_display }}</span>
+                    </div>
+                    <div>
+                        <span class="text-subtext0">Created:</span>
+                        <span class="ml-2 text-text">{{ project.created_at|date:"M d, Y" }}</span>
+                    </div>
+                    <div>
+                        <span class="text-subtext0">Work Sessions:</span>
+                        <span class="ml-2 text-text">{{ project.work_sessions.count }}</span>
+                    </div>
+                </div>
+                
+                {% if project.technologies.exists %}
+                <div class="mt-4">
+                    <span class="text-subtext0">Technologies:</span>
+                    <div class="flex flex-wrap gap-2 mt-2">
+                        {% for tech in project.technologies.all %}
+                        <span class="bg-mauve/10 text-mauve px-2 py-1 rounded text-xs">{{ tech.name }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <\!-- Warning Message -->
+            <div class="bg-red/10 border border-red/20 rounded-lg p-4 mb-6">
+                <div class="flex">
+                    <svg class="w-5 h-5 text-red mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 18.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                    </svg>
+                    <div>
+                        <h4 class="font-semibold text-red mb-1">Warning: This action is permanent</h4>
+                        <p class="text-red text-sm">Deleting this project will also permanently delete:</p>
+                        <ul class="text-red text-sm mt-2 list-disc list-inside ml-4">
+                            <li>All work sessions ({{ project.work_sessions.count }} sessions)</li>
+                            <li>All project images ({{ project.images.count }} images)</li>
+                            <li>All project data and settings</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <\!-- Confirmation Form -->
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                <div class="flex items-center">
+                    <input type="checkbox" id="confirm-delete" class="h-4 w-4 text-red focus:ring-red/20 border-overlay rounded">
+                    <label for="confirm-delete" class="ml-2 text-sm text-text">
+                        I understand that this action cannot be undone
+                    </label>
+                </div>
+                
+                <div class="flex items-center justify-end space-x-4 pt-4">
+                    <a href="{% url 'projects:project_detail' pk=project.pk %}" 
+                       class="px-4 py-2 border border-overlay rounded-lg text-text hover:bg-overlay transition-colors">
+                        Cancel
+                    </a>
+                    <button type="submit" id="delete-button" disabled 
+                            class="px-6 py-2 bg-red text-crust rounded-lg hover:bg-red/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                        Delete Project
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('confirm-delete').addEventListener('change', function() {
+    const deleteButton = document.getElementById('delete-button');
+    deleteButton.disabled = \!this.checked;
+});
+</script>
+{% endblock %}

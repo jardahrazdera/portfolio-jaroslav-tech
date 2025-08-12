@@ -1,0 +1,1151 @@
+[
+{
+  "model": "projects.userprofile",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "bio": "Test developer",
+    "github_url": "",
+    "linkedin_url": "",
+    "portfolio_url": "",
+    "created_at": "2025-08-11T15:25:00.018Z",
+    "updated_at": "2025-08-11T15:25:00.018Z"
+  }
+},
+{
+  "model": "projects.userprofile",
+  "pk": 2,
+  "fields": {
+    "user": 3,
+    "bio": "Full-stack developer passionate about React and Django. Love building scalable web applications with modern technologies.",
+    "github_url": "https://github.com/sarahjohnson",
+    "linkedin_url": "https://linkedin.com/in/sarah-johnson-dev",
+    "portfolio_url": "",
+    "created_at": "2025-08-12T08:53:25.010Z",
+    "updated_at": "2025-08-12T08:53:25.010Z"
+  }
+},
+{
+  "model": "projects.userprofile",
+  "pk": 3,
+  "fields": {
+    "user": 4,
+    "bio": "DevOps engineer and cloud architect. Experienced in Kubernetes, Docker, and AWS. Building reliable infrastructure at scale.",
+    "github_url": "https://github.com/alexchen",
+    "linkedin_url": "https://linkedin.com/in/alex-chen-devops",
+    "portfolio_url": "",
+    "created_at": "2025-08-12T08:53:25.018Z",
+    "updated_at": "2025-08-12T08:53:25.018Z"
+  }
+},
+{
+  "model": "projects.userprofile",
+  "pk": 4,
+  "fields": {
+    "user": 5,
+    "bio": "Mobile app developer specializing in React Native and Flutter. Creating beautiful cross-platform experiences.",
+    "github_url": "https://github.com/mariarodriguez",
+    "linkedin_url": "https://linkedin.com/in/maria-rodriguez-mobile",
+    "portfolio_url": "",
+    "created_at": "2025-08-12T08:53:25.023Z",
+    "updated_at": "2025-08-12T08:53:25.023Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 1,
+  "fields": {
+    "name": "Django",
+    "category": "backend",
+    "description": "Web framework",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-11T15:25:00.024Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 3,
+  "fields": {
+    "name": "React",
+    "category": "frontend",
+    "description": "A JavaScript library for building user interfaces",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.823Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 4,
+  "fields": {
+    "name": "Vue.js",
+    "category": "frontend",
+    "description": "Progressive JavaScript framework",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.831Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 5,
+  "fields": {
+    "name": "Angular",
+    "category": "frontend",
+    "description": "Platform for building mobile and desktop web applications",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.835Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 6,
+  "fields": {
+    "name": "Svelte",
+    "category": "frontend",
+    "description": "Cybernetically enhanced web apps",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.838Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 7,
+  "fields": {
+    "name": "Next.js",
+    "category": "frontend",
+    "description": "The React Framework for Production",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.841Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 8,
+  "fields": {
+    "name": "Nuxt.js",
+    "category": "frontend",
+    "description": "The Vue.js Framework",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.843Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 9,
+  "fields": {
+    "name": "Tailwind CSS",
+    "category": "frontend",
+    "description": "Utility-first CSS framework",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.846Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 10,
+  "fields": {
+    "name": "Bootstrap",
+    "category": "frontend",
+    "description": "CSS framework for responsive design",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.850Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 11,
+  "fields": {
+    "name": "Sass",
+    "category": "frontend",
+    "description": "CSS extension language",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.853Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 12,
+  "fields": {
+    "name": "TypeScript",
+    "category": "frontend",
+    "description": "Typed superset of JavaScript",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.855Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 13,
+  "fields": {
+    "name": "JavaScript",
+    "category": "frontend",
+    "description": "Programming language of the web",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.858Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 14,
+  "fields": {
+    "name": "HTML5",
+    "category": "frontend",
+    "description": "Latest HTML standard",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.862Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 15,
+  "fields": {
+    "name": "CSS3",
+    "category": "frontend",
+    "description": "Latest CSS standard",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.864Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 16,
+  "fields": {
+    "name": "Flask",
+    "category": "backend",
+    "description": "Lightweight Python web framework",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.868Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 17,
+  "fields": {
+    "name": "FastAPI",
+    "category": "backend",
+    "description": "Modern, fast Python API framework",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.871Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 18,
+  "fields": {
+    "name": "Node.js",
+    "category": "backend",
+    "description": "JavaScript runtime built on Chrome V8 engine",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.874Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 19,
+  "fields": {
+    "name": "Express.js",
+    "category": "backend",
+    "description": "Fast, unopinionated web framework for Node.js",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.877Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 20,
+  "fields": {
+    "name": "Ruby on Rails",
+    "category": "backend",
+    "description": "Server-side web application framework",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.880Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 21,
+  "fields": {
+    "name": "Laravel",
+    "category": "backend",
+    "description": "PHP framework for web artisans",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.883Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 22,
+  "fields": {
+    "name": "Spring Boot",
+    "category": "backend",
+    "description": "Java-based framework for building applications",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.886Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 23,
+  "fields": {
+    "name": "ASP.NET Core",
+    "category": "backend",
+    "description": "Cross-platform .NET framework",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.888Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 24,
+  "fields": {
+    "name": "Go",
+    "category": "backend",
+    "description": "Open source programming language",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.891Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 25,
+  "fields": {
+    "name": "Rust",
+    "category": "backend",
+    "description": "Systems programming language",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.894Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 26,
+  "fields": {
+    "name": "Python",
+    "category": "backend",
+    "description": "High-level programming language",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.897Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 27,
+  "fields": {
+    "name": "Java",
+    "category": "backend",
+    "description": "Object-oriented programming language",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.900Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 28,
+  "fields": {
+    "name": "C#",
+    "category": "backend",
+    "description": "Modern object-oriented programming language",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.902Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 29,
+  "fields": {
+    "name": "PostgreSQL",
+    "category": "database",
+    "description": "Advanced open source relational database",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.905Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 30,
+  "fields": {
+    "name": "MySQL",
+    "category": "database",
+    "description": "Popular open source relational database",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.909Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 31,
+  "fields": {
+    "name": "MongoDB",
+    "category": "database",
+    "description": "Document-oriented NoSQL database",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.912Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 32,
+  "fields": {
+    "name": "Redis",
+    "category": "database",
+    "description": "In-memory data structure store",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.915Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 33,
+  "fields": {
+    "name": "SQLite",
+    "category": "database",
+    "description": "Lightweight embedded database",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.918Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 34,
+  "fields": {
+    "name": "Elasticsearch",
+    "category": "database",
+    "description": "Distributed search and analytics engine",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.921Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 35,
+  "fields": {
+    "name": "CouchDB",
+    "category": "database",
+    "description": "NoSQL document-oriented database",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.923Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 36,
+  "fields": {
+    "name": "Firebase",
+    "category": "database",
+    "description": "Backend-as-a-Service platform",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.926Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 37,
+  "fields": {
+    "name": "Docker",
+    "category": "devops",
+    "description": "Containerization platform",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.929Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 38,
+  "fields": {
+    "name": "Kubernetes",
+    "category": "devops",
+    "description": "Container orchestration system",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.932Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 39,
+  "fields": {
+    "name": "Jenkins",
+    "category": "devops",
+    "description": "Automation server for CI/CD",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.934Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 40,
+  "fields": {
+    "name": "GitHub Actions",
+    "category": "devops",
+    "description": "CI/CD platform integrated with GitHub",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.937Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 41,
+  "fields": {
+    "name": "GitLab CI/CD",
+    "category": "devops",
+    "description": "DevOps platform with CI/CD capabilities",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.940Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 42,
+  "fields": {
+    "name": "Terraform",
+    "category": "devops",
+    "description": "Infrastructure as Code tool",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.942Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 43,
+  "fields": {
+    "name": "Ansible",
+    "category": "devops",
+    "description": "IT automation platform",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.945Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 44,
+  "fields": {
+    "name": "AWS",
+    "category": "devops",
+    "description": "Amazon Web Services cloud platform",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.948Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 45,
+  "fields": {
+    "name": "Azure",
+    "category": "devops",
+    "description": "Microsoft cloud computing platform",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.951Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 46,
+  "fields": {
+    "name": "Google Cloud",
+    "category": "devops",
+    "description": "Google Cloud Platform",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.953Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 47,
+  "fields": {
+    "name": "Nginx",
+    "category": "devops",
+    "description": "Web server and reverse proxy",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.956Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 48,
+  "fields": {
+    "name": "Apache",
+    "category": "devops",
+    "description": "HTTP server",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.959Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 49,
+  "fields": {
+    "name": "Linux",
+    "category": "devops",
+    "description": "Open source operating system",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.963Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 50,
+  "fields": {
+    "name": "React Native",
+    "category": "mobile",
+    "description": "Framework for building native mobile apps",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.966Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 51,
+  "fields": {
+    "name": "Flutter",
+    "category": "mobile",
+    "description": "UI toolkit for building mobile applications",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.968Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 52,
+  "fields": {
+    "name": "Swift",
+    "category": "mobile",
+    "description": "Programming language for iOS development",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.971Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 53,
+  "fields": {
+    "name": "Kotlin",
+    "category": "mobile",
+    "description": "Programming language for Android development",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.974Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 54,
+  "fields": {
+    "name": "Ionic",
+    "category": "mobile",
+    "description": "Cross-platform mobile app development",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.977Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 55,
+  "fields": {
+    "name": "Xamarin",
+    "category": "mobile",
+    "description": "Microsoft mobile app development platform",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.979Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 56,
+  "fields": {
+    "name": "Git",
+    "category": "other",
+    "description": "Distributed version control system",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.982Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 57,
+  "fields": {
+    "name": "Webpack",
+    "category": "other",
+    "description": "Module bundler for JavaScript",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.984Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 58,
+  "fields": {
+    "name": "Vite",
+    "category": "other",
+    "description": "Next generation frontend tooling",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.987Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 59,
+  "fields": {
+    "name": "GraphQL",
+    "category": "other",
+    "description": "Query language and runtime for APIs",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.990Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 60,
+  "fields": {
+    "name": "REST API",
+    "category": "other",
+    "description": "Architectural style for web services",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.993Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 61,
+  "fields": {
+    "name": "WebSocket",
+    "category": "other",
+    "description": "Communication protocol for real-time apps",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.995Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 62,
+  "fields": {
+    "name": "OAuth",
+    "category": "other",
+    "description": "Authorization framework",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:24.998Z"
+  }
+},
+{
+  "model": "projects.technology",
+  "pk": 63,
+  "fields": {
+    "name": "JWT",
+    "category": "other",
+    "description": "JSON Web Token for secure information transmission",
+    "icon_url": "",
+    "official_url": "",
+    "created_at": "2025-08-12T08:53:25.001Z"
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 1,
+  "fields": {
+    "title": "Test Project",
+    "description": "A test project",
+    "short_description": "Test",
+    "owner": 1,
+    "status": "development",
+    "priority": "medium",
+    "start_date": null,
+    "end_date": null,
+    "github_url": "",
+    "live_url": "",
+    "is_featured": false,
+    "is_public": true,
+    "created_at": "2025-08-11T15:25:00.027Z",
+    "updated_at": "2025-08-11T15:25:00.027Z",
+    "technologies": [
+      1
+    ]
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 2,
+  "fields": {
+    "title": "E-Commerce Platform",
+    "description": "Comprehensive e-commerce platform featuring user authentication, product catalog, shopping cart, payment integration with Stripe, order management, and admin dashboard. Built with modern technologies and responsive design.",
+    "short_description": "Full-stack e-commerce solution with React and Django",
+    "owner": 5,
+    "status": "completed",
+    "priority": "high",
+    "start_date": "2025-07-13",
+    "end_date": "2025-07-28",
+    "github_url": "https://github.com/demo/ecommerce-platform",
+    "live_url": "https://demo-ecommerce.herokuapp.com",
+    "is_featured": true,
+    "is_public": true,
+    "created_at": "2025-07-13T08:53:25.028Z",
+    "updated_at": "2025-08-12T08:53:25.029Z",
+    "technologies": [
+      15,
+      35,
+      16,
+      40,
+      41,
+      14,
+      8,
+      32
+    ]
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 3,
+  "fields": {
+    "title": "Task Management App",
+    "description": "Modern task management application with drag-and-drop Kanban boards, real-time collaboration, team management, time tracking, and comprehensive reporting. Features beautiful UI with dark/light themes.",
+    "short_description": "Collaborative project management tool with real-time updates",
+    "owner": 2,
+    "status": "development",
+    "priority": "high",
+    "start_date": "2025-08-07",
+    "end_date": null,
+    "github_url": "https://github.com/demo/task-manager",
+    "live_url": "https://demo-tasks.netlify.app",
+    "is_featured": true,
+    "is_public": true,
+    "created_at": "2025-08-07T08:53:25.048Z",
+    "updated_at": "2025-08-12T08:53:25.048Z",
+    "technologies": [
+      35,
+      16,
+      13,
+      3,
+      32,
+      20,
+      22,
+      4
+    ]
+  }
+},
+{
+  "model": "projects.worksession",
+  "pk": 1,
+  "fields": {
+    "project": 1,
+    "user": 1,
+    "title": "Initial setup",
+    "description": "",
+    "start_time": "2025-08-11T15:25:00.043Z",
+    "end_time": null,
+    "duration_hours": "2.50",
+    "productivity_rating": null,
+    "notes": "",
+    "is_active": false,
+    "created_at": "2025-08-11T15:25:00.044Z",
+    "updated_at": "2025-08-11T15:25:00.044Z"
+  }
+},
+{
+  "model": "projects.worksession",
+  "pk": 2,
+  "fields": {
+    "project": 1,
+    "user": 1,
+    "title": "Working on Test Project",
+    "description": "Development session for test project.",
+    "start_time": "2025-08-11T15:25:00.027Z",
+    "end_time": "2025-08-11T18:08:12.027Z",
+    "duration_hours": "2.72",
+    "productivity_rating": 3,
+    "notes": "Productive development session",
+    "is_active": false,
+    "created_at": "2025-08-12T08:53:25.062Z",
+    "updated_at": "2025-08-12T08:53:25.062Z"
+  }
+},
+{
+  "model": "projects.worksession",
+  "pk": 3,
+  "fields": {
+    "project": 1,
+    "user": 1,
+    "title": "Working on Test Project",
+    "description": "Development session for test project.",
+    "start_time": "2025-08-11T15:25:00.027Z",
+    "end_time": "2025-08-11T18:46:36.027Z",
+    "duration_hours": "3.36",
+    "productivity_rating": 3,
+    "notes": "Productive development session",
+    "is_active": false,
+    "created_at": "2025-08-12T08:53:25.067Z",
+    "updated_at": "2025-08-12T08:53:25.067Z"
+  }
+},
+{
+  "model": "projects.worksession",
+  "pk": 4,
+  "fields": {
+    "project": 1,
+    "user": 1,
+    "title": "Working on Test Project",
+    "description": "Development session for test project.",
+    "start_time": "2025-08-11T15:25:00.027Z",
+    "end_time": "2025-08-11T21:03:24.027Z",
+    "duration_hours": "5.64",
+    "productivity_rating": 3,
+    "notes": "Productive development session",
+    "is_active": false,
+    "created_at": "2025-08-12T08:53:25.069Z",
+    "updated_at": "2025-08-12T08:53:25.069Z"
+  }
+},
+{
+  "model": "projects.worksession",
+  "pk": 5,
+  "fields": {
+    "project": 1,
+    "user": 1,
+    "title": "Working on Test Project",
+    "description": "Development session for test project.",
+    "start_time": "2025-08-11T15:25:00.027Z",
+    "end_time": "2025-08-11T19:46:36.027Z",
+    "duration_hours": "4.36",
+    "productivity_rating": 5,
+    "notes": "Productive development session",
+    "is_active": false,
+    "created_at": "2025-08-12T08:53:25.072Z",
+    "updated_at": "2025-08-12T08:53:25.072Z"
+  }
+},
+{
+  "model": "projects.worksession",
+  "pk": 6,
+  "fields": {
+    "project": 3,
+    "user": 2,
+    "title": "Working on Task Management App",
+    "description": "Development session for task management app.",
+    "start_time": "2025-08-12T08:53:25.048Z",
+    "end_time": "2025-08-12T14:45:01.048Z",
+    "duration_hours": "5.86",
+    "productivity_rating": 5,
+    "notes": "Productive development session",
+    "is_active": false,
+    "created_at": "2025-08-12T08:53:25.076Z",
+    "updated_at": "2025-08-12T08:53:25.076Z"
+  }
+},
+{
+  "model": "projects.worksession",
+  "pk": 7,
+  "fields": {
+    "project": 3,
+    "user": 2,
+    "title": "Working on Task Management App",
+    "description": "Development session for task management app.",
+    "start_time": "2025-08-07T08:53:25.048Z",
+    "end_time": "2025-08-07T10:26:25.048Z",
+    "duration_hours": "1.55",
+    "productivity_rating": 4,
+    "notes": "Productive development session",
+    "is_active": false,
+    "created_at": "2025-08-12T08:53:25.078Z",
+    "updated_at": "2025-08-12T08:53:25.078Z"
+  }
+},
+{
+  "model": "projects.worksession",
+  "pk": 8,
+  "fields": {
+    "project": 3,
+    "user": 2,
+    "title": "Working on Task Management App",
+    "description": "Development session for task management app.",
+    "start_time": "2025-08-07T08:53:25.048Z",
+    "end_time": "2025-08-07T10:07:49.048Z",
+    "duration_hours": "1.24",
+    "productivity_rating": 3,
+    "notes": "Productive development session",
+    "is_active": false,
+    "created_at": "2025-08-12T08:53:25.081Z",
+    "updated_at": "2025-08-12T08:53:25.081Z"
+  }
+},
+{
+  "model": "projects.worksession",
+  "pk": 9,
+  "fields": {
+    "project": 3,
+    "user": 2,
+    "title": "Working on Task Management App",
+    "description": "Development session for task management app.",
+    "start_time": "2025-08-08T08:53:25.048Z",
+    "end_time": "2025-08-08T14:16:49.048Z",
+    "duration_hours": "5.39",
+    "productivity_rating": 4,
+    "notes": "Productive development session",
+    "is_active": false,
+    "created_at": "2025-08-12T08:53:25.082Z",
+    "updated_at": "2025-08-12T08:53:25.082Z"
+  }
+},
+{
+  "model": "projects.worksession",
+  "pk": 10,
+  "fields": {
+    "project": 3,
+    "user": 2,
+    "title": "Working on Task Management App",
+    "description": "Development session for task management app.",
+    "start_time": "2025-08-08T08:53:25.048Z",
+    "end_time": "2025-08-08T12:15:01.048Z",
+    "duration_hours": "3.36",
+    "productivity_rating": 5,
+    "notes": "Productive development session",
+    "is_active": false,
+    "created_at": "2025-08-12T08:53:25.084Z",
+    "updated_at": "2025-08-12T08:53:25.084Z"
+  }
+},
+{
+  "model": "projects.worksession",
+  "pk": 11,
+  "fields": {
+    "project": 2,
+    "user": 5,
+    "title": "Working on E-Commerce Platform",
+    "description": "Development session for e-commerce platform.",
+    "start_time": "2025-08-04T08:53:25.028Z",
+    "end_time": "2025-08-04T11:21:01.028Z",
+    "duration_hours": "2.46",
+    "productivity_rating": 3,
+    "notes": "Productive development session",
+    "is_active": false,
+    "created_at": "2025-08-12T08:53:25.087Z",
+    "updated_at": "2025-08-12T08:53:25.087Z"
+  }
+},
+{
+  "model": "projects.worksession",
+  "pk": 12,
+  "fields": {
+    "project": 2,
+    "user": 5,
+    "title": "Working on E-Commerce Platform",
+    "description": "Development session for e-commerce platform.",
+    "start_time": "2025-07-21T08:53:25.028Z",
+    "end_time": "2025-07-21T12:08:25.028Z",
+    "duration_hours": "3.25",
+    "productivity_rating": 5,
+    "notes": "Productive development session",
+    "is_active": false,
+    "created_at": "2025-08-12T08:53:25.089Z",
+    "updated_at": "2025-08-12T08:53:25.089Z"
+  }
+},
+{
+  "model": "projects.worksession",
+  "pk": 13,
+  "fields": {
+    "project": 2,
+    "user": 5,
+    "title": "Working on E-Commerce Platform",
+    "description": "Development session for e-commerce platform.",
+    "start_time": "2025-08-12T08:53:25.028Z",
+    "end_time": "2025-08-12T12:40:49.028Z",
+    "duration_hours": "3.79",
+    "productivity_rating": 3,
+    "notes": "Productive development session",
+    "is_active": false,
+    "created_at": "2025-08-12T08:53:25.091Z",
+    "updated_at": "2025-08-12T08:53:25.092Z"
+  }
+},
+{
+  "model": "projects.worksession",
+  "pk": 14,
+  "fields": {
+    "project": 2,
+    "user": 5,
+    "title": "Working on E-Commerce Platform",
+    "description": "Development session for e-commerce platform.",
+    "start_time": "2025-08-02T08:53:25.028Z",
+    "end_time": "2025-08-02T13:12:37.028Z",
+    "duration_hours": "4.32",
+    "productivity_rating": 5,
+    "notes": "Productive development session",
+    "is_active": false,
+    "created_at": "2025-08-12T08:53:25.094Z",
+    "updated_at": "2025-08-12T08:53:25.094Z"
+  }
+},
+{
+  "model": "projects.worksession",
+  "pk": 15,
+  "fields": {
+    "project": 2,
+    "user": 5,
+    "title": "Working on E-Commerce Platform",
+    "description": "Development session for e-commerce platform.",
+    "start_time": "2025-07-19T08:53:25.028Z",
+    "end_time": "2025-07-19T10:20:25.028Z",
+    "duration_hours": "1.45",
+    "productivity_rating": 5,
+    "notes": "Productive development session",
+    "is_active": false,
+    "created_at": "2025-08-12T08:53:25.096Z",
+    "updated_at": "2025-08-12T08:53:25.096Z"
+  }
+}
+]
