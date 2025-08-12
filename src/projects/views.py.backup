@@ -71,22 +71,6 @@ def dashboard(request):
             logger.error(f"Error loading recent projects for user {request.user.id}: {str(e)}")
             recent_projects = []
         
-        # Task statistics with error handling
-        try:
-            from tasks.models import Task
-            user_tasks = Task.objects.filter(project__owner=request.user)
-            
-            total_tasks = user_tasks.count()
-            active_tasks = user_tasks.filter(status__in=["todo", "in_progress", "review"]).count()
-            completed_tasks = user_tasks.filter(status="done").count()
-            overdue_tasks = user_tasks.filter(
-                due_date__lt=timezone.now().date(),
-                status__in=["todo", "in_progress", "review"]
-            ).count() if user_tasks.exists() else 0
-        except Exception as e:
-            logger.error(f"Error calculating task statistics for user {request.user.id}: {str(e)}")
-            total_tasks = active_tasks = completed_tasks = overdue_tasks = 0
-        
         # Active session (if any) with error handling
         try:
             active_session = WorkSession.objects.filter(user=request.user, is_active=True).select_related("project").first()
@@ -108,10 +92,6 @@ def dashboard(request):
             "recent_sessions": recent_sessions,
             "recent_projects": recent_projects,
             "active_session": active_session,
-            "total_tasks": total_tasks,
-            "active_tasks": active_tasks,
-            "completed_tasks_count": completed_tasks,
-            "overdue_tasks": overdue_tasks,
         }
         
         # Log successful dashboard load for analytics
@@ -132,10 +112,6 @@ def dashboard(request):
             "recent_sessions": [],
             "recent_projects": [],
             "active_session": None,
-            "total_tasks": 0,
-            "active_tasks": 0,
-            "completed_tasks_count": 0,
-            "overdue_tasks": 0,
         }
         return render(request, "projects/dashboard.html", context)
 

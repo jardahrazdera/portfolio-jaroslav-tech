@@ -20,6 +20,7 @@ urlpatterns += i18n_patterns(
     path("admin/", admin.site.urls),
     path("", include("core.urls", namespace="core")),
     path("", include("projects.urls", namespace="projects")),
+    path("tasks/", include("tasks.urls", namespace="tasks")),
 )
 
 if settings.DEBUG:

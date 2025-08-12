@@ -71,6 +71,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'core.apps.CoreConfig',
     'projects.apps.ProjectsConfig',
+    'tasks.apps.TasksConfig',
 ]
 
 MIDDLEWARE = [

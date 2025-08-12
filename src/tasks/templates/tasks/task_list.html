@@ -1,0 +1,304 @@
+{% extends "core/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Tasks" %} - {{ site_settings.site_name }}{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+            <div>
+                <h1 class="text-3xl font-bold text-text">{% trans "Tasks" %}</h1>
+                <p class="text-subtext1 mt-2">{% trans "Manage your tasks across all projects" %}</p>
+            </div>
+            <div class="mt-4 md:mt-0 flex space-x-4">
+                <a href="{% url 'tasks:task_create' %}" 
+                   class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-base bg-mauve hover:bg-mauve/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
+                    {% trans "Create Task" %}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <\!-- Statistics -->
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
+        <div class="bg-surface0 rounded-lg p-6">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <div class="w-4 h-4 bg-blue-600 rounded"></div>
+                    </div>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-subtext1">{% trans "Total" %}</p>
+                    <p class="text-2xl font-bold text-text">{{ stats.total_tasks }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-surface0 rounded-lg p-6">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <div class="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
+                        <div class="w-4 h-4 bg-gray-600 rounded"></div>
+                    </div>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-subtext1">{% trans "To Do" %}</p>
+                    <p class="text-2xl font-bold text-text">{{ stats.todo }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-surface0 rounded-lg p-6">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <div class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center">
+                        <div class="w-4 h-4 bg-yellow-600 rounded"></div>
+                    </div>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-subtext1">{% trans "In Progress" %}</p>
+                    <p class="text-2xl font-bold text-text">{{ stats.in_progress }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-surface0 rounded-lg p-6">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                        <div class="w-4 h-4 bg-green-600 rounded"></div>
+                    </div>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-subtext1">{% trans "Done" %}</p>
+                    <p class="text-2xl font-bold text-text">{{ stats.done }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-surface0 rounded-lg p-6">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
+                        <div class="w-4 h-4 bg-red-600 rounded"></div>
+                    </div>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-subtext1">{% trans "Overdue" %}</p>
+                    <p class="text-2xl font-bold text-text">{{ stats.overdue }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <\!-- Filters -->
+    <div class="bg-surface0 rounded-lg p-6 mb-8">
+        <form method="get" class="grid grid-cols-1 md:grid-cols-6 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-subtext1 mb-2">{% trans "Status" %}</label>
+                {{ filter_form.status }}
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-subtext1 mb-2">{% trans "Priority" %}</label>
+                {{ filter_form.priority }}
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-subtext1 mb-2">{% trans "Type" %}</label>
+                {{ filter_form.task_type }}
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-subtext1 mb-2">{% trans "Assignee" %}</label>
+                {{ filter_form.assignee }}
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-subtext1 mb-2">{% trans "Due Date" %}</label>
+                {{ filter_form.due_date_filter }}
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-subtext1 mb-2">{% trans "Search" %}</label>
+                <div class="flex space-x-2">
+                    {{ filter_form.search }}
+                    <button type="submit" 
+                            class="px-4 py-2 bg-mauve text-base rounded-lg hover:bg-mauve/90 focus:outline-none focus:ring-2 focus:ring-mauve focus:ring-offset-2">
+                        {% trans "Filter" %}
+                    </button>
+                    <a href="{% url 'tasks:task_list' %}" 
+                       class="px-4 py-2 bg-surface1 text-text rounded-lg hover:bg-surface2 focus:outline-none focus:ring-2 focus:ring-surface1 focus:ring-offset-2">
+                        {% trans "Clear" %}
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <\!-- Tasks List -->
+    <div class="bg-surface0 rounded-lg overflow-hidden">
+        {% if tasks %}
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-overlay">
+                    <thead class="bg-surface1">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-subtext1 uppercase tracking-wider">
+                                {% trans "Task" %}
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-subtext1 uppercase tracking-wider">
+                                {% trans "Project" %}
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-subtext1 uppercase tracking-wider">
+                                {% trans "Status" %}
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-subtext1 uppercase tracking-wider">
+                                {% trans "Priority" %}
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-subtext1 uppercase tracking-wider">
+                                {% trans "Assignee" %}
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-subtext1 uppercase tracking-wider">
+                                {% trans "Due Date" %}
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-subtext1 uppercase tracking-wider">
+                                {% trans "Progress" %}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-surface0 divide-y divide-overlay">
+                        {% for task in tasks %}
+                            <tr class="hover:bg-surface1 transition-colors duration-200">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div>
+                                        <div class="flex items-center">
+                                            <a href="{{ task.get_absolute_url }}" 
+                                               class="text-sm font-medium text-mauve hover:text-mauve/80">
+                                                {{ task.title }}
+                                            </a>
+                                            {% if task.is_overdue %}
+                                                <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                                    {% trans "Overdue" %}
+                                                </span>
+                                            {% endif %}
+                                        </div>
+                                        {% if task.description %}
+                                            <p class="text-sm text-subtext1 truncate max-w-md">{{ task.description|truncatechars:100 }}</p>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text">
+                                    <a href="{% url 'projects:project_detail' task.project.id %}" 
+                                       class="text-mauve hover:text-mauve/80">
+                                        {{ task.project.title }}
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ task.status_color }}">
+                                        {{ task.get_status_display }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm {{ task.priority_color }}">
+                                    {{ task.get_priority_display }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text">
+                                    {% if task.assignee %}
+                                        {{ task.assignee.username }}
+                                    {% else %}
+                                        <span class="text-subtext1">{% trans "Unassigned" %}</span>
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-text">
+                                    {% if task.due_date %}
+                                        {{ task.due_date }}
+                                    {% else %}
+                                        <span class="text-subtext1">-</span>
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="w-full bg-overlay rounded-full h-2 mr-2">
+                                            <div class="bg-mauve h-2 rounded-full" style="width: {{ task.progress_percentage }}%"></div>
+                                        </div>
+                                        <span class="text-sm text-text">{{ task.progress_percentage }}%</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="text-center py-12">
+                <div class="text-subtext1 mb-4">
+                    <svg class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                    </svg>
+                </div>
+                <h3 class="text-sm font-medium text-text mb-2">{% trans "No tasks found" %}</h3>
+                <p class="text-sm text-subtext1 mb-6">{% trans "Create your first task to get started with task management." %}</p>
+                <a href="{% url 'tasks:task_create' %}" 
+                   class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-base bg-mauve hover:bg-mauve/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
+                    {% trans "Create Task" %}
+                </a>
+            </div>
+        {% endif %}
+    </div>
+
+    <\!-- Pagination -->
+    {% if is_paginated %}
+        <div class="flex items-center justify-between mt-6">
+            <div class="flex-1 flex justify-between sm:hidden">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}" 
+                       class="relative inline-flex items-center px-4 py-2 border border-overlay text-sm font-medium rounded-md text-text bg-surface0 hover:bg-surface1">
+                        {% trans "Previous" %}
+                    </a>
+                {% endif %}
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" 
+                       class="ml-3 relative inline-flex items-center px-4 py-2 border border-overlay text-sm font-medium rounded-md text-text bg-surface0 hover:bg-surface1">
+                        {% trans "Next" %}
+                    </a>
+                {% endif %}
+            </div>
+            <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                <div>
+                    <p class="text-sm text-subtext1">
+                        {% blocktrans with start=page_obj.start_index end=page_obj.end_index total=page_obj.paginator.count %}
+                        Showing {{ start }} to {{ end }} of {{ total }} tasks
+                        {% endblocktrans %}
+                    </p>
+                </div>
+                <div>
+                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                        {% if page_obj.has_previous %}
+                            <a href="?page={{ page_obj.previous_page_number }}" 
+                               class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-overlay bg-surface0 text-sm font-medium text-subtext1 hover:bg-surface1">
+                                {% trans "Previous" %}
+                            </a>
+                        {% endif %}
+                        
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <span class="relative inline-flex items-center px-4 py-2 border border-mauve bg-mauve text-sm font-medium text-base">
+                                    {{ num }}
+                                </span>
+                            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                <a href="?page={{ num }}" 
+                                   class="relative inline-flex items-center px-4 py-2 border border-overlay bg-surface0 text-sm font-medium text-text hover:bg-surface1">
+                                    {{ num }}
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}" 
+                               class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-overlay bg-surface0 text-sm font-medium text-subtext1 hover:bg-surface1">
+                                {% trans "Next" %}
+                            </a>
+                        {% endif %}
+                    </nav>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,312 @@
+{% extends "core/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ task.title }} - {% trans "Tasks" %} - {{ site_settings.site_name }}{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <\!-- Header -->
+    <div class="mb-8">
+        <div class="flex flex-col md:flex-row md:items-start md:justify-between">
+            <div class="flex-1">
+                <div class="flex items-center space-x-3 mb-4">
+                    <h1 class="text-3xl font-bold text-text">{{ task.title }}</h1>
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ task.status_color }}">
+                        {{ task.get_status_display }}
+                    </span>
+                    {% if task.is_overdue %}
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
+                            {% trans "Overdue" %}
+                        </span>
+                    {% endif %}
+                </div>
+                <nav class="flex" aria-label="Breadcrumb">
+                    <ol class="flex items-center space-x-2">
+                        <li>
+                            <a href="{% url 'tasks:task_list' %}" class="text-subtext1 hover:text-text">
+                                {% trans "Tasks" %}
+                            </a>
+                        </li>
+                        <li>
+                            <span class="text-subtext1">/</span>
+                        </li>
+                        <li>
+                            <a href="{% url 'projects:project_detail' task.project.id %}" class="text-subtext1 hover:text-text">
+                                {{ task.project.title }}
+                            </a>
+                        </li>
+                        <li>
+                            <span class="text-subtext1">/</span>
+                        </li>
+                        <li class="text-text">{{ task.title|truncatechars:30 }}</li>
+                    </ol>
+                </nav>
+            </div>
+            
+            {% if can_edit %}
+                <div class="mt-4 md:mt-0 flex space-x-3">
+                    {% if task.status \!= 'done' %}
+                        <form method="post" action="{% url 'tasks:mark_complete' task.id %}" class="inline">
+                            {% csrf_token %}
+                            <button type="submit" 
+                                    class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-base bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                                {% trans "Mark Complete" %}
+                            </button>
+                        </form>
+                    {% endif %}
+                    <a href="{% url 'tasks:task_update' task.id %}" 
+                       class="inline-flex items-center px-4 py-2 border border-overlay rounded-lg shadow-sm text-sm font-medium text-text bg-surface0 hover:bg-surface1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
+                        {% trans "Edit" %}
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <\!-- Main Content -->
+        <div class="lg:col-span-2 space-y-8">
+            <\!-- Task Details -->
+            <div class="bg-surface0 rounded-lg p-6">
+                <h2 class="text-xl font-semibold text-text mb-4">{% trans "Details" %}</h2>
+                
+                {% if task.description %}
+                    <div class="mb-6">
+                        <h3 class="text-sm font-medium text-subtext1 mb-2">{% trans "Description" %}</h3>
+                        <div class="text-text whitespace-pre-wrap">{{ task.description }}</div>
+                    </div>
+                {% endif %}
+
+                <\!-- Progress Bar -->
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-sm font-medium text-subtext1">{% trans "Progress" %}</h3>
+                        <span class="text-sm text-text">{{ task.progress_percentage }}%</span>
+                    </div>
+                    <div class="w-full bg-overlay rounded-full h-3">
+                        <div class="bg-mauve h-3 rounded-full transition-all duration-300" style="width: {{ task.progress_percentage }}%"></div>
+                    </div>
+                </div>
+
+                <\!-- Tags -->
+                {% if task.tags %}
+                    <div class="mb-6">
+                        <h3 class="text-sm font-medium text-subtext1 mb-2">{% trans "Tags" %}</h3>
+                        <div class="flex flex-wrap gap-2">
+                            {% for tag in task.tags|split:',' %}
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-surface1 text-text">
+                                    {{ tag|trim }}
+                                </span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+
+                <\!-- External URL -->
+                {% if task.external_url %}
+                    <div class="mb-6">
+                        <h3 class="text-sm font-medium text-subtext1 mb-2">{% trans "External Resource" %}</h3>
+                        <a href="{{ task.external_url }}" target="_blank" rel="noopener noreferrer" 
+                           class="text-mauve hover:text-mauve/80 text-sm flex items-center">
+                            {{ task.external_url }}
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                            </svg>
+                        </a>
+                    </div>
+                {% endif %}
+
+                <\!-- Notes -->
+                {% if task.notes %}
+                    <div>
+                        <h3 class="text-sm font-medium text-subtext1 mb-2">{% trans "Notes" %}</h3>
+                        <div class="text-text whitespace-pre-wrap text-sm bg-surface1 p-4 rounded-lg">{{ task.notes }}</div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <\!-- Subtasks -->
+            {% if subtasks %}
+                <div class="bg-surface0 rounded-lg p-6">
+                    <h2 class="text-xl font-semibold text-text mb-4">{% trans "Subtasks" %}</h2>
+                    <div class="space-y-3">
+                        {% for subtask in subtasks %}
+                            <div class="flex items-center justify-between p-3 border border-overlay rounded-lg">
+                                <div class="flex items-center space-x-3">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ subtask.status_color }}">
+                                        {{ subtask.get_status_display }}
+                                    </span>
+                                    <a href="{{ subtask.get_absolute_url }}" class="text-text hover:text-mauve">
+                                        {{ subtask.title }}
+                                    </a>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-16 bg-overlay rounded-full h-2">
+                                        <div class="bg-mauve h-2 rounded-full" style="width: {{ subtask.progress_percentage }}%"></div>
+                                    </div>
+                                    <span class="text-xs text-subtext1">{{ subtask.progress_percentage }}%</span>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+            <\!-- Dependencies -->
+            {% if dependencies %}
+                <div class="bg-surface0 rounded-lg p-6">
+                    <h2 class="text-xl font-semibold text-text mb-4">{% trans "Dependencies" %}</h2>
+                    <div class="space-y-3">
+                        {% for dep in dependencies %}
+                            <div class="flex items-center justify-between p-3 border border-overlay rounded-lg">
+                                <div class="flex items-center space-x-3">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ dep.status_color }}">
+                                        {{ dep.get_status_display }}
+                                    </span>
+                                    <a href="{{ dep.get_absolute_url }}" class="text-text hover:text-mauve">
+                                        {{ dep.title }}
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+            <\!-- Comments -->
+            <div class="bg-surface0 rounded-lg p-6">
+                <h2 class="text-xl font-semibold text-text mb-4">{% trans "Comments" %}</h2>
+                
+                <\!-- Add Comment Form -->
+                <form method="post" action="{% url 'tasks:add_comment' task.id %}" class="mb-6">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        {{ comment_form.content }}
+                    </div>
+                    <button type="submit" 
+                            class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-base bg-mauve hover:bg-mauve/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
+                        {% trans "Add Comment" %}
+                    </button>
+                </form>
+
+                <\!-- Comments List -->
+                {% if task.comments.all %}
+                    <div class="space-y-4">
+                        {% for comment in task.comments.all %}
+                            <div class="border border-overlay rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="font-medium text-text">{{ comment.author.username }}</span>
+                                        <span class="text-sm text-subtext1">{{ comment.created_at|date:"M d, Y H:i" }}</span>
+                                    </div>
+                                </div>
+                                <div class="text-text whitespace-pre-wrap">{{ comment.content }}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-subtext1 text-sm">{% trans "No comments yet. Be the first to comment\!" %}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <\!-- Sidebar -->
+        <div class="space-y-6">
+            <\!-- Task Information -->
+            <div class="bg-surface0 rounded-lg p-6">
+                <h3 class="text-lg font-semibold text-text mb-4">{% trans "Information" %}</h3>
+                <dl class="space-y-3">
+                    <div>
+                        <dt class="text-sm font-medium text-subtext1">{% trans "Project" %}</dt>
+                        <dd class="text-sm text-text">
+                            <a href="{% url 'projects:project_detail' task.project.id %}" class="text-mauve hover:text-mauve/80">
+                                {{ task.project.title }}
+                            </a>
+                        </dd>
+                    </div>
+                    
+                    <div>
+                        <dt class="text-sm font-medium text-subtext1">{% trans "Priority" %}</dt>
+                        <dd class="text-sm {{ task.priority_color }}">{{ task.get_priority_display }}</dd>
+                    </div>
+                    
+                    <div>
+                        <dt class="text-sm font-medium text-subtext1">{% trans "Type" %}</dt>
+                        <dd class="text-sm text-text">{{ task.get_task_type_display }}</dd>
+                    </div>
+                    
+                    <div>
+                        <dt class="text-sm font-medium text-subtext1">{% trans "Assignee" %}</dt>
+                        <dd class="text-sm text-text">
+                            {% if task.assignee %}
+                                {{ task.assignee.username }}
+                            {% else %}
+                                <span class="text-subtext1">{% trans "Unassigned" %}</span>
+                            {% endif %}
+                        </dd>
+                    </div>
+                    
+                    <div>
+                        <dt class="text-sm font-medium text-subtext1">{% trans "Creator" %}</dt>
+                        <dd class="text-sm text-text">{{ task.creator.username }}</dd>
+                    </div>
+                    
+                    {% if task.start_date %}
+                        <div>
+                            <dt class="text-sm font-medium text-subtext1">{% trans "Start Date" %}</dt>
+                            <dd class="text-sm text-text">{{ task.start_date|date:"M d, Y" }}</dd>
+                        </div>
+                    {% endif %}
+                    
+                    {% if task.due_date %}
+                        <div>
+                            <dt class="text-sm font-medium text-subtext1">{% trans "Due Date" %}</dt>
+                            <dd class="text-sm text-text">{{ task.due_date|date:"M d, Y" }}</dd>
+                        </div>
+                    {% endif %}
+                    
+                    {% if task.estimated_hours %}
+                        <div>
+                            <dt class="text-sm font-medium text-subtext1">{% trans "Estimated Hours" %}</dt>
+                            <dd class="text-sm text-text">{{ task.estimated_hours }}</dd>
+                        </div>
+                    {% endif %}
+                    
+                    <div>
+                        <dt class="text-sm font-medium text-subtext1">{% trans "Created" %}</dt>
+                        <dd class="text-sm text-text">{{ task.created_at|date:"M d, Y H:i" }}</dd>
+                    </div>
+                    
+                    <div>
+                        <dt class="text-sm font-medium text-subtext1">{% trans "Updated" %}</dt>
+                        <dd class="text-sm text-text">{{ task.updated_at|date:"M d, Y H:i" }}</dd>
+                    </div>
+                </dl>
+            </div>
+
+            <\!-- Task Actions -->
+            {% if can_edit %}
+                <div class="bg-surface0 rounded-lg p-6">
+                    <h3 class="text-lg font-semibold text-text mb-4">{% trans "Actions" %}</h3>
+                    <div class="space-y-3">
+                        <a href="{% url 'tasks:task_update' task.id %}" 
+                           class="block w-full text-center px-4 py-2 border border-overlay rounded-lg text-sm font-medium text-text bg-surface1 hover:bg-surface2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
+                            {% trans "Edit Task" %}
+                        </a>
+                        
+                        <a href="{% url 'tasks:task_create_for_project' task.project.id %}" 
+                           class="block w-full text-center px-4 py-2 border border-overlay rounded-lg text-sm font-medium text-text bg-surface1 hover:bg-surface2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
+                            {% trans "Create Subtask" %}
+                        </a>
+                        
+                        <a href="{% url 'tasks:task_delete' task.id %}" 
+                           class="block w-full text-center px-4 py-2 border border-red-300 rounded-lg text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                            {% trans "Delete Task" %}
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

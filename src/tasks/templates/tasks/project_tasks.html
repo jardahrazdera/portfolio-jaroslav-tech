@@ -1,0 +1,261 @@
+{% extends "core/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ project.title }} - {% trans "Tasks" %} - {{ site_settings.site_name }}{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <\!-- Header -->
+    <div class="mb-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+            <div>
+                <h1 class="text-3xl font-bold text-text">{{ project.title }} - {% trans "Tasks" %}</h1>
+                <nav class="flex mt-2" aria-label="Breadcrumb">
+                    <ol class="flex items-center space-x-2">
+                        <li>
+                            <a href="{% url 'projects:project_list' %}" class="text-subtext1 hover:text-text">
+                                {% trans "Projects" %}
+                            </a>
+                        </li>
+                        <li>
+                            <span class="text-subtext1">/</span>
+                        </li>
+                        <li>
+                            <a href="{% url 'projects:project_detail' project.id %}" class="text-subtext1 hover:text-text">
+                                {{ project.title }}
+                            </a>
+                        </li>
+                        <li>
+                            <span class="text-subtext1">/</span>
+                        </li>
+                        <li class="text-text">{% trans "Tasks" %}</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="mt-4 md:mt-0 flex space-x-4">
+                <a href="{% url 'tasks:task_create_for_project' project.id %}" 
+                   class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-base bg-mauve hover:bg-mauve/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
+                    {% trans "Add Task" %}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <\!-- Project Task Statistics -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="bg-surface0 rounded-lg p-6">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <div class="w-4 h-4 bg-blue-600 rounded"></div>
+                    </div>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-subtext1">{% trans "Total Tasks" %}</p>
+                    <p class="text-2xl font-bold text-text">{{ stats.total_tasks }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-surface0 rounded-lg p-6">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                        <div class="w-4 h-4 bg-green-600 rounded"></div>
+                    </div>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-subtext1">{% trans "Completed" %}</p>
+                    <p class="text-2xl font-bold text-text">{{ stats.completed }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-surface0 rounded-lg p-6">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <div class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center">
+                        <div class="w-4 h-4 bg-yellow-600 rounded"></div>
+                    </div>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-subtext1">{% trans "In Progress" %}</p>
+                    <p class="text-2xl font-bold text-text">{{ stats.in_progress }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-surface0 rounded-lg p-6">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                        <div class="w-4 h-4 bg-green-600 rounded-full"></div>
+                    </div>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-medium text-subtext1">{% trans "Progress" %}</p>
+                    <p class="text-2xl font-bold text-text">{{ stats.completion_percentage }}%</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <\!-- Filters -->
+    <div class="bg-surface0 rounded-lg p-6 mb-8">
+        <form method="get" class="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-subtext1 mb-2">{% trans "Status" %}</label>
+                {{ filter_form.status }}
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-subtext1 mb-2">{% trans "Priority" %}</label>
+                {{ filter_form.priority }}
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-subtext1 mb-2">{% trans "Type" %}</label>
+                {{ filter_form.task_type }}
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-subtext1 mb-2">{% trans "Assignee" %}</label>
+                {{ filter_form.assignee }}
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-subtext1 mb-2">{% trans "Search" %}</label>
+                <div class="flex space-x-2">
+                    {{ filter_form.search }}
+                    <button type="submit" 
+                            class="px-4 py-2 bg-mauve text-base rounded-lg hover:bg-mauve/90 focus:outline-none focus:ring-2 focus:ring-mauve focus:ring-offset-2">
+                        {% trans "Filter" %}
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <\!-- Tasks -->
+    <div class="bg-surface0 rounded-lg overflow-hidden">
+        {% if tasks %}
+            <div class="px-6 py-4 border-b border-overlay">
+                <h3 class="text-lg font-medium text-text">
+                    {% trans "Project Tasks" %} ({{ tasks|length }})
+                </h3>
+            </div>
+            
+            <div class="divide-y divide-overlay">
+                {% for task in tasks %}
+                    <div class="p-6 hover:bg-surface1 transition-colors duration-200">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center space-x-3 mb-2">
+                                    <a href="{{ task.get_absolute_url }}" class="text-lg font-medium text-mauve hover:text-mauve/80">
+                                        {{ task.title }}
+                                    </a>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ task.status_color }}">
+                                        {{ task.get_status_display }}
+                                    </span>
+                                    {% if task.is_overdue %}
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                            {% trans "Overdue" %}
+                                        </span>
+                                    {% endif %}
+                                </div>
+                                
+                                {% if task.description %}
+                                    <p class="text-subtext1 text-sm mb-3">{{ task.description|truncatechars:200 }}</p>
+                                {% endif %}
+                                
+                                <div class="flex items-center space-x-6 text-sm text-subtext1">
+                                    <div class="flex items-center space-x-1">
+                                        <span class="font-medium">{% trans "Priority:" %}</span>
+                                        <span class="{{ task.priority_color }}">{{ task.get_priority_display }}</span>
+                                    </div>
+                                    <div class="flex items-center space-x-1">
+                                        <span class="font-medium">{% trans "Type:" %}</span>
+                                        <span>{{ task.get_task_type_display }}</span>
+                                    </div>
+                                    <div class="flex items-center space-x-1">
+                                        <span class="font-medium">{% trans "Assignee:" %}</span>
+                                        <span>
+                                            {% if task.assignee %}
+                                                {{ task.assignee.username }}
+                                            {% else %}
+                                                <span class="text-subtext1">{% trans "Unassigned" %}</span>
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                    {% if task.due_date %}
+                                        <div class="flex items-center space-x-1">
+                                            <span class="font-medium">{% trans "Due:" %}</span>
+                                            <span>{{ task.due_date|date:"M d, Y" }}</span>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="ml-6 flex-shrink-0">
+                                <div class="flex items-center space-x-4">
+                                    <\!-- Progress -->
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-20 bg-overlay rounded-full h-2">
+                                            <div class="bg-mauve h-2 rounded-full transition-all duration-300" style="width: {{ task.progress_percentage }}%"></div>
+                                        </div>
+                                        <span class="text-sm text-text">{{ task.progress_percentage }}%</span>
+                                    </div>
+                                    
+                                    <\!-- Actions -->
+                                    <div class="flex items-center space-x-2">
+                                        <a href="{{ task.get_absolute_url }}" 
+                                           class="text-mauve hover:text-mauve/80 text-sm font-medium">
+                                            {% trans "View" %}
+                                        </a>
+                                        {% if task.can_be_edited_by:user %}
+                                            <a href="{% url 'tasks:task_update' task.id %}" 
+                                               class="text-blue-600 hover:text-blue-500 text-sm font-medium">
+                                                {% trans "Edit" %}
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <\!-- Subtasks indicator -->
+                        {% if task.subtasks.exists %}
+                            <div class="mt-3 pt-3 border-t border-overlay">
+                                <div class="flex items-center text-sm text-subtext1">
+                                    <span>{% blocktrans count count=task.subtasks.count %}{{ count }} subtask{% plural %}{{ count }} subtasks{% endblocktrans %}</span>
+                                </div>
+                            </div>
+                        {% endif %}
+                        
+                        <\!-- Dependencies indicator -->
+                        {% if task.dependencies.exists %}
+                            <div class="mt-2 flex items-center text-sm text-subtext1">
+                                <span>{% blocktrans count count=task.dependencies.count %}Depends on {{ count }} task{% plural %}Depends on {{ count }} tasks{% endblocktrans %}</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center py-12">
+                <div class="text-subtext1 mb-4">
+                    <svg class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                    </svg>
+                </div>
+                <h3 class="text-sm font-medium text-text mb-2">{% trans "No tasks found" %}</h3>
+                <p class="text-sm text-subtext1 mb-6">
+                    {% blocktrans with project=project.title %}
+                    No tasks found for project "{{ project }}". Create the first task to get started.
+                    {% endblocktrans %}
+                </p>
+                <a href="{% url 'tasks:task_create_for_project' project.id %}" 
+                   class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-base bg-mauve hover:bg-mauve/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
+                    {% trans "Add First Task" %}
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

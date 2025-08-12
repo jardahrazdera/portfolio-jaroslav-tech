@@ -25,5 +25,11 @@ urlpatterns = [
     path("projects/<int:project_id>/images/<int:image_id>/delete/", views.delete_project_image, name="delete_image"),
     
     # Profile management
+    
+    # Bulk actions
+    path("bulk-actions/", views.bulk_project_action, name="bulk_actions"),
+    
+    # API endpoints
+    path("api/projects/", views.project_api_list, name="api_project_list"),
     path("profile/edit/", views.UserProfileUpdateView.as_view(), name="profile_update"),
 ]
