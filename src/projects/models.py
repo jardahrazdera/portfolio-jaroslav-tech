@@ -107,172 +107,6 @@ class UserProfile(models.Model):
             
         super().save(*args, **kwargs)
 
-    # Enhanced validation and business logic methods
-    def clean(self):
-        """Custom validation for WorkSession model"""
-        errors = {}
-        
-        # Validate session title
-        if self.title and len(self.title.strip()) < 3:
-            errors['title'] = _('Session title must be at least 3 characters long.')
-        
-        # Validate time relationships
-        if self.start_time and self.end_time:
-            if self.start_time >= self.end_time:
-                errors['end_time'] = _('End time must be after start time.')
-            
-            # Check for reasonable duration (not more than 16 hours)
-            duration = self.end_time - self.start_time
-            if duration > timedelta(hours=16):
-                errors['end_time'] = _('Session duration cannot exceed 16 hours.')
-            
-            # Check for minimum duration (at least 1 minute)
-            if duration < timedelta(minutes=1):
-                errors['end_time'] = _('Session duration must be at least 1 minute.')
-        
-        # Validate start time is not too far in the past
-        if self.start_time:
-            one_year_ago = timezone.now() - timedelta(days=365)
-            if self.start_time < one_year_ago:
-                errors['start_time'] = _('Start time cannot be more than 1 year in the past.')
-        
-        # Validate productivity rating
-        if self.productivity_rating is not None:
-            if not (1 <= self.productivity_rating <= 5):
-                errors['productivity_rating'] = _('Productivity rating must be between 1 and 5.')
-        
-        if errors:
-            raise ValidationError(errors)
-    
-    @property
-    def duration_formatted(self):
-        """Get formatted duration string"""
-        if not self.duration_hours:
-            return "0h 0m"
-        
-        hours = int(self.duration_hours)
-        minutes = int((self.duration_hours - hours) * 60)
-        
-        if hours > 0:
-            return f"{hours}h {minutes}m"
-        else:
-            return f"{minutes}m"
-    
-    @property
-    def is_today(self):
-        """Check if session started today"""
-        if not self.start_time:
-            return False
-        return self.start_time.date() == timezone.now().date()
-    
-    @property
-    def is_this_week(self):
-        """Check if session started this week"""
-        if not self.start_time:
-            return False
-        
-        today = timezone.now().date()
-        week_start = today - timedelta(days=today.weekday())
-        return self.start_time.date() >= week_start
-    
-    @property
-    def productivity_stars(self):
-        """Get productivity rating as star symbols"""
-        if not self.productivity_rating:
-            return ""
-        
-        filled_stars = "★" * self.productivity_rating
-        empty_stars = "☆" * (5 - self.productivity_rating)
-        return filled_stars + empty_stars
-    
-    def can_be_edited_by(self, user):
-        """Check if user can edit this work session"""
-        return self.user == user or user.is_superuser
-    
-    def can_be_stopped_by(self, user):
-        """Check if user can stop this active session"""
-        return self.is_active and self.user == user
-    
-    def stop_session(self):
-        """Stop this active session"""
-        if not self.is_active:
-            raise ValueError("Session is not active")
-        
-        self.end_time = timezone.now()
-        self.is_active = False
-        self.save()
-        return self.duration_hours
-    
-    def get_break_duration(self, next_session=None):
-        """Calculate break duration between this and next session"""
-        if not self.end_time or not next_session or not next_session.start_time:
-            return None
-        
-        if next_session.start_time <= self.end_time:
-            return timedelta(0)  # Overlapping sessions
-        
-        break_duration = next_session.start_time - self.end_time
-        return break_duration
-    
-    @classmethod
-    def get_user_stats(cls, user, days=30):
-        """Get comprehensive statistics for user's work sessions"""
-        cutoff_date = timezone.now() - timedelta(days=days)
-        sessions = cls.objects.filter(
-            user=user,
-            start_time__gte=cutoff_date
-        )
-        
-        from django.db.models import Sum, Avg, Count
-        
-        stats = sessions.aggregate(
-            total_sessions=Count('id'),
-            total_hours=Sum('duration_hours'),
-            avg_session_length=Avg('duration_hours'),
-            avg_productivity=Avg('productivity_rating'),
-        )
-        
-        # Convert None values to appropriate defaults
-        for key, value in stats.items():
-            if value is None:
-                stats[key] = 0 if key != 'avg_productivity' else None
-        
-        # Add additional computed stats
-        if stats['total_sessions'] > 0:
-            # Calculate productivity distribution
-            productivity_dist = {}
-            for i in range(1, 6):
-                count = sessions.filter(productivity_rating=i).count()
-                productivity_dist[i] = count
-            stats['productivity_distribution'] = productivity_dist
-            
-            # Calculate daily averages
-            unique_days = sessions.values('start_time__date').distinct().count()
-            if unique_days > 0:
-                stats['avg_hours_per_day'] = stats['total_hours'] / unique_days
-                stats['avg_sessions_per_day'] = stats['total_sessions'] / unique_days
-            else:
-                stats['avg_hours_per_day'] = 0
-                stats['avg_sessions_per_day'] = 0
-        
-        return stats
-    
-    @classmethod
-    def get_active_sessions(cls, user=None):
-        """Get all currently active sessions, optionally filtered by user"""
-        queryset = cls.objects.filter(is_active=True).select_related('project', 'user')
-        if user:
-            queryset = queryset.filter(user=user)
-        return queryset
-    
-    @classmethod
-    def get_recent_sessions(cls, user, limit=10):
-        """Get recent completed sessions for a user"""
-        return cls.objects.filter(
-            user=user,
-            is_active=False
-        ).select_related('project').order_by('-start_time')[:limit]
-
     def get_absolute_url(self):
         return reverse('projects:profile_detail', kwargs={'pk': self.pk})
     
@@ -392,6 +226,20 @@ class Project(models.Model):
     One-to-Many relationship with ProjectImage and WorkSession.
     Many-to-Many relationship with Technology.
     """
+    STATUS_CHOICES = [
+        ('planning', _('Planning')),
+        ('development', _('Development')),
+        ('testing', _('Testing')),
+        ('completed', _('Completed')),
+        ('archived', _('Archived')),
+    ]
+    
+    PRIORITY_CHOICES = [
+        ('low', _('Low')),
+        ('medium', _('Medium')),
+        ('high', _('High')),
+    ]
+    
     title = models.CharField(
         max_length=200,
         verbose_name=_("Project Title"),
@@ -422,24 +270,14 @@ class Project(models.Model):
     )
     status = models.CharField(
         max_length=20,
-        choices=[
-            ('planning', _('Planning')),
-            ('development', _('Development')),
-            ('testing', _('Testing')),
-            ('completed', _('Completed')),
-            ('archived', _('Archived')),
-        ],
+        choices=STATUS_CHOICES,
         default='planning',
         verbose_name=_("Status"),
         help_text=_("Current status of the project")
     )
     priority = models.CharField(
         max_length=10,
-        choices=[
-            ('low', _('Low')),
-            ('medium', _('Medium')),
-            ('high', _('High')),
-        ],
+        choices=PRIORITY_CHOICES,
         default='medium',
         verbose_name=_("Priority"),
         help_text=_("Project priority level")
@@ -505,8 +343,6 @@ class Project(models.Model):
     def is_completed(self):
         """Check if project is completed."""
         return self.status == 'completed'
-
-
 
     @property
     def is_active(self):
@@ -753,3 +589,133 @@ class WorkSession(models.Model):
             self.duration_hours = duration.total_seconds() / 3600
             self.is_active = False
         super().save(*args, **kwargs)
+
+    # Enhanced validation and business logic methods
+    @property
+    def duration_formatted(self):
+        """Get formatted duration string"""
+        if not self.duration_hours:
+            return "0h 0m"
+        
+        hours = int(self.duration_hours)
+        minutes = int((self.duration_hours - hours) * 60)
+        
+        if hours > 0:
+            return f"{hours}h {minutes}m"
+        else:
+            return f"{minutes}m"
+    
+    @property
+    def is_today(self):
+        """Check if session started today"""
+        if not self.start_time:
+            return False
+        return self.start_time.date() == timezone.now().date()
+    
+    @property
+    def is_this_week(self):
+        """Check if session started this week"""
+        if not self.start_time:
+            return False
+        
+        today = timezone.now().date()
+        week_start = today - timedelta(days=today.weekday())
+        return self.start_time.date() >= week_start
+    
+    @property
+    def productivity_stars(self):
+        """Get productivity rating as star symbols"""
+        if not self.productivity_rating:
+            return ""
+        
+        filled_stars = "★" * self.productivity_rating
+        empty_stars = "☆" * (5 - self.productivity_rating)
+        return filled_stars + empty_stars
+    
+    def can_be_edited_by(self, user):
+        """Check if user can edit this work session"""
+        return self.user == user or user.is_superuser
+    
+    def can_be_stopped_by(self, user):
+        """Check if user can stop this active session"""
+        return self.is_active and self.user == user
+    
+    def stop_session(self):
+        """Stop this active session"""
+        if not self.is_active:
+            raise ValueError("Session is not active")
+        
+        self.end_time = timezone.now()
+        self.is_active = False
+        self.save()
+        return self.duration_hours
+    
+    def get_break_duration(self, next_session=None):
+        """Calculate break duration between this and next session"""
+        if not self.end_time or not next_session or not next_session.start_time:
+            return None
+        
+        if next_session.start_time <= self.end_time:
+            return timedelta(0)  # Overlapping sessions
+        
+        break_duration = next_session.start_time - self.end_time
+        return break_duration
+    
+    @classmethod
+    def get_user_stats(cls, user, days=30):
+        """Get comprehensive statistics for user's work sessions"""
+        cutoff_date = timezone.now() - timedelta(days=days)
+        sessions = cls.objects.filter(
+            user=user,
+            start_time__gte=cutoff_date
+        )
+        
+        from django.db.models import Sum, Avg, Count
+        
+        stats = sessions.aggregate(
+            total_sessions=Count('id'),
+            total_hours=Sum('duration_hours'),
+            avg_session_length=Avg('duration_hours'),
+            avg_productivity=Avg('productivity_rating'),
+        )
+        
+        # Convert None values to appropriate defaults
+        for key, value in stats.items():
+            if value is None:
+                stats[key] = 0 if key != 'avg_productivity' else None
+        
+        # Add additional computed stats
+        if stats['total_sessions'] > 0:
+            # Calculate productivity distribution
+            productivity_dist = {}
+            for i in range(1, 6):
+                count = sessions.filter(productivity_rating=i).count()
+                productivity_dist[i] = count
+            stats['productivity_distribution'] = productivity_dist
+            
+            # Calculate daily averages
+            unique_days = sessions.values('start_time__date').distinct().count()
+            if unique_days > 0:
+                stats['avg_hours_per_day'] = stats['total_hours'] / unique_days
+                stats['avg_sessions_per_day'] = stats['total_sessions'] / unique_days
+            else:
+                stats['avg_hours_per_day'] = 0
+                stats['avg_sessions_per_day'] = 0
+        
+        return stats
+    
+    @classmethod
+    def get_active_sessions(cls, user=None):
+        """Get all currently active sessions, optionally filtered by user"""
+        queryset = cls.objects.filter(is_active=True).select_related('project', 'user')
+        if user:
+            queryset = queryset.filter(user=user)
+        return queryset
+    
+    @classmethod
+    def get_recent_sessions(cls, user, limit=10):
+        """Get recent completed sessions for a user"""
+        return cls.objects.filter(
+            user=user,
+            is_active=False
+        ).select_related('project').order_by('-start_time')[:limit]
