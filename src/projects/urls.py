@@ -30,6 +30,9 @@ urlpatterns = [
     path("bulk-actions/", views.bulk_project_action, name="bulk_actions"),
     
     # API endpoints
+    path("api/charts/project-progress/", views.chart_project_progress_api, name="chart_project_progress_api"),
+    path("api/charts/time-tracking/", views.chart_time_tracking_api, name="chart_time_tracking_api"),
+    path("api/charts/productivity-metrics/", views.chart_productivity_metrics_api, name="chart_productivity_metrics_api"),
     path("api/projects/", views.project_api_list, name="api_project_list"),
     path("profile/edit/", views.UserProfileUpdateView.as_view(), name="profile_update"),
 ]

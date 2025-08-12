@@ -892,3 +892,192 @@ def project_api_list(request):
     except Exception as e:
         logger.critical(f"Critical error in project_api_list: {str(e)}")
         return JsonResponse({"error": "Internal server error"}, status=500)
+
+
+@login_required
+def chart_project_progress_api(request):
+    """API endpoint for project progress chart data."""
+    try:
+        user_projects = Project.objects.filter(owner=request.user)
+        
+        # Get project status distribution
+        status_data = {}
+        status_choices = dict(Project.STATUS_CHOICES)
+        
+        for status, label in status_choices.items():
+            count = user_projects.filter(status=status).count()
+            if count > 0:
+                status_data[label] = count
+        
+        # Get project completion percentages
+        completion_data = []
+        for project in user_projects.select_related().order_by('-updated_at')[:10]:
+            completion_data.append({
+                'name': project.title[:20] + ('...' if len(project.title) > 20 else ''),
+                'completion': project.completion_percentage
+            })
+        
+        return JsonResponse({
+            'status_distribution': status_data,
+            'completion_data': completion_data
+        })
+        
+    except Exception as e:
+        logger.error(f"Error in chart_project_progress_api: {str(e)}")
+        return JsonResponse({"error": "Failed to load project progress data"}, status=500)
+
+
+@login_required  
+def chart_time_tracking_api(request):
+    """API endpoint for time tracking analytics chart data."""
+    try:
+        # Get time tracking data for the last 30 days
+        end_date = timezone.now().date()
+        start_date = end_date - timedelta(days=30)
+        
+        sessions = WorkSession.objects.filter(
+            user=request.user,
+            start_time__date__gte=start_date,
+            start_time__date__lte=end_date,
+            end_time__isnull=False
+        ).select_related('project')
+        
+        # Daily hours data
+        daily_hours = {}
+        current_date = start_date
+        while current_date <= end_date:
+            daily_hours[current_date.isoformat()] = 0
+            current_date += timedelta(days=1)
+        
+        for session in sessions:
+            date_key = session.start_time.date().isoformat()
+            if date_key in daily_hours:
+                daily_hours[date_key] += float(session.duration_hours)
+        
+        # Project hours distribution
+        project_hours = {}
+        for session in sessions:
+            project_name = session.project.title
+            if project_name not in project_hours:
+                project_hours[project_name] = 0
+            project_hours[project_name] += float(session.duration_hours)
+        
+        # Sort by hours and take top 10
+        project_hours = dict(sorted(project_hours.items(), key=lambda x: x[1], reverse=True)[:10])
+        
+        # Weekly productivity averages
+        weekly_productivity = []
+        current_week_start = start_date
+        while current_week_start <= end_date:
+            week_end = min(current_week_start + timedelta(days=6), end_date)
+            week_sessions = sessions.filter(
+                start_time__date__gte=current_week_start,
+                start_time__date__lte=week_end,
+                productivity_rating__isnull=False
+            )
+            
+            if week_sessions.exists():
+                avg_productivity = sum(s.productivity_rating for s in week_sessions) / len(week_sessions)
+                weekly_productivity.append({
+                    'week': f"{current_week_start.strftime('%m/%d')}-{week_end.strftime('%m/%d')}",
+                    'productivity': round(avg_productivity, 1)
+                })
+            
+            current_week_start += timedelta(days=7)
+        
+        return JsonResponse({
+            'daily_hours': daily_hours,
+            'project_hours': project_hours,
+            'weekly_productivity': weekly_productivity
+        })
+        
+    except Exception as e:
+        logger.error(f"Error in chart_time_tracking_api: {str(e)}")
+        return JsonResponse({"error": "Failed to load time tracking data"}, status=500)
+
+
+@login_required
+def chart_productivity_metrics_api(request):
+    """API endpoint for productivity metrics chart data."""
+    try:
+        user_projects = Project.objects.filter(owner=request.user)
+        
+        # Task completion rate (if tasks app is available)
+        task_data = {}
+        try:
+            from tasks.models import Task
+            user_tasks = Task.objects.filter(project__owner=request.user)
+            
+            total_tasks = user_tasks.count()
+            if total_tasks > 0:
+                completed_tasks = user_tasks.filter(status='done').count()
+                in_progress_tasks = user_tasks.filter(status__in=['todo', 'in_progress', 'review']).count()
+                overdue_tasks = user_tasks.filter(
+                    due_date__lt=timezone.now().date(),
+                    status__in=['todo', 'in_progress', 'review']
+                ).count()
+                
+                task_data = {
+                    'completed': completed_tasks,
+                    'in_progress': in_progress_tasks,
+                    'overdue': overdue_tasks,
+                    'total': total_tasks,
+                    'completion_rate': round((completed_tasks / total_tasks) * 100, 1) if total_tasks > 0 else 0
+                }
+        except ImportError:
+            # Tasks app not available
+            pass
+        
+        # Project priority distribution
+        priority_data = {}
+        priority_choices = dict(Project.PRIORITY_CHOICES)
+        
+        for priority, label in priority_choices.items():
+            count = user_projects.filter(priority=priority).count()
+            if count > 0:
+                priority_data[label] = count
+        
+        # Monthly project creation trend (last 6 months)
+        monthly_projects = []
+        current_month = timezone.now().replace(day=1)
+        for i in range(6):
+            month_start = current_month - timedelta(days=i*30)
+            month_end = month_start + timedelta(days=30)
+            count = user_projects.filter(
+                created_at__gte=month_start,
+                created_at__lt=month_end
+            ).count()
+            
+            monthly_projects.append({
+                'month': month_start.strftime('%b %Y'),
+                'count': count
+            })
+        
+        monthly_projects.reverse()
+        
+        # Session productivity trend
+        productivity_trend = []
+        sessions = WorkSession.objects.filter(
+            user=request.user,
+            productivity_rating__isnull=False
+        ).order_by('-start_time')[:20]
+        
+        for session in sessions:
+            productivity_trend.append({
+                'date': session.start_time.strftime('%m/%d'),
+                'rating': session.productivity_rating,
+                'project': session.project.title[:15] + ('...' if len(session.project.title) > 15 else '')
+            })
+        
+        productivity_trend.reverse()
+        
+        return JsonResponse({
+            'task_data': task_data,
+            'priority_distribution': priority_data,
+            'monthly_projects': monthly_projects,
+            'productivity_trend': productivity_trend
+        })
+        
+    except Exception as e:
+        logger.error(f"Error in chart_productivity_metrics_api: {str(e)}")
+        return JsonResponse({"error": "Failed to load productivity metrics"}, status=500)

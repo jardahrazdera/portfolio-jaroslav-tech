@@ -362,10 +362,288 @@
                                 <p class="text-sm opacity-75">{% trans "Update your profile information" %}</p>
                             </div>
                         </a>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Charts Section -->
+        <div class="bg-theme-bg-alt rounded-2xl shadow-theme border border-theme-text/5 mb-8">
+            <div class="p-6 border-b border-theme-text/10">
+                <h2 class="text-2xl font-bold text-theme-text">
+                    {% trans "Analytics Overview" %}
+                </h2>
+            </div>
+            <div class="p-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+                    <!-- Project Progress Chart -->
+                    <div class="bg-theme-bg rounded-xl p-6 border border-theme-text/5">
+                        <h3 class="text-lg font-semibold text-theme-text mb-4">{% trans "Project Status" %}</h3>
+                        <div class="relative">
+                            <canvas id="projectStatusChart" width="300" height="300"></canvas>
+                            <div id="projectStatusLoading" class="absolute inset-0 flex items-center justify-center">
+                                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-theme-primary"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Time Tracking Chart -->
+                    <div class="bg-theme-bg rounded-xl p-6 border border-theme-text/5">
+                        <h3 class="text-lg font-semibold text-theme-text mb-4">{% trans "Time Tracking" %}</h3>
+                        <div class="relative">
+                            <canvas id="timeTrackingChart" width="400" height="300"></canvas>
+                            <div id="timeTrackingLoading" class="absolute inset-0 flex items-center justify-center">
+                                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-theme-primary"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Productivity Metrics Chart -->
+                    <div class="bg-theme-bg rounded-xl p-6 border border-theme-text/5 xl:col-span-1 lg:col-span-2">
+                        <h3 class="text-lg font-semibold text-theme-text mb-4">{% trans "Productivity Metrics" %}</h3>
+                        <div class="relative">
+                            <canvas id="productivityChart" width="400" height="300"></canvas>
+                            <div id="productivityLoading" class="absolute inset-0 flex items-center justify-center">
+                                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-theme-primary"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Catppuccin Mocha color palette
+    const catppuccin = {
+        rosewater: '#f5e0dc',
+        flamingo: '#f2cdcd',
+        pink: '#f5c2e7',
+        mauve: '#cba6f7',
+        red: '#f38ba8',
+        maroon: '#eba0ac',
+        peach: '#fab387',
+        yellow: '#f9e2af',
+        green: '#a6e3a1',
+        teal: '#94e2d5',
+        sky: '#89dceb',
+        sapphire: '#74c7ec',
+        blue: '#87ceeb',
+        lavender: '#b4befe',
+        text: '#cdd6f4',
+        subtext1: '#bac2de',
+        subtext0: '#a6adc8',
+        overlay2: '#9399b2',
+        overlay1: '#7f849c',
+        overlay0: '#6c7086',
+        surface2: '#585b70',
+        surface1: '#45475a',
+        surface0: '#313244',
+        base: '#1e1e2e',
+        mantle: '#181825',
+        crust: '#11111b'
+    };
+
+    // Common chart configuration
+    const defaultConfig = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                labels: {
+                    color: catppuccin.text,
+                    font: {
+                        family: 'JetBrains Mono'
+                    }
+                }
+            }
+        },
+        scales: {
+            y: {
+                ticks: {
+                    color: catppuccin.subtext1
+                },
+                grid: {
+                    color: catppuccin.surface0
+                }
+            },
+            x: {
+                ticks: {
+                    color: catppuccin.subtext1
+                },
+                grid: {
+                    color: catppuccin.surface0
+                }
+            }
+        }
+    };
+
+    // Initialize Project Status Chart
+    async function initProjectStatusChart() {
+        try {
+            const response = await fetch('{% url "projects:chart_project_progress_api" %}');
+            const data = await response.json();
+            
+            const ctx = document.getElementById('projectStatusChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(data.status_distribution || {}),
+                    datasets: [{
+                        data: Object.values(data.status_distribution || {}),
+                        backgroundColor: [
+                            catppuccin.green,
+                            catppuccin.yellow,
+                            catppuccin.blue,
+                            catppuccin.red,
+                            catppuccin.mauve
+                        ],
+                        borderWidth: 2,
+                        borderColor: catppuccin.base
+                    }]
+                },
+                options: {
+                    ...defaultConfig,
+                    plugins: {
+                        ...defaultConfig.plugins,
+                        title: {
+                            display: false
+                        }
+                    }
+                }
+            });
+            
+            document.getElementById('projectStatusLoading').style.display = 'none';
+        } catch (error) {
+            console.error('Error loading project status chart:', error);
+            document.getElementById('projectStatusLoading').innerHTML = 
+                '<span class="text-theme-error text-sm">{% trans "Failed to load chart" %}</span>';
+        }
+    }
+
+    // Initialize Time Tracking Chart
+    async function initTimeTrackingChart() {
+        try {
+            const response = await fetch('{% url "projects:chart_time_tracking_api" %}');
+            const data = await response.json();
+            
+            const ctx = document.getElementById('timeTrackingChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.daily_hours?.map(item => item.date) || [],
+                    datasets: [{
+                        label: '{% trans "Hours Worked" %}',
+                        data: data.daily_hours?.map(item => item.hours) || [],
+                        borderColor: catppuccin.mauve,
+                        backgroundColor: catppuccin.mauve + '20',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    ...defaultConfig,
+                    scales: {
+                        ...defaultConfig.scales,
+                        y: {
+                            ...defaultConfig.scales.y,
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: '{% trans "Hours" %}',
+                                color: catppuccin.text
+                            }
+                        }
+                    }
+                }
+            });
+            
+            document.getElementById('timeTrackingLoading').style.display = 'none';
+        } catch (error) {
+            console.error('Error loading time tracking chart:', error);
+            document.getElementById('timeTrackingLoading').innerHTML = 
+                '<span class="text-theme-error text-sm">{% trans "Failed to load chart" %}</span>';
+        }
+    }
+
+    // Initialize Productivity Metrics Chart
+    async function initProductivityChart() {
+        try {
+            const response = await fetch('{% url "projects:chart_productivity_metrics_api" %}');
+            const data = await response.json();
+            
+            const ctx = document.getElementById('productivityChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.monthly_trends?.map(item => item.month) || [],
+                    datasets: [{
+                        label: '{% trans "Tasks Completed" %}',
+                        data: data.monthly_trends?.map(item => item.tasks_completed) || [],
+                        backgroundColor: catppuccin.green + '80',
+                        borderColor: catppuccin.green,
+                        borderWidth: 1
+                    }, {
+                        label: '{% trans "Avg Productivity" %}',
+                        data: data.monthly_trends?.map(item => item.avg_productivity) || [],
+                        backgroundColor: catppuccin.peach + '80',
+                        borderColor: catppuccin.peach,
+                        borderWidth: 1,
+                        type: 'line',
+                        yAxisID: 'y1'
+                    }]
+                },
+                options: {
+                    ...defaultConfig,
+                    scales: {
+                        ...defaultConfig.scales,
+                        y: {
+                            ...defaultConfig.scales.y,
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: '{% trans "Tasks" %}',
+                                color: catppuccin.text
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: '{% trans "Productivity Score" %}',
+                                color: catppuccin.text
+                            },
+                            ticks: {
+                                color: catppuccin.subtext1
+                            },
+                            grid: {
+                                drawOnChartArea: false,
+                            },
+                        }
+                    }
+                }
+            });
+            
+            document.getElementById('productivityLoading').style.display = 'none';
+        } catch (error) {
+            console.error('Error loading productivity chart:', error);
+            document.getElementById('productivityLoading').innerHTML = 
+                '<span class="text-theme-error text-sm">{% trans "Failed to load chart" %}</span>';
+        }
+    }
+
+    // Initialize all charts
+    initProjectStatusChart();
+    initTimeTrackingChart();
+    initProductivityChart();
+});
+</script>
+
 {% endblock %}
