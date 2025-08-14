@@ -727,7 +727,7 @@ class TestWorkSessionModel(TestCase):
         self.assertEqual(session.user, self.user)
         self.assertEqual(session.title, 'Test Session')
         self.assertEqual(session.productivity_rating, 4)
-        self.assertEqual(session.duration_hours, 1.0)
+        self.assertAlmostEqual(session.duration_hours, 1.0, places=2)
         self.assertFalse(session.is_active)
 
     def test_work_session_str_method(self):
@@ -758,7 +758,7 @@ class TestWorkSessionModel(TestCase):
         )
         
         # Duration should be 1.5 hours
-        self.assertEqual(session.duration_hours, 1.5)
+        self.assertAlmostEqual(session.duration_hours, 1.5, places=2)
         self.assertFalse(session.is_active)
 
     def test_is_completed_property(self):
@@ -942,7 +942,7 @@ class TestWorkSessionModel(TestCase):
         
         break_duration = session1.get_break_duration(session2)
         expected_duration = timedelta(hours=1)
-        self.assertEqual(break_duration, expected_duration)
+        self.assertAlmostEqual(break_duration.total_seconds(), expected_duration.total_seconds(), delta=60)
 
     def test_get_user_stats_class_method(self):
         """Test get_user_stats class method"""

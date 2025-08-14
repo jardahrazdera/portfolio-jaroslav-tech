@@ -1,312 +1,457 @@
-{% extends "core/base.html" %}
-{% load i18n %}
-
-{% block title %}{{ task.title }} - {% trans "Tasks" %} - {{ site_settings.site_name }}{% endblock %}
-
-{% block content %}
-<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <\!-- Header -->
-    <div class="mb-8">
-        <div class="flex flex-col md:flex-row md:items-start md:justify-between">
-            <div class="flex-1">
-                <div class="flex items-center space-x-3 mb-4">
-                    <h1 class="text-3xl font-bold text-text">{{ task.title }}</h1>
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ task.status_color }}">
-                        {{ task.get_status_display }}
-                    </span>
-                    {% if task.is_overdue %}
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
-                            {% trans "Overdue" %}
-                        </span>
+{% load static i18n %}
+<!DOCTYPE html>
+<html lang="{% get_current_language as LANGUAGE_CODE %}{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevFlow - {{ task.title }}</title>
+    
+    <link rel="shortcut icon" href="{% static 'core/assets/favicon.svg' %}">
+    <link rel="stylesheet" href="{% static 'core/css/base.css' %}">
+    
+    {# Chart.js CDN #}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.min.js"></script>
+    
+    {# Tailwind CSS CDN with custom configuration #}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'catppuccin': {
+                            'base': 'var(--base)',
+                            'mantle': 'var(--mantle)',
+                            'crust': 'var(--crust)',
+                            'text': 'var(--text)',
+                            'subtext': 'var(--subtext)',
+                            'overlay': 'var(--overlay)',
+                            'mauve': 'var(--mauve)',
+                            'pink': 'var(--pink)',
+                            'maroon': 'var(--maroon)',
+                            'peach': 'var(--peach)',
+                            'yellow': 'var(--yellow)',
+                            'green': 'var(--green)',
+                            'teal': 'var(--teal)',
+                            'sky': 'var(--sky)',
+                            'sapphire': 'var(--sapphire)',
+                            'blue': 'var(--blue)',
+                            'lavender': 'var(--lavender)'
+                        },
+                        'theme': {
+                            'bg': 'var(--base)',
+                            'bg-alt': 'var(--mantle)',
+                            'bg-accent': 'var(--crust)',
+                            'text': 'var(--text)',
+                            'text-muted': 'var(--subtext)',
+                            'text-subtle': 'var(--overlay)',
+                            'primary': 'var(--mauve)',
+                            'secondary': 'var(--pink)',
+                            'accent': 'var(--peach)',
+                            'error': 'var(--maroon)',
+                            'success': 'var(--green)',
+                            'warning': 'var(--yellow)',
+                            'info': 'var(--blue)',
+                            'teal': 'var(--teal)',
+                            'sky': 'var(--sky)',
+                            'sapphire': 'var(--sapphire)',
+                            'lavender': 'var(--lavender)'
+                        }
+                    },
+                    fontFamily: {
+                        'mono': ['JetBrains Mono', 'monospace'],
+                        'code': ['JetBrains Mono', 'monospace']
+                    }
+                },
+            },
+            corePlugins: {
+                preflight: false
+            }
+        }
+    </script>
+</head>
+<body>
+<!-- DevFlow Header -->
+<header class="bg-theme-bg-alt py-4 fixed w-full top-0 z-50 shadow-theme transition-colors duration-300 border-b-2 border-theme-info">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+        <div class="flex items-center space-x-8">
+            <a href="{% url 'projects:project_list' %}" class="text-3xl font-bold text-theme-info hover:text-theme-sapphire transition-colors">DevFlow</a>
+            <nav>
+                <ul class="flex items-center space-x-6">
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'projects:dashboard' %}" class="text-theme-text-muted hover:text-theme-primary transition-colors duration-200">{% trans "Dashboard" %}</a></li>
+                        <li><a href="{% url 'projects:project_list' %}" class="text-theme-text-muted hover:text-theme-primary transition-colors duration-200">{% trans "Projects" %}</a></li>
+                        <li><a href="{% url 'tasks:task_list' %}" class="text-theme-text-muted hover:text-theme-primary transition-colors duration-200 font-bold">{% trans "Tasks" %}</a></li>
+                        <li><a href="#" class="text-theme-text-subtle hover:text-theme-text-muted transition-colors duration-200">{% trans "Reports" %}</a></li>
+                        <li><a href="#" class="text-theme-text-subtle hover:text-theme-text-muted transition-colors duration-200">{% trans "Analytics" %}</a></li>
+                        <li><a href="#" class="text-theme-text-subtle hover:text-theme-text-muted transition-colors duration-200">{% trans "Team" %}</a></li>
+                        <li><a href="#" class="text-theme-text-subtle hover:text-theme-text-muted transition-colors duration-200">{% trans "Settings" %}</a></li>
+                    {% else %}
+                        <li><a href="{% url 'projects:project_list' %}" class="text-theme-text-muted hover:text-theme-primary transition-colors duration-200">{% trans "Browse Projects" %}</a></li>
+                        <li><a href="#" class="text-theme-text-subtle hover:text-theme-text-muted transition-colors duration-200">{% trans "Features" %}</a></li>
+                        <li><a href="#" class="text-theme-text-subtle hover:text-theme-text-muted transition-colors duration-200">{% trans "Pricing" %}</a></li>
                     {% endif %}
-                </div>
-                <nav class="flex" aria-label="Breadcrumb">
-                    <ol class="flex items-center space-x-2">
-                        <li>
-                            <a href="{% url 'tasks:task_list' %}" class="text-subtext1 hover:text-text">
-                                {% trans "Tasks" %}
-                            </a>
-                        </li>
-                        <li>
-                            <span class="text-subtext1">/</span>
-                        </li>
-                        <li>
-                            <a href="{% url 'projects:project_detail' task.project.id %}" class="text-subtext1 hover:text-text">
-                                {{ task.project.title }}
-                            </a>
-                        </li>
-                        <li>
-                            <span class="text-subtext1">/</span>
-                        </li>
-                        <li class="text-text">{{ task.title|truncatechars:30 }}</li>
-                    </ol>
-                </nav>
-            </div>
-            
-            {% if can_edit %}
-                <div class="mt-4 md:mt-0 flex space-x-3">
-                    {% if task.status \!= 'done' %}
-                        <form method="post" action="{% url 'tasks:mark_complete' task.id %}" class="inline">
-                            {% csrf_token %}
-                            <button type="submit" 
-                                    class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-base bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                                {% trans "Mark Complete" %}
-                            </button>
-                        </form>
-                    {% endif %}
-                    <a href="{% url 'tasks:task_update' task.id %}" 
-                       class="inline-flex items-center px-4 py-2 border border-overlay rounded-lg shadow-sm text-sm font-medium text-text bg-surface0 hover:bg-surface1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
-                        {% trans "Edit" %}
-                    </a>
-                </div>
+                </ul>
+            </nav>
+        </div>
+        <div class="flex items-center space-x-6">
+            {% if user.is_authenticated %}
+                <span class="text-theme-text-muted">{{ user.username }}</span>
+                <a href="{% url 'admin:logout' %}" class="text-theme-error hover:text-theme-maroon transition-colors duration-200">{% trans "Logout" %}</a>
+            {% else %}
+                <a href="{% url 'admin:login' %}?next={{ request.path }}" class="bg-theme-info text-theme-bg px-4 py-2 rounded-lg hover:bg-theme-sapphire transition-colors duration-200">{% trans "Login" %}</a>
             {% endif %}
+            <a href="{% url 'core:index' %}" class="text-theme-text-subtle hover:text-theme-text-muted transition-colors duration-200">{% trans "Portfolio" %}</a>
+            
+            {% get_current_language as LANGUAGE_CODE %}
+            {% if LANGUAGE_CODE == 'en' %}
+                <a href="/cs{{ request.get_full_path | slice:'3:' }}" class="flex items-center gap-2 text-theme-text-subtle hover:text-theme-text-muted transition-colors duration-200">
+                    <img src="{% static 'core/assets/czech-republic.svg' %}" alt="Czech Flag" class="w-5 h-5 rounded-full object-cover">
+                </a>
+            {% elif LANGUAGE_CODE == 'cs' %}
+                <a href="/en{{ request.get_full_path | slice:'3:' }}" class="flex items-center gap-2 text-theme-text-subtle hover:text-theme-text-muted transition-colors duration-200">
+                    <img src="{% static 'core/assets/united-states.svg' %}" alt="USA Flag" class="w-5 h-5 rounded-full object-cover">
+                </a>
+            {% endif %}
+            
+            <button class="bg-transparent border-none cursor-pointer text-theme-text rounded-full transition-all duration-300 w-10 h-10 p-1 flex justify-center items-center hover:bg-theme-bg-accent theme-toggle-btn" aria-label="{% trans 'Toggle theme' %}">
+                <svg class="w-full h-full" viewBox="0 0 512 512" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path id="moon-part" d="M349.852,343.15c-49.875,49.916-131.083,49.916-181,0c-49.916-49.918-49.916-131.125,0-181.021  c13.209-13.187,29.312-23.25,47.832-29.812c5.834-2.042,12.293-0.562,16.625,3.792c4.376,4.375,5.855,10.833,3.793,16.625  c-12.542,35.375-4,73.666,22.25,99.917c26.209,26.228,64.5,34.75,99.916,22.25c5.792-2.062,12.271-0.582,16.625,3.793  c4.376,4.332,5.834,10.812,3.771,16.625C373.143,313.838,363.60,329.941,349.852,343.15z M191.477,184.754  c-37.438,37.438-37.438,98.354,0,135.771c40,40.021,108.125,36.416,143-8.168c-35.959,2.25-71.375-10.729-97.75-37.084  c-26.375-26.354-39.333-61.771-37.084-97.729C196.769,179.796,194.039,182.192,191.477,184.754z"/>
+                    <path id="sun-part" d="M256,144c-61.75,0-112,50.25-112,112s50.25,112,112,112s112-50.25,112-112S317.75,144,256,144z M256,336 c-44.188,0-80-35.812-80-80c0-44.188,35.812-80,80-80c44.188,0,80,35.812,80,80C336,300.188,300.188,336,256,336z M256,112 c8.833,0,16-7.167,16-16V64c0-8.833-7.167-16-16-16s-16,7.167-16,16v32C240,104.833,247.167,112,256,112z M256,400 c-8.833,0-16,7.167-16,16v32c0,8.833,7.167,16,16,16s16-7.167,16-16v-32C272,407.167,264.833,400,256,400z M380.438,154.167 l22.625-22.625c6.25-6.25,6.25-16.375,0-22.625s-16.375-6.25-22.625,0l-22.625,22.625c-6.25,6.25-6.25,16.375,0,22.625 S374.188,160.417,380.438,154.167z M131.562,357.834l-22.625,22.625c-6.25,6.249-6.25,16.374,0,22.624s16.375,6.25,22.625,0 l22.625-22.624c6.25-6.271,6.25-16.376,0-22.625C147.938,351.583,137.812,351.562,131.562,357.834z M112,256 c0-8.833-7.167-16-16-16H64c-8.833,0-16,7.167-16,16s7.167,16,16,16h32C104.833,272,112,264.833,112,256z M448,240h-32 c-8.833,0-16,7.167-16,16s7.167,16,16,16h32c8.833,0,16-7.167,16-16S456.833,240,448,240z M131.541,154.167 c6.251,6.25,16.376,6.25,22.625,0c6.251-6.25,6.251-16.375,0-22.625l-22.625-22.625c-6.25-6.25-16.374-6.25-22.625,0 c-6.25,6.25-6.25,16.375,0,22.625L131.541,154.167z M380.459,357.812c-6.271-6.25-16.376-6.25-22.625,0 c-6.251,6.25-6.271,16.375,0,22.625l22.625,22.625c6.249,6.25,16.374,6.25,22.624,0s6.25-16.375,0-22.625L380.459,357.812z"/>
+                </svg>
+            </button>
         </div>
     </div>
+</header>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <\!-- Main Content -->
-        <div class="lg:col-span-2 space-y-8">
-            <\!-- Task Details -->
-            <div class="bg-surface0 rounded-lg p-6">
-                <h2 class="text-xl font-semibold text-text mb-4">{% trans "Details" %}</h2>
+<main class="pt-20">
+
+<div class="min-h-screen bg-theme-bg py-8">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="flex flex-col md:flex-row md:items-start md:justify-between">
+                <div class="flex-1">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <h1 class="text-3xl font-bold text-theme-text">{{ task.title }}</h1>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ task.status_color }}">
+                            {{ task.get_status_display }}
+                        </span>
+                        {% if task.is_overdue %}
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-theme-error/20 text-theme-error">
+                                {% trans "Overdue" %}
+                            </span>
+                        {% endif %}
+                    </div>
+                    <nav class="flex" aria-label="Breadcrumb">
+                        <ol class="flex items-center space-x-2">
+                            <li>
+                                <a href="{% url 'tasks:task_list' %}" class="text-theme-text-muted hover:text-theme-text">
+                                    {% trans "Tasks" %}
+                                </a>
+                            </li>
+                            <li>
+                                <span class="text-theme-text-muted">/</span>
+                            </li>
+                            <li>
+                                <a href="{% url 'projects:project_detail' task.project.id %}" class="text-theme-text-muted hover:text-theme-text">
+                                    {{ task.project.title }}
+                                </a>
+                            </li>
+                            <li>
+                                <span class="text-theme-text-muted">/</span>
+                            </li>
+                            <li class="text-theme-text">{{ task.title|truncatechars:30 }}</li>
+                        </ol>
+                    </nav>
+                </div>
                 
-                {% if task.description %}
-                    <div class="mb-6">
-                        <h3 class="text-sm font-medium text-subtext1 mb-2">{% trans "Description" %}</h3>
-                        <div class="text-text whitespace-pre-wrap">{{ task.description }}</div>
+                {% if can_edit %}
+                    <div class="mt-4 md:mt-0 flex space-x-3">
+                        {% if task.status != 'done' %}
+                            <form method="post" action="{% url 'tasks:mark_complete' task.id %}" class="inline">
+                                {% csrf_token %}
+                                <button type="submit" 
+                                        class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-theme-bg bg-theme-success hover:bg-theme-success/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-theme-success">
+                                    {% trans "Mark Complete" %}
+                                </button>
+                            </form>
+                        {% endif %}
+                        <a href="{% url 'tasks:task_update' task.id %}" 
+                           class="inline-flex items-center px-4 py-2 border border-theme-text/20 rounded-lg shadow-sm text-sm font-medium text-theme-text bg-theme-bg-alt hover:bg-theme-bg-accent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-theme-primary">
+                            {% trans "Edit" %}
+                        </a>
                     </div>
                 {% endif %}
+            </div>
+        </div>
 
-                <\!-- Progress Bar -->
-                <div class="mb-6">
-                    <div class="flex justify-between items-center mb-2">
-                        <h3 class="text-sm font-medium text-subtext1">{% trans "Progress" %}</h3>
-                        <span class="text-sm text-text">{{ task.progress_percentage }}%</span>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Main Content -->
+            <div class="lg:col-span-2 space-y-8">
+                <!-- Task Details -->
+                <div class="bg-theme-bg-alt rounded-lg p-6">
+                    <h2 class="text-xl font-semibold text-theme-text mb-4">{% trans "Details" %}</h2>
+                    
+                    {% if task.description %}
+                        <div class="mb-6">
+                            <h3 class="text-sm font-medium text-theme-text-muted mb-2">{% trans "Description" %}</h3>
+                            <div class="text-theme-text whitespace-pre-wrap">{{ task.description }}</div>
+                        </div>
+                    {% endif %}
+
+                    <!-- Progress Bar -->
+                    <div class="mb-6">
+                        <div class="flex justify-between items-center mb-2">
+                            <h3 class="text-sm font-medium text-theme-text-muted">{% trans "Progress" %}</h3>
+                            <span class="text-sm text-theme-text">{{ task.progress_percentage }}%</span>
+                        </div>
+                        <div class="w-full bg-theme-text/20 rounded-full h-3">
+                            <div class="bg-theme-primary h-3 rounded-full transition-all duration-300" style="width: {{ task.progress_percentage }}%"></div>
+                        </div>
                     </div>
-                    <div class="w-full bg-overlay rounded-full h-3">
-                        <div class="bg-mauve h-3 rounded-full transition-all duration-300" style="width: {{ task.progress_percentage }}%"></div>
-                    </div>
+
+                    <!-- Tags -->
+                    {% if task.tags %}
+                        <div class="mb-6">
+                            <h3 class="text-sm font-medium text-theme-text-muted mb-2">{% trans "Tags" %}</h3>
+                            <div class="flex flex-wrap gap-2">
+                                {% for tag in task.tags|split:',' %}
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-theme-bg-accent text-theme-text">
+                                        {{ tag|trim }}
+                                    </span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <!-- External URL -->
+                    {% if task.external_url %}
+                        <div class="mb-6">
+                            <h3 class="text-sm font-medium text-theme-text-muted mb-2">{% trans "External Resource" %}</h3>
+                            <a href="{{ task.external_url }}" target="_blank" rel="noopener noreferrer" 
+                               class="text-theme-primary hover:text-theme-secondary text-sm flex items-center">
+                                {{ task.external_url }}
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    <!-- Notes -->
+                    {% if task.notes %}
+                        <div>
+                            <h3 class="text-sm font-medium text-theme-text-muted mb-2">{% trans "Notes" %}</h3>
+                            <div class="text-theme-text whitespace-pre-wrap text-sm bg-theme-bg-accent p-4 rounded-lg">{{ task.notes }}</div>
+                        </div>
+                    {% endif %}
                 </div>
 
-                <\!-- Tags -->
-                {% if task.tags %}
-                    <div class="mb-6">
-                        <h3 class="text-sm font-medium text-subtext1 mb-2">{% trans "Tags" %}</h3>
-                        <div class="flex flex-wrap gap-2">
-                            {% for tag in task.tags|split:',' %}
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-surface1 text-text">
-                                    {{ tag|trim }}
-                                </span>
+                <!-- Subtasks -->
+                {% if subtasks %}
+                    <div class="bg-theme-bg-alt rounded-lg p-6">
+                        <h2 class="text-xl font-semibold text-theme-text mb-4">{% trans "Subtasks" %}</h2>
+                        <div class="space-y-3">
+                            {% for subtask in subtasks %}
+                                <div class="flex items-center justify-between p-3 border border-theme-text/20 rounded-lg">
+                                    <div class="flex items-center space-x-3">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ subtask.status_color }}">
+                                            {{ subtask.get_status_display }}
+                                        </span>
+                                        <a href="{{ subtask.get_absolute_url }}" class="text-theme-text hover:text-theme-primary">
+                                            {{ subtask.title }}
+                                        </a>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-16 bg-theme-text/20 rounded-full h-2">
+                                            <div class="bg-theme-primary h-2 rounded-full" style="width: {{ subtask.progress_percentage }}%"></div>
+                                        </div>
+                                        <span class="text-xs text-theme-text-muted">{{ subtask.progress_percentage }}%</span>
+                                    </div>
+                                </div>
                             {% endfor %}
                         </div>
                     </div>
                 {% endif %}
 
-                <\!-- External URL -->
-                {% if task.external_url %}
-                    <div class="mb-6">
-                        <h3 class="text-sm font-medium text-subtext1 mb-2">{% trans "External Resource" %}</h3>
-                        <a href="{{ task.external_url }}" target="_blank" rel="noopener noreferrer" 
-                           class="text-mauve hover:text-mauve/80 text-sm flex items-center">
-                            {{ task.external_url }}
-                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                            </svg>
-                        </a>
-                    </div>
-                {% endif %}
-
-                <\!-- Notes -->
-                {% if task.notes %}
-                    <div>
-                        <h3 class="text-sm font-medium text-subtext1 mb-2">{% trans "Notes" %}</h3>
-                        <div class="text-text whitespace-pre-wrap text-sm bg-surface1 p-4 rounded-lg">{{ task.notes }}</div>
-                    </div>
-                {% endif %}
-            </div>
-
-            <\!-- Subtasks -->
-            {% if subtasks %}
-                <div class="bg-surface0 rounded-lg p-6">
-                    <h2 class="text-xl font-semibold text-text mb-4">{% trans "Subtasks" %}</h2>
-                    <div class="space-y-3">
-                        {% for subtask in subtasks %}
-                            <div class="flex items-center justify-between p-3 border border-overlay rounded-lg">
-                                <div class="flex items-center space-x-3">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ subtask.status_color }}">
-                                        {{ subtask.get_status_display }}
-                                    </span>
-                                    <a href="{{ subtask.get_absolute_url }}" class="text-text hover:text-mauve">
-                                        {{ subtask.title }}
-                                    </a>
-                                </div>
-                                <div class="flex items-center space-x-2">
-                                    <div class="w-16 bg-overlay rounded-full h-2">
-                                        <div class="bg-mauve h-2 rounded-full" style="width: {{ subtask.progress_percentage }}%"></div>
-                                    </div>
-                                    <span class="text-xs text-subtext1">{{ subtask.progress_percentage }}%</span>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            {% endif %}
-
-            <\!-- Dependencies -->
-            {% if dependencies %}
-                <div class="bg-surface0 rounded-lg p-6">
-                    <h2 class="text-xl font-semibold text-text mb-4">{% trans "Dependencies" %}</h2>
-                    <div class="space-y-3">
-                        {% for dep in dependencies %}
-                            <div class="flex items-center justify-between p-3 border border-overlay rounded-lg">
-                                <div class="flex items-center space-x-3">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ dep.status_color }}">
-                                        {{ dep.get_status_display }}
-                                    </span>
-                                    <a href="{{ dep.get_absolute_url }}" class="text-text hover:text-mauve">
-                                        {{ dep.title }}
-                                    </a>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            {% endif %}
-
-            <\!-- Comments -->
-            <div class="bg-surface0 rounded-lg p-6">
-                <h2 class="text-xl font-semibold text-text mb-4">{% trans "Comments" %}</h2>
-                
-                <\!-- Add Comment Form -->
-                <form method="post" action="{% url 'tasks:add_comment' task.id %}" class="mb-6">
-                    {% csrf_token %}
-                    <div class="mb-4">
-                        {{ comment_form.content }}
-                    </div>
-                    <button type="submit" 
-                            class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-base bg-mauve hover:bg-mauve/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
-                        {% trans "Add Comment" %}
-                    </button>
-                </form>
-
-                <\!-- Comments List -->
-                {% if task.comments.all %}
-                    <div class="space-y-4">
-                        {% for comment in task.comments.all %}
-                            <div class="border border-overlay rounded-lg p-4">
-                                <div class="flex items-center justify-between mb-2">
-                                    <div class="flex items-center space-x-2">
-                                        <span class="font-medium text-text">{{ comment.author.username }}</span>
-                                        <span class="text-sm text-subtext1">{{ comment.created_at|date:"M d, Y H:i" }}</span>
+                <!-- Dependencies -->
+                {% if dependencies %}
+                    <div class="bg-theme-bg-alt rounded-lg p-6">
+                        <h2 class="text-xl font-semibold text-theme-text mb-4">{% trans "Dependencies" %}</h2>
+                        <div class="space-y-3">
+                            {% for dep in dependencies %}
+                                <div class="flex items-center justify-between p-3 border border-theme-text/20 rounded-lg">
+                                    <div class="flex items-center space-x-3">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ dep.status_color }}">
+                                            {{ dep.get_status_display }}
+                                        </span>
+                                        <a href="{{ dep.get_absolute_url }}" class="text-theme-text hover:text-theme-primary">
+                                            {{ dep.title }}
+                                        </a>
                                     </div>
                                 </div>
-                                <div class="text-text whitespace-pre-wrap">{{ comment.content }}</div>
-                            </div>
-                        {% endfor %}
+                            {% endfor %}
+                        </div>
                     </div>
-                {% else %}
-                    <p class="text-subtext1 text-sm">{% trans "No comments yet. Be the first to comment\!" %}</p>
                 {% endif %}
-            </div>
-        </div>
 
-        <\!-- Sidebar -->
-        <div class="space-y-6">
-            <\!-- Task Information -->
-            <div class="bg-surface0 rounded-lg p-6">
-                <h3 class="text-lg font-semibold text-text mb-4">{% trans "Information" %}</h3>
-                <dl class="space-y-3">
-                    <div>
-                        <dt class="text-sm font-medium text-subtext1">{% trans "Project" %}</dt>
-                        <dd class="text-sm text-text">
-                            <a href="{% url 'projects:project_detail' task.project.id %}" class="text-mauve hover:text-mauve/80">
-                                {{ task.project.title }}
+                <!-- Comments -->
+                <div class="bg-theme-bg-alt rounded-lg p-6">
+                    <h2 class="text-xl font-semibold text-theme-text mb-4">{% trans "Comments" %}</h2>
+                    
+                    <!-- Add Comment Form -->
+                    <form method="post" action="{% url 'tasks:add_comment' task.id %}" class="mb-6">
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            {{ comment_form.content }}
+                        </div>
+                        <button type="submit" 
+                                class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-theme-bg bg-theme-primary hover:bg-theme-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-theme-primary">
+                            {% trans "Add Comment" %}
+                        </button>
+                    </form>
+
+                    <!-- Comments List -->
+                    {% if task.comments.all %}
+                        <div class="space-y-4">
+                            {% for comment in task.comments.all %}
+                                <div class="border border-theme-text/20 rounded-lg p-4">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center space-x-2">
+                                            <span class="font-medium text-theme-text">{{ comment.author.username }}</span>
+                                            <span class="text-sm text-theme-text-muted">{{ comment.created_at|date:"M d, Y H:i" }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-theme-text whitespace-pre-wrap">{{ comment.content }}</div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-theme-text-muted text-sm">{% trans "No comments yet. Be the first to comment!" %}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <!-- Task Information -->
+                <div class="bg-theme-bg-alt rounded-lg p-6">
+                    <h3 class="text-lg font-semibold text-theme-text mb-4">{% trans "Information" %}</h3>
+                    <dl class="space-y-3">
+                        <div>
+                            <dt class="text-sm font-medium text-theme-text-muted">{% trans "Project" %}</dt>
+                            <dd class="text-sm text-theme-text">
+                                <a href="{% url 'projects:project_detail' task.project.id %}" class="text-theme-primary hover:text-theme-secondary">
+                                    {{ task.project.title }}
+                                </a>
+                            </dd>
+                        </div>
+                        
+                        <div>
+                            <dt class="text-sm font-medium text-theme-text-muted">{% trans "Priority" %}</dt>
+                            <dd class="text-sm {{ task.priority_color }}">{{ task.get_priority_display }}</dd>
+                        </div>
+                        
+                        <div>
+                            <dt class="text-sm font-medium text-theme-text-muted">{% trans "Type" %}</dt>
+                            <dd class="text-sm text-theme-text">{{ task.get_task_type_display }}</dd>
+                        </div>
+                        
+                        <div>
+                            <dt class="text-sm font-medium text-theme-text-muted">{% trans "Assignee" %}</dt>
+                            <dd class="text-sm text-theme-text">
+                                {% if task.assignee %}
+                                    {{ task.assignee.username }}
+                                {% else %}
+                                    <span class="text-theme-text-muted">{% trans "Unassigned" %}</span>
+                                {% endif %}
+                            </dd>
+                        </div>
+                        
+                        <div>
+                            <dt class="text-sm font-medium text-theme-text-muted">{% trans "Creator" %}</dt>
+                            <dd class="text-sm text-theme-text">{{ task.creator.username }}</dd>
+                        </div>
+                        
+                        {% if task.start_date %}
+                            <div>
+                                <dt class="text-sm font-medium text-theme-text-muted">{% trans "Start Date" %}</dt>
+                                <dd class="text-sm text-theme-text">{{ task.start_date|date:"M d, Y" }}</dd>
+                            </div>
+                        {% endif %}
+                        
+                        {% if task.due_date %}
+                            <div>
+                                <dt class="text-sm font-medium text-theme-text-muted">{% trans "Due Date" %}</dt>
+                                <dd class="text-sm text-theme-text">{{ task.due_date|date:"M d, Y" }}</dd>
+                            </div>
+                        {% endif %}
+                        
+                        {% if task.estimated_hours %}
+                            <div>
+                                <dt class="text-sm font-medium text-theme-text-muted">{% trans "Estimated Hours" %}</dt>
+                                <dd class="text-sm text-theme-text">{{ task.estimated_hours }}</dd>
+                            </div>
+                        {% endif %}
+                        
+                        <div>
+                            <dt class="text-sm font-medium text-theme-text-muted">{% trans "Created" %}</dt>
+                            <dd class="text-sm text-theme-text">{{ task.created_at|date:"M d, Y H:i" }}</dd>
+                        </div>
+                        
+                        <div>
+                            <dt class="text-sm font-medium text-theme-text-muted">{% trans "Updated" %}</dt>
+                            <dd class="text-sm text-theme-text">{{ task.updated_at|date:"M d, Y H:i" }}</dd>
+                        </div>
+                    </dl>
+                </div>
+
+                <!-- Task Actions -->
+                {% if can_edit %}
+                    <div class="bg-theme-bg-alt rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-theme-text mb-4">{% trans "Actions" %}</h3>
+                        <div class="space-y-3">
+                            <a href="{% url 'tasks:task_update' task.id %}" 
+                               class="block w-full text-center px-4 py-2 border border-theme-text/20 rounded-lg text-sm font-medium text-theme-text bg-theme-bg-accent hover:bg-theme-text/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-theme-primary">
+                                {% trans "Edit Task" %}
                             </a>
-                        </dd>
-                    </div>
-                    
-                    <div>
-                        <dt class="text-sm font-medium text-subtext1">{% trans "Priority" %}</dt>
-                        <dd class="text-sm {{ task.priority_color }}">{{ task.get_priority_display }}</dd>
-                    </div>
-                    
-                    <div>
-                        <dt class="text-sm font-medium text-subtext1">{% trans "Type" %}</dt>
-                        <dd class="text-sm text-text">{{ task.get_task_type_display }}</dd>
-                    </div>
-                    
-                    <div>
-                        <dt class="text-sm font-medium text-subtext1">{% trans "Assignee" %}</dt>
-                        <dd class="text-sm text-text">
-                            {% if task.assignee %}
-                                {{ task.assignee.username }}
-                            {% else %}
-                                <span class="text-subtext1">{% trans "Unassigned" %}</span>
-                            {% endif %}
-                        </dd>
-                    </div>
-                    
-                    <div>
-                        <dt class="text-sm font-medium text-subtext1">{% trans "Creator" %}</dt>
-                        <dd class="text-sm text-text">{{ task.creator.username }}</dd>
-                    </div>
-                    
-                    {% if task.start_date %}
-                        <div>
-                            <dt class="text-sm font-medium text-subtext1">{% trans "Start Date" %}</dt>
-                            <dd class="text-sm text-text">{{ task.start_date|date:"M d, Y" }}</dd>
+                            
+                            <a href="{% url 'tasks:task_create_for_project' task.project.id %}" 
+                               class="block w-full text-center px-4 py-2 border border-theme-text/20 rounded-lg text-sm font-medium text-theme-text bg-theme-bg-accent hover:bg-theme-text/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-theme-primary">
+                                {% trans "Create Subtask" %}
+                            </a>
+                            
+                            <a href="{% url 'tasks:task_delete' task.id %}" 
+                               class="block w-full text-center px-4 py-2 border border-theme-error/30 rounded-lg text-sm font-medium text-theme-error bg-theme-error/10 hover:bg-theme-error/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-theme-error">
+                                {% trans "Delete Task" %}
+                            </a>
                         </div>
-                    {% endif %}
-                    
-                    {% if task.due_date %}
-                        <div>
-                            <dt class="text-sm font-medium text-subtext1">{% trans "Due Date" %}</dt>
-                            <dd class="text-sm text-text">{{ task.due_date|date:"M d, Y" }}</dd>
-                        </div>
-                    {% endif %}
-                    
-                    {% if task.estimated_hours %}
-                        <div>
-                            <dt class="text-sm font-medium text-subtext1">{% trans "Estimated Hours" %}</dt>
-                            <dd class="text-sm text-text">{{ task.estimated_hours }}</dd>
-                        </div>
-                    {% endif %}
-                    
-                    <div>
-                        <dt class="text-sm font-medium text-subtext1">{% trans "Created" %}</dt>
-                        <dd class="text-sm text-text">{{ task.created_at|date:"M d, Y H:i" }}</dd>
                     </div>
-                    
-                    <div>
-                        <dt class="text-sm font-medium text-subtext1">{% trans "Updated" %}</dt>
-                        <dd class="text-sm text-text">{{ task.updated_at|date:"M d, Y H:i" }}</dd>
-                    </div>
-                </dl>
+                {% endif %}
             </div>
-
-            <\!-- Task Actions -->
-            {% if can_edit %}
-                <div class="bg-surface0 rounded-lg p-6">
-                    <h3 class="text-lg font-semibold text-text mb-4">{% trans "Actions" %}</h3>
-                    <div class="space-y-3">
-                        <a href="{% url 'tasks:task_update' task.id %}" 
-                           class="block w-full text-center px-4 py-2 border border-overlay rounded-lg text-sm font-medium text-text bg-surface1 hover:bg-surface2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
-                            {% trans "Edit Task" %}
-                        </a>
-                        
-                        <a href="{% url 'tasks:task_create_for_project' task.project.id %}" 
-                           class="block w-full text-center px-4 py-2 border border-overlay rounded-lg text-sm font-medium text-text bg-surface1 hover:bg-surface2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mauve">
-                            {% trans "Create Subtask" %}
-                        </a>
-                        
-                        <a href="{% url 'tasks:task_delete' task.id %}" 
-                           class="block w-full text-center px-4 py-2 border border-red-300 rounded-lg text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                            {% trans "Delete Task" %}
-                        </a>
-                    </div>
-                </div>
-            {% endif %}
         </div>
     </div>
 </div>
-{% endblock %}
+
+</main>
+
+<!-- DevFlow Footer -->
+<footer class="bg-theme-bg-accent text-center py-6 text-sm text-theme-text-muted transition-colors duration-300 border-t border-theme-text/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+            <div class="mb-4 md:mb-0">
+                <p>&copy; {% now "Y" %} DevFlow. {% trans "All rights reserved." %}</p>
+            </div>
+            <div class="flex items-center space-x-6">
+                <a href="{% url 'core:index' %}" class="text-theme-text-subtle hover:text-theme-text-muted transition-colors duration-200">{% trans "Portfolio Home" %}</a>
+                <span class="text-theme-text-subtle">|</span>
+                <span class="text-theme-text-muted">{% trans "Catppuccin Theme" %}</span>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="{% static 'core/js/main.js' %}"></script>
+</body>
+</html>

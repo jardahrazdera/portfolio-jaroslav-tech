@@ -914,7 +914,7 @@ def chart_project_progress_api(request):
         for project in user_projects.select_related().order_by('-updated_at')[:10]:
             completion_data.append({
                 'name': project.title[:20] + ('...' if len(project.title) > 20 else ''),
-                'completion': project.completion_percentage
+                'completion': project.progress_percentage
             })
         
         return JsonResponse({

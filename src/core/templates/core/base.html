@@ -47,9 +47,330 @@ Version with a robust language switcher.
     
     <link rel="shortcut icon" href="{% static 'core/assets/favicon.svg' %}">
     
-    <link rel="stylesheet" href="{% static 'core/css/fonts.css' %}">
-    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'core/css/tailwind-integration.css' %}">
+    <link rel="stylesheet" href="{% static 'core/css/base.css' %}">
+    
+    {# Electric DevFlow Button Styles - Vibrant Catppuccin Spectrum #}
+    <style>
+        /* Electric Rainbow Background with all Catppuccin colors */
+        .devflow-rainbow-bg {
+            background: linear-gradient(
+                45deg,
+                #fab387 0%,       /* Electric orange - fixed Catppuccin peach */
+                #f9e2af 14%,     /* Bright yellow - fixed Catppuccin yellow */
+                #a6e3a1 28%,      /* Vibrant green - fixed Catppuccin green */
+                #94e2d5 42%,       /* Electric teal - fixed Catppuccin teal */
+                #74c7ec 56%,   /* Bright blue - fixed Catppuccin sapphire */
+                #89b4fa 70%,       /* Electric blue - fixed Catppuccin blue */
+                #cba6f7 84%,      /* Electric purple - fixed Catppuccin mauve */
+                #f5c2e7 100%       /* Hot pink - fixed Catppuccin pink */
+            );
+            background-size: 400% 400%;
+            border-radius: 12px;
+            animation: devflow-rainbow-shift 3s ease-in-out infinite;
+        }
+        
+        /* Dynamic rainbow shifting animation */
+        @keyframes devflow-rainbow-shift {
+            0%, 100% { background-position: 0% 50%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+        }
+        
+        /* Pulsing overlay for electric effect */
+        .devflow-pulse-overlay {
+            background: radial-gradient(
+                circle at center,
+                rgba(148, 226, 213, 0.6) 0%,    /* Teal glow */
+                rgba(116, 199, 236, 0.5) 25%,   /* Sapphire */
+                rgba(180, 190, 254, 0.4) 50%,   /* Lavender */
+                rgba(203, 166, 247, 0.5) 75%,   /* Mauve */
+                rgba(245, 194, 231, 0.6) 100%   /* Pink */
+            );
+            border-radius: 12px;
+            animation: devflow-electric-pulse 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes devflow-electric-pulse {
+            0% { 
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            100% { 
+                transform: scale(1.05);
+                opacity: 0.9;
+            }
+        }
+        
+        /* Glowing ring effect */
+        .devflow-glow-ring {
+            border-radius: 12px;
+            box-shadow: 
+                0 0 20px rgba(250, 179, 135, 0.8),  /* Peach glow */
+                0 0 40px rgba(148, 226, 213, 0.6),  /* Teal glow */
+                0 0 60px rgba(137, 220, 235, 0.4),  /* Sky glow */
+                inset 0 0 20px rgba(245, 194, 231, 0.3); /* Pink inner glow */
+            animation: devflow-glow-intensity 1.5s ease-in-out infinite alternate;
+        }
+        
+        @keyframes devflow-glow-intensity {
+            0% { 
+                box-shadow: 
+                    0 0 15px rgba(250, 179, 135, 0.6),
+                    0 0 30px rgba(148, 226, 213, 0.4),
+                    0 0 45px rgba(137, 220, 235, 0.2),
+                    inset 0 0 15px rgba(245, 194, 231, 0.2);
+            }
+            100% { 
+                box-shadow: 
+                    0 0 30px rgba(250, 179, 135, 1),
+                    0 0 60px rgba(148, 226, 213, 0.8),
+                    0 0 90px rgba(137, 220, 235, 0.6),
+                    inset 0 0 30px rgba(245, 194, 231, 0.5);
+            }
+        }
+        
+        /* Lightning icon with electric effects */
+        .devflow-lightning-icon {
+            filter: drop-shadow(0 0 8px rgba(249, 226, 175, 1)) 
+                   drop-shadow(0 0 16px rgba(166, 227, 161, 0.8))
+                   drop-shadow(0 0 24px rgba(245, 194, 231, 0.6));
+            animation: devflow-lightning-flicker 0.1s ease-in-out infinite alternate;
+        }
+        
+        @keyframes devflow-lightning-flicker {
+            0% { 
+                filter: drop-shadow(0 0 8px rgba(249, 226, 175, 1)) 
+                       drop-shadow(0 0 16px rgba(166, 227, 161, 0.8))
+                       drop-shadow(0 0 24px rgba(245, 194, 231, 0.6));
+            }
+            100% { 
+                filter: drop-shadow(0 0 12px rgba(249, 226, 175, 1)) 
+                       drop-shadow(0 0 24px rgba(166, 227, 161, 1))
+                       drop-shadow(0 0 36px rgba(245, 194, 231, 0.8));
+            }
+        }
+        
+        /* Text with rainbow glow */
+        .devflow-text-glow {
+            text-shadow: 
+                0 0 10px rgba(250, 179, 135, 1),     /* Peach */
+                0 0 20px rgba(148, 226, 213, 0.8),   /* Teal */
+                0 0 30px rgba(203, 166, 247, 0.6),   /* Mauve */
+                0 0 40px rgba(245, 194, 231, 0.4);   /* Pink */
+            animation: devflow-text-rainbow 4s ease-in-out infinite;
+        }
+        
+        @keyframes devflow-text-rainbow {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 10px rgba(250, 179, 135, 1),
+                    0 0 20px rgba(148, 226, 213, 0.8),
+                    0 0 30px rgba(203, 166, 247, 0.6),
+                    0 0 40px rgba(245, 194, 231, 0.4);
+            }
+            25% { 
+                text-shadow: 
+                    0 0 10px rgba(166, 227, 161, 1),
+                    0 0 20px rgba(137, 220, 235, 0.8),
+                    0 0 30px rgba(180, 190, 254, 0.6),
+                    0 0 40px rgba(249, 226, 175, 0.4);
+            }
+            50% { 
+                text-shadow: 
+                    0 0 10px rgba(137, 180, 250, 1),
+                    0 0 20px rgba(116, 199, 236, 0.8),
+                    0 0 30px rgba(148, 226, 213, 0.6),
+                    0 0 40px rgba(166, 227, 161, 0.4);
+            }
+            75% { 
+                text-shadow: 
+                    0 0 10px rgba(245, 194, 231, 1),
+                    0 0 20px rgba(203, 166, 247, 0.8),
+                    0 0 30px rgba(180, 190, 254, 0.6),
+                    0 0 40px rgba(137, 180, 250, 0.4);
+            }
+        }
+        
+        /* Electric shimmer sweep */
+        .devflow-shimmer {
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.8) 20%,
+                rgba(249, 226, 175, 0.9) 40%,      /* Yellow shimmer */
+                rgba(166, 227, 161, 0.9) 50%,      /* Green shimmer */
+                rgba(148, 226, 213, 0.9) 60%,      /* Teal shimmer */
+                rgba(255, 255, 255, 0.8) 80%,
+                transparent 100%
+            );
+            border-radius: 12px;
+            transform: translateX(-100%);
+            animation: devflow-shimmer-sweep 3s ease-in-out infinite;
+        }
+        
+        @keyframes devflow-shimmer-sweep {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        /* Sparkling particles effect */
+        .devflow-sparkles::before,
+        .devflow-sparkles::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        .devflow-sparkles::before {
+            top: 20%;
+            left: 20%;
+            background: radial-gradient(circle, rgba(249, 226, 175, 1) 0%, transparent 70%);
+            animation: devflow-sparkle1 2s ease-in-out infinite;
+        }
+        
+        .devflow-sparkles::after {
+            top: 60%;
+            right: 25%;
+            background: radial-gradient(circle, rgba(148, 226, 213, 1) 0%, transparent 70%);
+            animation: devflow-sparkle2 2.5s ease-in-out infinite 0.5s;
+        }
+        
+        @keyframes devflow-sparkle1 {
+            0%, 100% { 
+                transform: scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            50% { 
+                transform: scale(1) rotate(180deg);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes devflow-sparkle2 {
+            0%, 100% { 
+                transform: scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            50% { 
+                transform: scale(1.2) rotate(-180deg);
+                opacity: 1;
+            }
+        }
+        
+        /* Enhanced hover effects */
+        .devflow-btn:hover .devflow-rainbow-bg {
+            animation-duration: 1s;
+            background-size: 600% 600%;
+        }
+        
+        .devflow-btn:hover .devflow-pulse-overlay {
+            animation-duration: 0.8s;
+        }
+        
+        .devflow-btn:hover .devflow-glow-ring {
+            animation-duration: 0.6s;
+            box-shadow: 
+                0 0 40px rgba(250, 179, 135, 1),
+                0 0 80px rgba(148, 226, 213, 0.8),
+                0 0 120px rgba(137, 220, 235, 0.6),
+                inset 0 0 40px rgba(245, 194, 231, 0.5);
+        }
+        
+        .devflow-btn:hover .devflow-lightning-icon {
+            animation: devflow-lightning-flicker 0.05s ease-in-out infinite alternate;
+            transform: scale(1.2);
+        }
+        
+        .devflow-btn:hover .devflow-shimmer {
+            animation-duration: 1.5s;
+        }
+        
+        /* Theme-specific ring colors for DevFlow button visibility */
+        body.light-theme .devflow-btn {
+            --tw-ring-color: rgb(0 0 0);  /* Black ring for light theme */
+        }
+        
+        body:not(.light-theme) .devflow-btn {
+            --tw-ring-color: rgb(116, 199, 236);  /* Bright blue (sapphire) ring for dark theme - contrasts with both dark background and button content */
+        }
+        
+        /* Mobile Navigation Styles */
+        .mobile-nav-menu {
+            display: none;
+            position: fixed;
+            top: 72px; /* Adjusted to match exact header height with no gap */
+            left: 0;
+            right: 0;
+            background: var(--mantle);
+            padding: 1rem 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            margin-top: -1px; /* Pull up by 1px to ensure no sub-pixel gap */
+        }
+        
+        .mobile-nav-menu.active {
+            display: block !important;
+            animation: slideDown 0.2s ease-out;
+        }
+        
+        .mobile-nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .mobile-nav-links li {
+            margin: 0.5rem 1rem;
+            text-align: center;
+        }
+        
+        .mobile-nav-links li:first-child {
+            margin-bottom: 1rem;
+        }
+        
+        .mobile-nav-links .devflow-btn {
+            justify-content: center;
+            width: fit-content;
+            margin: 0 auto;
+        }
+        
+        .mobile-nav-links a:not(.devflow-btn) {
+            display: block;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s ease;
+            color: var(--text);
+            text-decoration: none;
+        }
+        
+        .mobile-nav-links a:not(.devflow-btn):hover {
+            background-color: var(--crust);
+        }
+        
+        @media (min-width: 1024px) {
+            .mobile-nav-menu {
+                display: none !important;
+            }
+        }
+        
+        @keyframes slideDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
     
     {# Chart.js CDN #}
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.min.js"></script>
@@ -61,6 +382,8 @@ Version with a robust language switcher.
             theme: {
                 extend: {
                     colors: {
+                        // Terminal green for bash prompt
+                        'terminal-green': '#00FF00',
                         // Catppuccin color mappings using CSS custom properties
                         'catppuccin': {
                             'base': 'var(--base)',
@@ -72,7 +395,14 @@ Version with a robust language switcher.
                             'mauve': 'var(--mauve)',
                             'pink': 'var(--pink)',
                             'maroon': 'var(--maroon)',
-                            'peach': 'var(--peach)'
+                            'peach': 'var(--peach)',
+                            'yellow': 'var(--yellow)',
+                            'green': 'var(--green)',
+                            'teal': 'var(--teal)',
+                            'sky': 'var(--sky)',
+                            'sapphire': 'var(--sapphire)',
+                            'blue': 'var(--blue)',
+                            'lavender': 'var(--lavender)'
                         },
                         // Semantic color mappings for easier usage
                         'theme': {
@@ -85,7 +415,14 @@ Version with a robust language switcher.
                             'primary': 'var(--mauve)',
                             'secondary': 'var(--pink)',
                             'accent': 'var(--peach)',
-                            'error': 'var(--maroon)'
+                            'error': 'var(--maroon)',
+                            'success': 'var(--green)',
+                            'warning': 'var(--yellow)',
+                            'info': 'var(--blue)',
+                            'teal': 'var(--teal)',
+                            'sky': 'var(--sky)',
+                            'sapphire': 'var(--sapphire)',
+                            'lavender': 'var(--lavender)'
                         }
                     },
                     fontFamily: {
@@ -98,12 +435,54 @@ Version with a robust language switcher.
                         'theme-xl': '0 4px 15px rgba(0, 0, 0, 0.2)'
                     },
                     animation: {
-                        'blink': 'blink-opacity 1.2s infinite step-end'
+                        'blink': 'blink-opacity 1.2s infinite step-end',
+                        'devflow-pulse': 'devflow-pulse 2s ease-in-out infinite',
+                        'devflow-glow': 'devflow-glow 3s ease-in-out infinite',
+                        'lightning-spark': 'lightning-spark 2.5s ease-in-out infinite',
+                        'lightning-flicker': 'lightning-flicker 0.15s ease-in-out infinite alternate'
                     },
                     keyframes: {
                         'blink-opacity': {
                             '0%, 100%': { opacity: '1' },
                             '50%': { opacity: '0' }
+                        },
+                        'devflow-pulse': {
+                            '0%, 100%': { 
+                                transform: 'scale(1)',
+                                opacity: '1' 
+                            },
+                            '50%': { 
+                                transform: 'scale(1.02)',
+                                opacity: '0.9' 
+                            }
+                        },
+                        'devflow-glow': {
+                            '0%, 100%': { 
+                                boxShadow: '0 0 15px rgba(245, 194, 231, 0.9), 0 0 25px rgba(180, 190, 254, 0.7), 0 0 35px rgba(116, 199, 236, 0.5)',
+                                filter: 'brightness(1.1) saturate(1.3)'
+                            },
+                            '50%': { 
+                                boxShadow: '0 0 25px rgba(245, 194, 231, 1), 0 0 40px rgba(180, 190, 254, 0.9), 0 0 55px rgba(116, 199, 236, 0.7)',
+                                filter: 'brightness(1.25) saturate(1.5)'
+                            }
+                        },
+                        'lightning-spark': {
+                            '0%, 100%': { 
+                                transform: 'rotate(0deg) scale(1)',
+                                filter: 'drop-shadow(0 0 2px currentColor)'
+                            },
+                            '25%': { 
+                                transform: 'rotate(-2deg) scale(1.05)',
+                                filter: 'drop-shadow(0 0 4px currentColor) drop-shadow(0 0 8px rgba(203, 166, 247, 0.6))'
+                            },
+                            '75%': { 
+                                transform: 'rotate(2deg) scale(1.03)',
+                                filter: 'drop-shadow(0 0 3px currentColor) drop-shadow(0 0 6px rgba(203, 166, 247, 0.4))'
+                            }
+                        },
+                        'lightning-flicker': {
+                            '0%': { opacity: '1' },
+                            '100%': { opacity: '0.85' }
                         }
                     }
                 },
@@ -128,10 +507,13 @@ Version with a robust language switcher.
     {% if site_settings.coming_soon_mode %}
     <div class="coming-soon-overlay">
         <div class="overlay-theme-switcher">
-            <button class="theme-switcher theme-toggle-btn" aria-label="{% trans 'Toggle theme' %}">
-                <svg class="theme-icon" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                    <path id="moon-part" d="M 14,24 A 10,10 0 0 0 24,34 V 14 A 10,10 0 0 0 14,24 Z"></path>
-                    <path id="sun-part" d="M 24,2 A 22,22 0 1 0 46,24 21.9,21.9 0 0 0 24,2 Z M 6,24 A 18.1,18.1 0 0 1 24,6 v 8 a 10,10 0 0 1 0,20 v 8 A 18.1,18.1 0 0 1 6,24 Z"></path>
+            <button class="bg-transparent border-none cursor-pointer text-theme-text rounded-full transition-all duration-300 w-10 h-10 p-1 flex justify-center items-center hover:bg-theme-bg-accent theme-toggle-btn" aria-label="{% trans 'Toggle theme' %}">
+                <svg class="w-full h-full" viewBox="0 0 512 512" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Moon icon (crescent moon) -->
+                    <path id="moon-part" d="M349.852,343.15c-49.875,49.916-131.083,49.916-181,0c-49.916-49.918-49.916-131.125,0-181.021  c13.209-13.187,29.312-23.25,47.832-29.812c5.834-2.042,12.293-0.562,16.625,3.792c4.376,4.375,5.855,10.833,3.793,16.625  c-12.542,35.375-4,73.666,22.25,99.917c26.209,26.228,64.5,34.75,99.916,22.25c5.792-2.062,12.271-0.582,16.625,3.793  c4.376,4.332,5.834,10.812,3.771,16.625C373.143,313.838,363.06,329.941,349.852,343.15z M191.477,184.754  c-37.438,37.438-37.438,98.354,0,135.771c40,40.021,108.125,36.416,143-8.168c-35.959,2.25-71.375-10.729-97.75-37.084  c-26.375-26.354-39.333-61.771-37.084-97.729C196.769,179.796,194.039,182.192,191.477,184.754z"/>
+                    
+                    <!-- Sun icon -->
+                    <path id="sun-part" d="M256,144c-61.75,0-112,50.25-112,112s50.25,112,112,112s112-50.25,112-112S317.75,144,256,144z M256,336 c-44.188,0-80-35.812-80-80c0-44.188,35.812-80,80-80c44.188,0,80,35.812,80,80C336,300.188,300.188,336,256,336z M256,112 c8.833,0,16-7.167,16-16V64c0-8.833-7.167-16-16-16s-16,7.167-16,16v32C240,104.833,247.167,112,256,112z M256,400 c-8.833,0-16,7.167-16,16v32c0,8.833,7.167,16,16,16s16-7.167,16-16v-32C272,407.167,264.833,400,256,400z M380.438,154.167 l22.625-22.625c6.25-6.25,6.25-16.375,0-22.625s-16.375-6.25-22.625,0l-22.625,22.625c-6.25,6.25-6.25,16.375,0,22.625 S374.188,160.417,380.438,154.167z M131.562,357.834l-22.625,22.625c-6.25,6.249-6.25,16.374,0,22.624s16.375,6.25,22.625,0 l22.625-22.624c6.25-6.271,6.25-16.376,0-22.625C147.938,351.583,137.812,351.562,131.562,357.834z M112,256 c0-8.833-7.167-16-16-16H64c-8.833,0-16,7.167-16,16s7.167,16,16,16h32C104.833,272,112,264.833,112,256z M448,240h-32 c-8.833,0-16,7.167-16,16s7.167,16,16,16h32c8.833,0,16-7.167,16-16S456.833,240,448,240z M131.541,154.167 c6.251,6.25,16.376,6.25,22.625,0c6.251-6.25,6.251-16.375,0-22.625l-22.625-22.625c-6.25-6.25-16.374-6.25-22.625,0 c-6.25,6.25-6.25,16.375,0,22.625L131.541,154.167z M380.459,357.812c-6.271-6.25-16.376-6.25-22.625,0 c-6.251,6.25-6.271,16.375,0,22.625l22.625,22.625c6.249,6.25,16.374,6.25,22.624,0s6.25-16.375,0-22.625L380.459,357.812z"/>
                 </svg>
             </button>
         </div>
@@ -142,63 +524,136 @@ Version with a robust language switcher.
     </div>
     {% endif %}
 
-    <header class="main-header">
-        <div class="container">
-            <a href="{% url 'core:index' %}" class="logo">Jarek Hrazdera</a>
-            <nav class="main-nav">
-                <ul class="nav-links">
-                    {% if user.is_authenticated %}
-                        <li><a href="{% url 'projects:dashboard' %}">{% trans "Dashboard" %}</a></li>
-                        <li><a href="{% url 'projects:project_list' %}">{% trans "My Projects" %}</a></li>
-                    {% endif %}
-                    <li><a href="#about">{% trans "About" %}</a></li>
-                    <li><a href="#skills">{% trans "Skills" %}</a></li>
-                    <li><a href="{% url 'projects:project_list' %}">{% trans "Projects" %}</a></li>
-                    <li><a href="#contact">{% trans "Contact" %}</a></li>
+    <header class="bg-theme-bg-alt py-4 fixed w-full top-0 z-50 shadow-theme transition-colors duration-300">
+        <div class="max-w-6xl mx-auto px-5 flex justify-between items-center">
+            <a href="{% url 'core:index' %}" class="text-3xl font-bold text-theme-accent hover:text-theme-accent">Jarek Hrazdera</a>
+            <nav class="main-nav hidden lg:block">
+                <!-- Desktop Navigation -->
+                <ul class="nav-links list-none flex items-center lg:flex">
+                    <li>
+                        <!-- Electric DevFlow Button with Rainbow Spectrum Effects -->
+                        <a href="{% url 'projects:project_list' %}" class="devflow-btn group relative inline-flex items-center gap-2 px-6 py-2.5 text-black text-sm font-extrabold rounded-xl transition-all duration-300 transform-gpu will-change-transform overflow-hidden shadow-2xl hover:scale-110 hover:rotate-1 active:scale-95 ring-2 ring-offset-1 ring-offset-transparent">
+                            
+                            <!-- Multi-layer animated backgrounds for electric effect -->
+                            <div class="absolute inset-0 devflow-rainbow-bg"></div>
+                            <div class="absolute inset-0 devflow-pulse-overlay"></div>
+                            <div class="absolute inset-0 devflow-glow-ring"></div>
+                            
+                            <!-- Electric lightning icon with dark color -->
+                            <svg class="relative z-20 w-5 h-5 text-black drop-shadow-[0_0_4px_rgba(255,255,255,0.8)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                            
+                            <!-- Text with dark color and white glow for contrast -->
+                            <span class="relative z-20 text-black drop-shadow-[0_0_6px_rgba(255,255,255,0.9)]">{% trans "DevFlow" %}</span>
+                            
+                            <!-- Electric shimmer sweep -->
+                            <div class="absolute inset-0 devflow-shimmer"></div>
+                            
+                            <!-- Sparkling particles overlay -->
+                            <div class="absolute inset-0 devflow-sparkles"></div>
+                        </a>
+                    </li>
+                    <li class="ml-6"><a href="#about" class="text-base font-normal text-theme-secondary transition-colors duration-300 hover:text-theme-primary">{% trans "About" %}</a></li>
+                    <li class="ml-6"><a href="#skills" class="text-base font-normal text-theme-secondary transition-colors duration-300 hover:text-theme-primary">{% trans "Skills" %}</a></li>
+                    <li class="ml-6"><a href="#projects" class="text-base font-normal text-theme-secondary transition-colors duration-300 hover:text-theme-primary">{% trans "Projects" %}</a></li>
+                    <li class="ml-6"><a href="#contact" class="text-base font-normal text-theme-secondary transition-colors duration-300 hover:text-theme-primary">{% trans "Contact" %}</a></li>
                     
                     {% get_current_language as LANGUAGE_CODE %}
                     {% if LANGUAGE_CODE == 'en' %}
-                        <li class="lang-switch">
-                            <a href="/cs{{ request.get_full_path | slice:'3:' }}">
+                        <li class="ml-6">
+                            <a href="/cs{{ request.get_full_path | slice:'3:' }}" class="flex items-center gap-2 text-base font-normal text-theme-secondary transition-colors duration-300 hover:text-theme-primary">
                                 Česky
-                                <img src="{% static 'core/assets/czech-republic.svg' %}" alt="Czech Flag" class="lang-flag">
+                                <img src="{% static 'core/assets/czech-republic.svg' %}" alt="Czech Flag" class="w-5 h-5 rounded-full object-cover">
                             </a>
                         </li>
                     {% elif LANGUAGE_CODE == 'cs' %}
-                        <li class="lang-switch">
-                            <a href="/en{{ request.get_full_path | slice:'3:' }}">
+                        <li class="ml-6">
+                            <a href="/en{{ request.get_full_path | slice:'3:' }}" class="flex items-center gap-2 text-base font-normal text-theme-secondary transition-colors duration-300 hover:text-theme-primary">
                                 English
-                                <img src="{% static 'core/assets/united-states.svg' %}" alt="USA Flag" class="lang-flag">
+                                <img src="{% static 'core/assets/united-states.svg' %}" alt="USA Flag" class="w-5 h-5 rounded-full object-cover">
                             </a>
                         </li>
                     {% endif %}
                     
-                    <li>
-                        <button class="theme-switcher theme-toggle-btn" aria-label="{% trans 'Toggle theme' %}">
-                            <svg class="theme-icon" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                                <path id="moon-part" d="M 14,24 A 10,10 0 0 0 24,34 V 14 A 10,10 0 0 0 14,24 Z" />
-                                <path id="sun-part" d="M 24,2 A 22,22 0 1 0 46,24 21.9,21.9 0 0 0 24,2 Z M 6,24 A 18.1,18.1 0 0 1 24,6 v 8 a 10,10 0 0 1 0,20 v 8 A 18.1,18.1 0 0 1 6,24 Z" />
+                    <li class="ml-6">
+                        <button class="bg-transparent border-none cursor-pointer text-theme-text rounded-full transition-all duration-300 w-10 h-10 p-1 flex justify-center items-center hover:bg-theme-bg-accent theme-toggle-btn" aria-label="{% trans 'Toggle theme' %}">
+                            <svg class="w-full h-full" viewBox="0 0 512 512" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Moon icon (crescent moon) -->
+                                <path id="moon-part" d="M349.852,343.15c-49.875,49.916-131.083,49.916-181,0c-49.916-49.918-49.916-131.125,0-181.021  c13.209-13.187,29.312-23.25,47.832-29.812c5.834-2.042,12.293-0.562,16.625,3.792c4.376,4.375,5.855,10.833,3.793,16.625  c-12.542,35.375-4,73.666,22.25,99.917c26.209,26.228,64.5,34.75,99.916,22.25c5.792-2.062,12.271-0.582,16.625,3.793  c4.376,4.332,5.834,10.812,3.771,16.625C373.143,313.838,363.06,329.941,349.852,343.15z M191.477,184.754  c-37.438,37.438-37.438,98.354,0,135.771c40,40.021,108.125,36.416,143-8.168c-35.959,2.25-71.375-10.729-97.75-37.084  c-26.375-26.354-39.333-61.771-37.084-97.729C196.769,179.796,194.039,182.192,191.477,184.754z"/>
+                                
+                                <!-- Sun icon -->
+                                <path id="sun-part" d="M256,144c-61.75,0-112,50.25-112,112s50.25,112,112,112s112-50.25,112-112S317.75,144,256,144z M256,336 c-44.188,0-80-35.812-80-80c0-44.188,35.812-80,80-80c44.188,0,80,35.812,80,80C336,300.188,300.188,336,256,336z M256,112 c8.833,0,16-7.167,16-16V64c0-8.833-7.167-16-16-16s-16,7.167-16,16v32C240,104.833,247.167,112,256,112z M256,400 c-8.833,0-16,7.167-16,16v32c0,8.833,7.167,16,16,16s16-7.167,16-16v-32C272,407.167,264.833,400,256,400z M380.438,154.167 l22.625-22.625c6.25-6.25,6.25-16.375,0-22.625s-16.375-6.25-22.625,0l-22.625,22.625c-6.25,6.25-6.25,16.375,0,22.625 S374.188,160.417,380.438,154.167z M131.562,357.834l-22.625,22.625c-6.25,6.249-6.25,16.374,0,22.624s16.375,6.25,22.625,0 l22.625-22.624c6.25-6.271,6.25-16.376,0-22.625C147.938,351.583,137.812,351.562,131.562,357.834z M112,256 c0-8.833-7.167-16-16-16H64c-8.833,0-16,7.167-16,16s7.167,16,16,16h32C104.833,272,112,264.833,112,256z M448,240h-32 c-8.833,0-16,7.167-16,16s7.167,16,16,16h32c8.833,0,16-7.167,16-16S456.833,240,448,240z M131.541,154.167 c6.251,6.25,16.376,6.25,22.625,0c6.251-6.25,6.251-16.375,0-22.625l-22.625-22.625c-6.25-6.25-16.374-6.25-22.625,0 c-6.25,6.25-6.25,16.375,0,22.625L131.541,154.167z M380.459,357.812c-6.271-6.25-16.376-6.25-22.625,0 c-6.251,6.25-6.271,16.375,0,22.625l22.625,22.625c6.249,6.25,16.374,6.25,22.624,0s6.25-16.375,0-22.625L380.459,357.812z"/>
                             </svg>
                         </button>
                     </li>
                 </ul>
             </nav>
-            <button class="hamburger" id="hamburger-menu" aria-label="{% trans 'Open menu' %}">
-                <span></span>
-                <span></span>
-                <span></span>
+            <button class="flex flex-col justify-around w-8 h-6 bg-transparent border-none cursor-pointer z-50 lg:hidden" id="hamburger-menu" aria-label="{% trans 'Open menu' %}">
+                <span class="w-full h-1 bg-theme-text rounded transition-all duration-300"></span>
+                <span class="w-full h-1 bg-theme-text rounded transition-all duration-300"></span>
+                <span class="w-full h-1 bg-theme-text rounded transition-all duration-300"></span>
             </button>
         </div>
     </header>
+
+    <!-- Mobile Navigation Menu - Separate from desktop nav to avoid Tailwind CSS conflicts -->
+    <div id="mobile-menu" class="mobile-nav-menu">
+        <ul class="mobile-nav-links">
+            <li>
+                <a href="{% url 'projects:project_list' %}" class="devflow-btn group relative inline-flex items-center gap-2 px-6 py-2.5 text-black text-sm font-extrabold rounded-xl transition-all duration-300 transform-gpu will-change-transform overflow-hidden shadow-2xl hover:scale-110 hover:rotate-1 active:scale-95 ring-2 ring-offset-1 ring-offset-transparent">
+                    <div class="absolute inset-0 devflow-rainbow-bg"></div>
+                    <div class="absolute inset-0 devflow-pulse-overlay"></div>
+                    <div class="absolute inset-0 devflow-glow-ring"></div>
+                    <svg class="relative z-20 w-5 h-5 text-black drop-shadow-[0_0_4px_rgba(255,255,255,0.8)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                    <span class="relative z-20 text-black drop-shadow-[0_0_6px_rgba(255,255,255,0.9)]">{% trans "DevFlow" %}</span>
+                    <div class="absolute inset-0 devflow-shimmer"></div>
+                    <div class="absolute inset-0 devflow-sparkles"></div>
+                </a>
+            </li>
+            <li><a href="#about">{% trans "About" %}</a></li>
+            <li><a href="#skills">{% trans "Skills" %}</a></li>
+            <li><a href="#projects">{% trans "Projects" %}</a></li>
+            <li><a href="#contact">{% trans "Contact" %}</a></li>
+            
+            {% get_current_language as LANGUAGE_CODE %}
+            {% if LANGUAGE_CODE == 'en' %}
+                <li>
+                    <a href="/cs{{ request.get_full_path | slice:'3:' }}" class="flex items-center gap-2 justify-center">
+                        Česky
+                        <img src="{% static 'core/assets/czech-republic.svg' %}" alt="Czech Flag" class="w-5 h-5 rounded-full object-cover">
+                    </a>
+                </li>
+            {% elif LANGUAGE_CODE == 'cs' %}
+                <li>
+                    <a href="/en{{ request.get_full_path | slice:'3:' }}" class="flex items-center gap-2 justify-center">
+                        English
+                        <img src="{% static 'core/assets/united-states.svg' %}" alt="USA Flag" class="w-5 h-5 rounded-full object-cover">
+                    </a>
+                </li>
+            {% endif %}
+            
+            <li>
+                <button class="bg-transparent border-none cursor-pointer text-theme-text rounded-full transition-all duration-300 w-10 h-10 p-1 flex justify-center items-center hover:bg-theme-bg-accent theme-toggle-btn mx-auto" aria-label="{% trans 'Toggle theme' %}">
+                    <svg class="w-full h-full" viewBox="0 0 512 512" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path id="moon-part" d="M349.852,343.15c-49.875,49.916-131.083,49.916-181,0c-49.916-49.918-49.916-131.125,0-181.021  c13.209-13.187,29.312-23.25,47.832-29.812c5.834-2.042,12.293-0.562,16.625,3.792c4.376,4.375,5.855,10.833,3.793,16.625  c-12.542,35.375-4,73.666,22.25,99.917c26.209,26.228,64.5,34.75,99.916,22.25c5.792-2.062,12.271-0.582,16.625,3.793  c4.376,4.332,5.834,10.812,3.771,16.625C373.143,313.838,363.06,329.941,349.852,343.15z M191.477,184.754  c-37.438,37.438-37.438,98.354,0,135.771c40,40.021,108.125,36.416,143-8.168c-35.959,2.25-71.375-10.729-97.75-37.084  c-26.375-26.354-39.333-61.771-37.084-97.729C196.769,179.796,194.039,182.192,191.477,184.754z"/>
+                        <path id="sun-part" d="M256,144c-61.75,0-112,50.25-112,112s50.25,112,112,112s112-50.25,112-112S317.75,144,256,144z M256,336 c-44.188,0-80-35.812-80-80c0-44.188,35.812-80,80-80c44.188,0,80,35.812,80,80C336,300.188,300.188,336,256,336z M256,112 c8.833,0,16-7.167,16-16V64c0-8.833-7.167-16-16-16s-16,7.167-16,16v32C240,104.833,247.167,112,256,112z M256,400 c-8.833,0-16,7.167-16,16v32c0,8.833,7.167,16,16,16s16-7.167,16-16v-32C272,407.167,264.833,400,256,400z M380.438,154.167 l22.625-22.625c6.25-6.25,6.25-16.375,0-22.625s-16.375-6.25-22.625,0l-22.625,22.625c-6.25,6.25-6.25,16.375,0,22.625 S374.188,160.417,380.438,154.167z M131.562,357.834l-22.625,22.625c-6.25,6.249-6.25,16.374,0,22.624s16.375,6.25,22.625,0 l22.625-22.624c6.25-6.271,6.25-16.376,0-22.625C147.938,351.583,137.812,351.562,131.562,357.834z M112,256 c0-8.833-7.167-16-16-16H64c-8.833,0-16,7.167-16,16s7.167,16,16,16h32C104.833,272,112,264.833,112,256z M448,240h-32 c-8.833,0-16,7.167-16,16s7.167,16,16,16h32c8.833,0,16-7.167,16-16S456.833,240,448,240z M131.541,154.167 c6.251,6.25,16.376,6.25,22.625,0c6.251-6.25,6.251-16.375,0-22.625l-22.625-22.625c-6.25-6.25-16.374-6.25-22.625,0 c-6.25,6.25-6.25,16.375,0,22.625L131.541,154.167z M380.459,357.812c-6.271-6.25-16.376-6.25-22.625,0 c-6.251,6.25-6.271,16.375,0,22.625l22.625,22.625c6.249,6.25,16.374,6.25,22.624,0s6.25-16.375,0-22.625L380.459,357.812z"/>
+                    </svg>
+                </button>
+            </li>
+        </ul>
+    </div>
 
     <main>
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="main-footer">
-        <div class="container">
-            <p>&copy; {% now "Y" %} Jarek. {% trans "All rights reserved." %}</p>
-            <p>{% trans "Catppuccin Mocha Theme" %}</p>
+    <footer class="bg-theme-bg-accent text-center py-5 text-sm text-theme-text-muted transition-colors duration-300">
+        <div class="max-w-6xl mx-auto px-5">
+            <p class="mb-1">&copy; {% now "Y" %} Jarek. {% trans "All rights reserved." %}</p>
+            <p class="mb-1">{% trans "Catppuccin Mocha Theme" %}</p>
         </div>
     </footer>
 

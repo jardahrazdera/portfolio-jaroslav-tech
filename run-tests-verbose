@@ -1,0 +1,4 @@
+#!/bin/bash
+# Verbose test runner
+
+docker compose exec app bash -c "cd /app && DJANGO_SETTINGS_MODULE=jaroslav_tech.settings python -m pytest -v"

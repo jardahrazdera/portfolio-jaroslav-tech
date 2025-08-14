@@ -1,0 +1,167 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "devflow-portfolio"
+version = "1.0.0"
+description = "DevFlow personal portfolio and project management system"
+authors = [{name = "Jaroslav", email = "jaroslav@jaroslav.tech"}]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.11"
+
+[tool.black]
+line-length = 120
+target-version = ['py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+  | migrations
+  | staticfiles
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 120
+known_django = "django"
+known_first_party = ["projects", "tasks", "core", "jaroslav_tech"]
+sections = ["FUTURE", "STDLIB", "DJANGO", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+skip = ["migrations", "staticfiles", ".venv", "__pycache__"]
+
+[tool.flake8]
+max-line-length = 120
+exclude = [
+    ".git",
+    "__pycache__",
+    "migrations",
+    "staticfiles",
+    ".venv",
+    "build",
+    "dist"
+]
+ignore = [
+    "E203",  # whitespace before ':'
+    "E501",  # line too long (handled by black)
+    "W503",  # line break before binary operator
+]
+per-file-ignores = [
+    "__init__.py:F401",
+    "settings.py:E501",
+    "test_*.py:S101,S106"
+]
+
+[tool.mypy]
+python_version = "3.11"
+check_untyped_defs = true
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
+exclude = [
+    "migrations/",
+    "staticfiles/",
+    ".venv/",
+    "build/",
+    "dist/"
+]
+
+[[tool.mypy.overrides]]
+module = [
+    "django.*",
+    "faker.*",
+    "factory.*",
+    "pytest_django.*"
+]
+ignore_missing_imports = true
+
+[tool.coverage.run]
+source = ["."]
+omit = [
+    "*/migrations/*",
+    "*/staticfiles/*",
+    "*/venv/*",
+    "*/build/*",
+    "*/dist/*",
+    "manage.py",
+    "*/settings/*",
+    "*/wsgi.py",
+    "*/asgi.py",
+    "*/test_*",
+    "*/__init__.py"
+]
+branch = true
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+skip_covered = false
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "class .*Protocol.*:",
+    "@abstract"
+]
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+[tool.bandit]
+exclude_dirs = ["tests", "migrations", "staticfiles", ".venv"]
+skips = ["B101", "B601"]  # Skip assert_used and shell_injection_subprocess
+
+[tool.bandit.assert_used]
+skips = ["**/test_*.py", "**/tests.py"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "jaroslav_tech.settings"
+python_files = ["tests.py", "test_*.py", "*_test.py"]
+python_classes = ["Test*", "*Tests", "*Test"]
+python_functions = ["test_*"]
+testpaths = ["projects/tests", "tasks/tests", "core"]
+addopts = [
+    "--reuse-db",
+    "--tb=short",
+    "--strict-markers",
+    "--strict-config",
+    "--cov=projects",
+    "--cov=tasks", 
+    "--cov=core",
+    "--cov-report=term-missing:skip-covered",
+    "--cov-report=html:htmlcov",
+    "--cov-report=xml:coverage.xml",
+    "--cov-branch",
+    "--cov-fail-under=85",
+    "-v",
+    "--durations=10",
+    "--disable-warnings"
+]
+filterwarnings = [
+    "ignore::django.utils.deprecation.RemovedInDjango60Warning",
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning"
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "unit: marks tests as unit tests",
+    "integration: marks tests as integration tests", 
+    "functional: marks tests as functional tests",
+    "api: marks tests as API tests",
+    "model: marks tests as model tests",
+    "view: marks tests as view tests",
+    "form: marks tests as form tests"
+]

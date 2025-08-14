@@ -199,3 +199,36 @@ SILENCED_SYSTEM_CHECKS = ['staticfiles.W004']
 # Media files (user uploads)
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+# Testing configuration
+import sys
+if 'test' in sys.argv or 'pytest' in sys.modules:
+    # Use in-memory SQLite for faster tests
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ':memory:',
+    }
+    
+    # Disable migrations during testing for speed
+    class DisableMigrations:
+        def __contains__(self, item):
+            return True
+        def __getitem__(self, item):
+            return None
+    
+    MIGRATION_MODULES = DisableMigrations()
+    
+    # Test-specific settings
+    PASSWORD_HASHERS = [
+        'django.contrib.auth.hashers.MD5PasswordHasher',  # Fast but insecure - only for tests
+    ]
+    
+    # Suppress warnings in tests
+    SILENCED_SYSTEM_CHECKS.extend([
+        'forms.W001',  # URLField default scheme warning
+    ])
+
+# Form field configuration to suppress warnings
+if 'forms' not in globals():
+    from django import forms
+    forms.URLField.assume_scheme = 'https'

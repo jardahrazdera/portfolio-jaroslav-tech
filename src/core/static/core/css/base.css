@@ -1,0 +1,243 @@
+/*
+ * Base CSS - Core foundations for Tailwind-first approach
+ * 
+ * This file contains ONLY:
+ * - CSS custom properties (color themes)
+ * - Font face definitions  
+ * - Essential base styles (html, body, reset)
+ * - Theme switching functionality
+ */
+
+/* ===== CSS CUSTOM PROPERTIES - CATPPUCCIN DUAL-THEME SYSTEM ===== */
+
+:root {
+    /* CATPPUCCIN MOCHA (Dark) THEME - Default */
+    --base: #1e1e2e;
+    --mantle: #181825;
+    --crust: #11111b;
+    --text: #cdd6f4;
+    --subtext: #a6adc8;
+    --overlay: #9399b2;
+    --mauve: #cba6f7;
+    --pink: #f5c2e7;
+    --maroon: #eba0ac;
+    --peach: #fab387;
+    --yellow: #f9e2af;
+    --green: #a6e3a1;
+    --teal: #94e2d5;
+    --sky: #89dceb;
+    --sapphire: #74c7ec;
+    --blue: #89b4fa;
+    --lavender: #b4befe;
+    --font-family: 'JetBrains Mono', monospace;
+    --shadow-color: rgba(0,0,0,0.2);
+}
+
+body.light-theme {
+    /* SOLARIZED LIGHT THEME */
+    --base: #fdf6e3;
+    --mantle: #f5efdc;
+    --crust: #eee8d5;
+    --text: #586e75;
+    --subtext: #657b83;
+    --overlay: #93a1a1;
+    --mauve: #6c71c4;
+    --pink: #d33682;
+    --maroon: #dc322f;
+    --peach: #cb4b16;
+    --yellow: #b58900;
+    --green: #859900;
+    --teal: #2aa198;
+    --sky: #268bd2;
+    --sapphire: #2aa198;
+    --blue: #268bd2;
+    --lavender: #6c71c4;
+    --shadow-color: rgba(101, 123, 131, 0.15);
+}
+
+/* ===== FONT FACE DEFINITIONS ===== */
+
+@font-face {
+  font-display: swap;
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/JetBrainsMono-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/JetBrainsMono-Bold.woff2') format('woff2');
+}
+
+/* ===== ESSENTIAL BASE STYLES & RESET ===== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--base);
+    color: var(--text);
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Remove default link underlines */
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+/* ===== THEME SWITCHING FUNCTIONALITY ===== */
+
+/* Coming Soon Mode Overlay */
+body.coming-soon-active > header,
+body.coming-soon-active > main,
+body.coming-soon-active > footer {
+    filter: grayscale(100%);
+    pointer-events: none;
+    user-select: none;
+}
+
+.coming-soon-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000;
+    
+    font-family: var(--font-family);
+    background-color: rgba(30, 30, 46, 0.6);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+body.light-theme .coming-soon-overlay {
+    background-color: rgba(253, 246, 227, 0.6);
+}
+
+.coming-soon-content {
+    color: var(--text);
+}
+
+.coming-soon-content h1 {
+    font-size: 4.5rem;
+    font-weight: 700;
+    color: var(--peach);
+    margin-bottom: 1rem;
+}
+
+.coming-soon-content p {
+    font-size: 1.5rem;
+    color: var(--subtext);
+}
+
+.overlay-theme-switcher {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 2001;
+}
+
+/* Theme Switcher Component */
+.theme-switcher {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text);
+    border-radius: 50%;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 40px;
+    height: 40px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.theme-switcher:hover {
+    background-color: var(--crust);
+}
+
+.theme-switcher .theme-icon {
+    width: 100%;
+    height: 100%;
+}
+
+#moon-part, #sun-part {
+    fill: currentColor; 
+}
+
+/* ===== HAMBURGER MENU ANIMATION ===== */
+
+/* Hamburger menu button - button is 32px wide, 24px tall (w-8 h-6) */
+#hamburger-menu {
+    position: relative;
+}
+
+/* Normal state: show all spans with smooth transition */
+#hamburger-menu span {
+    display: block;
+    transition: opacity 0.3s ease;
+}
+
+/* Active state: hide all spans and show pseudo-element cross */
+#hamburger-menu.active span {
+    opacity: 0;
+}
+
+/* Create the cross using pseudo-elements - match original hamburger spans exactly */
+#hamburger-menu.active::before,
+#hamburger-menu.active::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 32px;  /* w-full = 100% of 32px button width */
+    height: 4px;  /* h-1 = 4px height, same as original spans */
+    background-color: var(--text);
+    border-radius: 0.25rem;  /* rounded = 4px border-radius, same as original spans */
+    transform-origin: center;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* First line rotated 45 degrees */
+#hamburger-menu.active::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+/* Second line rotated -45 degrees */
+#hamburger-menu.active::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+
+@media (max-width: 768px) {
+    .coming-soon-content h1 {
+        font-size: 2.5rem;
+    }
+    .coming-soon-content p {
+        font-size: 1.2rem;
+    }
+}

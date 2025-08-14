@@ -1,9 +1,131 @@
-{% extends "core/base.html" %}
 {% load static i18n %}
+<!DOCTYPE html>
+<html lang="{% get_current_language as LANGUAGE_CODE %}{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevFlow - {% trans "Dashboard" %}</title>
+    
+    <link rel="shortcut icon" href="{% static 'core/assets/favicon.svg' %}">
+    <link rel="stylesheet" href="{% static 'core/css/base.css' %}">
+    
+    {# Chart.js CDN #}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.min.js"></script>
+    
+    {# Tailwind CSS CDN with custom configuration #}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'catppuccin': {
+                            'base': 'var(--base)',
+                            'mantle': 'var(--mantle)',
+                            'crust': 'var(--crust)',
+                            'text': 'var(--text)',
+                            'subtext': 'var(--subtext)',
+                            'overlay': 'var(--overlay)',
+                            'mauve': 'var(--mauve)',
+                            'pink': 'var(--pink)',
+                            'maroon': 'var(--maroon)',
+                            'peach': 'var(--peach)',
+                            'yellow': 'var(--yellow)',
+                            'green': 'var(--green)',
+                            'teal': 'var(--teal)',
+                            'sky': 'var(--sky)',
+                            'sapphire': 'var(--sapphire)',
+                            'blue': 'var(--blue)',
+                            'lavender': 'var(--lavender)'
+                        },
+                        'theme': {
+                            'bg': 'var(--base)',
+                            'bg-alt': 'var(--mantle)',
+                            'bg-accent': 'var(--crust)',
+                            'text': 'var(--text)',
+                            'text-muted': 'var(--subtext)',
+                            'text-subtle': 'var(--overlay)',
+                            'primary': 'var(--mauve)',
+                            'secondary': 'var(--pink)',
+                            'accent': 'var(--peach)',
+                            'error': 'var(--maroon)',
+                            'success': 'var(--green)',
+                            'warning': 'var(--yellow)',
+                            'info': 'var(--blue)',
+                            'teal': 'var(--teal)',
+                            'sky': 'var(--sky)',
+                            'sapphire': 'var(--sapphire)',
+                            'lavender': 'var(--lavender)'
+                        }
+                    },
+                    fontFamily: {
+                        'mono': ['JetBrains Mono', 'monospace'],
+                        'code': ['JetBrains Mono', 'monospace']
+                    }
+                },
+            },
+            corePlugins: {
+                preflight: false
+            }
+        }
+    </script>
+</head>
+<body>
+<!-- DevFlow Header -->
+<header class="bg-theme-bg-alt py-4 fixed w-full top-0 z-50 shadow-theme transition-colors duration-300 border-b-2 border-theme-info">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+        <div class="flex items-center space-x-8">
+            <a href="{% url 'projects:project_list' %}" class="text-3xl font-bold text-theme-info hover:text-theme-sapphire transition-colors">DevFlow</a>
+            <nav>
+                <ul class="flex items-center space-x-6">
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'projects:dashboard' %}" class="text-theme-text-muted hover:text-theme-primary transition-colors duration-200 font-bold">{% trans "Dashboard" %}</a></li>
+                        <li><a href="{% url 'projects:project_list' %}" class="text-theme-text-muted hover:text-theme-primary transition-colors duration-200">{% trans "Projects" %}</a></li>
+                        <li><a href="{% url 'tasks:task_list' %}" class="text-theme-text-muted hover:text-theme-primary transition-colors duration-200">{% trans "Tasks" %}</a></li>
+                        <li><a href="#" class="text-theme-text-subtle hover:text-theme-text-muted transition-colors duration-200">{% trans "Reports" %}</a></li>
+                        <li><a href="#" class="text-theme-text-subtle hover:text-theme-text-muted transition-colors duration-200">{% trans "Analytics" %}</a></li>
+                        <li><a href="#" class="text-theme-text-subtle hover:text-theme-text-muted transition-colors duration-200">{% trans "Team" %}</a></li>
+                        <li><a href="#" class="text-theme-text-subtle hover:text-theme-text-muted transition-colors duration-200">{% trans "Settings" %}</a></li>
+                    {% else %}
+                        <li><a href="{% url 'projects:project_list' %}" class="text-theme-text-muted hover:text-theme-primary transition-colors duration-200">{% trans "Browse Projects" %}</a></li>
+                        <li><a href="#" class="text-theme-text-subtle hover:text-theme-text-muted transition-colors duration-200">{% trans "Features" %}</a></li>
+                        <li><a href="#" class="text-theme-text-subtle hover:text-theme-text-muted transition-colors duration-200">{% trans "Pricing" %}</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+        <div class="flex items-center space-x-6">
+            {% if user.is_authenticated %}
+                <span class="text-theme-text-muted">{{ user.username }}</span>
+                <a href="{% url 'admin:logout' %}" class="text-theme-error hover:text-theme-maroon transition-colors duration-200">{% trans "Logout" %}</a>
+            {% else %}
+                <a href="{% url 'admin:login' %}?next={{ request.path }}" class="bg-theme-info text-theme-bg px-4 py-2 rounded-lg hover:bg-theme-sapphire transition-colors duration-200">{% trans "Login" %}</a>
+            {% endif %}
+            <a href="{% url 'core:index' %}" class="text-theme-text-subtle hover:text-theme-text-muted transition-colors duration-200">{% trans "Portfolio" %}</a>
+            
+            {% get_current_language as LANGUAGE_CODE %}
+            {% if LANGUAGE_CODE == 'en' %}
+                <a href="/cs{{ request.get_full_path | slice:'3:' }}" class="flex items-center gap-2 text-theme-text-subtle hover:text-theme-text-muted transition-colors duration-200">
+                    <img src="{% static 'core/assets/czech-republic.svg' %}" alt="Czech Flag" class="w-5 h-5 rounded-full object-cover">
+                </a>
+            {% elif LANGUAGE_CODE == 'cs' %}
+                <a href="/en{{ request.get_full_path | slice:'3:' }}" class="flex items-center gap-2 text-theme-text-subtle hover:text-theme-text-muted transition-colors duration-200">
+                    <img src="{% static 'core/assets/united-states.svg' %}" alt="USA Flag" class="w-5 h-5 rounded-full object-cover">
+                </a>
+            {% endif %}
+            
+            <button class="bg-transparent border-none cursor-pointer text-theme-text rounded-full transition-all duration-300 w-10 h-10 p-1 flex justify-center items-center hover:bg-theme-bg-accent theme-toggle-btn" aria-label="{% trans 'Toggle theme' %}">
+                <svg class="w-full h-full" viewBox="0 0 512 512" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path id="moon-part" d="M349.852,343.15c-49.875,49.916-131.083,49.916-181,0c-49.916-49.918-49.916-131.125,0-181.021  c13.209-13.187,29.312-23.25,47.832-29.812c5.834-2.042,12.293-0.562,16.625,3.792c4.376,4.375,5.855,10.833,3.793,16.625  c-12.542,35.375-4,73.666,22.25,99.917c26.209,26.228,64.5,34.75,99.916,22.25c5.792-2.062,12.271-0.582,16.625,3.793  c4.376,4.332,5.834,10.812,3.771,16.625C373.143,313.838,363.06,329.941,349.852,343.15z M191.477,184.754  c-37.438,37.438-37.438,98.354,0,135.771c40,40.021,108.125,36.416,143-8.168c-35.959,2.25-71.375-10.729-97.75-37.084  c-26.375-26.354-39.333-61.771-37.084-97.729C196.769,179.796,194.039,182.192,191.477,184.754z"/>
+                    <path id="sun-part" d="M256,144c-61.75,0-112,50.25-112,112s50.25,112,112,112s112-50.25,112-112S317.75,144,256,144z M256,336 c-44.188,0-80-35.812-80-80c0-44.188,35.812-80,80-80c44.188,0,80,35.812,80,80C336,300.188,300.188,336,256,336z M256,112 c8.833,0,16-7.167,16-16V64c0-8.833-7.167-16-16-16s-16,7.167-16,16v32C240,104.833,247.167,112,256,112z M256,400 c-8.833,0-16,7.167-16,16v32c0,8.833,7.167,16,16,16s16-7.167,16-16v-32C272,407.167,264.833,400,256,400z M380.438,154.167 l22.625-22.625c6.25-6.25,6.25-16.375,0-22.625s-16.375-6.25-22.625,0l-22.625,22.625c-6.25,6.25-6.25,16.375,0,22.625 S374.188,160.417,380.438,154.167z M131.562,357.834l-22.625,22.625c-6.25,6.249-6.25,16.374,0,22.624s16.375,6.25,22.625,0 l22.625-22.624c6.25-6.271,6.25-16.376,0-22.625C147.938,351.583,137.812,351.562,131.562,357.834z M112,256 c0-8.833-7.167-16-16-16H64c-8.833,0-16,7.167-16,16s7.167,16,16,16h32C104.833,272,112,264.833,112,256z M448,240h-32 c-8.833,0-16,7.167-16,16s7.167,16,16,16h32c8.833,0,16-7.167,16-16S456.833,240,448,240z M131.541,154.167 c6.251,6.25,16.376,6.25,22.625,0c6.251-6.25,6.251-16.375,0-22.625l-22.625-22.625c-6.25-6.25-16.374-6.25-22.625,0 c-6.25,6.25-6.25,16.375,0,22.625L131.541,154.167z M380.459,357.812c-6.271-6.25-16.376-6.25-22.625,0 c-6.251,6.25-6.271,16.375,0,22.625l22.625,22.625c6.249,6.25,16.374,6.25,22.624,0s6.25-16.375,0-22.625L380.459,357.812z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+</header>
 
-{% block title %}{% trans "DevFlow Dashboard" %} - {{ block.super }}{% endblock %}
+<main class="pt-20">
 
-{% block content %}
 <div class="min-h-screen bg-theme-bg py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header Section -->
@@ -646,4 +768,27 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-{% endblock %}
+    </div>
+</div>
+
+</main>
+
+<!-- DevFlow Footer -->
+<footer class="bg-theme-bg-accent text-center py-6 text-sm text-theme-text-muted transition-colors duration-300 border-t border-theme-text/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+            <div class="mb-4 md:mb-0">
+                <p>&copy; {% now "Y" %} DevFlow. {% trans "All rights reserved." %}</p>
+            </div>
+            <div class="flex items-center space-x-6">
+                <a href="{% url 'core:index' %}" class="text-theme-text-subtle hover:text-theme-text-muted transition-colors duration-200">{% trans "Portfolio Home" %}</a>
+                <span class="text-theme-text-subtle">|</span>
+                <span class="text-theme-text-muted">{% trans "Catppuccin Theme" %}</span>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="{% static 'core/js/main.js' %}"></script>
+</body>
+</html>
