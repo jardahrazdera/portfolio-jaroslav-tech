@@ -1,0 +1,133 @@
+{% extends 'devtracker/base_tracker.html' %}
+{% load i18n %}
+
+{% block title %}{{ project.name }} - DevTracker{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="project-header">
+        <h1>{{ project.name }}</h1>
+        <div class="project-meta">
+            <span class="project-status status-{{ project.status }}">{{ project.get_status_display }}</span>
+            {% if project.start_date %}
+                <span>{% trans "Started:" %} {{ project.start_date }}</span>
+            {% endif %}
+            {% if project.end_date %}
+                <span>{% trans "Due:" %} {{ project.end_date }}</span>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="project-details">
+        <div class="project-description">
+            <h3>{% trans "Description" %}</h3>
+            <p>{{ project.description|linebreaks }}</p>
+        </div>
+
+        <div class="progress-section">
+            <h3>{% trans "Progress" %}</h3>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: {{ project.get_progress_percentage }}%"></div>
+            </div>
+            <p>{{ project.get_progress_percentage }}% {% trans "completed" %} ({{ tasks|length }} {% trans "tasks" %})</p>
+        </div>
+
+        {% if project.tags.exists %}
+            <div class="tags-section">
+                <h3>{% trans "Tags" %}</h3>
+                <div class="tags-list">
+                    {% for tag in project.tags.all %}
+                        <span class="tag" style="background-color: {{ tag.color }}20; color: {{ tag.color }}">{{ tag.name }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if project.technologies.exists %}
+            <div class="technologies-section">
+                <h3>{% trans "Technologies" %}</h3>
+                <div class="tech-list">
+                    {% for tech in project.technologies.all %}
+                        <span class="tech">{{ tech.name }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="project-links">
+            {% if project.github_url %}
+                <a href="{{ project.github_url }}" class="btn btn-secondary" target="_blank">{% trans "View on GitHub" %}</a>
+            {% endif %}
+            {% if project.live_url %}
+                <a href="{{ project.live_url }}" class="btn" target="_blank">{% trans "View Live Site" %}</a>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <a href="{% url 'devtracker:project_edit' slug=project.slug %}" class="btn btn-secondary">{% trans "Edit Project" %}</a>
+                <a href="{% url 'devtracker:time_log' slug=project.slug %}" class="btn btn-secondary">{% trans "Log Time" %}</a>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if tasks %}
+        <div class="tasks-section">
+            <h3>{% trans "Tasks" %}</h3>
+            <div class="tasks-list">
+                {% for task in tasks %}
+                    <div class="task-item {% if task.is_completed %}completed{% endif %}">
+                        <div class="task-info">
+                            <h4>{{ task.title }}</h4>
+                            {% if task.description %}
+                                <p>{{ task.description|truncatewords:15 }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="task-meta">
+                            <span class="priority priority-{{ task.priority }}">
+                                {% if task.priority == 1 %}{% trans "Low" %}
+                                {% elif task.priority == 2 %}{% trans "Medium" %}
+                                {% else %}{% trans "High" %}
+                                {% endif %}
+                            </span>
+                            {% if task.is_completed %}
+                                <span class="completed-badge">✓ {% trans "Done" %}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    {% if time_logs %}
+        <div class="time-logs-section">
+            <h3>{% trans "Recent Time Logs" %}</h3>
+            <div class="time-logs-list">
+                {% for log in time_logs %}
+                    <div class="time-log-item">
+                        <div class="log-date">{{ log.date }}</div>
+                        <div class="log-hours">{{ log.hours }}h</div>
+                        <div class="log-description">{{ log.description }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+            <p><strong>{% trans "Total:" %} {{ project.get_total_hours }}h</strong></p>
+        </div>
+    {% endif %}
+
+    {% if recent_updates %}
+        <div class="updates-section">
+            <h3>{% trans "Recent Updates" %}</h3>
+            <div class="updates-list">
+                {% for update in recent_updates %}
+                    <div class="update-item">
+                        <div class="update-date">{{ update.date }}</div>
+                        <div class="update-status">{{ update.status }}</div>
+                        {% if update.note %}
+                            <div class="update-note">{{ update.note }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

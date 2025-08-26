@@ -1,0 +1,82 @@
+{% extends 'devtracker/base_tracker.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Projects" %} - DevTracker{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>{% trans "Projects" %}</h1>
+        {% if user.is_authenticated %}
+            <p>{% blocktrans count counter=total_projects %}{{ counter }} project found{% plural %}{{ counter }} projects found{% endblocktrans %}</p>
+        {% else %}
+            <p>{% blocktrans count counter=total_projects %}{{ counter }} public project{% plural %}{{ counter }} public projects{% endblocktrans %}</p>
+        {% endif %}
+    </div>
+
+    {% if projects %}
+        <div class="project-grid">
+            {% for project in projects %}
+                <div class="project-card">
+                    <h3><a href="{% url 'devtracker:project_detail' slug=project.slug %}">{{ project.name }}</a></h3>
+                    <p>{{ project.description|truncatewords:20 }}</p>
+                    
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: {{ project.get_progress_percentage }}%"></div>
+                    </div>
+                    <small>{{ project.get_progress_percentage }}% {% trans "completed" %}</small>
+
+                    {% if project.tags.exists %}
+                        <div class="tags-list">
+                            {% for tag in project.tags.all %}
+                                <span class="tag" style="background-color: {{ tag.color }}20; color: {{ tag.color }}">{{ tag.name }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    {% if project.technologies.exists %}
+                        <div class="tech-list">
+                            {% for tech in project.technologies.all %}
+                                <span class="tech">{{ tech.name }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <div class="project-meta">
+                        <span class="project-status status-{{ project.status }}">{{ project.get_status_display }}</span>
+                        <span class="hours">{{ project.get_total_hours }}h</span>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% if is_paginated %}
+            <div class="pagination">
+                <span class="page-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1">&laquo; {% trans "first" %}</a>
+                        <a href="?page={{ page_obj.previous_page_number }}">{% trans "previous" %}</a>
+                    {% endif %}
+
+                    <span class="current">
+                        {% trans "Page" %} {{ page_obj.number }} {% trans "of" %} {{ page_obj.paginator.num_pages }}
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">{% trans "next" %}</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}">{% trans "last" %} &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="empty-state">
+            <h3>{% trans "No projects found" %}</h3>
+            <p>{% trans "There are no projects to display at the moment." %}</p>
+            {% if user.is_authenticated %}
+                <a href="{% url 'devtracker:project_create' %}" class="btn">{% trans "Create First Project" %}</a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
