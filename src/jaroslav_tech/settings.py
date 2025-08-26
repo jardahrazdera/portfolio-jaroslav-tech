@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django_extensions',
     'core.apps.CoreConfig',
+    'devtracker.apps.DevtrackerConfig',
 ]
 
 MIDDLEWARE = [
@@ -89,7 +90,7 @@ ROOT_URLCONF = 'jaroslav_tech.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

@@ -36,6 +36,7 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
     path('admin/', admin.site.urls),
     path('', include('core.urls', namespace='core')),
+    path('tracker/', include('devtracker.urls', namespace='devtracker')),
 )
 
 # Serve static files in development mode
