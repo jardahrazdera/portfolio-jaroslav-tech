@@ -1,0 +1,79 @@
+{% extends "devtracker/base_tracker.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "Login" %} - DevTracker{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1 class="auth-title">
+                <span class="terminal-prompt">$/~</span> {% trans "DevTracker Login" %}
+            </h1>
+            <p class="auth-subtitle">
+                {% trans "Sign in to manage your projects" %}
+            </p>
+        </div>
+
+        <div class="auth-card">
+            {% if form.errors %}
+                <div class="message message-error auth-error-message">
+                    <strong>{% trans "Login failed" %}</strong><br>
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            {{ error }}<br>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="post" data-validate="true">
+                {% csrf_token %}
+                
+                <div class="auth-form-group">
+                    <label for="{{ form.username.id_for_label }}" class="auth-label">
+                        {% trans "Username" %}
+                    </label>
+                    <input type="text" 
+                           name="{{ form.username.name }}" 
+                           id="{{ form.username.id_for_label }}"
+                           class="auth-input" 
+                           value="{{ form.username.value|default:'' }}"
+                           required>
+                </div>
+
+                <div class="auth-form-group">
+                    <label for="{{ form.password.id_for_label }}" class="auth-label">
+                        {% trans "Password" %}
+                    </label>
+                    <input type="password" 
+                           name="{{ form.password.name }}" 
+                           id="{{ form.password.id_for_label }}"
+                           class="auth-input" 
+                           required>
+                </div>
+
+                <div class="auth-actions">
+                    <button type="submit" class="auth-btn">
+                        {% trans "Sign In" %}
+                    </button>
+                    
+                    <div class="auth-links">
+                        {% trans "Don't have an account?" %} 
+                        <a href="{% url 'devtracker:register' %}" class="auth-link">
+                            {% trans "Register here" %}
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="auth-back-link">
+            <a href="{% url 'devtracker:project_list' %}">
+                ← {% trans "Back to Projects" %}
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends 'devtracker/base_tracker.html' %}
+{% load static i18n %}
+
+{% block title %}{% trans "Add Status Update" %} - DevTracker{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div style="max-width: 600px; margin: 2rem auto;">
+        <div style="margin-bottom: 2rem;">
+            <h1 style="color: var(--text); font-family: 'JetBrains Mono', monospace;">
+                {% trans "Add Status Update" %}
+            </h1>
+            <p style="color: var(--subtext);">{% trans "For project:" %} {{ project.name }}</p>
+        </div>
+
+        <div class="project-card" style="background: var(--mantle); border: 1px solid var(--overlay); border-radius: 8px; padding: 2rem;">
+            <form method="post">
+                {% csrf_token %}
+                
+                {% if form.errors %}
+                    <div class="message message-error" style="margin-bottom: 1.5rem;">
+                        <strong>{% trans "Please correct the errors below" %}</strong>
+                    </div>
+                {% endif %}
+
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label for="{{ form.status.id_for_label }}" style="color: var(--text); font-weight: 600; margin-bottom: 0.5rem; display: block;">
+                        {% trans "Status" %} *
+                    </label>
+                    {{ form.status }}
+                    {% if form.status.errors %}
+                        <div style="color: var(--maroon); font-size: 0.9rem; margin-top: 0.25rem;">
+                            {{ form.status.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label for="{{ form.date.id_for_label }}" style="color: var(--text); font-weight: 600; margin-bottom: 0.5rem; display: block;">
+                        {% trans "Date" %} *
+                    </label>
+                    {{ form.date }}
+                    {% if form.date.errors %}
+                        <div style="color: var(--maroon); font-size: 0.9rem; margin-top: 0.25rem;">
+                            {{ form.date.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group" style="margin-bottom: 2rem;">
+                    <label for="{{ form.note.id_for_label }}" style="color: var(--text); font-weight: 600; margin-bottom: 0.5rem; display: block;">
+                        {% trans "Notes" %}
+                    </label>
+                    {{ form.note }}
+                    {% if form.note.errors %}
+                        <div style="color: var(--maroon); font-size: 0.9rem; margin-top: 0.25rem;">
+                            {{ form.note.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div style="display: flex; gap: 1rem;">
+                    <button type="submit" class="btn" style="background: var(--mauve); color: var(--base); border: none; border-radius: 4px; padding: 0.75rem 1.5rem; font-family: 'JetBrains Mono', monospace; font-weight: 600; cursor: pointer;">
+                        {% trans "Add Status Update" %}
+                    </button>
+                    <a href="{% url 'devtracker:project_detail' slug=project.slug %}" class="btn btn-secondary" style="background: var(--overlay); color: var(--text); text-decoration: none; border-radius: 4px; padding: 0.75rem 1.5rem; font-family: 'JetBrains Mono', monospace; font-weight: 600; display: inline-block;">
+                        {% trans "Cancel" %}
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+.form-control {
+    background: var(--base);
+    border: 1px solid var(--overlay);
+    border-radius: 4px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    padding: 0.75rem;
+    width: 100%;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--mauve);
+    box-shadow: 0 0 0 2px rgba(203, 166, 247, 0.2);
+}
+
+.btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+</style>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'devtracker/base_tracker.html' %}
+{% load static i18n %}
+
+{% block title %}{% trans "Page Not Found" %} - DevTracker{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="error-page">
+        <div class="error-header">
+            <h1 class="error-title">
+                <span class="terminal-prompt">$/~</span> 404
+            </h1>
+            <h2 class="error-subtitle">{% trans "Page Not Found" %}</h2>
+            <p class="error-description">
+                {% trans "The page you're looking for doesn't exist or has been moved." %}
+            </p>
+        </div>
+
+        <div class="error-actions">
+            <a href="{% url 'devtracker:project_list' %}" class="btn">{% trans "Go to Projects" %}</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'devtracker:dashboard' %}" class="btn btn-secondary">{% trans "Go to Dashboard" %}</a>
+            {% endif %}
+            <a href="{% url 'core:index' %}" class="btn btn-secondary">{% trans "Back to Portfolio" %}</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
