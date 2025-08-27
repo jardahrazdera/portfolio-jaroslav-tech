@@ -161,6 +161,25 @@
     background: var(--subtext);
 }
 
+.btn-danger {
+    background: var(--maroon);
+    color: var(--base);
+    border: none;
+    border-radius: 4px;
+    padding: 0.75rem 1.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.btn-danger:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
 /* Dashboard layout */
 .dashboard-grid {
     display: grid;
@@ -529,6 +548,267 @@ select.form-control {
     font-weight: 600;
 }
 
+/* Authentication pages */
+.auth-container {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 2rem;
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.auth-title {
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.terminal-prompt {
+    color: #00FF00;
+}
+
+.auth-subtitle {
+    color: var(--subtext);
+    margin-top: 0.5rem;
+}
+
+.auth-card {
+    background: var(--mantle);
+    border: 1px solid var(--overlay);
+    border-radius: 8px;
+    padding: 2rem;
+}
+
+.auth-error-message {
+    margin-bottom: 1.5rem;
+}
+
+.auth-form-group {
+    margin-bottom: 1.5rem;
+}
+
+.auth-label {
+    color: var(--text);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.auth-input {
+    background: var(--base);
+    border: 1px solid var(--overlay);
+    border-radius: 4px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    padding: 0.75rem;
+    width: 100%;
+}
+
+.auth-input:focus {
+    outline: none;
+    border-color: var(--mauve);
+    box-shadow: 0 0 0 2px rgba(203, 166, 247, 0.2);
+}
+
+/* Form validation states */
+.field-error, .auth-input.field-error {
+    border-color: var(--red) !important;
+    box-shadow: 0 0 0 2px rgba(243, 139, 168, 0.2) !important;
+}
+
+.field-success, .auth-input.field-success {
+    border-color: var(--green) !important;
+    box-shadow: 0 0 0 2px rgba(166, 227, 161, 0.2) !important;
+}
+
+.field-error-message {
+    color: var(--red);
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+/* Password strength indicator */
+.password-strength {
+    margin-top: 0.5rem;
+}
+
+.strength-bar {
+    width: 100%;
+    height: 4px;
+    background: var(--crust);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 0.25rem;
+}
+
+.strength-fill {
+    height: 100%;
+    width: 0%;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+.strength-text {
+    font-size: 0.85rem;
+    color: var(--subtext);
+}
+
+.strength-level {
+    font-weight: 600;
+}
+
+.auth-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.auth-btn {
+    background: var(--mauve);
+    color: var(--base);
+    border: none;
+    border-radius: 4px;
+    padding: 0.75rem 1.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.auth-btn:hover {
+    background: var(--pink);
+    transform: translateY(-1px);
+}
+
+.auth-links {
+    text-align: center;
+    color: var(--subtext);
+}
+
+.auth-link {
+    color: var(--mauve);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-back-link {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.auth-back-link a {
+    color: var(--subtext);
+    text-decoration: none;
+}
+
+/* Delete confirmation pages */
+.delete-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+}
+
+.delete-card {
+    background: var(--mantle);
+    border: 1px solid var(--maroon);
+    border-radius: 8px;
+    padding: 2rem;
+}
+
+.delete-warning {
+    color: var(--maroon);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.delete-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.btn-cancel {
+    background: var(--overlay);
+    color: var(--text);
+}
+
+.btn-cancel:hover {
+    background: var(--subtext);
+}
+
+/* Task actions */
+.task-actions {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 1rem;
+}
+
+.task-action-link {
+    color: var(--mauve);
+    margin-right: 0.5rem;
+    text-decoration: none;
+}
+
+.task-delete-link {
+    color: var(--maroon);
+    text-decoration: none;
+}
+
+/* Error pages */
+.error-page {
+    text-align: center;
+    padding: 4rem 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.error-header {
+    margin-bottom: 3rem;
+}
+
+.error-title {
+    font-size: 3rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.error-subtitle {
+    color: var(--maroon);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.error-description {
+    color: var(--subtext);
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.error-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+.error-actions .btn {
+    min-width: 200px;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
     .project-grid {
@@ -561,5 +841,29 @@ select.form-control {
     
     .project-actions {
         flex-direction: column;
+    }
+    
+    .auth-container {
+        margin: 1rem auto;
+        padding: 1.5rem;
+    }
+    
+    .auth-card {
+        padding: 1.5rem;
+    }
+    
+    .error-page {
+        padding: 2rem 1rem;
+    }
+    
+    .error-title {
+        font-size: 2rem;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .error-actions .btn {
+        min-width: auto;
+        width: 100%;
     }
 }

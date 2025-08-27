@@ -10,7 +10,7 @@
         <p>{% trans "Project:" %} <a href="{% url 'devtracker:project_detail' slug=project.slug %}">{{ project.name }}</a></p>
     </div>
 
-    <form method="post" class="timelog-form">
+    <form method="post" class="timelog-form" data-validate="true">
         {% csrf_token %}
         
         <div class="form-section">
