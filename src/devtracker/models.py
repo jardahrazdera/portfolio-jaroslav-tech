@@ -151,3 +151,45 @@ class ProjectStatus(models.Model):
         verbose_name = "Project Status"
         verbose_name_plural = "Project Statuses"
         ordering = ['-date']
+
+
+class TrackerSettings(models.Model):
+    """Global settings for the DevTracker application."""
+    require_admin_approval = models.BooleanField(
+        default=True,
+        help_text="If enabled, new user registrations will be created as inactive and require admin approval.",
+        verbose_name="Require Admin Approval for New Users"
+    )
+    enable_recaptcha = models.BooleanField(
+        default=True,
+        help_text="Enable reCAPTCHA protection for registration form.",
+        verbose_name="Enable reCAPTCHA Protection"
+    )
+    registration_enabled = models.BooleanField(
+        default=True,
+        help_text="Allow new user registrations. If disabled, the registration page will be unavailable.",
+        verbose_name="Registration Enabled"
+    )
+    welcome_message = models.TextField(
+        blank=True,
+        help_text="Optional message shown to users after successful registration (before approval).",
+        verbose_name="Post-Registration Message"
+    )
+    
+    class Meta:
+        verbose_name = "Tracker Settings"
+        verbose_name_plural = "Tracker Settings"
+    
+    def __str__(self):
+        return "DevTracker Settings"
+    
+    def save(self, *args, **kwargs):
+        """Ensure only one settings instance exists."""
+        self.pk = 1
+        super().save(*args, **kwargs)
+    
+    @classmethod
+    def get_settings(cls):
+        """Get or create the singleton settings instance."""
+        settings, created = cls.objects.get_or_create(pk=1)
+        return settings
