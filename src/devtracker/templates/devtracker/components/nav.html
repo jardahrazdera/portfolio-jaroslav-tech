@@ -1,0 +1,38 @@
+{% load static i18n %}
+<header class="main-header">
+    <div class="container">
+        <a href="{% url 'devtracker:project_list' %}" class="logo terminal">
+            <span class="prompt">$/~</span> DevTracker
+        </a>
+        <nav class="main-nav">
+            <ul class="nav-links">
+                <li><a href="{% url 'devtracker:project_list' %}">{% trans "Projects" %}</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'devtracker:dashboard' %}">{% trans "Dashboard" %}</a></li>
+                    <li><a href="{% url 'devtracker:project_create' %}">{% trans "New Project" %}</a></li>
+                    <li><a href="{% url 'devtracker:logout' %}">{% trans "Logout" %}</a></li>
+                {% else %}
+                    <li><a href="{% url 'devtracker:login' %}">{% trans "Login" %}</a></li>
+                    <li><a href="{% url 'devtracker:register' %}">{% trans "Register" %}</a></li>
+                {% endif %}
+                <!-- Back to Portfolio link -->
+                <li class="nav-separator">|</li>
+                <li><a href="{% url 'core:index' %}" class="back-to-portfolio">← {% trans "Portfolio" %}</a></li>
+                <!-- Keep theme switcher -->
+                <li>
+                    <button class="theme-switcher theme-toggle-btn" aria-label="{% trans 'Toggle theme' %}">
+                        <svg class="theme-icon" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                            <path id="moon-part" d="M 14,24 A 10,10 0 0 0 24,34 V 14 A 10,10 0 0 0 14,24 Z" />
+                            <path id="sun-part" d="M 24,2 A 22,22 0 1 0 46,24 21.9,21.9 0 0 0 24,2 Z M 6,24 A 18.1,18.1 0 0 1 24,6 v 8 a 10,10 0 0 1 0,20 v 8 A 18.1,18.1 0 0 1 6,24 Z" />
+                        </svg>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+        <button class="hamburger" id="hamburger-menu" aria-label="{% trans 'Open menu' %}">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</header>

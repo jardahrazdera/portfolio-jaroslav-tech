@@ -94,11 +94,12 @@ This template extends base.html and provides the actual content for the main pag
                     </div>
                 </div>
                 <div class="project-card">
-                    <h3>{% trans "Personal Dashboard 'Freedom Hub'" %}</h3>
-                    <p>{% blocktrans %}A self-hosted dashboard to reclaim control over my digital world. Instead of dozens of tabs, this app brings RSS feeds, weather, to-do lists, quick notes into one fully customizable space and many more. It's a step towards digital independence, built with Django and a touch of JavaScript for interactive widgets.{% endblocktrans %}</p>
-                    <p class="project-tech"><strong>{% trans "Technologies:" %}</strong> Django, PostgreSQL, JavaScript</p>
+                    <h3>{% trans "DevTracker - Project Management System" %}</h3>
+                    <p>{% blocktrans %}A comprehensive Django-based project management system with time tracking, task management, and progress monitoring. Features user authentication, project ownership, and a beautiful admin interface. Built with modern design principles and comprehensive testing.{% endblocktrans %}</p>
+                    <p class="project-tech"><strong>{% trans "Technologies:" %}</strong> Django, PostgreSQL, pytest, Docker</p>
                     <div class="project-links">
-                        <a href="#" class="btn btn-secondary btn-disabled" aria-disabled="true">{% trans "In Development" %}</a>
+                        <a href="{% url 'devtracker:project_list' %}" class="btn btn-primary">{% trans "Try DevTracker" %}</a>
+                        <a href="https://github.com/jardahrazdera/portfolio-jaroslav-tech" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">{% trans "View Code" %}</a>
                     </div>
                 </div>
                 <div class="project-card">

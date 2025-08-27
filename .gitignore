@@ -89,3 +89,17 @@ mise.toml
 # MCP servers config
 .mcp.json
 
+# Project review documents
+DEVTRACKER_REVIEW.md
+*review*.md
+screenshot-*.png
+
+# Personal tracking documents
+TODO.md
+*TODO*.md
+
+# Security sensitive files
+cookies.txt
+*.cookie
+session.txt
+

@@ -1,0 +1,76 @@
+{% extends 'devtracker/base_tracker.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Log Time" %} - {{ project.name }} - DevTracker{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>{% trans "Log Time" %}</h1>
+        <p>{% trans "Project:" %} <a href="{% url 'devtracker:project_detail' slug=project.slug %}">{{ project.name }}</a></p>
+    </div>
+
+    <form method="post" class="timelog-form" data-validate="true">
+        {% csrf_token %}
+        
+        <div class="form-section">
+            <div class="form-group">
+                <label for="id_date">{{ form.date.label }}:</label>
+                {{ form.date }}
+                {% if form.date.errors %}
+                    <div class="form-errors">
+                        {{ form.date.errors }}
+                    </div>
+                {% endif %}
+                <small>{% trans "The date when work was performed" %}</small>
+            </div>
+
+            <div class="form-group">
+                <label for="id_hours">{{ form.hours.label }}:</label>
+                {{ form.hours }}
+                {% if form.hours.errors %}
+                    <div class="form-errors">
+                        {{ form.hours.errors }}
+                    </div>
+                {% endif %}
+                <small>{% trans "Number of hours worked (e.g., 2.5)" %}</small>
+            </div>
+
+            <div class="form-group">
+                <label for="id_description">{{ form.description.label }}:</label>
+                {{ form.description }}
+                {% if form.description.errors %}
+                    <div class="form-errors">
+                        {{ form.description.errors }}
+                    </div>
+                {% endif %}
+                <small>{% trans "Brief description of work performed" %}</small>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn">{% trans "Log Time" %}</button>
+            <a href="{% url 'devtracker:project_detail' slug=project.slug %}" class="btn btn-secondary">
+                {% trans "Cancel" %}
+            </a>
+        </div>
+    </form>
+
+    <!-- Recent time logs for this project -->
+    {% if project.time_logs.all %}
+        <div class="recent-logs">
+            <h3>{% trans "Recent Time Logs" %}</h3>
+            <div class="time-logs-list">
+                {% for log in project.time_logs.all|slice:":5" %}
+                    <div class="time-log-item">
+                        <div class="log-date">{{ log.date }}</div>
+                        <div class="log-hours">{{ log.hours }}h</div>
+                        <div class="log-description">{{ log.description }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+            <p><strong>{% trans "Total logged:" %} {{ project.get_total_hours }}h</strong></p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

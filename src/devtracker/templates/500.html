@@ -1,0 +1,25 @@
+{% extends 'devtracker/base_tracker.html' %}
+{% load static i18n %}
+
+{% block title %}{% trans "Server Error" %} - DevTracker{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="error-page">
+        <div class="error-header">
+            <h1 class="error-title">
+                <span class="terminal-prompt">$/~</span> 500
+            </h1>
+            <h2 class="error-subtitle">{% trans "Internal Server Error" %}</h2>
+            <p class="error-description">
+                {% trans "Something went wrong on our end. Please try again later." %}
+            </p>
+        </div>
+
+        <div class="error-actions">
+            <a href="{% url 'devtracker:project_list' %}" class="btn">{% trans "Go to Projects" %}</a>
+            <a href="{% url 'core:index' %}" class="btn btn-secondary">{% trans "Back to Portfolio" %}</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

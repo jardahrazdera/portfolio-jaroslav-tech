@@ -1,0 +1,155 @@
+{% extends 'devtracker/base_tracker.html' %}
+{% load i18n %}
+
+{% block title %}
+    {% if object %}{% trans "Edit" %} {{ object.name }}{% else %}{% trans "Create New Project" %}{% endif %} - DevTracker
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>
+            {% if object %}
+                {% trans "Edit Project" %}: {{ object.name }}
+            {% else %}
+                {% trans "Create New Project" %}
+            {% endif %}
+        </h1>
+    </div>
+
+    <form method="post" class="project-form" data-validate="true">
+        {% csrf_token %}
+        
+        <div class="form-section">
+            <h3>{% trans "Basic Information" %}</h3>
+            
+            <div class="form-group">
+                <label for="id_name">{{ form.name.label }}:</label>
+                {{ form.name }}
+                {% if form.name.errors %}
+                    <div class="form-errors">
+                        {{ form.name.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_description">{{ form.description.label }}:</label>
+                {{ form.description }}
+                {% if form.description.errors %}
+                    <div class="form-errors">
+                        {{ form.description.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_status">{{ form.status.label }}:</label>
+                {{ form.status }}
+                {% if form.status.errors %}
+                    <div class="form-errors">
+                        {{ form.status.errors }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>{% trans "Timeline" %}</h3>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="id_start_date">{{ form.start_date.label }}:</label>
+                    {{ form.start_date }}
+                    {% if form.start_date.errors %}
+                        <div class="form-errors">
+                            {{ form.start_date.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_end_date">{{ form.end_date.label }}:</label>
+                    {{ form.end_date }}
+                    {% if form.end_date.errors %}
+                        <div class="form-errors">
+                            {{ form.end_date.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>{% trans "Links" %}</h3>
+            
+            <div class="form-group">
+                <label for="id_github_url">{{ form.github_url.label }}:</label>
+                {{ form.github_url }}
+                {% if form.github_url.errors %}
+                    <div class="form-errors">
+                        {{ form.github_url.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_live_url">{{ form.live_url.label }}:</label>
+                {{ form.live_url }}
+                {% if form.live_url.errors %}
+                    <div class="form-errors">
+                        {{ form.live_url.errors }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>{% trans "Visibility & Categories" %}</h3>
+            
+            <div class="form-group">
+                <div class="checkbox-wrapper">
+                    {{ form.is_public }}
+                    <label for="id_is_public">{{ form.is_public.label }}</label>
+                </div>
+                {% if form.is_public.errors %}
+                    <div class="form-errors">
+                        {{ form.is_public.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_tags">{{ form.tags.label }}:</label>
+                {{ form.tags }}
+                {% if form.tags.errors %}
+                    <div class="form-errors">
+                        {{ form.tags.errors }}
+                    </div>
+                {% endif %}
+                <small>{% trans "Hold Ctrl/Cmd to select multiple tags." %}</small>
+            </div>
+
+            <div class="form-group">
+                <label for="id_technologies">{{ form.technologies.label }}:</label>
+                {{ form.technologies }}
+                {% if form.technologies.errors %}
+                    <div class="form-errors">
+                        {{ form.technologies.errors }}
+                    </div>
+                {% endif %}
+                <small>{% trans "Hold Ctrl/Cmd to select multiple technologies." %}</small>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn">
+                {% if object %}{% trans "Update Project" %}{% else %}{% trans "Create Project" %}{% endif %}
+            </button>
+            <a href="{% if object %}{% url 'devtracker:project_detail' slug=object.slug %}{% else %}{% url 'devtracker:dashboard' %}{% endif %}" class="btn btn-secondary">
+                {% trans "Cancel" %}
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}
