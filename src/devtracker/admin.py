@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
-from .models import Project, Task, TimeLog, Tag, Technology, ProjectStatus
+from .models import Project, Task, TimeLog, Tag, Technology, ProjectStatus, TrackerSettings
 
 
 class TaskInline(admin.TabularInline):
@@ -184,3 +184,26 @@ class UserApprovalAdmin(BaseUserAdmin):
 # Re-register User admin with our custom admin
 admin.site.unregister(User)
 admin.site.register(User, UserApprovalAdmin)
+
+
+@admin.register(TrackerSettings)
+class TrackerSettingsAdmin(admin.ModelAdmin):
+    """Admin interface for DevTracker settings."""
+    fieldsets = (
+        ('Registration Settings', {
+            'fields': ('registration_enabled', 'require_admin_approval', 'enable_recaptcha'),
+            'description': 'Control user registration and security settings'
+        }),
+        ('Messages', {
+            'fields': ('welcome_message',),
+            'description': 'Customize user-facing messages'
+        }),
+    )
+    
+    def has_add_permission(self, request):
+        """Prevent creating multiple settings instances."""
+        return not TrackerSettings.objects.exists()
+    
+    def has_delete_permission(self, request, obj=None):
+        """Prevent deleting the settings instance."""
+        return False
