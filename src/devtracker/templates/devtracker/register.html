@@ -133,10 +133,10 @@
                     {% endif %}
                     
                     <!-- Show helpful message when reCAPTCHA can't load -->
-                    <div style="color: var(--subtext); font-size: 0.85rem; margin-top: 0.5rem; padding: 0.75rem; background: var(--crust); border-radius: 4px; border-left: 3px solid var(--yellow);">
-                        <strong>⚠️ reCAPTCHA Notice:</strong><br>
-                        reCAPTCHA protection is currently not configured. In production, this would require completing a security verification. Contact the administrator if you're having trouble registering.
-                    </div>
+                    {% comment %}
+                    This notice will be shown if reCAPTCHA is not configured.
+                    In production, reCAPTCHA should be properly configured via environment variables.
+                    {% endcomment %}
                 </div>
 
                 <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem;">
