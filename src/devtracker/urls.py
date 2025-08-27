@@ -22,4 +22,7 @@ urlpatterns = [
     
     # Status updates
     path('project/<slug:slug>/status/create/', views.ProjectStatusCreateView.as_view(), name='status_create'),
+    
+    # Uncomment to test 404 page in DEBUG mode:
+    # path('test-404/', views.Test404View.as_view(), name='test_404'),
 ]

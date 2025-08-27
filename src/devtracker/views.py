@@ -1,13 +1,13 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.db.models import Q
-from .models import Project, Task, TimeLog, Tag, Technology, ProjectStatus
+from .models import Project, Task, TimeLog, ProjectStatus
 from .forms import ProjectForm, TimeLogForm, TaskForm, ProjectStatusForm
 
 
@@ -306,3 +306,9 @@ class ProjectDeleteView(LoginRequiredMixin, UserOnlyMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(request, 'Project deleted successfully!')
         return super().delete(request, *args, **kwargs)
+
+
+# Uncomment to test 404 page in DEBUG mode:
+# class Test404View(TemplateView):
+#     """Temporary view to test 404 template in DEBUG mode."""
+#     template_name = '404.html'
