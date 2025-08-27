@@ -1,5 +1,7 @@
 # Portfolio Jaroslav Tech
 
+> **📝 Note:** This README is currently outdated and will be updated soon to reflect recent DevTracker implementation and other improvements.
+
 [![Portfolio CI/CD](https://github.com/jardahrazdera/portfolio-jaroslav-tech/actions/workflows/deploy.yml/badge.svg)](https://github.com/jardahrazdera/portfolio-jaroslav-tech/actions/workflows/deploy.yml)
 
 Welcome to the official repository for my personal portfolio, [jaroslav.tech](https://jaroslav.tech). This project is more than just a website; it's a comprehensive demonstration of my capabilities in full-stack web development, showcasing a robust backend built with Python and Django, a clean frontend, and modern, automated DevOps practices. The core philosophy is to build a scalable, maintainable, and high-quality web application from the ground up.
