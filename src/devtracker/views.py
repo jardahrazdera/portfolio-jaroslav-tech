@@ -7,8 +7,8 @@ from django.contrib.auth.views import LoginView
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.db.models import Q
-from .models import Project, Task, TimeLog, ProjectStatus
-from .forms import ProjectForm, TimeLogForm, TaskForm, ProjectStatusForm
+from .models import Project, Task, TimeLog, ProjectStatus, TrackerSettings
+from .forms import ProjectForm, TimeLogForm, TaskForm, ProjectStatusForm, RegistrationForm
 
 
 class UserOnlyMixin:
@@ -145,23 +145,54 @@ class TimeLogCreateView(LoginRequiredMixin, UserOnlyMixin, CreateView):
 
 
 class UserRegistrationView(CreateView):
-    """User registration view with admin approval required."""
-    form_class = UserCreationForm
+    """User registration view with admin approval required and reCAPTCHA protection."""
+    form_class = RegistrationForm
     template_name = 'devtracker/register.html'
     success_url = reverse_lazy('devtracker:login')
     
+    def dispatch(self, request, *args, **kwargs):
+        """Check if registration is enabled before allowing access."""
+        settings = TrackerSettings.get_settings()
+        if not settings.registration_enabled:
+            messages.error(request, 'Registration is currently disabled. Please contact the administrator.')
+            return redirect('devtracker:login')
+        return super().dispatch(request, *args, **kwargs)
+    
     def form_valid(self, form):
-        """Create inactive user pending admin approval."""
+        """Create user based on admin approval settings."""
         response = super().form_valid(form)
-        # Set user as inactive - requires admin approval
-        self.object.is_active = False
-        self.object.save()
         
-        messages.info(
-            self.request, 
-            'Registration successful! Your account is pending admin approval. '
-            'You will be able to log in once approved.'
-        )
+        # Check if admin approval is required
+        settings = TrackerSettings.get_settings()
+        
+        if settings.require_admin_approval:
+            # Set user as inactive - requires admin approval
+            self.object.is_active = False
+            self.object.save()
+            
+            # Use custom message if set, otherwise default
+            if settings.welcome_message:
+                messages.info(self.request, settings.welcome_message)
+            else:
+                messages.info(
+                    self.request, 
+                    'Registration successful! Your account is pending admin approval. '
+                    'You will be able to log in once approved.'
+                )
+        else:
+            # User is automatically active - no admin approval needed
+            self.object.is_active = True
+            self.object.save()
+            
+            # Use custom message if set, otherwise default
+            if settings.welcome_message:
+                messages.success(self.request, settings.welcome_message)
+            else:
+                messages.success(
+                    self.request,
+                    'Registration successful! You can now log in with your credentials.'
+                )
+        
         return response
 
 
