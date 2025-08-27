@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.text import slugify
 
@@ -44,6 +45,7 @@ class Project(models.Model):
         ('on-hold', 'On Hold'),
     ]
 
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='projects')
     name = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
     description = models.TextField()
