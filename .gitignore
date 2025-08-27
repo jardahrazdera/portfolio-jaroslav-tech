@@ -89,3 +89,8 @@ mise.toml
 # MCP servers config
 .mcp.json
 
+# Project review documents
+DEVTRACKER_REVIEW.md
+*review*.md
+screenshot-*.png
+
