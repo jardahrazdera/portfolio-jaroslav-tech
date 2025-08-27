@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'django.contrib.sites',
     'django_extensions',
+    'django_recaptcha',  # django-recaptcha
     'core.apps.CoreConfig',
     'devtracker.apps.DevtrackerConfig',
 ]
@@ -199,3 +200,9 @@ SILENCED_SYSTEM_CHECKS = ['staticfiles.W004']
 LOGIN_URL = '/tracker/login/'
 LOGIN_REDIRECT_URL = '/tracker/dashboard/'
 # LOGOUT_REDIRECT_URL removed to show the logged_out.html template
+
+# reCAPTCHA settings for DevTracker registration
+# Get keys from: https://www.google.com/recaptcha/admin/
+RECAPTCHA_PUBLIC_KEY = os.environ.get('RECAPTCHA_PUBLIC_KEY', '')
+RECAPTCHA_PRIVATE_KEY = os.environ.get('RECAPTCHA_PRIVATE_KEY', '')
+RECAPTCHA_REQUIRED_SCORE = 0.85  # Score threshold for reCAPTCHA v3
