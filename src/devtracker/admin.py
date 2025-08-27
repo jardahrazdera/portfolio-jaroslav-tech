@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import User
 from .models import Project, Task, TimeLog, Tag, Technology, ProjectStatus
 
 
@@ -149,3 +151,36 @@ class ProjectStatusAdmin(admin.ModelAdmin):
             return obj.note[:50] + ('...' if len(obj.note) > 50 else '')
         return '-'
     note_preview.short_description = 'Note Preview'
+
+
+# User approval management
+class UserApprovalAdmin(BaseUserAdmin):
+    """Enhanced User admin for managing registrations and approvals."""
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_active', 'is_staff', 'date_joined', 'project_count')
+    list_filter = ('is_active', 'is_staff', 'is_superuser', 'date_joined')
+    search_fields = ('username', 'email', 'first_name', 'last_name')
+    ordering = ('-date_joined',)
+    
+    actions = ['approve_users', 'deactivate_users']
+    
+    def project_count(self, obj):
+        """Display number of projects owned by user."""
+        return obj.projects.count()
+    project_count.short_description = 'Projects'
+    
+    def approve_users(self, request, queryset):
+        """Approve selected users."""
+        count = queryset.update(is_active=True)
+        self.message_user(request, f'{count} user(s) approved successfully.')
+    approve_users.short_description = 'Approve selected users'
+    
+    def deactivate_users(self, request, queryset):
+        """Deactivate selected users."""
+        count = queryset.update(is_active=False)
+        self.message_user(request, f'{count} user(s) deactivated.')
+    deactivate_users.short_description = 'Deactivate selected users'
+
+
+# Re-register User admin with our custom admin
+admin.site.unregister(User)
+admin.site.register(User, UserApprovalAdmin)

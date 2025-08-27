@@ -145,15 +145,23 @@ class TimeLogCreateView(LoginRequiredMixin, UserOnlyMixin, CreateView):
 
 
 class UserRegistrationView(CreateView):
-    """User registration view."""
+    """User registration view with admin approval required."""
     form_class = UserCreationForm
     template_name = 'devtracker/register.html'
-    success_url = reverse_lazy('devtracker:dashboard')
+    success_url = reverse_lazy('devtracker:login')
     
     def form_valid(self, form):
-        """Log the user in after successful registration."""
+        """Create inactive user pending admin approval."""
         response = super().form_valid(form)
-        login(self.request, self.object)
+        # Set user as inactive - requires admin approval
+        self.object.is_active = False
+        self.object.save()
+        
+        messages.info(
+            self.request, 
+            'Registration successful! Your account is pending admin approval. '
+            'You will be able to log in once approved.'
+        )
         return response
 
 
