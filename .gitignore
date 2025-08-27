@@ -98,3 +98,8 @@ screenshot-*.png
 TODO.md
 *TODO*.md
 
+# Security sensitive files
+cookies.txt
+*.cookie
+session.txt
+
