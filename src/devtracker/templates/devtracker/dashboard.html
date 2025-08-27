@@ -132,6 +132,26 @@
                 <p>{% trans "No projects found." %} <a href="{% url 'devtracker:project_create' %}">{% trans "Create your first project" %}</a></p>
             {% endif %}
         </div>
+        
+        {% if is_paginated %}
+            <div class="pagination">
+                <span class="page-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1">&laquo; {% trans "first" %}</a>
+                        <a href="?page={{ page_obj.previous_page_number }}">{% trans "previous" %}</a>
+                    {% endif %}
+
+                    <span class="current">
+                        {% trans "Page" %} {{ page_obj.number }} {% trans "of" %} {{ page_obj.paginator.num_pages }}
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">{% trans "next" %}</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}">{% trans "last" %} &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

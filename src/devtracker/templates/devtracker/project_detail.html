@@ -61,9 +61,12 @@
             {% if project.live_url %}
                 <a href="{{ project.live_url }}" class="btn" target="_blank">{% trans "View Live Site" %}</a>
             {% endif %}
-            {% if user.is_authenticated %}
+            {% if user.is_authenticated and project.owner == user %}
                 <a href="{% url 'devtracker:project_edit' slug=project.slug %}" class="btn btn-secondary">{% trans "Edit Project" %}</a>
                 <a href="{% url 'devtracker:time_log' slug=project.slug %}" class="btn btn-secondary">{% trans "Log Time" %}</a>
+                <a href="{% url 'devtracker:task_create' slug=project.slug %}" class="btn btn-secondary">{% trans "Add Task" %}</a>
+                <a href="{% url 'devtracker:status_create' slug=project.slug %}" class="btn btn-secondary">{% trans "Add Status Update" %}</a>
+                <a href="{% url 'devtracker:project_delete' slug=project.slug %}" class="btn btn-danger" onclick="return confirm('{% trans "Are you sure you want to delete this project?" %}')">{% trans "Delete Project" %}</a>
             {% endif %}
         </div>
     </div>
@@ -89,6 +92,12 @@
                             </span>
                             {% if task.is_completed %}
                                 <span class="completed-badge">✓ {% trans "Done" %}</span>
+                            {% endif %}
+                            {% if user.is_authenticated and project.owner == user %}
+                                <div class="task-actions">
+                                    <a href="{% url 'devtracker:task_edit' pk=task.pk %}" class="task-action-link">{% trans "Edit" %}</a>
+                                    <a href="{% url 'devtracker:task_delete' pk=task.pk %}" class="task-delete-link" onclick="return confirm('{% trans "Delete this task?" %}')">{% trans "Delete" %}</a>
+                                </div>
                             {% endif %}
                         </div>
                     </div>
@@ -130,4 +139,5 @@
         </div>
     {% endif %}
 </div>
+
 {% endblock %}

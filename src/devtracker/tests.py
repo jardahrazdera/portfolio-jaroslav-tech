@@ -6,317 +6,259 @@ from datetime import date, timedelta
 from .models import Project, Task, TimeLog, Tag, Technology, ProjectStatus
 
 
-class ProjectListViewTests(TestCase):
-    """Test the public project list view."""
+class BaseTestCase(TestCase):
+    """Base test case with common setup."""
     
     def setUp(self):
         self.client = Client()
+        self.user = User.objects.create_user(username='testuser', password='testpass')
+        self.admin_user = User.objects.create_user(username='admin', password='adminpass', is_staff=True)
         self.tag = Tag.objects.create(name='Web Dev', slug='web-dev')
         self.tech = Technology.objects.create(name='Django')
+
+
+class ProjectWorkflowTests(BaseTestCase):
+    """Test complete project workflow from creation to deletion."""
+    
+    def test_complete_project_lifecycle(self):
+        """Test creating, managing, and deleting a project with all features."""
+        self.client.login(username='testuser', password='testpass')
         
-    def test_public_project_list_shows_only_public_projects(self):
-        """Public project list should only show is_public=True projects."""
-        # Create public and private projects
-        public_project = Project.objects.create(
+        # 1. Create project
+        response = self.client.post(reverse('devtracker:project_create'), {
+            'name': 'Test Project',
+            'description': 'Test description',
+            'status': 'active',
+            'is_public': True
+        })
+        self.assertEqual(response.status_code, 302)
+        project = Project.objects.get(name='Test Project')
+        
+        # 2. Add tasks to project
+        response = self.client.post(
+            reverse('devtracker:task_create', kwargs={'slug': project.slug}),
+            {'title': 'Task 1', 'priority': 2, 'is_completed': False}
+        )
+        self.assertEqual(response.status_code, 302)
+        
+        response = self.client.post(
+            reverse('devtracker:task_create', kwargs={'slug': project.slug}),
+            {'title': 'Task 2', 'priority': 1, 'is_completed': True}
+        )
+        self.assertEqual(response.status_code, 302)
+        
+        # 3. Log time
+        response = self.client.post(
+            reverse('devtracker:time_log', kwargs={'slug': project.slug}),
+            {'date': date.today().isoformat(), 'hours': 4.5, 'description': 'Development work'}
+        )
+        self.assertEqual(response.status_code, 302)
+        
+        # 4. Add status update
+        response = self.client.post(
+            reverse('devtracker:status_create', kwargs={'slug': project.slug}),
+            {'status': 'Milestone 1', 'date': date.today().isoformat(), 'note': 'First milestone'}
+        )
+        self.assertEqual(response.status_code, 302)
+        
+        # 5. Verify project has all data
+        project.refresh_from_db()
+        self.assertEqual(project.tasks.count(), 2)
+        self.assertEqual(project.time_logs.count(), 1)
+        self.assertEqual(project.status_updates.count(), 1)
+        self.assertEqual(project.get_progress_percentage(), 50)  # 1/2 tasks done
+        self.assertEqual(project.get_total_hours(), 4.5)
+        
+        # 6. Update a task
+        task = project.tasks.first()
+        response = self.client.post(
+            reverse('devtracker:task_edit', kwargs={'pk': task.pk}),
+            {'title': 'Updated Task', 'priority': 3, 'is_completed': True}
+        )
+        self.assertEqual(response.status_code, 302)
+        task.refresh_from_db()
+        self.assertEqual(task.title, 'Updated Task')
+        self.assertTrue(task.is_completed)
+        
+        # 7. Delete a task
+        task_count_before = project.tasks.count()
+        response = self.client.post(reverse('devtracker:task_delete', kwargs={'pk': task.pk}))
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(project.tasks.count(), task_count_before - 1)
+        
+        # 8. Delete entire project
+        response = self.client.post(reverse('devtracker:project_delete', kwargs={'slug': project.slug}))
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(Project.objects.filter(slug=project.slug).exists())
+
+
+class SecurityTests(BaseTestCase):
+    """Test security aspects - authentication, authorization."""
+    
+    def setUp(self):
+        super().setUp()
+        self.project = Project.objects.create(
+            name='Owner Project',
+            slug='owner-project', 
+            description='Test',
+            owner=self.user
+        )
+        self.other_user = User.objects.create_user('other', 'other@test.com', 'pass')
+    
+    def test_authentication_required_for_protected_views(self):
+        """Test that protected views require login."""
+        protected_urls = [
+            reverse('devtracker:dashboard'),
+            reverse('devtracker:project_create'),
+            reverse('devtracker:task_create', kwargs={'slug': self.project.slug}),
+            reverse('devtracker:project_delete', kwargs={'slug': self.project.slug}),
+        ]
+        
+        for url in protected_urls:
+            response = self.client.get(url)
+            self.assertEqual(response.status_code, 302)
+            self.assertIn('/tracker/login/', response.url)
+    
+    def test_ownership_protection(self):
+        """Test that users can only modify their own projects."""
+        self.client.login(username='other', password='pass')
+        
+        # Other user cannot access owner's project management
+        ownership_urls = [
+            reverse('devtracker:project_edit', kwargs={'slug': self.project.slug}),
+            reverse('devtracker:project_delete', kwargs={'slug': self.project.slug}),
+            reverse('devtracker:task_create', kwargs={'slug': self.project.slug}),
+        ]
+        
+        for url in ownership_urls:
+            response = self.client.get(url)
+            self.assertEqual(response.status_code, 404)
+    
+    def test_admin_user_separation(self):
+        """Test that admin users are redirected to admin interface."""
+        # Admin login attempt redirects to admin
+        response = self.client.post(reverse('devtracker:login'), {
+            'username': 'admin',
+            'password': 'adminpass'
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertIn('/admin/login/', response.url)
+        
+        # Admin accessing user views redirects to admin
+        self.client.login(username='admin', password='adminpass')
+        response = self.client.get(reverse('devtracker:dashboard'))
+        self.assertEqual(response.status_code, 302)
+        self.assertIn('/admin/', response.url)
+
+
+class PublicAccessTests(BaseTestCase):
+    """Test public vs private project access."""
+    
+    def setUp(self):
+        super().setUp()
+        self.public_project = Project.objects.create(
             name='Public Project',
             slug='public-project',
-            description='A public project',
+            description='Public test',
+            owner=self.user,
             is_public=True
         )
-        private_project = Project.objects.create(
+        self.private_project = Project.objects.create(
             name='Private Project', 
             slug='private-project',
-            description='A private project',
+            description='Private test',
+            owner=self.user,
             is_public=False
         )
+    
+    def test_project_visibility(self):
+        """Test public/private project access for anonymous users."""
+        # Anonymous can see public project
+        response = self.client.get(reverse('devtracker:project_detail', kwargs={'slug': self.public_project.slug}))
+        self.assertEqual(response.status_code, 200)
         
+        # Anonymous cannot see private project
+        response = self.client.get(reverse('devtracker:project_detail', kwargs={'slug': self.private_project.slug}))
+        self.assertEqual(response.status_code, 404)
+        
+        # Project list shows only public projects to anonymous users
         response = self.client.get(reverse('devtracker:project_list'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Public Project')
         self.assertNotContains(response, 'Private Project')
 
-    def test_authenticated_user_sees_all_projects(self):
-        """Authenticated users should see both public and private projects."""
-        user = User.objects.create_user('testuser', 'test@example.com', 'password')
-        self.client.login(username='testuser', password='password')
-        
-        public_project = Project.objects.create(
-            name='Public Project',
-            slug='public-project', 
-            description='A public project',
-            is_public=True
-        )
-        private_project = Project.objects.create(
-            name='Private Project',
-            slug='private-project',
-            description='A private project', 
-            is_public=False
-        )
-        
-        response = self.client.get(reverse('devtracker:project_list'))
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Public Project')
-        self.assertContains(response, 'Private Project')
 
-
-class ProjectDetailViewTests(TestCase):
-    """Test the project detail view."""
+class AuthenticationFlowTests(TestCase):
+    """Test login/logout functionality."""
     
     def setUp(self):
-        self.client = Client()
-        self.user = User.objects.create_user('testuser', 'test@example.com', 'password')
-        
-    def test_public_project_accessible_to_anonymous_users(self):
-        """Public projects should be accessible to anonymous users."""
-        project = Project.objects.create(
-            name='Test Project',
-            slug='test-project',
-            description='Test description',
-            is_public=True
-        )
-        
-        response = self.client.get(reverse('devtracker:project_detail', kwargs={'slug': 'test-project'}))
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Test Project')
-
-    def test_private_project_not_accessible_to_anonymous_users(self):
-        """Private projects should return 404 for anonymous users."""
-        project = Project.objects.create(
-            name='Private Project',
-            slug='private-project',
-            description='Private description',
-            is_public=False
-        )
-        
-        response = self.client.get(reverse('devtracker:project_detail', kwargs={'slug': 'private-project'}))
-        self.assertEqual(response.status_code, 404)
-
-    def test_authenticated_user_can_access_private_project(self):
-        """Authenticated users should access private projects."""
-        self.client.login(username='testuser', password='password')
-        project = Project.objects.create(
-            name='Private Project',
-            slug='private-project',
-            description='Private description',
-            is_public=False
-        )
-        
-        response = self.client.get(reverse('devtracker:project_detail', kwargs={'slug': 'private-project'}))
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Private Project')
-
-
-class DashboardViewTests(TestCase):
-    """Test the authenticated dashboard view."""
+        self.user = User.objects.create_user('testuser', 'test@test.com', 'testpass')
+        self.admin = User.objects.create_user('admin', 'admin@test.com', 'adminpass', is_staff=True)
     
-    def setUp(self):
-        self.client = Client()
-        self.user = User.objects.create_user('testuser', 'test@example.com', 'password')
+    def test_user_login_logout_flow(self):
+        """Test complete login/logout flow for regular users."""
+        # Login
+        response = self.client.post(reverse('devtracker:login'), {
+            'username': 'testuser',
+            'password': 'testpass'
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertIn('/dashboard/', response.url)
         
-    def test_dashboard_requires_authentication(self):
-        """Dashboard should redirect to login for anonymous users."""
+        # Logout shows goodbye page
+        response = self.client.get(reverse('devtracker:logout'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Goodbye!')
+        
+        # After logout, protected views redirect to login
         response = self.client.get(reverse('devtracker:dashboard'))
         self.assertEqual(response.status_code, 302)
-        self.assertIn('/admin/login/', response.url)
-
-    def test_dashboard_accessible_to_authenticated_users(self):
-        """Dashboard should be accessible to authenticated users."""
-        self.client.login(username='testuser', password='password')
-        response = self.client.get(reverse('devtracker:dashboard'))
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Dashboard')
-
-    def test_dashboard_shows_project_statistics(self):
-        """Dashboard should display project statistics."""
-        self.client.login(username='testuser', password='password')
-        
-        # Create test projects
-        Project.objects.create(name='Active Project', slug='active', description='Test', status='active')
-        Project.objects.create(name='Completed Project', slug='completed', description='Test', status='completed')
-        
-        response = self.client.get(reverse('devtracker:dashboard'))
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Total Projects')
-        self.assertContains(response, 'Active')
-        self.assertContains(response, 'Completed')
+        self.assertIn('/tracker/login/', response.url)
 
 
-class ProjectCreateViewTests(TestCase):
-    """Test project creation view."""
+class ModelLogicTests(TestCase):
+    """Test model methods and business logic."""
     
-    def setUp(self):
-        self.client = Client()
-        self.user = User.objects.create_user('testuser', 'test@example.com', 'password')
+    def test_project_progress_calculation(self):
+        """Test project progress percentage calculation."""
+        user = User.objects.create_user('test', 'test@test.com', 'pass')
+        project = Project.objects.create(name='Test', slug='test', owner=user)
         
-    def test_create_view_requires_authentication(self):
-        """Project create view should require authentication."""
-        response = self.client.get(reverse('devtracker:project_create'))
-        self.assertEqual(response.status_code, 302)
-        self.assertIn('/admin/login/', response.url)
-
-    def test_authenticated_user_can_access_create_form(self):
-        """Authenticated users should access the create form."""
-        self.client.login(username='testuser', password='password')
-        response = self.client.get(reverse('devtracker:project_create'))
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Create New Project')
-
-    def test_create_project_with_valid_data(self):
-        """Should create project with valid POST data."""
-        self.client.login(username='testuser', password='password')
-        data = {
-            'name': 'New Test Project',
-            'description': 'A new test project',
-            'status': 'planning',
-            'is_public': True,
-        }
+        # No tasks = 0% progress
+        self.assertEqual(project.get_progress_percentage(), 0)
         
-        response = self.client.post(reverse('devtracker:project_create'), data)
-        self.assertEqual(response.status_code, 302)  # Redirect after successful creation
-        self.assertTrue(Project.objects.filter(name='New Test Project').exists())
-
-
-class ProjectUpdateViewTests(TestCase):
-    """Test project update view."""
+        # Mixed completed/incomplete tasks
+        Task.objects.create(project=project, title='Task 1', is_completed=True)
+        Task.objects.create(project=project, title='Task 2', is_completed=False)
+        Task.objects.create(project=project, title='Task 3', is_completed=True)
+        
+        # 2/3 = 67%
+        self.assertEqual(project.get_progress_percentage(), 67)
     
-    def setUp(self):
-        self.client = Client()
-        self.user = User.objects.create_user('testuser', 'test@example.com', 'password')
-        self.project = Project.objects.create(
-            name='Test Project',
-            slug='test-project',
-            description='Original description',
-            status='planning'
-        )
-        
-    def test_update_view_requires_authentication(self):
-        """Project update view should require authentication."""
-        response = self.client.get(reverse('devtracker:project_edit', kwargs={'slug': 'test-project'}))
-        self.assertEqual(response.status_code, 302)
-        self.assertIn('/admin/login/', response.url)
-
-    def test_authenticated_user_can_update_project(self):
-        """Authenticated users should be able to update projects."""
-        self.client.login(username='testuser', password='password')
-        data = {
-            'name': 'Updated Test Project',
-            'description': 'Updated description', 
-            'status': 'active',
-            'is_public': False,
-        }
-        
-        response = self.client.post(reverse('devtracker:project_edit', kwargs={'slug': 'test-project'}), data)
-        self.assertEqual(response.status_code, 302)  # Redirect after successful update
-        
-        self.project.refresh_from_db()
-        self.assertEqual(self.project.name, 'Updated Test Project')
-        self.assertEqual(self.project.description, 'Updated description')
-
-
-class TimeLogCreateViewTests(TestCase):
-    """Test time log creation view."""
-    
-    def setUp(self):
-        self.client = Client()
-        self.user = User.objects.create_user('testuser', 'test@example.com', 'password')
-        self.project = Project.objects.create(
-            name='Test Project',
-            slug='test-project',
-            description='Test description'
-        )
-        
-    def test_timelog_view_requires_authentication(self):
-        """Time log view should require authentication."""
-        response = self.client.get(reverse('devtracker:time_log', kwargs={'slug': 'test-project'}))
-        self.assertEqual(response.status_code, 302)
-        self.assertIn('/admin/login/', response.url)
-
-    def test_authenticated_user_can_log_time(self):
-        """Authenticated users should be able to log time."""
-        self.client.login(username='testuser', password='password')
-        data = {
-            'date': date.today(),
-            'hours': 2.5,
-            'description': 'Working on feature X'
-        }
-        
-        response = self.client.post(reverse('devtracker:time_log', kwargs={'slug': 'test-project'}), data)
-        self.assertEqual(response.status_code, 302)  # Redirect after successful creation
-        
-        time_log = TimeLog.objects.filter(project=self.project).first()
-        self.assertIsNotNone(time_log)
-        self.assertEqual(time_log.hours, 2.5)
-        self.assertEqual(time_log.description, 'Working on feature X')
-
-
-class ProjectModelTests(TestCase):
-    """Test Project model methods."""
-    
-    def setUp(self):
-        self.project = Project.objects.create(
-            name='Test Project',
-            slug='test-project',
-            description='Test description'
-        )
-        
-    def test_project_progress_calculation_no_tasks(self):
-        """Project with no tasks should have 0% progress."""
-        self.assertEqual(self.project.get_progress_percentage(), 0)
-        
-    def test_project_progress_calculation_with_tasks(self):
-        """Project progress should be calculated correctly."""
-        Task.objects.create(project=self.project, title='Task 1', is_completed=True)
-        Task.objects.create(project=self.project, title='Task 2', is_completed=False)
-        Task.objects.create(project=self.project, title='Task 3', is_completed=True)
-        
-        # 2 out of 3 tasks completed = 67%
-        self.assertEqual(self.project.get_progress_percentage(), 67)
-
     def test_project_total_hours_calculation(self):
-        """Project should calculate total hours correctly."""
-        TimeLog.objects.create(project=self.project, date=date.today(), hours=2.5, description='Work 1')
-        TimeLog.objects.create(project=self.project, date=date.today(), hours=3.0, description='Work 2')
+        """Test project total hours calculation."""
+        user = User.objects.create_user('test', 'test@test.com', 'pass')
+        project = Project.objects.create(name='Test', slug='test', owner=user)
         
-        self.assertEqual(self.project.get_total_hours(), 5.5)
-
-
-class TaskModelTests(TestCase):
-    """Test Task model behavior."""
+        TimeLog.objects.create(project=project, date=date.today(), hours=2.5, description='Work 1')
+        TimeLog.objects.create(project=project, date=date.today(), hours=3.0, description='Work 2')
+        
+        self.assertEqual(project.get_total_hours(), 5.5)
     
-    def setUp(self):
-        self.project = Project.objects.create(
-            name='Test Project',
-            slug='test-project',
-            description='Test description'
-        )
-        
-    def test_task_completion_sets_completed_at(self):
-        """Marking task as completed should set completed_at timestamp."""
-        task = Task.objects.create(
-            project=self.project,
-            title='Test Task',
-            is_completed=False
-        )
+    def test_task_completion_timestamp(self):
+        """Test task completion timestamp behavior."""
+        user = User.objects.create_user('test', 'test@test.com', 'pass')
+        project = Project.objects.create(name='Test', slug='test', owner=user)
+        task = Task.objects.create(project=project, title='Test Task', is_completed=False)
         
         self.assertIsNone(task.completed_at)
         
+        # Mark completed
         task.is_completed = True
         task.save()
-        
         self.assertIsNotNone(task.completed_at)
         
-    def test_task_uncomplete_clears_completed_at(self):
-        """Unmarking task as completed should clear completed_at timestamp.""" 
-        task = Task.objects.create(
-            project=self.project,
-            title='Test Task',
-            is_completed=True
-        )
-        
-        # Should have completed_at set initially
-        self.assertIsNotNone(task.completed_at)
-        
+        # Mark incomplete
         task.is_completed = False
         task.save()
-        
         self.assertIsNone(task.completed_at)

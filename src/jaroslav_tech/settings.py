@@ -194,3 +194,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # This is useful in development/testing environments where the directory
 # is created later in the CI/CD pipeline.
 SILENCED_SYSTEM_CHECKS = ['staticfiles.W004']
+
+# Authentication settings for DevTracker
+LOGIN_URL = '/tracker/login/'
+LOGIN_REDIRECT_URL = '/tracker/dashboard/'
+# LOGOUT_REDIRECT_URL removed to show the logged_out.html template
