@@ -1,6 +1,6 @@
 # Portfolio Jaroslav Tech
 
-> **📝 Note:** This README is currently outdated and will be updated soon to reflect recent DevTracker implementation and other improvements.
+> **📝 Note:** This README is currently outdated and will be updated soon to reflect recent DevTracker implementation and other improvements. See [PR #2](https://github.com/jardahrazdera/portfolio-jaroslav-tech/pull/2) for DevTracker implementation details.
 
 [![Portfolio CI/CD](https://github.com/jardahrazdera/portfolio-jaroslav-tech/actions/workflows/deploy.yml/badge.svg)](https://github.com/jardahrazdera/portfolio-jaroslav-tech/actions/workflows/deploy.yml)
 
