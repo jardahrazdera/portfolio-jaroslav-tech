@@ -1,4 +1,8 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django_recaptcha.fields import ReCaptchaField
+from django_recaptcha.widgets import ReCaptchaV3
 from .models import Project, TimeLog, Task, ProjectStatus
 
 
@@ -74,3 +78,63 @@ class ProjectStatusForm(forms.ModelForm):
         if not self.instance.pk:
             from django.utils import timezone
             self.fields['date'].initial = timezone.now().date()
+
+
+class RegistrationForm(UserCreationForm):
+    """Custom user registration form with reCAPTCHA protection."""
+    email = forms.EmailField(
+        required=True,
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'your@email.com'
+        })
+    )
+    captcha = ReCaptchaField(
+        widget=ReCaptchaV3(
+            attrs={'data-theme': 'dark'}  # Match our theme
+        ),
+        error_messages={
+            'required': 'Please complete the reCAPTCHA verification.',
+            'invalid': 'reCAPTCHA verification failed. Please try again.',
+        }
+    )
+    
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2', 'captcha')
+        widgets = {
+            'username': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Choose a username'
+            }),
+        }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Add classes to password fields
+        self.fields['password1'].widget.attrs.update({'class': 'form-control'})
+        self.fields['password2'].widget.attrs.update({'class': 'form-control'})
+    
+    def clean_captcha(self):
+        """Custom validation for reCAPTCHA field with better error messages."""
+        from django.conf import settings
+        
+        # Check if reCAPTCHA keys are configured
+        if not getattr(settings, 'RECAPTCHA_PUBLIC_KEY', None) or not getattr(settings, 'RECAPTCHA_PRIVATE_KEY', None):
+            raise forms.ValidationError(
+                'reCAPTCHA is not properly configured on this server. '
+                'Please contact the administrator.'
+            )
+        
+        captcha = self.cleaned_data.get('captcha')
+        if not captcha:
+            raise forms.ValidationError('Please complete the reCAPTCHA verification.')
+        
+        return captcha
+    
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.email = self.cleaned_data['email']
+        if commit:
+            user.save()
+        return user
