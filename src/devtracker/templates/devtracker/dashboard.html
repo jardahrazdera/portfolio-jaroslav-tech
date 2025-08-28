@@ -112,7 +112,7 @@
                             <p>{{ project.description|truncatewords:15 }}</p>
                             
                             <div class="progress-bar">
-                                <div class="progress-fill" style="width: {{ project.get_progress_percentage }}%"></div>
+                                <div class="progress-fill" data-progress="{{ project.get_progress_percentage }}"></div>
                             </div>
                             <small>{{ project.get_progress_percentage }}% {% trans "completed" %}</small>
 

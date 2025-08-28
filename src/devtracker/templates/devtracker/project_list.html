@@ -14,68 +14,253 @@
         {% endif %}
     </div>
 
-    {% if projects %}
-        <div class="project-grid">
-            {% for project in projects %}
-                <div class="project-card">
-                    <h3><a href="{% url 'devtracker:project_detail' slug=project.slug %}">{{ project.name }}</a></h3>
-                    <p>{{ project.description|truncatewords:20 }}</p>
+    <!-- User's Own Projects Section -->
+    {% if user.is_authenticated and user_projects %}
+        <div class="projects-section" x-data="{
+            search: '',
+            statusFilter: 'all',
+            technologyFilter: 'all',
+            tagFilter: 'all'
+        }">
+            <div class="section-header">
+                <h2>{% trans "My Projects" %}</h2>
+                
+                <!-- Search Controls -->
+                <div class="search-container">
+                    <input type="text" 
+                           x-model="search" 
+                           class="search-input" 
+                           placeholder="{% trans 'Search my projects...' %}">
                     
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: {{ project.get_progress_percentage }}%"></div>
-                    </div>
-                    <small>{{ project.get_progress_percentage }}% {% trans "completed" %}</small>
-
-                    {% if project.tags.exists %}
-                        <div class="tags-list">
-                            {% for tag in project.tags.all %}
-                                <span class="tag" style="background-color: {{ tag.color }}20; color: {{ tag.color }}">{{ tag.name }}</span>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-
-                    {% if project.technologies.exists %}
-                        <div class="tech-list">
-                            {% for tech in project.technologies.all %}
-                                <span class="tech">{{ tech.name }}</span>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-
-                    <div class="project-meta">
-                        <span class="project-status status-{{ project.status }}">{{ project.get_status_display }}</span>
-                        <span class="hours">{{ project.get_total_hours }}h</span>
-                    </div>
+                    <select x-model="statusFilter" class="filter-select">
+                        <option value="all">{% trans "All Status" %}</option>
+                        <option value="planning">{% trans "Planning" %}</option>
+                        <option value="active">{% trans "Active" %}</option>
+                        <option value="completed">{% trans "Completed" %}</option>
+                        <option value="on-hold">{% trans "On Hold" %}</option>
+                    </select>
+                    
+                    <select x-model="technologyFilter" class="filter-select">
+                        <option value="all">{% trans "All Technologies" %}</option>
+                        <option value="django">Django</option>
+                        <option value="react">React</option>
+                        <option value="vue.js">Vue.js</option>
+                        <option value="flutter">Flutter</option>
+                        <option value="python">Python</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="unity">Unity</option>
+                        <option value="docker">Docker</option>
+                        <option value="postgresql">PostgreSQL</option>
+                        <option value="fastapi">FastAPI</option>
+                    </select>
+                    
+                    <select x-model="tagFilter" class="filter-select">
+                        <option value="all">{% trans "All Tags" %}</option>
+                        <option value="web development">{% trans "Web Development" %}</option>
+                        <option value="ai/ml">{% trans "AI/ML" %}</option>
+                        <option value="backend">{% trans "Backend" %}</option>
+                        <option value="devops">{% trans "DevOps" %}</option>
+                        <option value="open source">{% trans "Open Source" %}</option>
+                        <option value="database">{% trans "Database" %}</option>
+                    </select>
                 </div>
-            {% endfor %}
-        </div>
-
-        {% if is_paginated %}
-            <div class="pagination">
-                <span class="page-links">
-                    {% if page_obj.has_previous %}
-                        <a href="?page=1">&laquo; {% trans "first" %}</a>
-                        <a href="?page={{ page_obj.previous_page_number }}">{% trans "previous" %}</a>
-                    {% endif %}
-
-                    <span class="current">
-                        {% trans "Page" %} {{ page_obj.number }} {% trans "of" %} {{ page_obj.paginator.num_pages }}
-                    </span>
-
-                    {% if page_obj.has_next %}
-                        <a href="?page={{ page_obj.next_page_number }}">{% trans "next" %}</a>
-                        <a href="?page={{ page_obj.paginator.num_pages }}">{% trans "last" %} &raquo;</a>
-                    {% endif %}
-                </span>
             </div>
-        {% endif %}
-    {% else %}
+            
+            <div class="project-grid">
+                {% for project in user_projects %}
+                    <div class="project-card {% if not project.is_public %}private-project{% endif %}"
+                         data-name="{{ project.name|lower }}"
+                         data-description="{{ project.description|lower|truncatewords:50 }}"
+                         data-status="{{ project.status }}"
+                         data-technologies="{% for tech in project.technologies.all %}{{ tech.name|lower }}{% if not forloop.last %}|{% endif %}{% endfor %}"
+                         data-tags="{% for tag in project.tags.all %}{{ tag.name|lower }}{% if not forloop.last %}|{% endif %}{% endfor %}"
+                         x-show="(search === '' || 
+                                 $el.dataset.name.includes(search.toLowerCase()) || 
+                                 $el.dataset.description.includes(search.toLowerCase())) &&
+                                (statusFilter === 'all' || statusFilter === $el.dataset.status) &&
+                                (technologyFilter === 'all' || $el.dataset.technologies.includes(technologyFilter.toLowerCase())) &&
+                                (tagFilter === 'all' || $el.dataset.tags.includes(tagFilter.toLowerCase()))"
+                         x-transition:enter="fade-enter-active"
+                         x-transition:leave="fade-leave-active">
+                        <h3>
+                            <a href="{% url 'devtracker:project_detail' slug=project.slug %}">{{ project.name }}</a>
+                            {% if not project.is_public %}
+                                <span class="private-badge">{% trans "Private" %}</span>
+                            {% endif %}
+                        </h3>
+                        <p>{{ project.description|truncatewords:20 }}</p>
+                        
+                        <div class="project-card-bottom">
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-progress="{{ project.get_progress_percentage }}"></div>
+                            </div>
+                            <small>{{ project.get_progress_percentage }}% {% trans "completed" %}</small>
+
+                            {% if project.tags.exists %}
+                                <div class="tags-list">
+                                    {% for tag in project.tags.all %}
+                                        <span class="tag" data-tag-color="{{ tag.color }}">{{ tag.name }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            {% if project.technologies.exists %}
+                                <div class="tech-list">
+                                    {% for tech in project.technologies.all %}
+                                        <span class="tech">{{ tech.name }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            <div class="project-meta">
+                                <span class="project-status status-{{ project.status }}">{{ project.get_status_display }}</span>
+                                <span class="hours">{{ project.get_total_hours }}h</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Public Projects Section -->
+    {% if public_projects %}
+        <div class="projects-section" x-data="{
+            search: '',
+            statusFilter: 'all',
+            technologyFilter: 'all',
+            tagFilter: 'all'
+        }">
+            <div class="section-header">
+                {% if user.is_authenticated %}
+                    <h2>{% trans "Other Public Projects" %}</h2>
+                {% else %}
+                    <h2>{% trans "Public Projects" %}</h2>
+                {% endif %}
+                
+                <!-- Search Controls -->
+                <div class="search-container">
+                    <input type="text" 
+                           x-model="search" 
+                           class="search-input" 
+                           placeholder="{% trans 'Search projects...' %}">
+                    
+                    <select x-model="statusFilter" class="filter-select">
+                        <option value="all">{% trans "All Status" %}</option>
+                        <option value="planning">{% trans "Planning" %}</option>
+                        <option value="active">{% trans "Active" %}</option>
+                        <option value="completed">{% trans "Completed" %}</option>
+                        <option value="on-hold">{% trans "On Hold" %}</option>
+                    </select>
+                    
+                    <select x-model="technologyFilter" class="filter-select">
+                        <option value="all">{% trans "All Technologies" %}</option>
+                        <option value="django">Django</option>
+                        <option value="react">React</option>
+                        <option value="vue.js">Vue.js</option>
+                        <option value="flutter">Flutter</option>
+                        <option value="python">Python</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="unity">Unity</option>
+                        <option value="docker">Docker</option>
+                        <option value="postgresql">PostgreSQL</option>
+                        <option value="fastapi">FastAPI</option>
+                    </select>
+                    
+                    <select x-model="tagFilter" class="filter-select">
+                        <option value="all">{% trans "All Tags" %}</option>
+                        <option value="web development">{% trans "Web Development" %}</option>
+                        <option value="ai/ml">{% trans "AI/ML" %}</option>
+                        <option value="backend">{% trans "Backend" %}</option>
+                        <option value="devops">{% trans "DevOps" %}</option>
+                        <option value="open source">{% trans "Open Source" %}</option>
+                        <option value="database">{% trans "Database" %}</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="project-grid">
+                {% for project in public_projects %}
+                    <div class="project-card"
+                         data-name="{{ project.name|lower }}"
+                         data-description="{{ project.description|lower|truncatewords:50 }}"
+                         data-status="{{ project.status }}"
+                         data-technologies="{% for tech in project.technologies.all %}{{ tech.name|lower }}{% if not forloop.last %}|{% endif %}{% endfor %}"
+                         data-tags="{% for tag in project.tags.all %}{{ tag.name|lower }}{% if not forloop.last %}|{% endif %}{% endfor %}"
+                         x-show="(search === '' || 
+                                 $el.dataset.name.includes(search.toLowerCase()) || 
+                                 $el.dataset.description.includes(search.toLowerCase())) &&
+                                (statusFilter === 'all' || statusFilter === $el.dataset.status) &&
+                                (technologyFilter === 'all' || $el.dataset.technologies.includes(technologyFilter.toLowerCase())) &&
+                                (tagFilter === 'all' || $el.dataset.tags.includes(tagFilter.toLowerCase()))"
+                         x-transition:enter="fade-enter-active"
+                         x-transition:leave="fade-leave-active">
+                        <h3><a href="{% url 'devtracker:project_detail' slug=project.slug %}">{{ project.name }}</a></h3>
+                        <p>{{ project.description|truncatewords:20 }}</p>
+                        
+                        <div class="project-card-bottom">
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-progress="{{ project.get_progress_percentage }}"></div>
+                            </div>
+                            <small>{{ project.get_progress_percentage }}% {% trans "completed" %}</small>
+
+                            {% if project.tags.exists %}
+                                <div class="tags-list">
+                                    {% for tag in project.tags.all %}
+                                        <span class="tag" data-tag-color="{{ tag.color }}">{{ tag.name }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            {% if project.technologies.exists %}
+                                <div class="tech-list">
+                                    {% for tech in project.technologies.all %}
+                                        <span class="tech">{{ tech.name }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            <div class="project-meta">
+                                <span class="project-status status-{{ project.status }}">{{ project.get_status_display }}</span>
+                                <span class="hours">{{ project.get_total_hours }}h</span>
+                                <small class="owner">by {{ project.owner.get_full_name|default:project.owner.username }}</small>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Handle empty state -->
+    {% if not user_projects and not public_projects %}
         <div class="empty-state">
             <h3>{% trans "No projects found" %}</h3>
             <p>{% trans "There are no projects to display at the moment." %}</p>
             {% if user.is_authenticated %}
                 <a href="{% url 'devtracker:project_create' %}" class="btn">{% trans "Create First Project" %}</a>
             {% endif %}
+        </div>
+    {% endif %}
+
+    <!-- Pagination (if needed in future) -->
+    {% if is_paginated %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; {% trans "first" %}</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">{% trans "previous" %}</a>
+                {% endif %}
+
+                <span class="current">
+                    {% trans "Page" %} {{ page_obj.number }} {% trans "of" %} {{ page_obj.paginator.num_pages }}
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">{% trans "next" %}</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">{% trans "last" %} &raquo;</a>
+                {% endif %}
+            </span>
         </div>
     {% endif %}
 </div>

@@ -29,19 +29,40 @@ class ProjectListView(ListView):
     paginate_by = 12
     
     def get_queryset(self):
-        """Filter to show user's projects + public projects for authenticated users, only public for anonymous."""
+        """For pagination, return all projects user should see."""
         base_queryset = Project.objects.select_related('owner').prefetch_related('tags', 'technologies')
         
         if self.request.user.is_authenticated:
             # Show user's own projects (public and private) + other users' public projects
             return base_queryset.filter(
                 Q(owner=self.request.user) | Q(is_public=True)
-            )
-        return base_queryset.filter(is_public=True)
+            ).order_by('-updated_at')
+        return base_queryset.filter(is_public=True).order_by('-updated_at')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['total_projects'] = self.get_queryset().count()
+        
+        if self.request.user.is_authenticated:
+            # Separate user's projects from other public projects
+            base_queryset = Project.objects.select_related('owner').prefetch_related('tags', 'technologies')
+            
+            # User's own projects (both public and private)
+            user_projects = base_queryset.filter(owner=self.request.user).order_by('-updated_at')
+            
+            # Other users' public projects
+            public_projects = base_queryset.filter(
+                is_public=True
+            ).exclude(owner=self.request.user).order_by('-updated_at')
+            
+            context['user_projects'] = user_projects
+            context['public_projects'] = public_projects
+            context['total_projects'] = user_projects.count() + public_projects.count()
+        else:
+            # Anonymous users see only public projects
+            context['user_projects'] = Project.objects.none()
+            context['public_projects'] = context['projects']
+            context['total_projects'] = context['projects'].count()
+            
         return context
 
 
@@ -142,6 +163,27 @@ class TimeLogCreateView(LoginRequiredMixin, UserOnlyMixin, CreateView):
     
     def get_success_url(self):
         return reverse_lazy('devtracker:project_detail', kwargs={'slug': self.kwargs['slug']})
+
+
+class TimeLogUpdateView(LoginRequiredMixin, UserOnlyMixin, UpdateView):
+    """Update view for editing existing time logs."""
+    model = TimeLog
+    form_class = TimeLogForm
+    template_name = 'devtracker/timelog_form.html'
+    login_url = reverse_lazy('devtracker:login')
+    
+    def get_queryset(self):
+        """Ensure users can only edit time logs for their own projects."""
+        return TimeLog.objects.filter(project__owner=self.request.user)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['project'] = self.object.project
+        context['editing'] = True  # Flag to indicate edit mode
+        return context
+    
+    def get_success_url(self):
+        return reverse_lazy('devtracker:project_detail', kwargs={'slug': self.object.project.slug})
 
 
 class UserRegistrationView(CreateView):
@@ -309,16 +351,37 @@ class TaskDeleteView(LoginRequiredMixin, UserOnlyMixin, DeleteView):
 
 
 # Project Status Management Views
+class ProjectStatusListView(LoginRequiredMixin, UserOnlyMixin, ListView):
+    """List all status updates for a project with management options."""
+    model = ProjectStatus
+    template_name = 'devtracker/status_list.html'
+    context_object_name = 'status_updates'
+    login_url = reverse_lazy('devtracker:login')
+    
+    def get_queryset(self):
+        """Get all status updates for the project."""
+        self.project = get_object_or_404(Project, slug=self.kwargs['slug'], owner=self.request.user)
+        return ProjectStatus.objects.filter(project=self.project).order_by('-date')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['project'] = self.project
+        context['form'] = ProjectStatusForm()
+        return context
+
+
 class ProjectStatusCreateView(LoginRequiredMixin, UserOnlyMixin, CreateView):
     """Add a status update to a project."""
     model = ProjectStatus
     form_class = ProjectStatusForm
-    template_name = 'devtracker/status_form.html'
+    template_name = 'devtracker/status_list.html'
     login_url = reverse_lazy('devtracker:login')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['project'] = get_object_or_404(Project, slug=self.kwargs['slug'], owner=self.request.user)
+        self.project = get_object_or_404(Project, slug=self.kwargs['slug'], owner=self.request.user)
+        context['project'] = self.project
+        context['status_updates'] = ProjectStatus.objects.filter(project=self.project).order_by('-date')
         return context
     
     def form_valid(self, form):
@@ -327,7 +390,47 @@ class ProjectStatusCreateView(LoginRequiredMixin, UserOnlyMixin, CreateView):
         return super().form_valid(form)
     
     def get_success_url(self):
-        return reverse_lazy('devtracker:project_detail', kwargs={'slug': self.kwargs['slug']})
+        return reverse_lazy('devtracker:status_list', kwargs={'slug': self.kwargs['slug']})
+
+
+class ProjectStatusUpdateView(LoginRequiredMixin, UserOnlyMixin, UpdateView):
+    """Update an existing status update."""
+    model = ProjectStatus
+    form_class = ProjectStatusForm
+    template_name = 'devtracker/status_form.html'
+    login_url = reverse_lazy('devtracker:login')
+    
+    def get_queryset(self):
+        """Only allow editing status updates from user's own projects."""
+        return ProjectStatus.objects.filter(project__owner=self.request.user).select_related('project')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['project'] = self.object.project
+        context['editing'] = True
+        return context
+    
+    def form_valid(self, form):
+        messages.success(self.request, 'Status update updated successfully!')
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse_lazy('devtracker:status_list', kwargs={'slug': self.object.project.slug})
+
+
+class ProjectStatusDeleteView(LoginRequiredMixin, UserOnlyMixin, DeleteView):
+    """Delete a status update."""
+    model = ProjectStatus
+    template_name = 'devtracker/status_confirm_delete.html'
+    login_url = reverse_lazy('devtracker:login')
+    
+    def get_queryset(self):
+        """Only allow deleting status updates from user's own projects."""
+        return ProjectStatus.objects.filter(project__owner=self.request.user).select_related('project')
+    
+    def get_success_url(self):
+        messages.success(self.request, 'Status update deleted successfully!')
+        return reverse_lazy('devtracker:status_list', kwargs={'slug': self.object.project.slug})
 
 
 # Project Delete View

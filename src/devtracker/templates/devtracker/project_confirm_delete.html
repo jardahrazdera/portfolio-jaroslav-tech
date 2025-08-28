@@ -5,30 +5,30 @@
 
 {% block content %}
 <div class="container">
-    <div style="max-width: 600px; margin: 4rem auto; text-align: center;">
-        <div class="project-card" style="background: var(--mantle); border: 2px solid var(--maroon); border-radius: 8px; padding: 2rem;">
-            <h2 style="color: var(--maroon); font-family: 'JetBrains Mono', monospace; margin-bottom: 1rem;">
+    <div class="delete-container">
+        <div class="delete-card">
+            <h2 class="delete-title">
                 ⚠️ {% trans "Delete Project" %}
             </h2>
             
-            <p style="color: var(--text); margin-bottom: 2rem; font-weight: 600;">
+            <p class="delete-description">
                 {% trans "Are you sure you want to permanently delete this project?" %}
             </p>
             
-            <div style="background: var(--base); border-left: 4px solid var(--mauve); padding: 1.5rem; margin-bottom: 2rem; text-align: left;">
-                <h3 style="color: var(--text); margin: 0 0 0.5rem 0;">{{ object.name }}</h3>
-                <p style="color: var(--subtext); margin: 0.5rem 0;">{{ object.description|truncatewords:30 }}</p>
+            <div class="delete-summary">
+                <h3>{{ object.name }}</h3>
+                <p>{{ object.description|truncatewords:30 }}</p>
                 
-                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--overlay);">
-                    <p style="color: var(--subtext); margin: 0.25rem 0;">
+                <div class="delete-items">
+                    <p>
                         <strong>{% trans "This will delete:" %}</strong>
                     </p>
-                    <ul style="color: var(--subtext); margin: 0.5rem 0; padding-left: 1.5rem;">
+                    <ul>
                         <li>{{ object.tasks.count }} {% trans "tasks" %}</li>
                         <li>{{ object.time_logs.count }} {% trans "time log entries" %}</li>
                         <li>{{ object.status_updates.count }} {% trans "status updates" %}</li>
                     </ul>
-                    <p style="color: var(--maroon); margin-top: 1rem; font-weight: 600;">
+                    <p class="delete-warning">
                         {% trans "This action cannot be undone!" %}
                     </p>
                 </div>
@@ -36,18 +36,18 @@
             
             <form method="post">
                 {% csrf_token %}
-                <div style="display: flex; gap: 1rem; justify-content: center;">
-                    <button type="submit" class="btn" style="background: var(--maroon); color: var(--base); border: none; border-radius: 4px; padding: 0.75rem 1.5rem; font-family: 'JetBrains Mono', monospace; font-weight: 600; cursor: pointer;">
+                <div class="delete-actions">
+                    <button type="submit" class="btn-danger">
                         {% trans "Yes, Delete Everything" %}
                     </button>
-                    <a href="{% url 'devtracker:project_detail' slug=object.slug %}" class="btn btn-secondary" style="background: var(--overlay); color: var(--text); text-decoration: none; border-radius: 4px; padding: 0.75rem 1.5rem; font-family: 'JetBrains Mono', monospace; font-weight: 600; display: inline-block;">
+                    <a href="{% url 'devtracker:project_detail' slug=object.slug %}" class="btn btn-cancel">
                         {% trans "Cancel" %}
                     </a>
                 </div>
             </form>
         </div>
         
-        <p style="color: var(--subtext); margin-top: 2rem; font-size: 0.9rem;">
+        <p class="delete-tip">
             {% trans "Tip: Consider archiving the project instead by changing its status to 'completed' if you want to keep the data." %}
         </p>
     </div>

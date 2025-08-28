@@ -1,0 +1,182 @@
+{% extends 'devtracker/base_tracker.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Status Updates" %} - {{ project.name }} - DevTracker{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>{% trans "Status Updates" %}</h1>
+        <p>{% trans "Project:" %} <a href="{% url 'devtracker:project_detail' slug=project.slug %}">{{ project.name }}</a></p>
+    </div>
+
+    <!-- Add new status update form -->
+    <div class="status-form-section">
+        <h3>{% trans "Add New Status Update" %}</h3>
+        <form method="post" action="{% url 'devtracker:status_create' slug=project.slug %}" class="status-form" data-validate="true">
+            {% csrf_token %}
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="id_status">{{ form.status.label }}:</label>
+                    {{ form.status }}
+                    {% if form.status.errors %}
+                        <div class="form-errors">
+                            {{ form.status.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_date">{{ form.date.label }}:</label>
+                    {{ form.date }}
+                    {% if form.date.errors %}
+                        <div class="form-errors">
+                            {{ form.date.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="id_note">{{ form.note.label }}:</label>
+                {{ form.note }}
+                {% if form.note.errors %}
+                    <div class="form-errors">
+                        {{ form.note.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn">{% trans "Add Status" %}</button>
+                <a href="{% url 'devtracker:project_detail' slug=project.slug %}" class="btn btn-secondary">
+                    {% trans "Back to Project" %}
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <!-- List of all status updates -->
+    {% if status_updates %}
+        <div class="status-list-section">
+            <h3>{% trans "All Status Updates" %}</h3>
+            <div class="status-updates-list">
+                {% for update in status_updates %}
+                    <div class="status-update-item">
+                        <div class="update-header">
+                            <div class="update-date">{{ update.date }}</div>
+                            <div class="update-actions">
+                                <a href="{% url 'devtracker:status_edit' pk=update.pk %}" class="btn btn-small">{% trans "Edit" %}</a>
+                                <a href="{% url 'devtracker:status_delete' pk=update.pk %}" class="btn btn-small btn-danger" onclick="return confirm('{% trans "Delete this status update?" %}')">{% trans "Delete" %}</a>
+                            </div>
+                        </div>
+                        <div class="update-status">{{ update.status }}</div>
+                        {% if update.note %}
+                            <div class="update-note">{{ update.note }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <h3>{% trans "No status updates yet" %}</h3>
+            <p>{% trans "Add your first status update using the form above." %}</p>
+        </div>
+    {% endif %}
+</div>
+
+<style>
+.status-form-section {
+    background: var(--mantle);
+    border: 1px solid var(--overlay);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.status-list-section {
+    margin-top: 2rem;
+}
+
+.status-updates-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.status-update-item {
+    background: var(--mantle);
+    border: 1px solid var(--overlay);
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.update-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.update-date {
+    color: var(--subtext);
+    font-size: 0.9rem;
+}
+
+.update-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.update-status {
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+}
+
+.update-note {
+    color: var(--subtext);
+    line-height: 1.6;
+}
+
+.btn-small {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.9rem;
+}
+
+.btn-danger {
+    background: var(--maroon);
+    color: var(--base);
+}
+
+.btn-danger:hover {
+    opacity: 0.9;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: var(--subtext);
+}
+
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .update-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}
+</style>
+{% endblock %}

@@ -5,30 +5,30 @@
 
 {% block content %}
 <div class="container">
-    <div style="max-width: 500px; margin: 4rem auto; text-align: center;">
-        <div class="project-card" style="background: var(--mantle); border: 1px solid var(--overlay); border-radius: 8px; padding: 2rem;">
-            <h2 style="color: var(--text); font-family: 'JetBrains Mono', monospace; margin-bottom: 1rem;">
+    <div class="delete-container">
+        <div class="project-card delete-card">
+            <h2 class="form-title">
                 {% trans "Delete Task" %}
             </h2>
             
-            <p style="color: var(--subtext); margin-bottom: 2rem;">
+            <p class="form-subtitle">
                 {% trans "Are you sure you want to delete this task?" %}
             </p>
             
-            <div style="background: var(--base); border-left: 4px solid var(--maroon); padding: 1rem; margin-bottom: 2rem; text-align: left;">
-                <h3 style="color: var(--text); margin: 0 0 0.5rem 0;">{{ object.title }}</h3>
+            <div class="delete-summary">
+                <h3>{{ object.title }}</h3>
                 {% if object.description %}
-                    <p style="color: var(--subtext); margin: 0;">{{ object.description }}</p>
+                    <p>{{ object.description }}</p>
                 {% endif %}
             </div>
             
             <form method="post">
                 {% csrf_token %}
-                <div style="display: flex; gap: 1rem; justify-content: center;">
-                    <button type="submit" class="btn" style="background: var(--maroon); color: var(--base); border: none; border-radius: 4px; padding: 0.75rem 1.5rem; font-family: 'JetBrains Mono', monospace; font-weight: 600; cursor: pointer;">
+                <div class="delete-actions">
+                    <button type="submit" class="btn-danger">
                         {% trans "Yes, Delete" %}
                     </button>
-                    <a href="{% url 'devtracker:project_detail' slug=object.project.slug %}" class="btn btn-secondary" style="background: var(--overlay); color: var(--text); text-decoration: none; border-radius: 4px; padding: 0.75rem 1.5rem; font-family: 'JetBrains Mono', monospace; font-weight: 600; display: inline-block;">
+                    <a href="{% url 'devtracker:project_detail' slug=object.project.slug %}" class="btn btn-cancel">
                         {% trans "Cancel" %}
                     </a>
                 </div>
