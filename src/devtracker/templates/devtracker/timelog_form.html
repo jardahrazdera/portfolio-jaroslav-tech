@@ -1,12 +1,24 @@
 {% extends 'devtracker/base_tracker.html' %}
 {% load i18n %}
 
-{% block title %}{% trans "Log Time" %} - {{ project.name }} - DevTracker{% endblock %}
+{% block title %}
+    {% if editing %}
+        {% trans "Edit Time Log" %} - {{ project.name }} - DevTracker
+    {% else %}
+        {% trans "Log Time" %} - {{ project.name }} - DevTracker
+    {% endif %}
+{% endblock %}
 
 {% block content %}
 <div class="container">
     <div class="page-header">
-        <h1>{% trans "Log Time" %}</h1>
+        <h1>
+            {% if editing %}
+                {% trans "Edit Time Log" %}
+            {% else %}
+                {% trans "Log Time" %}
+            {% endif %}
+        </h1>
         <p>{% trans "Project:" %} <a href="{% url 'devtracker:project_detail' slug=project.slug %}">{{ project.name }}</a></p>
     </div>
 
@@ -49,23 +61,32 @@
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn">{% trans "Log Time" %}</button>
+            <button type="submit" class="btn">
+                {% if editing %}
+                    {% trans "Update Time Log" %}
+                {% else %}
+                    {% trans "Log Time" %}
+                {% endif %}
+            </button>
             <a href="{% url 'devtracker:project_detail' slug=project.slug %}" class="btn btn-secondary">
                 {% trans "Cancel" %}
             </a>
         </div>
     </form>
 
-    <!-- Recent time logs for this project -->
+    <!-- All time logs for this project -->
     {% if project.time_logs.all %}
         <div class="recent-logs">
-            <h3>{% trans "Recent Time Logs" %}</h3>
+            <h3>{% trans "All Time Logs" %}</h3>
             <div class="time-logs-list">
-                {% for log in project.time_logs.all|slice:":5" %}
+                {% for log in project.time_logs.all %}
                     <div class="time-log-item">
                         <div class="log-date">{{ log.date }}</div>
                         <div class="log-hours">{{ log.hours }}h</div>
                         <div class="log-description">{{ log.description }}</div>
+                        <div class="log-actions">
+                            <a href="{% url 'devtracker:timelog_edit' pk=log.pk %}" class="btn btn-small">{% trans "Edit" %}</a>
+                        </div>
                     </div>
                 {% endfor %}
             </div>

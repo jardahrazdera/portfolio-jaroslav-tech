@@ -14,6 +14,7 @@ urlpatterns = [
     path('project/<slug:slug>/edit/', views.ProjectUpdateView.as_view(), name='project_edit'),
     path('project/<slug:slug>/delete/', views.ProjectDeleteView.as_view(), name='project_delete'),
     path('project/<slug:slug>/log-time/', views.TimeLogCreateView.as_view(), name='time_log'),
+    path('timelog/<int:pk>/edit/', views.TimeLogUpdateView.as_view(), name='timelog_edit'),
     
     # Task management
     path('project/<slug:slug>/task/create/', views.TaskCreateView.as_view(), name='task_create'),
