@@ -16,11 +16,39 @@
 
     <!-- User's Own Projects Section -->
     {% if user.is_authenticated and user_projects %}
-        <div class="projects-section">
-            <h2>{% trans "My Projects" %}</h2>
+        <div class="projects-section" x-data="{
+            search: '',
+            statusFilter: 'all'
+        }">
+            <div class="section-header">
+                <h2>{% trans "My Projects" %}</h2>
+                
+                <!-- Search Controls -->
+                <div class="search-container">
+                    <input type="text" 
+                           x-model="search" 
+                           class="search-input" 
+                           placeholder="{% trans 'Search my projects...' %}">
+                    
+                    <select x-model="statusFilter" class="filter-select">
+                        <option value="all">{% trans "All Status" %}</option>
+                        <option value="planning">{% trans "Planning" %}</option>
+                        <option value="active">{% trans "Active" %}</option>
+                        <option value="completed">{% trans "Completed" %}</option>
+                        <option value="on-hold">{% trans "On Hold" %}</option>
+                    </select>
+                </div>
+            </div>
+            
             <div class="project-grid">
                 {% for project in user_projects %}
-                    <div class="project-card {% if not project.is_public %}private-project{% endif %}">
+                    <div class="project-card {% if not project.is_public %}private-project{% endif %}"
+                         x-show="(search === '' || 
+                                 '{{ project.name|lower }}'.includes(search.toLowerCase()) || 
+                                 '{{ project.description|lower }}'.includes(search.toLowerCase())) &&
+                                (statusFilter === 'all' || statusFilter === '{{ project.status }}')"
+                         x-transition:enter="fade-enter-active"
+                         x-transition:leave="fade-leave-active">
                         <h3>
                             <a href="{% url 'devtracker:project_detail' slug=project.slug %}">{{ project.name }}</a>
                             {% if not project.is_public %}
@@ -62,15 +90,43 @@
 
     <!-- Public Projects Section -->
     {% if public_projects %}
-        <div class="projects-section">
-            {% if user.is_authenticated %}
-                <h2>{% trans "Other Public Projects" %}</h2>
-            {% else %}
-                <h2>{% trans "Public Projects" %}</h2>
-            {% endif %}
+        <div class="projects-section" x-data="{
+            search: '',
+            statusFilter: 'all'
+        }">
+            <div class="section-header">
+                {% if user.is_authenticated %}
+                    <h2>{% trans "Other Public Projects" %}</h2>
+                {% else %}
+                    <h2>{% trans "Public Projects" %}</h2>
+                {% endif %}
+                
+                <!-- Search Controls -->
+                <div class="search-container">
+                    <input type="text" 
+                           x-model="search" 
+                           class="search-input" 
+                           placeholder="{% trans 'Search projects...' %}">
+                    
+                    <select x-model="statusFilter" class="filter-select">
+                        <option value="all">{% trans "All Status" %}</option>
+                        <option value="planning">{% trans "Planning" %}</option>
+                        <option value="active">{% trans "Active" %}</option>
+                        <option value="completed">{% trans "Completed" %}</option>
+                        <option value="on-hold">{% trans "On Hold" %}</option>
+                    </select>
+                </div>
+            </div>
+            
             <div class="project-grid">
                 {% for project in public_projects %}
-                    <div class="project-card">
+                    <div class="project-card"
+                         x-show="(search === '' || 
+                                 '{{ project.name|lower }}'.includes(search.toLowerCase()) || 
+                                 '{{ project.description|lower }}'.includes(search.toLowerCase())) &&
+                                (statusFilter === 'all' || statusFilter === '{{ project.status }}')"
+                         x-transition:enter="fade-enter-active"
+                         x-transition:leave="fade-leave-active">
                         <h3><a href="{% url 'devtracker:project_detail' slug=project.slug %}">{{ project.name }}</a></h3>
                         <p>{{ project.description|truncatewords:20 }}</p>
                         

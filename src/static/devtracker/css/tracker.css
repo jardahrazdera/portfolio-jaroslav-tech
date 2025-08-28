@@ -933,6 +933,88 @@ select.form-control {
     min-width: 200px;
 }
 
+/* Search and filter functionality */
+.section-header {
+    margin-bottom: 2rem;
+}
+
+.section-header h2 {
+    margin-bottom: 1rem;
+}
+
+.search-container {
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.search-input {
+    flex: 1;
+    min-width: 250px;
+    background: var(--base);
+    border: 1px solid var(--overlay);
+    border-radius: 4px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    padding: 0.75rem;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--mauve);
+    box-shadow: 0 0 0 2px rgba(203, 166, 247, 0.2);
+}
+
+.search-input::placeholder {
+    color: var(--overlay);
+}
+
+.filter-select {
+    background: var(--base);
+    border: 1px solid var(--overlay);
+    border-radius: 4px;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    padding: 0.75rem;
+    min-width: 150px;
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: var(--mauve);
+    box-shadow: 0 0 0 2px rgba(203, 166, 247, 0.2);
+}
+
+.search-stats {
+    color: var(--subtext);
+    font-size: 0.9rem;
+    margin-left: auto;
+}
+
+/* Alpine.js transitions */
+[x-cloak] {
+    display: none !important;
+}
+
+.fade-enter {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.fade-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.3s ease;
+}
+
+.fade-leave-active {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
     .project-grid {
@@ -989,5 +1071,20 @@ select.form-control {
     .error-actions .btn {
         min-width: auto;
         width: 100%;
+    }
+    
+    .search-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .search-input {
+        min-width: auto;
+    }
+    
+    .search-stats {
+        margin-left: 0;
+        text-align: center;
+        margin-top: 1rem;
     }
 }
