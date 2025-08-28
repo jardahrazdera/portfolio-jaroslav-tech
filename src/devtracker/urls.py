@@ -22,7 +22,10 @@ urlpatterns = [
     path('task/<int:pk>/delete/', views.TaskDeleteView.as_view(), name='task_delete'),
     
     # Status updates
+    path('project/<slug:slug>/status/', views.ProjectStatusListView.as_view(), name='status_list'),
     path('project/<slug:slug>/status/create/', views.ProjectStatusCreateView.as_view(), name='status_create'),
+    path('status/<int:pk>/edit/', views.ProjectStatusUpdateView.as_view(), name='status_edit'),
+    path('status/<int:pk>/delete/', views.ProjectStatusDeleteView.as_view(), name='status_delete'),
     
     # Uncomment to test 404 page in DEBUG mode:
     # path('test-404/', views.Test404View.as_view(), name='test_404'),
