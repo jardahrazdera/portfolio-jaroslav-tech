@@ -8,7 +8,7 @@ Welcome to the official repository for my personal portfolio, [jaroslav.tech](ht
 
 The portfolio now includes **DevTracker**, a comprehensive project management system built with Django that demonstrates advanced web development capabilities:
 
-- **6 Django Models** with complex relationships (Project, Task, TimeLog, Tag, Technology, ProjectStatus)
+- **Complex Data Models** with relationships for projects, tasks, time tracking, and categorization
 - **Authentication & Authorization** with separate user and admin interfaces
 - **Time Tracking System** with full CRUD operations for logging work hours
 - **Project Organization** with public/private visibility controls and user separation
@@ -82,7 +82,7 @@ The project uses a `src` layout for a clean separation between the application c
     │   ├── urls.py       # App-specific URL routing
     │   └── templates/    # HTML templates
     ├── devtracker/       # DevTracker project management app
-    │   ├── models.py     # 6 models: Project, Task, TimeLog, Tag, Technology, ProjectStatus
+    │   ├── models.py     # Data models for projects, tasks, and time tracking
     │   ├── views.py      # Class-based views with authentication
     │   ├── forms.py      # Model forms for project and time management
     │   ├── urls.py       # DevTracker URL patterns
