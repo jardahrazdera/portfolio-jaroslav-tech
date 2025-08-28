@@ -351,16 +351,37 @@ class TaskDeleteView(LoginRequiredMixin, UserOnlyMixin, DeleteView):
 
 
 # Project Status Management Views
+class ProjectStatusListView(LoginRequiredMixin, UserOnlyMixin, ListView):
+    """List all status updates for a project with management options."""
+    model = ProjectStatus
+    template_name = 'devtracker/status_list.html'
+    context_object_name = 'status_updates'
+    login_url = reverse_lazy('devtracker:login')
+    
+    def get_queryset(self):
+        """Get all status updates for the project."""
+        self.project = get_object_or_404(Project, slug=self.kwargs['slug'], owner=self.request.user)
+        return ProjectStatus.objects.filter(project=self.project).order_by('-date')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['project'] = self.project
+        context['form'] = ProjectStatusForm()
+        return context
+
+
 class ProjectStatusCreateView(LoginRequiredMixin, UserOnlyMixin, CreateView):
     """Add a status update to a project."""
     model = ProjectStatus
     form_class = ProjectStatusForm
-    template_name = 'devtracker/status_form.html'
+    template_name = 'devtracker/status_list.html'
     login_url = reverse_lazy('devtracker:login')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['project'] = get_object_or_404(Project, slug=self.kwargs['slug'], owner=self.request.user)
+        self.project = get_object_or_404(Project, slug=self.kwargs['slug'], owner=self.request.user)
+        context['project'] = self.project
+        context['status_updates'] = ProjectStatus.objects.filter(project=self.project).order_by('-date')
         return context
     
     def form_valid(self, form):
@@ -369,7 +390,47 @@ class ProjectStatusCreateView(LoginRequiredMixin, UserOnlyMixin, CreateView):
         return super().form_valid(form)
     
     def get_success_url(self):
-        return reverse_lazy('devtracker:project_detail', kwargs={'slug': self.kwargs['slug']})
+        return reverse_lazy('devtracker:status_list', kwargs={'slug': self.kwargs['slug']})
+
+
+class ProjectStatusUpdateView(LoginRequiredMixin, UserOnlyMixin, UpdateView):
+    """Update an existing status update."""
+    model = ProjectStatus
+    form_class = ProjectStatusForm
+    template_name = 'devtracker/status_form.html'
+    login_url = reverse_lazy('devtracker:login')
+    
+    def get_queryset(self):
+        """Only allow editing status updates from user's own projects."""
+        return ProjectStatus.objects.filter(project__owner=self.request.user).select_related('project')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['project'] = self.object.project
+        context['editing'] = True
+        return context
+    
+    def form_valid(self, form):
+        messages.success(self.request, 'Status update updated successfully!')
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse_lazy('devtracker:status_list', kwargs={'slug': self.object.project.slug})
+
+
+class ProjectStatusDeleteView(LoginRequiredMixin, UserOnlyMixin, DeleteView):
+    """Delete a status update."""
+    model = ProjectStatus
+    template_name = 'devtracker/status_confirm_delete.html'
+    login_url = reverse_lazy('devtracker:login')
+    
+    def get_queryset(self):
+        """Only allow deleting status updates from user's own projects."""
+        return ProjectStatus.objects.filter(project__owner=self.request.user).select_related('project')
+    
+    def get_success_url(self):
+        messages.success(self.request, 'Status update deleted successfully!')
+        return reverse_lazy('devtracker:status_list', kwargs={'slug': self.object.project.slug})
 
 
 # Project Delete View
