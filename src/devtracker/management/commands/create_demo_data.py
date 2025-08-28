@@ -7,16 +7,25 @@ from devtracker.models import Project, Task, TimeLog, Tag, Technology, ProjectSt
 
 
 class Command(BaseCommand):
-    help = 'Creates rich demo data for user Jarek'
+    help = 'Creates rich demo data for demo user'
 
     def handle(self, *args, **options):
-        try:
-            # Get or create Jarek user
-            user = User.objects.get(username='jarek')
-            self.stdout.write(self.style.SUCCESS(f'Found user: {user.username}'))
-        except User.DoesNotExist:
-            self.stdout.write(self.style.ERROR('User "Jarek" not found!'))
-            return
+        # Create or get demo user
+        user, created = User.objects.get_or_create(
+            username='demo_user',
+            defaults={
+                'email': 'demo@jaroslav.tech',
+                'first_name': 'Demo',
+                'last_name': 'User',
+                'is_active': False,
+            }
+        )
+        if created:
+            user.set_password('demo123')  # Simple password for demo
+            user.save()
+            self.stdout.write(self.style.SUCCESS(f'Created demo user: {user.username}'))
+        else:
+            self.stdout.write(self.style.SUCCESS(f'Found demo user: {user.username}'))
 
         # Create Tags
         tags_data = [

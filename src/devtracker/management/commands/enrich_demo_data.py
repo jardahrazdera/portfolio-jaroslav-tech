@@ -11,10 +11,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         try:
-            user = User.objects.get(username='jarek')
-            self.stdout.write(self.style.SUCCESS(f'Found user: {user.username}'))
+            user = User.objects.get(username='demo_user')
+            self.stdout.write(self.style.SUCCESS(f'Found demo user: {user.username}'))
         except User.DoesNotExist:
-            self.stdout.write(self.style.ERROR('User "jarek" not found!'))
+            self.stdout.write(self.style.ERROR('Demo user not found! Run create_demo_data first.'))
             return
 
         # Enrich Quantum Commerce Platform
