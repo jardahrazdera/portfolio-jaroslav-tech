@@ -50,6 +50,7 @@
     align-items: center;
     margin-top: 1rem;
     gap: 0.75rem;
+    flex-wrap: nowrap;
 }
 
 .project-meta .hours {
@@ -71,6 +72,8 @@
     font-size: 0.8rem;
     font-weight: 600;
     text-transform: uppercase;
+    white-space: nowrap;
+    min-width: fit-content;
 }
 
 .status-planning {
@@ -90,7 +93,7 @@
 
 .status-on-hold {
     background: rgba(249, 226, 175, 0.2);
-    color: var(--yellow);
+    color: #F9E2AF;
 }
 
 /* Progress bars */
