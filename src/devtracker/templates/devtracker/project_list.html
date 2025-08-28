@@ -30,14 +30,14 @@
                         <p>{{ project.description|truncatewords:20 }}</p>
                         
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: {{ project.get_progress_percentage }}%"></div>
+                            <div class="progress-fill" data-progress="{{ project.get_progress_percentage }}"></div>
                         </div>
                         <small>{{ project.get_progress_percentage }}% {% trans "completed" %}</small>
 
                         {% if project.tags.exists %}
                             <div class="tags-list">
                                 {% for tag in project.tags.all %}
-                                    <span class="tag" style="background-color: {{ tag.color }}20; color: {{ tag.color }}">{{ tag.name }}</span>
+                                    <span class="tag" data-tag-color="{{ tag.color }}">{{ tag.name }}</span>
                                 {% endfor %}
                             </div>
                         {% endif %}
@@ -75,14 +75,14 @@
                         <p>{{ project.description|truncatewords:20 }}</p>
                         
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: {{ project.get_progress_percentage }}%"></div>
+                            <div class="progress-fill" data-progress="{{ project.get_progress_percentage }}"></div>
                         </div>
                         <small>{{ project.get_progress_percentage }}% {% trans "completed" %}</small>
 
                         {% if project.tags.exists %}
                             <div class="tags-list">
                                 {% for tag in project.tags.all %}
-                                    <span class="tag" style="background-color: {{ tag.color }}20; color: {{ tag.color }}">{{ tag.name }}</span>
+                                    <span class="tag" data-tag-color="{{ tag.color }}">{{ tag.name }}</span>
                                 {% endfor %}
                             </div>
                         {% endif %}

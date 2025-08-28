@@ -105,6 +105,12 @@
     font-size: 0.8rem;
 }
 
+/* Tag colors - using CSS custom properties for dynamic colors */
+.tag {
+    background: rgba(var(--tag-color-rgb), 0.2);
+    color: rgb(var(--tag-color-rgb));
+}
+
 /* Forms */
 .form-group {
     margin-bottom: 1.5rem;
@@ -232,6 +238,25 @@
 }
 
 /* Form sections and styling */
+.form-container {
+    max-width: 600px;
+    margin: 2rem auto;
+}
+
+.form-header {
+    margin-bottom: 2rem;
+}
+
+.form-title {
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 0.5rem;
+}
+
+.form-subtitle {
+    color: var(--subtext);
+}
+
 .form-section {
     margin-bottom: 2rem;
     padding-bottom: 1.5rem;
@@ -291,6 +316,20 @@ select.form-control {
 .checkbox-wrapper input[type="checkbox"] {
     width: auto;
     margin: 0;
+}
+
+.checkbox-label {
+    color: var(--text);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 1.2rem;
+    height: 1.2rem;
+    accent-color: var(--mauve);
+    margin-right: 0.5rem;
 }
 
 .form-errors {
@@ -555,6 +594,12 @@ select.form-control {
     padding: 2rem;
 }
 
+.auth-help-text {
+    color: var(--subtext);
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+}
+
 .auth-header {
     text-align: center;
     margin-bottom: 2rem;
@@ -710,11 +755,90 @@ select.form-control {
     text-decoration: none;
 }
 
+/* Logout success page */
+.logout-container {
+    max-width: 500px;
+    margin: 4rem auto;
+    padding: 2rem;
+    text-align: center;
+}
+
+.logout-card {
+    background: var(--mantle);
+    border: 1px solid var(--overlay);
+    border-radius: 8px;
+    padding: 3rem;
+}
+
+.logout-header {
+    margin-bottom: 2rem;
+}
+
+.logout-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.logout-secondary-link {
+    color: var(--subtext);
+    text-decoration: none;
+    padding: 0.5rem;
+}
+
 /* Delete confirmation pages */
 .delete-container {
     max-width: 600px;
-    margin: 2rem auto;
-    padding: 2rem;
+    margin: 4rem auto;
+    text-align: center;
+}
+
+.delete-title {
+    color: var(--maroon);
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 1rem;
+}
+
+.delete-description {
+    color: var(--text);
+    margin-bottom: 2rem;
+    font-weight: 600;
+}
+
+.delete-summary {
+    background: var(--base);
+    border-left: 4px solid var(--mauve);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.delete-summary h3 {
+    color: var(--text);
+    margin: 0 0 0.5rem 0;
+}
+
+.delete-summary p {
+    color: var(--subtext);
+    margin: 0.5rem 0;
+}
+
+.delete-items {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--overlay);
+}
+
+.delete-items ul {
+    color: var(--subtext);
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+}
+
+.delete-tip {
+    color: var(--subtext);
+    margin-top: 2rem;
+    font-size: 0.9rem;
 }
 
 .delete-card {
