@@ -1,10 +1,23 @@
 # Portfolio Jaroslav Tech
 
-> **📝 Note:** This README is currently outdated and will be updated soon to reflect recent DevTracker implementation and other improvements. See [PR #2](https://github.com/jardahrazdera/portfolio-jaroslav-tech/pull/2) for DevTracker implementation details.
-
 [![Portfolio CI/CD](https://github.com/jardahrazdera/portfolio-jaroslav-tech/actions/workflows/deploy.yml/badge.svg)](https://github.com/jardahrazdera/portfolio-jaroslav-tech/actions/workflows/deploy.yml)
 
-Welcome to the official repository for my personal portfolio, [jaroslav.tech](https://jaroslav.tech). This project is more than just a website; it's a comprehensive demonstration of my capabilities in full-stack web development, showcasing a robust backend built with Python and Django, a clean frontend, and modern, automated DevOps practices. The core philosophy is to build a scalable, maintainable, and high-quality web application from the ground up.
+Welcome to the official repository for my personal portfolio, [jaroslav.tech](https://jaroslav.tech). This project is more than just a website; it's a comprehensive demonstration of my capabilities in full-stack web development, showcasing a robust backend built with Python and Django, a clean frontend, and modern, automated DevOps practices.
+
+## 🎯 DevTracker - Project Management System
+
+The portfolio now includes **DevTracker**, a comprehensive project management system built with Django that demonstrates advanced web development capabilities:
+
+- **6 Django Models** with complex relationships (Project, Task, TimeLog, Tag, Technology, ProjectStatus)
+- **Authentication & Authorization** with separate user and admin interfaces
+- **Time Tracking System** with full CRUD operations for logging work hours
+- **Project Organization** with public/private visibility controls and user separation
+- **Progress Tracking** with visual progress bars and completion metrics
+- **Responsive Design** using Catppuccin theme with light/dark mode support
+
+**Access DevTracker:** Available at `/tracker/` with demo projects showcasing real development workflows.
+
+[![DevTracker Demo](https://img.shields.io/badge/Demo-DevTracker-blue?style=for-the-badge)](https://jaroslav.tech/tracker/)
 
 ---
 
@@ -63,11 +76,19 @@ The project uses a `src` layout for a clean separation between the application c
 ├── LICENSE               # MIT License
 ├── README.md             # You are here!
 └── src/                  # Main source code directory
-    ├── core/             # The primary Django application
+    ├── core/             # The primary Django application (portfolio)
     │   ├── models.py     # Database models
     │   ├── views.py      # View logic
     │   ├── urls.py       # App-specific URL routing
     │   └── templates/    # HTML templates
+    ├── devtracker/       # DevTracker project management app
+    │   ├── models.py     # 6 models: Project, Task, TimeLog, Tag, Technology, ProjectStatus
+    │   ├── views.py      # Class-based views with authentication
+    │   ├── forms.py      # Model forms for project and time management
+    │   ├── urls.py       # DevTracker URL patterns
+    │   ├── templates/    # DevTracker-specific templates
+    │   ├── management/   # Custom Django commands for demo data
+    │   └── tests.py      # Comprehensive test suite
     ├── jaroslav_tech/    # Django project-level configuration
     │   ├── settings.py   # Project settings
     │   └── urls.py       # Root URL configuration
@@ -102,7 +123,10 @@ This approach automatically sets up the application, database, and all dependenc
     docker compose up --build
     ```
 
-4.  **The application is now running** and available at `http://localhost:8000`. The admin panel is at `http://localhost:8000/admin`.
+4.  **The application is now running** with multiple access points:
+    - **Portfolio:** Main site at `http://localhost:8000`
+    - **DevTracker:** Project management at `http://localhost:8000/tracker/`
+    - **Admin Panel:** Database management at `http://localhost:8000/admin`
 
 ### Method 2: Running Locally without Docker
 
@@ -147,7 +171,10 @@ This method is for developers who prefer to run the application directly on thei
     python manage.py runserver
     ```
 
-6.  **The application is now available** at `http://localhost:8000`.
+6.  **The application is now available** with multiple access points:
+    - **Portfolio:** Main site at `http://localhost:8000`
+    - **DevTracker:** Project management at `http://localhost:8000/tracker/`
+    - **Admin Panel:** Database management at `http://localhost:8000/admin`
 
 ---
 
