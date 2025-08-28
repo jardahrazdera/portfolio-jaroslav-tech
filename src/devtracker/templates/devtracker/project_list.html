@@ -43,10 +43,13 @@
             <div class="project-grid">
                 {% for project in user_projects %}
                     <div class="project-card {% if not project.is_public %}private-project{% endif %}"
+                         data-name="{{ project.name|lower }}"
+                         data-description="{{ project.description|lower|truncatewords:50 }}"
+                         data-status="{{ project.status }}"
                          x-show="(search === '' || 
-                                 '{{ project.name|lower }}'.includes(search.toLowerCase()) || 
-                                 '{{ project.description|lower }}'.includes(search.toLowerCase())) &&
-                                (statusFilter === 'all' || statusFilter === '{{ project.status }}')"
+                                 $el.dataset.name.includes(search.toLowerCase()) || 
+                                 $el.dataset.description.includes(search.toLowerCase())) &&
+                                (statusFilter === 'all' || statusFilter === $el.dataset.status)"
                          x-transition:enter="fade-enter-active"
                          x-transition:leave="fade-leave-active">
                         <h3>
@@ -121,10 +124,13 @@
             <div class="project-grid">
                 {% for project in public_projects %}
                     <div class="project-card"
+                         data-name="{{ project.name|lower }}"
+                         data-description="{{ project.description|lower|truncatewords:50 }}"
+                         data-status="{{ project.status }}"
                          x-show="(search === '' || 
-                                 '{{ project.name|lower }}'.includes(search.toLowerCase()) || 
-                                 '{{ project.description|lower }}'.includes(search.toLowerCase())) &&
-                                (statusFilter === 'all' || statusFilter === '{{ project.status }}')"
+                                 $el.dataset.name.includes(search.toLowerCase()) || 
+                                 $el.dataset.description.includes(search.toLowerCase())) &&
+                                (statusFilter === 'all' || statusFilter === $el.dataset.status)"
                          x-transition:enter="fade-enter-active"
                          x-transition:leave="fade-leave-active">
                         <h3><a href="{% url 'devtracker:project_detail' slug=project.slug %}">{{ project.name }}</a></h3>
