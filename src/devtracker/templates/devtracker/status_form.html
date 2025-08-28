@@ -1,14 +1,24 @@
 {% extends 'devtracker/base_tracker.html' %}
 {% load static i18n %}
 
-{% block title %}{% trans "Add Status Update" %} - DevTracker{% endblock %}
+{% block title %}
+    {% if editing %}
+        {% trans "Edit Status Update" %} - DevTracker
+    {% else %}
+        {% trans "Add Status Update" %} - DevTracker
+    {% endif %}
+{% endblock %}
 
 {% block content %}
 <div class="container">
     <div style="max-width: 600px; margin: 2rem auto;">
         <div style="margin-bottom: 2rem;">
             <h1 style="color: var(--text); font-family: 'JetBrains Mono', monospace;">
-                {% trans "Add Status Update" %}
+                {% if editing %}
+                    {% trans "Edit Status Update" %}
+                {% else %}
+                    {% trans "Add Status Update" %}
+                {% endif %}
             </h1>
             <p style="color: var(--subtext);">{% trans "For project:" %} {{ project.name }}</p>
         </div>
@@ -61,7 +71,11 @@
 
                 <div style="display: flex; gap: 1rem;">
                     <button type="submit" class="btn" style="background: var(--mauve); color: var(--base); border: none; border-radius: 4px; padding: 0.75rem 1.5rem; font-family: 'JetBrains Mono', monospace; font-weight: 600; cursor: pointer;">
-                        {% trans "Add Status Update" %}
+                        {% if editing %}
+                            {% trans "Update Status" %}
+                        {% else %}
+                            {% trans "Add Status Update" %}
+                        {% endif %}
                     </button>
                     <a href="{% url 'devtracker:project_detail' slug=project.slug %}" class="btn btn-secondary" style="background: var(--overlay); color: var(--text); text-decoration: none; border-radius: 4px; padding: 0.75rem 1.5rem; font-family: 'JetBrains Mono', monospace; font-weight: 600; display: inline-block;">
                         {% trans "Cancel" %}
