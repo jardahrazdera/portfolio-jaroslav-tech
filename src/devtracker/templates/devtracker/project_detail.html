@@ -65,7 +65,7 @@
                 <a href="{% url 'devtracker:project_edit' slug=project.slug %}" class="btn btn-secondary">{% trans "Edit Project" %}</a>
                 <a href="{% url 'devtracker:time_log' slug=project.slug %}" class="btn btn-secondary">{% trans "Log Time" %}</a>
                 <a href="{% url 'devtracker:task_create' slug=project.slug %}" class="btn btn-secondary">{% trans "Add Task" %}</a>
-                <a href="{% url 'devtracker:status_create' slug=project.slug %}" class="btn btn-secondary">{% trans "Add Status Update" %}</a>
+                <a href="{% url 'devtracker:status_list' slug=project.slug %}" class="btn btn-secondary">{% trans "Status Update" %}</a>
                 <a href="{% url 'devtracker:project_delete' slug=project.slug %}" class="btn btn-danger" onclick="return confirm('{% trans "Are you sure you want to delete this project?" %}')">{% trans "Delete Project" %}</a>
             {% endif %}
         </div>
