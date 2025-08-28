@@ -90,30 +90,32 @@
                         </h3>
                         <p>{{ project.description|truncatewords:20 }}</p>
                         
-                        <div class="progress-bar">
-                            <div class="progress-fill" data-progress="{{ project.get_progress_percentage }}"></div>
-                        </div>
-                        <small>{{ project.get_progress_percentage }}% {% trans "completed" %}</small>
-
-                        {% if project.tags.exists %}
-                            <div class="tags-list">
-                                {% for tag in project.tags.all %}
-                                    <span class="tag" data-tag-color="{{ tag.color }}">{{ tag.name }}</span>
-                                {% endfor %}
+                        <div class="project-card-bottom">
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-progress="{{ project.get_progress_percentage }}"></div>
                             </div>
-                        {% endif %}
+                            <small>{{ project.get_progress_percentage }}% {% trans "completed" %}</small>
 
-                        {% if project.technologies.exists %}
-                            <div class="tech-list">
-                                {% for tech in project.technologies.all %}
-                                    <span class="tech">{{ tech.name }}</span>
-                                {% endfor %}
+                            {% if project.tags.exists %}
+                                <div class="tags-list">
+                                    {% for tag in project.tags.all %}
+                                        <span class="tag" data-tag-color="{{ tag.color }}">{{ tag.name }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            {% if project.technologies.exists %}
+                                <div class="tech-list">
+                                    {% for tech in project.technologies.all %}
+                                        <span class="tech">{{ tech.name }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            <div class="project-meta">
+                                <span class="project-status status-{{ project.status }}">{{ project.get_status_display }}</span>
+                                <span class="hours">{{ project.get_total_hours }}h</span>
                             </div>
-                        {% endif %}
-
-                        <div class="project-meta">
-                            <span class="project-status status-{{ project.status }}">{{ project.get_status_display }}</span>
-                            <span class="hours">{{ project.get_total_hours }}h</span>
                         </div>
                     </div>
                 {% endfor %}
@@ -196,31 +198,33 @@
                         <h3><a href="{% url 'devtracker:project_detail' slug=project.slug %}">{{ project.name }}</a></h3>
                         <p>{{ project.description|truncatewords:20 }}</p>
                         
-                        <div class="progress-bar">
-                            <div class="progress-fill" data-progress="{{ project.get_progress_percentage }}"></div>
-                        </div>
-                        <small>{{ project.get_progress_percentage }}% {% trans "completed" %}</small>
-
-                        {% if project.tags.exists %}
-                            <div class="tags-list">
-                                {% for tag in project.tags.all %}
-                                    <span class="tag" data-tag-color="{{ tag.color }}">{{ tag.name }}</span>
-                                {% endfor %}
+                        <div class="project-card-bottom">
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-progress="{{ project.get_progress_percentage }}"></div>
                             </div>
-                        {% endif %}
+                            <small>{{ project.get_progress_percentage }}% {% trans "completed" %}</small>
 
-                        {% if project.technologies.exists %}
-                            <div class="tech-list">
-                                {% for tech in project.technologies.all %}
-                                    <span class="tech">{{ tech.name }}</span>
-                                {% endfor %}
+                            {% if project.tags.exists %}
+                                <div class="tags-list">
+                                    {% for tag in project.tags.all %}
+                                        <span class="tag" data-tag-color="{{ tag.color }}">{{ tag.name }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            {% if project.technologies.exists %}
+                                <div class="tech-list">
+                                    {% for tech in project.technologies.all %}
+                                        <span class="tech">{{ tech.name }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            <div class="project-meta">
+                                <span class="project-status status-{{ project.status }}">{{ project.get_status_display }}</span>
+                                <span class="hours">{{ project.get_total_hours }}h</span>
+                                <small class="owner">by {{ project.owner.get_full_name|default:project.owner.username }}</small>
                             </div>
-                        {% endif %}
-
-                        <div class="project-meta">
-                            <span class="project-status status-{{ project.status }}">{{ project.get_status_display }}</span>
-                            <span class="hours">{{ project.get_total_hours }}h</span>
-                            <small class="owner">by {{ project.owner.get_full_name|default:project.owner.username }}</small>
                         </div>
                     </div>
                 {% endfor %}
