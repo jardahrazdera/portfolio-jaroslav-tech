@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Portfolio Jarka\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-29 08:39+0000\n"
+"POT-Creation-Date: 2025-08-29 08:51+0000\n"
 "PO-Revision-Date: 2025-07-21 13:31+0200\n"
 "Last-Translator: Jarek <jarek@jaroslav.tech>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -198,8 +198,8 @@ msgid "Lantern - Network Interface Manager"
 msgstr "Lantern - Správce síťových rozhraní"
 
 #: core/templates/core/index.html:107
-msgid "A modern, lightweight Terminal User Interface (TUI) for managing network interfaces on Linux systems. Built in Rust, Lantern provides an intuitive interface for configuring network settings through systemd-networkd, supporting WiFi, VPN, and both IPv4/IPv6 configurations with minimal resource usage."
-msgstr "Moderní, lehké terminálové uživatelské rozhraní (TUI) pro správu síťových rozhraní na Linux systémech. Postavený v Rustu, Lantern poskytuje intuitivní rozhraní pro konfiguraci síťových nastavení přes systemd-networkd, podporuje WiFi, VPN a IPv4/IPv6 konfigurace s minimální spotřebou zdrojů."
+msgid "A lightweight TUI for managing network interfaces on Linux, built in Rust. Supports WiFi, VPN, and IPv4/IPv6 configurations through systemd-networkd. This systems-level project showcases my ability to work across the entire technology stack - from low-level networking to high-level web applications."
+msgstr "Lehké TUI pro správu síťových rozhraní na Linuxu, postavené v Rustu. Podporuje WiFi, VPN a IPv4/IPv6 konfigurace přes systemd-networkd. Tento systémový projekt ukazuje moji schopnost pracovat napříč celým technologickým stackem - od nízkoúrovňových sítí po vysokoúrovňové webové aplikace."
 
 #: core/templates/core/index.html:111
 msgid "In Development"
