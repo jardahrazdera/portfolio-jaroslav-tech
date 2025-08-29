@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Portfolio Jarka\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-22 13:22+0000\n"
+"POT-Creation-Date: 2025-08-29 08:15+0000\n"
 "PO-Revision-Date: 2025-07-21 13:31+0200\n"
 "Last-Translator: Jarek <jarek@jaroslav.tech>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -16,8 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n "
-"<= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 "X-Generator: Gemini\n"
 
 #: core/models.py:12
@@ -25,12 +24,8 @@ msgid "Activate 'Coming Soon' Mode"
 msgstr "Aktivovat režim 'Brzy spustíme'"
 
 #: core/models.py:13
-msgid ""
-"If checked, visitors will see the 'Coming Soon' overlay instead of the main "
-"site content."
-msgstr ""
-"Pokud je zaškrtnuto, návštěvníci uvidí překryvnou vrstvu 'Brzy spustíme' "
-"namísto hlavního obsahu webu."
+msgid "If checked, visitors will see the 'Coming Soon' overlay instead of the main site content."
+msgstr "Pokud je zaškrtnuto, návštěvníci uvidí překryvnou vrstvu 'Brzy spustíme' namísto hlavního obsahu webu."
 
 #: core/models.py:17
 msgid "Site Setting"
@@ -41,49 +36,51 @@ msgid "Site Settings"
 msgstr "Nastavení stránek"
 
 #: core/templates/core/base.html:14
-msgid ""
-"Personal portfolio of a passionate Fullstack Developer and DevOps enthusiast "
-"from the Czech Republic."
-msgstr "Osobní portfolio vášnivého Fullstack vývojáře a "
-"DevOps nadšence z České republiky."
+msgid "Personal portfolio of a passionate Fullstack Developer and DevOps enthusiast from the Czech Republic."
+msgstr "Osobní portfolio vášnivého Fullstack vývojáře a DevOps nadšence z České republiky."
 
-#: core/templates/core/base.html:35 core/templates/core/base.html:78
+#: core/templates/core/base.html:58 core/templates/core/base.html:100
+#: devtracker/templates/devtracker/components/nav.html:23
 msgid "Toggle theme"
 msgstr "Přepnout motiv"
 
-#: core/templates/core/base.html:43
+#: core/templates/core/base.html:66
 msgid "Coming soon"
 msgstr "Brzy spustíme"
 
-#: core/templates/core/base.html:44
+#: core/templates/core/base.html:67
 msgid "I'm working on it :)"
 msgstr "Pracuji na tom :)"
 
-#: core/templates/core/base.html:54
+#: core/templates/core/base.html:77
 msgid "About"
 msgstr "O mně"
 
-#: core/templates/core/base.html:55
+#: core/templates/core/base.html:78
 msgid "Skills"
 msgstr "Dovednosti"
 
-#: core/templates/core/base.html:56 core/templates/core/index.html:85
+#: core/templates/core/base.html:79 core/templates/core/index.html:85
+#: devtracker/templates/devtracker/components/nav.html:9
+#: devtracker/templates/devtracker/project_list.html:4
+#: devtracker/templates/devtracker/project_list.html:9
 msgid "Projects"
 msgstr "Projekty"
 
-#: core/templates/core/base.html:57
+#: core/templates/core/base.html:80
 msgid "Contact"
 msgstr "Kontakt"
 
-#: core/templates/core/base.html:87
+#: core/templates/core/base.html:109
+#: devtracker/templates/devtracker/components/nav.html:32
 msgid "Open menu"
 msgstr "Otevřít menu"
 
-#: core/templates/core/base.html:101
+#: core/templates/core/base.html:123
 msgid "All rights reserved."
 msgstr "Všechna práva vyhrazena."
 
-#: core/templates/core/base.html:102
+#: core/templates/core/base.html:124
 msgid "Catppuccin Mocha Theme"
 msgstr "Motiv Catppuccin Mocha"
 
@@ -104,14 +101,8 @@ msgid "DevOps Enthusiast"
 msgstr "DevOps Enthusiast"
 
 #: core/templates/core/index.html:25
-msgid ""
-"I build robust backends and elegant web solutions. Passionate about clean "
-"code and object-oriented principles. I actively use AI as a tool to boost my "
-"productivity and explore creative solutions."
-msgstr ""
-"Tvořím robustní backendy a elegantní webová řešení. Jsem nadšený do čistého "
-"kódu a objektově orientovaných principů. Aktivně využívám AI jako nástroj "
-"pro zvýšení své produktivity a objevování kreativních řešení."
+msgid "I build robust backends and elegant web solutions. Passionate about clean code and object-oriented principles. I actively use AI as a tool to boost my productivity and explore creative solutions."
+msgstr "Tvořím robustní backendy a elegantní webová řešení. Jsem nadšený do čistého kódu a objektově orientovaných principů. Aktivně využívám AI jako nástroj pro zvýšení své produktivity a objevování kreativních řešení."
 
 #: core/templates/core/index.html:27
 msgid "View My Work"
@@ -128,27 +119,11 @@ msgstr "O mně"
 #: core/templates/core/index.html:39
 msgid ""
 "\n"
-"                    <p>I am a developer from the Czech Republic, driven by a "
-"passion for transforming complex problems into elegant software solutions. "
-"My focus is on building robust and maintainable applications using Python, "
-"with practical experience in frameworks like Django and Flask. I am "
-"proficient in crafting user interfaces with HTML, CSS, and JavaScript, and I "
-"am committed to applying the principles of Object-Oriented Programming to "
-"write clean and scalable code. My choice of Manjaro Sway as a daily driver "
-"reflects my philosophy: I thrive in efficient, terminal-centric environments "
-"that give me full control over my workflow.</p>\n"
+"                    <p>I am a developer from the Czech Republic, driven by a passion for transforming complex problems into elegant software solutions. My focus is on building robust and maintainable applications using Python, with practical experience in frameworks like Django and Flask. I am proficient in crafting user interfaces with HTML, CSS, and JavaScript, and I am committed to applying the principles of Object-Oriented Programming to write clean and scalable code. My choice of <strong>Omarchy</strong> Linux distribution as a daily driver reflects my philosophy: I thrive in efficient, terminal-centric environments that give me full control over my workflow.</p>\n"
 "                    "
 msgstr ""
 "\n"
-"                    <p>Jsem vývojář z České republiky, poháněný vášní pro "
-"přeměnu komplexních problémů v elegantní softwarová řešení. Soustředím se na "
-"tvorbu robustních a udržitelných aplikací v Pythonu, s praktickými "
-"zkušenostmi ve frameworcích jako Django a Flask. Ovládám tvorbu "
-"uživatelských rozhraní pomocí HTML, CSS a JavaScriptu a věnuji se aplikaci "
-"principů objektově orientovaného programování pro psaní čistého a "
-"škálovatelného kódu. Moje volba Manjaro Sway jako hlavního systému odráží "
-"mou filozofii: daří se mi v efektivním, terminálově orientovaném prostředí, "
-"které mi dává plnou kontrolu nad mým workflow.</p>\n"
+"                    <p>Jsem vývojář z České republiky, poháněný vášní pro přeměnu komplexních problémů v elegantní softwarová řešení. Soustředím se na tvorbu robustních a udržitelných aplikací v Pythonu, s praktickými zkušenostmi ve frameworcích jako Django a Flask. Ovládám tvorbu uživatelských rozhraní pomocí HTML, CSS a JavaScriptu a věnuji se aplikaci principů objektově orientovaného programování pro psaní čistého a škálovatelného kódu. Moje volba <strong>Omarchy</strong> Linux distribuce jako hlavního systému odráží mou filozofii: daří se mi v efektivním, terminálově orientovaném prostředí, které mi dává plnou kontrolu nad mým workflow.</p>\n"
 "                    "
 
 #: core/templates/core/index.html:49
@@ -156,6 +131,8 @@ msgid "My Skillset"
 msgstr "Moje dovednosti"
 
 #: core/templates/core/index.html:52
+#: devtracker/templates/devtracker/project_list.html:61
+#: devtracker/templates/devtracker/project_list.html:174
 msgid "Backend"
 msgstr "Backend"
 
@@ -184,21 +161,11 @@ msgid "The Portfolio Meta-Project"
 msgstr "Meta-projekt Portfolia"
 
 #: core/templates/core/index.html:89
-msgid ""
-"What better showcases my skills than the very page presenting them? This "
-"entire website, from code to deployment, is my project. It all runs on my "
-"own server using virtualization, which I personally manage, and demonstrates "
-"the practical use of technologies like Python, Django, Docker, and CI/CD to "
-"build a complete, robust solution."
-msgstr ""
-"Co lépe ukáže mé schopnosti než samotná stránka, která je prezentuje? Celý "
-"tento web, od kódu až po nasazení, je můj projekt. Vše běží na mém vlastním "
-"serveru s pouzitim virtualizace, který si sám spravuji, a demonstruje to "
-"praktické využití technologií jako Python, Django, Docker a CI/CD k "
-"vytvoření kompletního a robustního řešení."
+msgid "What better showcases my skills than the very page presenting them? This entire website, from code to deployment, is my project. It all runs on my own server using virtualization, which I personally manage, and demonstrates the practical use of technologies like Python, Django, Docker, and CI/CD to build a complete, robust solution."
+msgstr "Co lépe ukáže mé schopnosti než samotná stránka, která je prezentuje? Celý tento web, od kódu až po nasazení, je můj projekt. Vše běží na mém vlastním serveru s pouzitim virtualizace, který si sám spravuji, a demonstruje to praktické využití technologií jako Python, Django, Docker a CI/CD k vytvoření kompletního a robustního řešení."
 
 #: core/templates/core/index.html:90 core/templates/core/index.html:99
-#: core/templates/core/index.html:107
+#: core/templates/core/index.html:108
 msgid "Technologies:"
 msgstr "Technologie:"
 
@@ -211,59 +178,815 @@ msgid "Live Demo"
 msgstr "Živá ukázka"
 
 #: core/templates/core/index.html:97
-msgid "Personal Dashboard 'Freedom Hub'"
-msgstr "Osobní Dashboard 'Freedom Hub'"
+msgid "DevTracker - Project Management System"
+msgstr ""
 
 #: core/templates/core/index.html:98
-msgid ""
-"A self-hosted dashboard to reclaim control over my digital world. Instead of "
-"dozens of tabs, this app brings RSS feeds, weather, to-do lists, quick notes "
-"into one fully customizable space and many more. It's a step towards digital "
-"independence, built with Django and a touch of JavaScript for interactive "
-"widgets."
+msgid "A comprehensive Django-based project management system with time tracking, task management, and progress monitoring. Features user authentication, project ownership, and a beautiful admin interface. Built with modern design principles and comprehensive testing."
 msgstr ""
-"Self-hostovaný dashboard pro znovuzískání kontroly nad mým digitálním "
-"světem. Místo desítek záložek přináší tato aplikace RSS kanály, počasí, "
-"úkoly, rychlé poznámky do jednoho plně přizpůsobitelného prostoru a mnoho "
-"dalšího.Je to krok k digitální nezávislosti, postavený na Djangu s kapkou "
-"JavaScriptu pro interaktivní widgety."
 
 #: core/templates/core/index.html:101
-msgid "In Development"
-msgstr "Ve vývoji"
+msgid "Try DevTracker"
+msgstr ""
 
-#: core/templates/core/index.html:105
+#: core/templates/core/index.html:102
+msgid "View Code"
+msgstr ""
+
+#: core/templates/core/index.html:106
 msgid "CLI Toolbox"
 msgstr "Sada CLI nástrojů"
 
-#: core/templates/core/index.html:106
-msgid ""
-"A curated collection of small, useful Python scripts designed for the "
-"command line. From automating boring tasks to simple data processing, this "
-"toolbox is my personal testament to the power and elegance of scripting. "
-"More tools to be added soon."
-msgstr ""
-"Kolekce malých, užitečných Python skriptů navržených pro příkazovou řádku. "
-"Od automatizace nudných úkolů po jednoduché zpracování dat, tato sada "
-"nástrojů je mým osobním svědectvím o síle a eleganci skriptování. Další "
-"nástroje budou brzy přidány."
+#: core/templates/core/index.html:107
+msgid "A curated collection of small, useful Python scripts designed for the command line. From automating boring tasks to simple data processing, this toolbox is my personal testament to the power and elegance of scripting. More tools to be added soon."
+msgstr "Kolekce malých, užitečných Python skriptů navržených pro příkazovou řádku. Od automatizace nudných úkolů po jednoduché zpracování dat, tato sada nástrojů je mým osobním svědectvím o síle a eleganci skriptování. Další nástroje budou brzy přidány."
 
-#: core/templates/core/index.html:109
+#: core/templates/core/index.html:110
 msgid "Idea Stage"
 msgstr "Ve fázi nápadu"
 
-#: core/templates/core/index.html:118
+#: core/templates/core/index.html:119
 msgid "Contact Me"
 msgstr "Kontaktujte mě"
 
-#: core/templates/core/index.html:119
+#: core/templates/core/index.html:120
 msgid "I'm currently looking for new opportunities. Feel free to reach out!"
 msgstr "Momentálně hledám nové příležitosti. Neváhejte se ozvat!"
 
-#: core/templates/core/index.html:122
+#: core/templates/core/index.html:123
 msgid "Visit my GitHub profile"
 msgstr "Navštivte můj profil na GitHub"
 
-#: core/templates/core/index.html:127
-msgid "Visit my LinkedIn profile"
-msgstr "Navštivte můj profil na LinkedIn"
+#: devtracker/templates/404.html:4 devtracker/templates/404.html:13
+msgid "Page Not Found"
+msgstr ""
+
+#: devtracker/templates/404.html:15
+msgid "The page you're looking for doesn't exist or has been moved."
+msgstr ""
+
+#: devtracker/templates/404.html:20 devtracker/templates/500.html:20
+#, fuzzy
+#| msgid "Projects"
+msgid "Go to Projects"
+msgstr "Projekty"
+
+#: devtracker/templates/404.html:22
+msgid "Go to Dashboard"
+msgstr ""
+
+#: devtracker/templates/404.html:24 devtracker/templates/500.html:21
+#: devtracker/templates/devtracker/logged_out.html:32
+msgid "Back to Portfolio"
+msgstr ""
+
+#: devtracker/templates/500.html:4
+msgid "Server Error"
+msgstr ""
+
+#: devtracker/templates/500.html:13
+msgid "Internal Server Error"
+msgstr ""
+
+#: devtracker/templates/500.html:15
+msgid "Something went wrong on our end. Please try again later."
+msgstr ""
+
+#: devtracker/templates/devtracker/components/nav.html:11
+#: devtracker/templates/devtracker/dashboard.html:4
+#: devtracker/templates/devtracker/dashboard.html:9
+msgid "Dashboard"
+msgstr ""
+
+#: devtracker/templates/devtracker/components/nav.html:12
+#, fuzzy
+#| msgid "Projects"
+msgid "New Project"
+msgstr "Projekty"
+
+#: devtracker/templates/devtracker/components/nav.html:13
+msgid "Logout"
+msgstr ""
+
+#: devtracker/templates/devtracker/components/nav.html:15
+#: devtracker/templates/devtracker/login.html:4
+msgid "Login"
+msgstr ""
+
+#: devtracker/templates/devtracker/components/nav.html:16
+#: devtracker/templates/devtracker/register.html:4
+msgid "Register"
+msgstr ""
+
+#: devtracker/templates/devtracker/components/nav.html:20
+msgid "Portfolio"
+msgstr ""
+
+#: devtracker/templates/devtracker/dashboard.html:10
+msgid "Project management overview"
+msgstr ""
+
+#: devtracker/templates/devtracker/dashboard.html:16
+#, fuzzy
+#| msgid "Projects"
+msgid "Project Statistics"
+msgstr "Projekty"
+
+#: devtracker/templates/devtracker/dashboard.html:20
+#, fuzzy
+#| msgid "Projects"
+msgid "Total Projects"
+msgstr "Projekty"
+
+#: devtracker/templates/devtracker/dashboard.html:24
+#: devtracker/templates/devtracker/project_list.html:38
+#: devtracker/templates/devtracker/project_list.html:151
+msgid "Active"
+msgstr ""
+
+#: devtracker/templates/devtracker/dashboard.html:28
+#: devtracker/templates/devtracker/dashboard.html:42
+#: devtracker/templates/devtracker/project_list.html:39
+#: devtracker/templates/devtracker/project_list.html:152
+msgid "Completed"
+msgstr ""
+
+#: devtracker/templates/devtracker/dashboard.html:34
+msgid "Task Statistics"
+msgstr ""
+
+#: devtracker/templates/devtracker/dashboard.html:38
+msgid "Total Tasks"
+msgstr ""
+
+#: devtracker/templates/devtracker/dashboard.html:46
+msgid "Remaining"
+msgstr ""
+
+#: devtracker/templates/devtracker/dashboard.html:55
+msgid "Recent Tasks"
+msgstr ""
+
+#: devtracker/templates/devtracker/dashboard.html:66
+#: devtracker/templates/devtracker/project_detail.html:88
+msgid "Low"
+msgstr ""
+
+#: devtracker/templates/devtracker/dashboard.html:67
+#: devtracker/templates/devtracker/project_detail.html:89
+msgid "Medium"
+msgstr ""
+
+#: devtracker/templates/devtracker/dashboard.html:68
+#: devtracker/templates/devtracker/project_detail.html:90
+msgid "High"
+msgstr ""
+
+#: devtracker/templates/devtracker/dashboard.html:76
+msgid "No recent tasks found."
+msgstr ""
+
+#: devtracker/templates/devtracker/dashboard.html:81
+#: devtracker/templates/devtracker/project_detail.html:111
+msgid "Recent Time Logs"
+msgstr ""
+
+#: devtracker/templates/devtracker/dashboard.html:98
+msgid "No time logs found."
+msgstr ""
+
+#: devtracker/templates/devtracker/dashboard.html:105
+#, fuzzy
+#| msgid "Projects"
+msgid "All Projects"
+msgstr "Projekty"
+
+#: devtracker/templates/devtracker/dashboard.html:117
+#: devtracker/templates/devtracker/project_detail.html:32
+#: devtracker/templates/devtracker/project_list.html:97
+#: devtracker/templates/devtracker/project_list.html:205
+msgid "completed"
+msgstr ""
+
+#: devtracker/templates/devtracker/dashboard.html:125
+#: devtracker/templates/devtracker/project_detail.html:98
+#: devtracker/templates/devtracker/project_form.html:5
+#: devtracker/templates/devtracker/status_list.html:70
+#: devtracker/templates/devtracker/timelog_form.html:88
+msgid "Edit"
+msgstr ""
+
+#: devtracker/templates/devtracker/dashboard.html:126
+#: devtracker/templates/devtracker/project_detail.html:66
+#: devtracker/templates/devtracker/timelog_form.html:8
+#: devtracker/templates/devtracker/timelog_form.html:19
+#: devtracker/templates/devtracker/timelog_form.html:68
+msgid "Log Time"
+msgstr ""
+
+#: devtracker/templates/devtracker/dashboard.html:132
+msgid "No projects found."
+msgstr ""
+
+#: devtracker/templates/devtracker/dashboard.html:132
+msgid "Create your first project"
+msgstr ""
+
+#: devtracker/templates/devtracker/dashboard.html:140
+#: devtracker/templates/devtracker/project_list.html:251
+msgid "first"
+msgstr ""
+
+#: devtracker/templates/devtracker/dashboard.html:141
+#: devtracker/templates/devtracker/project_list.html:252
+msgid "previous"
+msgstr ""
+
+#: devtracker/templates/devtracker/dashboard.html:145
+#: devtracker/templates/devtracker/project_list.html:256
+msgid "Page"
+msgstr ""
+
+#: devtracker/templates/devtracker/dashboard.html:145
+#: devtracker/templates/devtracker/project_list.html:256
+msgid "of"
+msgstr ""
+
+#: devtracker/templates/devtracker/dashboard.html:149
+#: devtracker/templates/devtracker/project_list.html:260
+msgid "next"
+msgstr ""
+
+#: devtracker/templates/devtracker/dashboard.html:150
+#: devtracker/templates/devtracker/project_list.html:261
+msgid "last"
+msgstr ""
+
+#: devtracker/templates/devtracker/logged_out.html:4
+msgid "Logged Out"
+msgstr ""
+
+#: devtracker/templates/devtracker/logged_out.html:12
+msgid "Goodbye!"
+msgstr ""
+
+#: devtracker/templates/devtracker/logged_out.html:15
+msgid "You have been successfully logged out."
+msgstr ""
+
+#: devtracker/templates/devtracker/logged_out.html:21
+msgid "View Public Projects"
+msgstr ""
+
+#: devtracker/templates/devtracker/logged_out.html:25
+msgid "Login Again"
+msgstr ""
+
+#: devtracker/templates/devtracker/login.html:11
+msgid "DevTracker Login"
+msgstr ""
+
+#: devtracker/templates/devtracker/login.html:14
+msgid "Sign in to manage your projects"
+msgstr ""
+
+#: devtracker/templates/devtracker/login.html:21
+msgid "Login failed"
+msgstr ""
+
+#: devtracker/templates/devtracker/login.html:35
+#: devtracker/templates/devtracker/register.html:33
+msgid "Username"
+msgstr ""
+
+#: devtracker/templates/devtracker/login.html:47
+#: devtracker/templates/devtracker/register.html:79
+msgid "Password"
+msgstr ""
+
+#: devtracker/templates/devtracker/login.html:58
+msgid "Sign In"
+msgstr ""
+
+#: devtracker/templates/devtracker/login.html:62
+msgid "Don't have an account?"
+msgstr ""
+
+#: devtracker/templates/devtracker/login.html:64
+msgid "Register here"
+msgstr ""
+
+#: devtracker/templates/devtracker/login.html:73
+#: devtracker/templates/devtracker/register.html:156
+#, fuzzy
+#| msgid "Projects"
+msgid "Back to Projects"
+msgstr "Projekty"
+
+#: devtracker/templates/devtracker/project_confirm_delete.html:4
+#: devtracker/templates/devtracker/project_confirm_delete.html:11
+#: devtracker/templates/devtracker/project_detail.html:69
+#, fuzzy
+#| msgid "Projects"
+msgid "Delete Project"
+msgstr "Projekty"
+
+#: devtracker/templates/devtracker/project_confirm_delete.html:15
+msgid "Are you sure you want to permanently delete this project?"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_confirm_delete.html:24
+msgid "This will delete:"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_confirm_delete.html:27
+#: devtracker/templates/devtracker/project_detail.html:32
+msgid "tasks"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_confirm_delete.html:28
+msgid "time log entries"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_confirm_delete.html:29
+msgid "status updates"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_confirm_delete.html:32
+msgid "This action cannot be undone!"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_confirm_delete.html:41
+msgid "Yes, Delete Everything"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_confirm_delete.html:44
+#: devtracker/templates/devtracker/project_form.html:150
+#: devtracker/templates/devtracker/status_confirm_delete.html:31
+#: devtracker/templates/devtracker/status_form.html:81
+#: devtracker/templates/devtracker/task_confirm_delete.html:32
+#: devtracker/templates/devtracker/task_form.html:87
+#: devtracker/templates/devtracker/timelog_form.html:72
+msgid "Cancel"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_confirm_delete.html:51
+msgid "Tip: Consider archiving the project instead by changing its status to 'completed' if you want to keep the data."
+msgstr ""
+
+#: devtracker/templates/devtracker/project_detail.html:13
+msgid "Started:"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_detail.html:16
+msgid "Due:"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_detail.html:23
+#: devtracker/templates/devtracker/task_form.html:44
+msgid "Description"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_detail.html:28
+msgid "Progress"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_detail.html:37
+msgid "Tags"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_detail.html:48
+#, fuzzy
+#| msgid "Technologies:"
+msgid "Technologies"
+msgstr "Technologie:"
+
+#: devtracker/templates/devtracker/project_detail.html:59
+#, fuzzy
+#| msgid "GitHub"
+msgid "View on GitHub"
+msgstr "GitHub"
+
+#: devtracker/templates/devtracker/project_detail.html:62
+msgid "View Live Site"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_detail.html:65
+#: devtracker/templates/devtracker/project_form.html:13
+#, fuzzy
+#| msgid "Projects"
+msgid "Edit Project"
+msgstr "Projekty"
+
+#: devtracker/templates/devtracker/project_detail.html:67
+msgid "Add Task"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_detail.html:68
+msgid "Status Update"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_detail.html:69
+msgid "Are you sure you want to delete this project?"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_detail.html:76
+msgid "Tasks"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_detail.html:94
+msgid "Done"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_detail.html:99
+msgid "Delete this task?"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_detail.html:99
+#: devtracker/templates/devtracker/status_list.html:71
+msgid "Delete"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_detail.html:121
+msgid "Total logged time:"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_detail.html:127
+msgid "Recent Updates"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_form.html:5
+#: devtracker/templates/devtracker/project_form.html:15
+msgid "Create New Project"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_form.html:24
+msgid "Basic Information"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_form.html:58
+msgid "Timeline"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_form.html:84
+msgid "Links"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_form.html:108
+msgid "Visibility & Categories"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_form.html:130
+msgid "Hold Ctrl/Cmd to select multiple tags."
+msgstr ""
+
+#: devtracker/templates/devtracker/project_form.html:141
+msgid "Hold Ctrl/Cmd to select multiple technologies."
+msgstr ""
+
+#: devtracker/templates/devtracker/project_form.html:147
+#, fuzzy
+#| msgid "Projects"
+msgid "Update Project"
+msgstr "Projekty"
+
+#: devtracker/templates/devtracker/project_form.html:147
+#, fuzzy
+#| msgid "Projects"
+msgid "Create Project"
+msgstr "Projekty"
+
+#: devtracker/templates/devtracker/project_list.html:11
+#, python-format
+msgid "%(counter)s project found"
+msgid_plural "%(counter)s projects found"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: devtracker/templates/devtracker/project_list.html:13
+#, python-format
+msgid "%(counter)s public project"
+msgid_plural "%(counter)s public projects"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: devtracker/templates/devtracker/project_list.html:26
+#, fuzzy
+#| msgid "Projects"
+msgid "My Projects"
+msgstr "Projekty"
+
+#: devtracker/templates/devtracker/project_list.html:33
+msgid "Search my projects..."
+msgstr ""
+
+#: devtracker/templates/devtracker/project_list.html:36
+#: devtracker/templates/devtracker/project_list.html:149
+msgid "All Status"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_list.html:37
+#: devtracker/templates/devtracker/project_list.html:150
+msgid "Planning"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_list.html:40
+#: devtracker/templates/devtracker/project_list.html:153
+msgid "On Hold"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_list.html:44
+#: devtracker/templates/devtracker/project_list.html:157
+#, fuzzy
+#| msgid "Technologies:"
+msgid "All Technologies"
+msgstr "Technologie:"
+
+#: devtracker/templates/devtracker/project_list.html:58
+#: devtracker/templates/devtracker/project_list.html:171
+msgid "All Tags"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_list.html:59
+#: devtracker/templates/devtracker/project_list.html:172
+#, fuzzy
+#| msgid "In Development"
+msgid "Web Development"
+msgstr "Ve vývoji"
+
+#: devtracker/templates/devtracker/project_list.html:60
+#: devtracker/templates/devtracker/project_list.html:173
+msgid "AI/ML"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_list.html:62
+#: devtracker/templates/devtracker/project_list.html:175
+msgid "DevOps"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_list.html:63
+#: devtracker/templates/devtracker/project_list.html:176
+#, fuzzy
+#| msgid "Open menu"
+msgid "Open Source"
+msgstr "Otevřít menu"
+
+#: devtracker/templates/devtracker/project_list.html:64
+#: devtracker/templates/devtracker/project_list.html:177
+msgid "Database"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_list.html:88
+msgid "Private"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_list.html:136
+msgid "Other Public Projects"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_list.html:138
+#, fuzzy
+#| msgid "Projects"
+msgid "Public Projects"
+msgstr "Projekty"
+
+#: devtracker/templates/devtracker/project_list.html:146
+msgid "Search projects..."
+msgstr ""
+
+#: devtracker/templates/devtracker/project_list.html:238
+msgid "No projects found"
+msgstr ""
+
+#: devtracker/templates/devtracker/project_list.html:239
+msgid "There are no projects to display at the moment."
+msgstr ""
+
+#: devtracker/templates/devtracker/project_list.html:241
+msgid "Create First Project"
+msgstr ""
+
+#: devtracker/templates/devtracker/register.html:11
+msgid "Join DevTracker"
+msgstr ""
+
+#: devtracker/templates/devtracker/register.html:14
+msgid "Create your account to start managing projects"
+msgstr ""
+
+#: devtracker/templates/devtracker/register.html:21
+msgid "Registration failed"
+msgstr ""
+
+#: devtracker/templates/devtracker/register.html:56
+msgid "Email"
+msgstr ""
+
+#: devtracker/templates/devtracker/register.html:101
+msgid "Confirm Password"
+msgstr ""
+
+#: devtracker/templates/devtracker/register.html:141
+msgid "Create Account"
+msgstr ""
+
+#: devtracker/templates/devtracker/register.html:145
+msgid "Already have an account?"
+msgstr ""
+
+#: devtracker/templates/devtracker/register.html:147
+msgid "Sign in"
+msgstr ""
+
+#: devtracker/templates/devtracker/status_confirm_delete.html:4
+#: devtracker/templates/devtracker/status_confirm_delete.html:9
+msgid "Delete Status Update"
+msgstr ""
+
+#: devtracker/templates/devtracker/status_confirm_delete.html:12
+msgid "Are you sure you want to delete this status update?"
+msgstr ""
+
+#: devtracker/templates/devtracker/status_confirm_delete.html:15
+#: devtracker/templates/devtracker/status_list.html:10
+#: devtracker/templates/devtracker/timelog_form.html:22
+#, fuzzy
+#| msgid "Projects"
+msgid "Project:"
+msgstr "Projekty"
+
+#: devtracker/templates/devtracker/status_confirm_delete.html:16
+msgid "Status:"
+msgstr ""
+
+#: devtracker/templates/devtracker/status_confirm_delete.html:17
+msgid "Date:"
+msgstr ""
+
+#: devtracker/templates/devtracker/status_confirm_delete.html:19
+msgid "Note:"
+msgstr ""
+
+#: devtracker/templates/devtracker/status_confirm_delete.html:23
+msgid "This action cannot be undone."
+msgstr ""
+
+#: devtracker/templates/devtracker/status_confirm_delete.html:29
+#: devtracker/templates/devtracker/task_confirm_delete.html:29
+msgid "Yes, Delete"
+msgstr ""
+
+#: devtracker/templates/devtracker/status_form.html:6
+#: devtracker/templates/devtracker/status_form.html:18
+msgid "Edit Status Update"
+msgstr ""
+
+#: devtracker/templates/devtracker/status_form.html:8
+#: devtracker/templates/devtracker/status_form.html:20
+#: devtracker/templates/devtracker/status_form.html:77
+msgid "Add Status Update"
+msgstr ""
+
+#: devtracker/templates/devtracker/status_form.html:23
+#: devtracker/templates/devtracker/task_form.html:17
+#, fuzzy
+#| msgid "Projects"
+msgid "For project:"
+msgstr "Projekty"
+
+#: devtracker/templates/devtracker/status_form.html:32
+#: devtracker/templates/devtracker/task_form.html:26
+msgid "Please correct the errors below"
+msgstr ""
+
+#: devtracker/templates/devtracker/status_form.html:38
+msgid "Status"
+msgstr ""
+
+#: devtracker/templates/devtracker/status_form.html:50
+msgid "Date"
+msgstr ""
+
+#: devtracker/templates/devtracker/status_form.html:62
+msgid "Notes"
+msgstr ""
+
+#: devtracker/templates/devtracker/status_form.html:75
+msgid "Update Status"
+msgstr ""
+
+#: devtracker/templates/devtracker/status_list.html:4
+#: devtracker/templates/devtracker/status_list.html:9
+msgid "Status Updates"
+msgstr ""
+
+#: devtracker/templates/devtracker/status_list.html:15
+msgid "Add New Status Update"
+msgstr ""
+
+#: devtracker/templates/devtracker/status_list.html:52
+msgid "Add Status"
+msgstr ""
+
+#: devtracker/templates/devtracker/status_list.html:54
+#, fuzzy
+#| msgid "Projects"
+msgid "Back to Project"
+msgstr "Projekty"
+
+#: devtracker/templates/devtracker/status_list.html:63
+msgid "All Status Updates"
+msgstr ""
+
+#: devtracker/templates/devtracker/status_list.html:71
+msgid "Delete this status update?"
+msgstr ""
+
+#: devtracker/templates/devtracker/status_list.html:84
+msgid "No status updates yet"
+msgstr ""
+
+#: devtracker/templates/devtracker/status_list.html:85
+msgid "Add your first status update using the form above."
+msgstr ""
+
+#: devtracker/templates/devtracker/task_confirm_delete.html:4
+#: devtracker/templates/devtracker/task_confirm_delete.html:11
+msgid "Delete Task"
+msgstr ""
+
+#: devtracker/templates/devtracker/task_confirm_delete.html:15
+msgid "Are you sure you want to delete this task?"
+msgstr ""
+
+#: devtracker/templates/devtracker/task_form.html:4
+#: devtracker/templates/devtracker/task_form.html:81
+msgid "Create Task"
+msgstr ""
+
+#: devtracker/templates/devtracker/task_form.html:4
+#: devtracker/templates/devtracker/task_form.html:14
+msgid "Edit Task"
+msgstr ""
+
+#: devtracker/templates/devtracker/task_form.html:12
+msgid "Create New Task"
+msgstr ""
+
+#: devtracker/templates/devtracker/task_form.html:32
+msgid "Task Title"
+msgstr ""
+
+#: devtracker/templates/devtracker/task_form.html:56
+msgid "Priority"
+msgstr ""
+
+#: devtracker/templates/devtracker/task_form.html:69
+msgid "Mark as completed"
+msgstr ""
+
+#: devtracker/templates/devtracker/task_form.html:83
+msgid "Update Task"
+msgstr ""
+
+#: devtracker/templates/devtracker/timelog_form.html:6
+#: devtracker/templates/devtracker/timelog_form.html:17
+msgid "Edit Time Log"
+msgstr ""
+
+#: devtracker/templates/devtracker/timelog_form.html:37
+msgid "The date when work was performed"
+msgstr ""
+
+#: devtracker/templates/devtracker/timelog_form.html:48
+msgid "Number of hours worked (e.g., 2.5)"
+msgstr ""
+
+#: devtracker/templates/devtracker/timelog_form.html:59
+msgid "Brief description of work performed"
+msgstr ""
+
+#: devtracker/templates/devtracker/timelog_form.html:66
+msgid "Update Time Log"
+msgstr ""
+
+#: devtracker/templates/devtracker/timelog_form.html:80
+msgid "All Time Logs"
+msgstr ""
+
+#: devtracker/templates/devtracker/timelog_form.html:93
+msgid "Total logged:"
+msgstr ""
+
+#~ msgid "Personal Dashboard 'Freedom Hub'"
+#~ msgstr "Osobní Dashboard 'Freedom Hub'"
+
+#~ msgid "A self-hosted dashboard to reclaim control over my digital world. Instead of dozens of tabs, this app brings RSS feeds, weather, to-do lists, quick notes into one fully customizable space and many more. It's a step towards digital independence, built with Django and a touch of JavaScript for interactive widgets."
+#~ msgstr "Self-hostovaný dashboard pro znovuzískání kontroly nad mým digitálním světem. Místo desítek záložek přináší tato aplikace RSS kanály, počasí, úkoly, rychlé poznámky do jednoho plně přizpůsobitelného prostoru a mnoho dalšího.Je to krok k digitální nezávislosti, postavený na Djangu s kapkou JavaScriptu pro interaktivní widgety."
+
+#~ msgid "Visit my LinkedIn profile"
+#~ msgstr "Navštivte můj profil na LinkedIn"
