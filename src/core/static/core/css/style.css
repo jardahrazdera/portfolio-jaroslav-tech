@@ -381,6 +381,26 @@ a:hover {
     .lang-switch a {
         justify-content: center;
     }
+    
+    /* Fix project cards on mobile */
+    .container {
+        padding: 0 15px;
+    }
+    
+    .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .project-card {
+        padding: 20px;
+    }
+    
+    .project-links .btn {
+        display: inline-block;
+        margin-bottom: 10px;
+        margin-right: 5px;
+    }
 }
 
 /* --- Language Switcher with Flags --- */
