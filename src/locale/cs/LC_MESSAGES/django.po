@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Portfolio Jarka\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-29 08:15+0000\n"
+"POT-Creation-Date: 2025-08-29 08:39+0000\n"
 "PO-Revision-Date: 2025-07-21 13:31+0200\n"
 "Last-Translator: Jarek <jarek@jaroslav.tech>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -169,7 +169,7 @@ msgstr "Co lépe ukáže mé schopnosti než samotná stránka, která je prezen
 msgid "Technologies:"
 msgstr "Technologie:"
 
-#: core/templates/core/index.html:92
+#: core/templates/core/index.html:92 core/templates/core/index.html:110
 msgid "GitHub"
 msgstr "GitHub"
 
@@ -194,26 +194,26 @@ msgid "View Code"
 msgstr ""
 
 #: core/templates/core/index.html:106
-msgid "CLI Toolbox"
-msgstr "Sada CLI nástrojů"
+msgid "Lantern - Network Interface Manager"
+msgstr "Lantern - Správce síťových rozhraní"
 
 #: core/templates/core/index.html:107
-msgid "A curated collection of small, useful Python scripts designed for the command line. From automating boring tasks to simple data processing, this toolbox is my personal testament to the power and elegance of scripting. More tools to be added soon."
-msgstr "Kolekce malých, užitečných Python skriptů navržených pro příkazovou řádku. Od automatizace nudných úkolů po jednoduché zpracování dat, tato sada nástrojů je mým osobním svědectvím o síle a eleganci skriptování. Další nástroje budou brzy přidány."
+msgid "A modern, lightweight Terminal User Interface (TUI) for managing network interfaces on Linux systems. Built in Rust, Lantern provides an intuitive interface for configuring network settings through systemd-networkd, supporting WiFi, VPN, and both IPv4/IPv6 configurations with minimal resource usage."
+msgstr "Moderní, lehké terminálové uživatelské rozhraní (TUI) pro správu síťových rozhraní na Linux systémech. Postavený v Rustu, Lantern poskytuje intuitivní rozhraní pro konfiguraci síťových nastavení přes systemd-networkd, podporuje WiFi, VPN a IPv4/IPv6 konfigurace s minimální spotřebou zdrojů."
 
-#: core/templates/core/index.html:110
-msgid "Idea Stage"
-msgstr "Ve fázi nápadu"
+#: core/templates/core/index.html:111
+msgid "In Development"
+msgstr "Ve vývoji"
 
-#: core/templates/core/index.html:119
+#: core/templates/core/index.html:120
 msgid "Contact Me"
 msgstr "Kontaktujte mě"
 
-#: core/templates/core/index.html:120
+#: core/templates/core/index.html:121
 msgid "I'm currently looking for new opportunities. Feel free to reach out!"
 msgstr "Momentálně hledám nové příležitosti. Neváhejte se ozvat!"
 
-#: core/templates/core/index.html:123
+#: core/templates/core/index.html:124
 msgid "Visit my GitHub profile"
 msgstr "Navštivte můj profil na GitHub"
 
@@ -981,6 +981,15 @@ msgstr ""
 #: devtracker/templates/devtracker/timelog_form.html:93
 msgid "Total logged:"
 msgstr ""
+
+#~ msgid "CLI Toolbox"
+#~ msgstr "Sada CLI nástrojů"
+
+#~ msgid "A curated collection of small, useful Python scripts designed for the command line. From automating boring tasks to simple data processing, this toolbox is my personal testament to the power and elegance of scripting. More tools to be added soon."
+#~ msgstr "Kolekce malých, užitečných Python skriptů navržených pro příkazovou řádku. Od automatizace nudných úkolů po jednoduché zpracování dat, tato sada nástrojů je mým osobním svědectvím o síle a eleganci skriptování. Další nástroje budou brzy přidány."
+
+#~ msgid "Idea Stage"
+#~ msgstr "Ve fázi nápadu"
 
 #~ msgid "Personal Dashboard 'Freedom Hub'"
 #~ msgstr "Osobní Dashboard 'Freedom Hub'"
