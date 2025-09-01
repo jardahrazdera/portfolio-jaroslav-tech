@@ -295,14 +295,14 @@ body.light-theme .photo-terminal-overlay {
 
 .photo-hint-arrow {
     position: absolute;
-    bottom: 10px;
+    bottom: -25px;
     left: 50%;
     transform: translateX(-50%);
     color: whitesmoke;
     font-size: 1.8rem;
     font-family: 'JetBrains Mono', monospace;
     font-weight: bold;
-    opacity: 0.8;
+    opacity: 0.9;
     animation: gentle-bounce 1s ease-in-out infinite;
     z-index: 2;
     transition: opacity 0.3s ease;
