@@ -229,7 +229,7 @@ msgstr "Živá ukázka"
 
 #: core/templates/core/index.html:105
 msgid "DevTracker - Project Management System"
-msgstr ""
+msgstr "DevTracker - Systém pro správu projektů"
 
 #: core/templates/core/index.html:106
 msgid ""
@@ -238,14 +238,18 @@ msgid ""
 "project ownership, and a beautiful admin interface. Built with modern design "
 "principles and comprehensive testing."
 msgstr ""
+"Komplexní systém pro správu projektů postavený na Djangu s časovým "
+"sledováním, správou úkolů a monitorováním pokroku. Obsahuje uživatelskou "
+"autentizaci, vlastnictví projektů a krásné administrátorské rozhraní. "
+"Postavený s moderními designovými principy a komplexním testováním."
 
 #: core/templates/core/index.html:109
 msgid "Try DevTracker"
-msgstr ""
+msgstr "DevTracker"
 
 #: core/templates/core/index.html:110
 msgid "View Code"
-msgstr ""
+msgstr "Zobrazit kód"
 
 #: core/templates/core/index.html:114
 msgid "Lantern - Network Interface Manager"
