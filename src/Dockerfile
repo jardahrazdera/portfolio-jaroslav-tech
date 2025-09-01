@@ -11,7 +11,10 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
 # Install system dependencies, including gettext for translations
-RUN apt-get update && apt-get install -y gettext
+RUN apt-get update && apt-get install -y gettext && apt-get clean
+
+# Create a non-root user for running the app
+RUN useradd --create-home --shell /bin/bash app
 
 # Install dependencies
 COPY requirements.txt .
@@ -20,5 +23,14 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application's code
 COPY . .
 
-# Run Gunicorn, pointing to the correct WSGI application
+# Change ownership to app user before compiling messages
+RUN chown -R app:app /app
+
+# Switch to non-root user
+USER app
+
+# Compile translation messages with correct permissions
+RUN python manage.py compilemessages
+
+# Run Gunicorn as non-root user, pointing to the correct WSGI application
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "jaroslav_tech.wsgi:application"]
