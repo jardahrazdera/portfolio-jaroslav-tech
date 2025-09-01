@@ -36,7 +36,9 @@ USER app
 RUN python manage.py compilemessages
 
 # Collect static files during build with correct permissions
-RUN python manage.py collectstatic --no-input
+# Force cache invalidation by adding timestamp
+ARG CACHEBUST=1
+RUN python manage.py collectstatic --no-input --clear
 
 # Run Gunicorn as non-root user, pointing to the correct WSGI application
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "jaroslav_tech.wsgi:application"]
