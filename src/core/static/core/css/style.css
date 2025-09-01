@@ -11,6 +11,7 @@
     --pink: #F5C2E7;
     --maroon: #EBA0AC;
     --peach: #FAB387;
+    --green: #A6E3A1;
     --font-family: 'JetBrains Mono', monospace;
     --shadow-color: rgba(0,0,0,0.2);
 }
@@ -27,6 +28,7 @@ body.light-theme {
     --pink: #d33682;
     --maroon: #dc322f;
     --peach: #cb4b16;
+    --green: #859900;
     --shadow-color: rgba(101, 123, 131, 0.15);
 }
 
@@ -187,12 +189,11 @@ a:hover {
     text-align: justify;
 }
 
-.hero-buttons .btn {
-    margin-right: 15px;
-}
-
-.hero-buttons .btn:last-child {
-    margin-right: 0;
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
 }
 
 /* --- Content Sections --- */
@@ -203,13 +204,6 @@ a:hover {
 
 .content-section:nth-child(odd) {
     background-color: var(--mantle);
-}
-
-/* About Section */
-.about-content {
-    max-width: 800px;
-    margin: 0 auto;
-    text-align: center;
 }
 
 /* Skills Section */
@@ -243,7 +237,9 @@ a:hover {
 
 /* About Section with Photo */
 .about-content {
-    margin-top: 3rem;
+    max-width: 800px;
+    margin: 3rem auto 0;
+    text-align: center;
 }
 
 .about-wrapper {
@@ -533,24 +529,9 @@ body.light-theme .terminal-response {
         padding: 20px;
     }
     
-    .project-links .btn {
-        display: inline-block;
-        margin-bottom: 12px;
-        margin-right: 8px;
-    }
-    
-    .project-links .btn:last-child {
-        margin-right: 0;
-    }
-    
-    /* Hero buttons on mobile */
-    .hero-buttons .btn {
-        margin-right: 12px;
-        margin-bottom: 8px;
-    }
-    
-    .hero-buttons .btn:last-child {
-        margin-right: 0;
+    /* Hero buttons on mobile - inherit flex gap from parent */
+    .hero-buttons {
+        gap: 12px;
     }
     
     /* About section on mobile */
@@ -561,6 +542,10 @@ body.light-theme .terminal-response {
     .about-photo-container {
         width: 220px;
         height: 220px;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
     }
     
     .about-text p {
