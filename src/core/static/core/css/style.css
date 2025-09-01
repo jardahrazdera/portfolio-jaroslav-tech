@@ -235,6 +235,133 @@ a:hover {
     color: var(--subtext);
 }
 
+/* About Section with Photo */
+.about-content {
+    margin-top: 3rem;
+}
+
+.about-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.about-photo-container {
+    position: relative;
+    width: 350px;
+    height: 350px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border: 3px solid var(--overlay);
+}
+
+.profile-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+}
+
+.about-photo-container:hover .profile-photo {
+    filter: grayscale(0%);
+}
+
+.photo-terminal-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(30, 30, 46, 0.7);
+    padding: 20px;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+/* Light theme overlay */
+body.light-theme .photo-terminal-overlay {
+    background: rgba(253, 246, 227, 0.7);
+}
+
+.about-photo-container:hover .photo-terminal-overlay {
+    transform: translateY(0);
+}
+
+.photo-hint-arrow {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: whitesmoke;
+    font-size: 1.8rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: bold;
+    opacity: 0.8;
+    animation: gentle-bounce 1s ease-in-out infinite;
+    z-index: 2;
+    transition: opacity 0.3s ease;
+}
+
+/* Light theme arrow */
+body.light-theme .photo-hint-arrow {
+    color: whitesmoke;
+}
+
+/* Hide arrow on hover */
+.about-photo-container:hover .photo-hint-arrow {
+    opacity: 0;
+}
+
+@keyframes gentle-bounce {
+    0%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    50% {
+        transform: translateX(-50%) translateY(-5px);
+    }
+}
+
+.terminal-text {
+    display: block;
+    color: var(--green);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+/* Light theme terminal text */
+body.light-theme .terminal-text {
+    color: #073642; /* Solarized base03 - dark color for light theme */
+}
+
+.terminal-response {
+    display: block;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Light theme terminal response */
+body.light-theme .terminal-response {
+    color: #073642; /* Solarized base03 - dark color for light theme */
+}
+
+.about-text p {
+    line-height: 1.8;
+    color: var(--subtext);
+    font-size: 1.1rem;
+    margin: 0;
+    text-align: justify;
+    max-width: 700px;
+}
+
 /* Projects Section */
 .projects-grid {
     display: grid;
@@ -400,6 +527,21 @@ a:hover {
         display: inline-block;
         margin-bottom: 10px;
         margin-right: 5px;
+    }
+    
+    /* About section on mobile */
+    .about-wrapper {
+        gap: 2rem;
+    }
+    
+    .about-photo-container {
+        width: 220px;
+        height: 220px;
+    }
+    
+    .about-text p {
+        text-align: left;
+        font-size: 1rem;
     }
 }
 
