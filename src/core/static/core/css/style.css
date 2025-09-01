@@ -1,3 +1,27 @@
+/*
+=================================================================
+                    TABLE OF CONTENTS
+=================================================================
+1. Color Themes & Variables
+2. Basic Reset & Setup  
+3. General Styling
+4. Header & Navigation
+5. Hero Section
+6. Content Sections
+   - Skills Section
+   - About Section  
+   - Projects Section
+   - Contact Section
+7. Footer
+8. Responsive & Mobile Menu
+9. Language Switcher with Flags
+10. Theme Switcher Styles
+11. Light Theme Adjustments
+12. Coming Soon Mode
+13. Terminal Title
+=================================================================
+*/
+
 /* --- Catppuccin Mocha (Dark) & Solarized Light Palettes --- */
 :root {
     /* DARK (Mocha) THEME - Default */
@@ -206,7 +230,7 @@ a:hover {
     background-color: var(--mantle);
 }
 
-/* Skills Section */
+/* --- Skills Section --- */
 .skills-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -235,7 +259,7 @@ a:hover {
     color: var(--subtext);
 }
 
-/* About Section with Photo */
+/* --- About Section --- */
 .about-content {
     max-width: 800px;
     margin: 3rem auto 0;
@@ -364,7 +388,7 @@ body.light-theme .terminal-response {
     max-width: 800px;
 }
 
-/* Projects Section */
+/* --- Projects Section --- */
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -403,7 +427,7 @@ body.light-theme .terminal-response {
     flex-wrap: wrap;
 }
 
-/* Contact Section */
+/* --- Contact Section --- */
 #contact {
     text-align: center;
 }
@@ -612,11 +636,7 @@ body.light-theme .terminal-response {
 }
 
 
-/*
-================================================================
-STYLES FOR COMING SOON MODE
-================================================================
-*/
+/* --- Coming Soon Mode --- */
 
 /* This class is added to the body when 'Coming Soon' mode is active */
 body.coming-soon-active > header,
@@ -688,11 +708,7 @@ body.light-theme .coming-soon-overlay {
     }
 }
 
-/*
-=================================
-Terminal Title
-=================================
-*/
+/* --- Terminal Title --- */
 
 .title-container.terminal {
     font-family: 'JetBrains Mono', monospace;
