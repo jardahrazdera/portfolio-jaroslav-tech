@@ -27,6 +27,9 @@ jobs:
           context: ./src
           push: true
           tags: ${{ env.IMAGE_NAME }}:latest
+          build-args: |
+            CACHEBUST=${{ github.run_number }}
+            GIT_COMMIT=${{ github.sha }}
 
       - name: Deploy to server
         uses: appleboy/ssh-action@master
@@ -40,8 +43,17 @@ jobs:
           
             echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
           
+            # Stop the app container
+            docker compose stop app
+          
+            # Clear the static files volume to force fresh static files
+            docker volume rm jaroslavtech_static_volume || true
+          
+            # Pull new image and recreate
             docker compose pull app
-            docker compose up -d --no-deps --force-recreate app
+            docker compose down app
+            docker volume rm jaroslavtech_static_volume || true
+            docker compose up -d --no-deps app
           
             # Run database migrations
             docker compose exec app python manage.py migrate --no-input
