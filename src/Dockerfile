@@ -23,6 +23,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application's code
 COPY . .
 
+# Create staticfiles directory with correct permissions
+RUN mkdir -p /app/staticfiles
+
 # Change ownership to app user before compiling messages
 RUN chown -R app:app /app
 
@@ -31,6 +34,9 @@ USER app
 
 # Compile translation messages with correct permissions
 RUN python manage.py compilemessages
+
+# Collect static files during build with correct permissions
+RUN python manage.py collectstatic --no-input
 
 # Run Gunicorn as non-root user, pointing to the correct WSGI application
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "jaroslav_tech.wsgi:application"]

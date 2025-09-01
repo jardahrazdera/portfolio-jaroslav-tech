@@ -45,6 +45,3 @@ jobs:
           
             # Run database migrations
             docker compose exec app python manage.py migrate --no-input
-          
-            # Collect static files
-            docker compose exec app python manage.py collectstatic --no-input --clear
