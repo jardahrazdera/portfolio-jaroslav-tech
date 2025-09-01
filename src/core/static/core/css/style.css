@@ -543,6 +543,11 @@ body.light-theme .terminal-response {
         text-align: left;
         font-size: 1rem;
     }
+    
+    /* Hide hint arrows on mobile - hover doesn't work well on touch devices */
+    .photo-hint-arrow {
+        display: none;
+    }
 }
 
 /* --- Language Switcher with Flags --- */
