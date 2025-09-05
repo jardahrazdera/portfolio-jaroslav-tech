@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "mkdir -p ../src/static/dist && npm run build:css && npm run build:js",
-    "build:css": "cleancss -o ../src/static/dist/style.min.css ../src/core/static/core/css/fonts.css ../src/core/static/core/css/style.css ../src/static/devtracker/css/tracker.css",
+    "build:css:core": "cleancss -o ../src/static/dist/core.min.css ../src/core/static/core/css/fonts.css ../src/core/static/core/css/style.css",
+    "build:css:tracker": "cleancss -o ../src/static/dist/tracker.min.css ../src/core/static/core/css/fonts.css ../src/core/static/core/css/style.css ../src/static/devtracker/css/tracker.css",
+    "build:css": "npm run build:css:core && npm run build:css:tracker",
     "build:js": "terser ../src/core/static/core/js/main.js ../src/static/devtracker/js/dynamic-styles.js ../src/static/devtracker/js/form-validation.js -o ../src/static/dist/bundle.min.js --compress --mangle"
   },
   "author": "Jaroslav Hrazdera",
