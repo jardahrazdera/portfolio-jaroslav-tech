@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Portfolio Jarka\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-01 15:54+0000\n"
+"POT-Creation-Date: 2025-09-05 23:21+0000\n"
 "PO-Revision-Date: 2025-07-21 13:31+0200\n"
 "Last-Translator: Jarek <jarek@jaroslav.tech>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -48,48 +48,50 @@ msgstr ""
 "Osobní portfolio vášnivého Fullstack vývojáře a DevOps nadšence z České "
 "republiky."
 
-#: core/templates/core/base.html:58 core/templates/core/base.html:100
+#: core/templates/core/base.html:62 core/templates/core/base.html:111
 #: devtracker/templates/devtracker/components/nav.html:23
 msgid "Toggle theme"
 msgstr "Přepnout motiv"
 
-#: core/templates/core/base.html:66
+#: core/templates/core/base.html:70
 msgid "Coming soon"
 msgstr "Brzy spustíme"
 
-#: core/templates/core/base.html:67
+#: core/templates/core/base.html:71
 msgid "I'm working on it :)"
 msgstr "Pracuji na tom :)"
 
-#: core/templates/core/base.html:77
+#: core/templates/core/base.html:81
 msgid "About"
 msgstr "O mně"
 
-#: core/templates/core/base.html:78
+#: core/templates/core/base.html:82
 msgid "Skills"
 msgstr "Dovednosti"
 
-#: core/templates/core/base.html:79 core/templates/core/index.html:93
-#: devtracker/templates/devtracker/components/nav.html:9
-#: devtracker/templates/devtracker/project_list.html:4
-#: devtracker/templates/devtracker/project_list.html:9
+#: core/templates/core/base.html:83
+msgctxt "Portfolio menu item"
 msgid "Projects"
-msgstr "Projekty"
+msgstr ""
 
-#: core/templates/core/base.html:80
+#: core/templates/core/base.html:84
 msgid "Contact"
 msgstr "Kontakt"
 
-#: core/templates/core/base.html:109
+#: core/templates/core/base.html:86
+msgid "Visit my GitHub profile"
+msgstr "Navštivte můj profil na GitHub"
+
+#: core/templates/core/base.html:120
 #: devtracker/templates/devtracker/components/nav.html:32
 msgid "Open menu"
 msgstr "Otevřít menu"
 
-#: core/templates/core/base.html:123
+#: core/templates/core/base.html:134
 msgid "All rights reserved."
 msgstr "Všechna práva vyhrazena."
 
-#: core/templates/core/base.html:124
+#: core/templates/core/base.html:135
 msgid "Catppuccin Mocha Theme"
 msgstr "Motiv Catppuccin Mocha"
 
@@ -191,6 +193,12 @@ msgstr "DevOps & Nástroje"
 msgid "CI/CD (GitHub Actions)"
 msgstr "CI/CD (GitHub Actions)"
 
+#: core/templates/core/index.html:93
+#: devtracker/templates/devtracker/project_list.html:4
+#: devtracker/templates/devtracker/project_list.html:9
+msgid "Projects"
+msgstr "Projekty"
+
 #: core/templates/core/index.html:96
 msgid "The Portfolio Meta-Project"
 msgstr "Meta-projekt Portfolia"
@@ -275,10 +283,6 @@ msgstr "Kontaktujte mě"
 msgid "I'm currently looking for new opportunities. Feel free to reach out!"
 msgstr "Momentálně hledám nové příležitosti. Neváhejte se ozvat!"
 
-#: core/templates/core/index.html:132
-msgid "Visit my GitHub profile"
-msgstr "Navštivte můj profil na GitHub"
-
 #: devtracker/templates/404.html:4 devtracker/templates/404.html:13
 msgid "Page Not Found"
 msgstr ""
@@ -288,8 +292,6 @@ msgid "The page you're looking for doesn't exist or has been moved."
 msgstr ""
 
 #: devtracker/templates/404.html:20 devtracker/templates/500.html:20
-#, fuzzy
-#| msgid "Projects"
 msgid "Go to Projects"
 msgstr "Projekty"
 
@@ -314,6 +316,11 @@ msgstr ""
 msgid "Something went wrong on our end. Please try again later."
 msgstr ""
 
+#: devtracker/templates/devtracker/components/nav.html:9
+msgctxt "Tracker menu item"
+msgid "Projects"
+msgstr "Projekty"
+
 #: devtracker/templates/devtracker/components/nav.html:11
 #: devtracker/templates/devtracker/dashboard.html:4
 #: devtracker/templates/devtracker/dashboard.html:9
@@ -321,10 +328,8 @@ msgid "Dashboard"
 msgstr ""
 
 #: devtracker/templates/devtracker/components/nav.html:12
-#, fuzzy
-#| msgid "Projects"
 msgid "New Project"
-msgstr "Projekty"
+msgstr "Nový projekt"
 
 #: devtracker/templates/devtracker/components/nav.html:13
 msgid "Logout"
@@ -349,16 +354,12 @@ msgid "Project management overview"
 msgstr ""
 
 #: devtracker/templates/devtracker/dashboard.html:16
-#, fuzzy
-#| msgid "Projects"
 msgid "Project Statistics"
-msgstr "Projekty"
+msgstr "Statistiky projektů"
 
 #: devtracker/templates/devtracker/dashboard.html:20
-#, fuzzy
-#| msgid "Projects"
 msgid "Total Projects"
-msgstr "Projekty"
+msgstr "Celkem projektů"
 
 #: devtracker/templates/devtracker/dashboard.html:24
 #: devtracker/templates/devtracker/project_list.html:38
@@ -418,10 +419,8 @@ msgid "No time logs found."
 msgstr ""
 
 #: devtracker/templates/devtracker/dashboard.html:105
-#, fuzzy
-#| msgid "Projects"
 msgid "All Projects"
-msgstr "Projekty"
+msgstr "Všechny projekty"
 
 #: devtracker/templates/devtracker/dashboard.html:117
 #: devtracker/templates/devtracker/project_detail.html:32
@@ -540,18 +539,14 @@ msgstr ""
 
 #: devtracker/templates/devtracker/login.html:73
 #: devtracker/templates/devtracker/register.html:156
-#, fuzzy
-#| msgid "Projects"
 msgid "Back to Projects"
-msgstr "Projekty"
+msgstr "Zpět na projekty"
 
 #: devtracker/templates/devtracker/project_confirm_delete.html:4
 #: devtracker/templates/devtracker/project_confirm_delete.html:11
 #: devtracker/templates/devtracker/project_detail.html:69
-#, fuzzy
-#| msgid "Projects"
 msgid "Delete Project"
-msgstr "Projekty"
+msgstr "Smazat projekt"
 
 #: devtracker/templates/devtracker/project_confirm_delete.html:15
 msgid "Are you sure you want to permanently delete this project?"
@@ -620,16 +615,12 @@ msgid "Tags"
 msgstr ""
 
 #: devtracker/templates/devtracker/project_detail.html:48
-#, fuzzy
-#| msgid "Technologies:"
 msgid "Technologies"
-msgstr "Technologie:"
+msgstr "Technologie"
 
 #: devtracker/templates/devtracker/project_detail.html:59
-#, fuzzy
-#| msgid "GitHub"
 msgid "View on GitHub"
-msgstr "GitHub"
+msgstr "Zobrazit na GitHubu"
 
 #: devtracker/templates/devtracker/project_detail.html:62
 msgid "View Live Site"
@@ -637,10 +628,8 @@ msgstr ""
 
 #: devtracker/templates/devtracker/project_detail.html:65
 #: devtracker/templates/devtracker/project_form.html:13
-#, fuzzy
-#| msgid "Projects"
 msgid "Edit Project"
-msgstr "Projekty"
+msgstr "Upravit projekt"
 
 #: devtracker/templates/devtracker/project_detail.html:67
 msgid "Add Task"
@@ -709,16 +698,12 @@ msgid "Hold Ctrl/Cmd to select multiple technologies."
 msgstr ""
 
 #: devtracker/templates/devtracker/project_form.html:147
-#, fuzzy
-#| msgid "Projects"
 msgid "Update Project"
-msgstr "Projekty"
+msgstr "Aktualizovat projekt"
 
 #: devtracker/templates/devtracker/project_form.html:147
-#, fuzzy
-#| msgid "Projects"
 msgid "Create Project"
-msgstr "Projekty"
+msgstr "Vytvořit projekt"
 
 #: devtracker/templates/devtracker/project_list.html:11
 #, python-format
@@ -739,10 +724,8 @@ msgstr[2] ""
 msgstr[3] ""
 
 #: devtracker/templates/devtracker/project_list.html:26
-#, fuzzy
-#| msgid "Projects"
 msgid "My Projects"
-msgstr "Projekty"
+msgstr "Moje projekty"
 
 #: devtracker/templates/devtracker/project_list.html:33
 msgid "Search my projects..."
@@ -765,10 +748,8 @@ msgstr ""
 
 #: devtracker/templates/devtracker/project_list.html:44
 #: devtracker/templates/devtracker/project_list.html:157
-#, fuzzy
-#| msgid "Technologies:"
 msgid "All Technologies"
-msgstr "Technologie:"
+msgstr "Všechny technologie"
 
 #: devtracker/templates/devtracker/project_list.html:58
 #: devtracker/templates/devtracker/project_list.html:171
@@ -777,10 +758,8 @@ msgstr ""
 
 #: devtracker/templates/devtracker/project_list.html:59
 #: devtracker/templates/devtracker/project_list.html:172
-#, fuzzy
-#| msgid "In Development"
 msgid "Web Development"
-msgstr "Ve vývoji"
+msgstr "Webový vývoj"
 
 #: devtracker/templates/devtracker/project_list.html:60
 #: devtracker/templates/devtracker/project_list.html:173
@@ -790,14 +769,12 @@ msgstr ""
 #: devtracker/templates/devtracker/project_list.html:62
 #: devtracker/templates/devtracker/project_list.html:175
 msgid "DevOps"
-msgstr ""
+msgstr "DevOps"
 
 #: devtracker/templates/devtracker/project_list.html:63
 #: devtracker/templates/devtracker/project_list.html:176
-#, fuzzy
-#| msgid "Open menu"
 msgid "Open Source"
-msgstr "Otevřít menu"
+msgstr "Open Source"
 
 #: devtracker/templates/devtracker/project_list.html:64
 #: devtracker/templates/devtracker/project_list.html:177
@@ -813,10 +790,8 @@ msgid "Other Public Projects"
 msgstr ""
 
 #: devtracker/templates/devtracker/project_list.html:138
-#, fuzzy
-#| msgid "Projects"
 msgid "Public Projects"
-msgstr "Projekty"
+msgstr "Veřejné projekty"
 
 #: devtracker/templates/devtracker/project_list.html:146
 msgid "Search projects..."
@@ -878,10 +853,8 @@ msgstr ""
 #: devtracker/templates/devtracker/status_confirm_delete.html:15
 #: devtracker/templates/devtracker/status_list.html:10
 #: devtracker/templates/devtracker/timelog_form.html:22
-#, fuzzy
-#| msgid "Projects"
 msgid "Project:"
-msgstr "Projekty"
+msgstr "Projekt:"
 
 #: devtracker/templates/devtracker/status_confirm_delete.html:16
 msgid "Status:"
@@ -917,10 +890,8 @@ msgstr ""
 
 #: devtracker/templates/devtracker/status_form.html:23
 #: devtracker/templates/devtracker/task_form.html:17
-#, fuzzy
-#| msgid "Projects"
 msgid "For project:"
-msgstr "Projekty"
+msgstr "Pro projekt:"
 
 #: devtracker/templates/devtracker/status_form.html:32
 #: devtracker/templates/devtracker/task_form.html:26
@@ -957,10 +928,8 @@ msgid "Add Status"
 msgstr ""
 
 #: devtracker/templates/devtracker/status_list.html:54
-#, fuzzy
-#| msgid "Projects"
 msgid "Back to Project"
-msgstr "Projekty"
+msgstr "Zpět na projekt"
 
 #: devtracker/templates/devtracker/status_list.html:63
 msgid "All Status Updates"

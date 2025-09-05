@@ -6,7 +6,7 @@
         </a>
         <nav class="main-nav">
             <ul class="nav-links">
-                <li><a href="{% url 'devtracker:project_list' %}">{% trans "Projects" %}</a></li>
+                <li><a href="{% url 'devtracker:project_list' %}">{% blocktrans context "Tracker menu item" %}Projects{% endblocktrans %}</a></li>
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'devtracker:dashboard' %}">{% trans "Dashboard" %}</a></li>
                     <li><a href="{% url 'devtracker:project_create' %}">{% trans "New Project" %}</a></li>
