@@ -1,6 +1,7 @@
 # Portfolio Jaroslav Tech
 
 [![Portfolio CI/CD](https://github.com/jardahrazdera/portfolio-jaroslav-tech/actions/workflows/deploy.yml/badge.svg)](https://github.com/jardahrazdera/portfolio-jaroslav-tech/actions/workflows/deploy.yml)
+[![Django CI](https://github.com/jardahrazdera/portfolio-jaroslav-tech/actions/workflows/django-ci.yml/badge.svg)](https://github.com/jardahrazdera/portfolio-jaroslav-tech/actions/workflows/django-ci.yml)
 
 Welcome to the official repository for my personal portfolio, [jaroslav.tech](https://jaroslav.tech). This project is more than just a website; it's a comprehensive demonstration of my capabilities in full-stack web development, showcasing a robust backend built with Python and Django, a clean frontend, and modern, automated DevOps practices.
 
@@ -100,83 +101,38 @@ The project uses a `src` layout for a clean separation between the application c
 
 ## ⚙️ Local Development
 
-To run the project on your local machine, you can choose one of the following methods. The Docker method is recommended as it perfectly mirrors the production setup.
-
-### Method 1: Running with Docker (Recommended)
-
-This approach automatically sets up the application, database, and all dependencies in isolated containers.
+The Docker method is highly recommended as it perfectly mirrors the production setup.
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/jardahrazdera/portfolio-jaroslav-tech.git](https://github.com/jardahrazdera/portfolio-jaroslav-tech.git)
+    git clone https://github.com/jardahrazdera/portfolio-jaroslav-tech.git
     cd portfolio-jaroslav-tech
     ```
 
 2.  **Create the `.env` file:**
-    This file stores your environment-specific configurations. Copy the example file to create your own.
+    Copy the example file. The default values are configured for Docker.
     ```bash
     cp .env.example .env
     ```
-    For local development, you only need to ensure `DEBUG=True` is set. The default database credentials will work with Docker Compose out of the box.
 
-3.  **Run with Docker Compose:**
-    This single command builds the Docker image from the `Dockerfile`, creates a network for the containers to communicate, and starts the web application, PostgreSQL database, and Redis caching services.
+3.  **Install Frontend Dependencies:**
+    This project uses `npm` to manage frontend libraries. This step is required once.
+    ```bash
+    cd frontend
+    npm install
+    cd ..
+    ```
+
+4.  **Run with Docker Compose:**
+    This command builds the images and starts the web app, database, and Redis.
     ```bash
     docker compose up --build
     ```
 
-4.  **The application is now running** with multiple access points:
-    - **Portfolio:** Main site at `http://localhost:8000`
-    - **DevTracker:** Project management at `http://localhost:8000/tracker/`
-    - **Admin Panel:** Database management at `http://localhost:8000/admin`
-
-### Method 2: Running Locally without Docker
-
-This method is for developers who prefer to run the application directly on their host machine. It requires Python and PostgreSQL to be installed.
-
-1.  **Clone the repository and navigate to the `src` directory:**
-    ```bash
-    git clone [https://github.com/jardahrazdera/portfolio-jaroslav-tech.git](https://github.com/jardahrazdera/portfolio-jaroslav-tech.git)
-    cd portfolio-jaroslav-tech/src
-    ```
-
-2.  **Create a virtual environment and install dependencies:**
-    It's a best practice to isolate project dependencies.
-    ```bash
-    python -m venv venv
-    source venv/bin/activate
-    pip install -r requirements.txt
-    ```
-
-3.  **Set up environment variables:**
-    Create a `.env` file inside the `src` directory and configure it to connect to your local PostgreSQL instance.
-    ```
-    # Example .env file in src/
-    SECRET_KEY=yourlongrandomsecretkey
-    DEBUG=True
-    POSTGRES_DB=portfolio_db
-    POSTGRES_USER=user
-    POSTGRES_PASSWORD=password
-    POSTGRES_HOST=localhost
-    POSTGRES_PORT=5432
-    ```
-
-4.  **Run database migrations and create a superuser:**
-    This sets up the database schema and creates an admin account.
-    ```bash
-    python manage.py migrate
-    python manage.py createsuperuser
-    ```
-
-5.  **Start the development server:**
-    ```bash
-    python manage.py runserver
-    ```
-
-6.  **The application is now available** with multiple access points:
-    - **Portfolio:** Main site at `http://localhost:8000`
-    - **DevTracker:** Project management at `http://localhost:8000/tracker/`
-    - **Admin Panel:** Database management at `http://localhost:8000/admin`
+5.  **Access the application:**
+    - **Portfolio:** `http://localhost:8000`
+    - **DevTracker:** `http://localhost:8000/tracker/`
+    - **Admin Panel:** `http://localhost:8000/admin`
 
 ---
 
