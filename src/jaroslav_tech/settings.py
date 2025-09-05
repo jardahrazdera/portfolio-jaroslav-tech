@@ -177,7 +177,10 @@ STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # This setting defines the additional locations the staticfiles app will traverse.
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR.parent, 'frontend', 'node_modules'),
+]
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/

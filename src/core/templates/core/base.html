@@ -46,9 +46,13 @@ Version with a robust language switcher.
     {% endfor %}
     
     <link rel="shortcut icon" href="{% static 'core/assets/favicon.svg' %}">
-    
+
+    {% if debug %}
     <link rel="stylesheet" href="{% static 'core/css/fonts.css' %}">
     <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+    {% else %}
+    <link rel="stylesheet" href="{% static 'dist/style.min.css' %}">
+    {% endif %}
 </head>
 <body class="{% if site_settings.coming_soon_mode %}coming-soon-active{% endif %}">
 
@@ -125,6 +129,10 @@ Version with a robust language switcher.
         </div>
     </footer>
 
+    {% if debug %}
     <script src="{% static 'core/js/main.js' %}"></script>
+    {% else %}
+    <script src="{% static 'dist/bundle.min.js' %}"></script>
+    {% endif %}
 </body>
 </html>

@@ -9,11 +9,15 @@
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="{% static 'devtracker/favicon.svg' %}">
     
+    {% if debug %}
     <!-- Reuse existing styles -->
     <link rel="stylesheet" href="{% static 'core/css/fonts.css' %}">
     <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
     <!-- DevTracker specific styles -->
     <link rel="stylesheet" href="{% static 'devtracker/css/tracker.css' %}">
+    {% else %}
+    <link rel="stylesheet" href="{% static 'dist/style.min.css' %}">
+    {% endif %}
     
     {% block extra_css %}{% endblock %}
 </head>
@@ -41,11 +45,15 @@
     </footer>
     
     <!-- Alpine.js for interactive features -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    
+    <script defer src="{% static 'alpinejs/dist/cdn.min.js' %}"></script>
+
+    {% if debug %}
     <script src="{% static 'core/js/main.js' %}"></script>
     <script src="{% static 'devtracker/js/form-validation.js' %}"></script>
     <script src="{% static 'devtracker/js/dynamic-styles.js' %}"></script>
+    {% else %}
+    <script src="{% static 'dist/bundle.min.js' %}"></script>
+    {% endif %}
     {% block extra_js %}{% endblock %}
 </body>
 </html>
