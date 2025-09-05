@@ -119,14 +119,14 @@ a:hover {
 }
 
 .btn-primary {
-    background-color: var(--peach);
+    background-color: var(--mauve);
     color: var(--base);
 }
 
 .btn-primary:hover {
     background-color: transparent;
-    border-color: var(--peach);
-    color: var(--peach);
+    border-color: var(--mauve);
+    color: var(--mauve);
 }
 
 
@@ -170,6 +170,19 @@ a:hover {
 .nav-links a {
     font-size: 1rem;
     font-weight: 400;
+    display: flex;
+    align-items: center;
+}
+
+.nav-icon-link .nav-icon {
+    width: 1.6rem;
+    height: 1.6rem;
+    color: var(--text);
+    transition: color 0.3s ease;
+}
+
+.nav-icon-link:hover .nav-icon {
+    color: var(--mauve);
 }
 
 /* --- Hero Section --- */
