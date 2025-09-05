@@ -44,6 +44,7 @@ This project is built with a focus on modern features and best practices to ensu
 * **Singleton Pattern for Global Settings:** To manage site-wide settings, the project employs the Singleton design pattern for a specific Django model. This ensures that there is only one row in the database for global configurations (like the "Coming Soon" switch), preventing inconsistencies and providing a single source of truth for the application's state.
 * **Clean and Sustainable Code:** The codebase adheres to the PEP 8 style guide and emphasizes readability and maintainability. It follows the "fat models, thin views" philosophy, with clear separation of concerns. Comprehensive comments and a logical project structure make the code easy to navigate and understand for other developers.
 * **Automated Deployment with CI/CD:** The entire deployment process is automated using GitHub Actions. Every push to the `main` branch triggers a workflow that builds, tests, and deploys the application to the production server. This ensures that every update is delivered quickly, reliably, and consistently, minimizing the risk of human error.
+* **Performance Optimization with Redis Caching:** To enhance performance and reduce database load, the application uses Redis for caching. Expensive queries, such as the project list, are cached to provide a faster user experience. The caching logic is implemented with user-specific keys to ensure data privacy and correctness.
 
 ---
 
@@ -55,6 +56,7 @@ The project leverages a modern and robust technology stack to deliver high perfo
   <a href="https://www.python.org" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="40" height="40"/></a>
   <a href="https://www.djangoproject.com/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/django/django-plain.svg" alt="django" width="40" height="40"/></a>
   <a href="https://www.postgresql.org" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="40" height="40"/></a>
+  <a href="https://redis.io" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/redis/redis-original-wordmark.svg" alt="redis" width="40" height="40"/></a>
   <a href="https://www.docker.com/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original-wordmark.svg" alt="docker" width="40" height="40"/></a>
   <a href="https://docs.github.com/en/actions" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/github/github-original-wordmark.svg" alt="githubactions" width="40" height="40"/></a>
   <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="html5" width="40" height="40"/></a>
@@ -118,7 +120,7 @@ This approach automatically sets up the application, database, and all dependenc
     For local development, you only need to ensure `DEBUG=True` is set. The default database credentials will work with Docker Compose out of the box.
 
 3.  **Run with Docker Compose:**
-    This single command builds the Docker image from the `Dockerfile`, creates a network for the containers to communicate, and starts the web application and PostgreSQL database services.
+    This single command builds the Docker image from the `Dockerfile`, creates a network for the containers to communicate, and starts the web application, PostgreSQL database, and Redis caching services.
     ```bash
     docker compose up --build
     ```
@@ -211,6 +213,7 @@ The test suite is designed to cover various layers of the application:
 * **View & Template Integrity:** Tests verify that all primary views return a successful status code (`200 OK`) and that they render the correct templates. This ensures the basic navigation and structure of the site remain intact.
 * **Context Data Validation:** We test that the correct context data is passed to the templates. For example, we verify that the `general_setup` object from the context processor is available, ensuring dynamic data from the database is displayed properly on the frontend.
 * **Business Logic & Design Patterns:** Beyond standard checks, the tests validate the core application logic. A key example is the test for the **Singleton pattern** on the `GeneralSetup` model. This critical test guarantees that the architectural rule of having only one instance of site-wide settings is strictly enforced, preventing potential configuration conflicts.
+* **Caching Functionality:** The test suite includes specific tests for the Redis caching layer. These tests verify that cache hits and misses work as expected, that user-specific data is cached correctly, and that the cache expires properly.
 
 ### Automated Testing with GitHub Actions
 
