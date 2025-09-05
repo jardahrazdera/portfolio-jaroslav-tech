@@ -119,26 +119,16 @@ a:hover {
 }
 
 .btn-primary {
-    background-color: var(--mauve);
+    background-color: var(--peach);
     color: var(--base);
 }
 
 .btn-primary:hover {
     background-color: transparent;
-    border-color: var(--mauve);
-    color: var(--mauve);
+    border-color: var(--peach);
+    color: var(--peach);
 }
 
-.btn-secondary {
-    background-color: transparent;
-    border: 2px solid var(--overlay);
-    color: var(--text);
-}
-
-.btn-secondary:hover {
-    background-color: var(--overlay);
-    color: var(--base);
-}
 
 /* --- Header & Navigation --- */
 .main-header {

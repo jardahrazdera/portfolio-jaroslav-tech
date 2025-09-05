@@ -25,7 +25,7 @@ This template extends base.html and provides the actual content for the main pag
                 <p class="hero-subtitle">{% trans "I specialize in creating scalable backend systems and intuitive web applications using modern technologies like Python, Django, and PostgreSQL. With a strong foundation in object-oriented programming and clean code principles, I focus on building maintainable solutions that stand the test of time. My approach combines technical expertise with continuous learning, always staying current with industry best practices and emerging technologies." %}</p>
                 <div class="hero-buttons">
                     <a href="#projects" class="btn btn-primary">{% trans "View My Work" %}</a>
-                    <a href="#contact" class="btn btn-secondary">{% trans "Get In Touch" %}</a>
+                    <a href="#contact" class="btn btn-primary">{% trans "Get In Touch" %}</a>
                 </div>
             </div>
         </div>
@@ -97,8 +97,8 @@ This template extends base.html and provides the actual content for the main pag
                     <p>{% blocktrans %}What better showcases my skills than the very page presenting them? This entire website, from code to deployment, is my project. It all runs on my own server using virtualization, which I personally manage, and demonstrates the practical use of technologies like Python, Django, Docker, and CI/CD to build a complete, robust solution.{% endblocktrans %}</p>
                     <p class="project-tech"><strong>{% trans "Technologies:" %}</strong> Django, PostgreSQL, Docker, CI/CD</p>
                     <div class="project-links">
-                        <a href="https://github.com/jardahrazdera/portfolio-jaroslav-tech" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">{% trans "GitHub" %}</a>
-                        <a href="https://jaroslav.tech" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">{% trans "Live Demo" %}</a>
+                        <a href="https://github.com/jardahrazdera/portfolio-jaroslav-tech" target="_blank" rel="noopener noreferrer" class="btn btn-primary">{% trans "GitHub" %}</a>
+                        <a href="https://jaroslav.tech" target="_blank" rel="noopener noreferrer" class="btn btn-primary">{% trans "Live Demo" %}</a>
                     </div>
                 </div>
                 <div class="project-card">
@@ -107,7 +107,7 @@ This template extends base.html and provides the actual content for the main pag
                     <p class="project-tech"><strong>{% trans "Technologies:" %}</strong> Django, PostgreSQL, pytest, Docker</p>
                     <div class="project-links">
                         <a href="{% url 'devtracker:project_list' %}" class="btn btn-primary">{% trans "Try DevTracker" %}</a>
-                        <a href="https://github.com/jardahrazdera/portfolio-jaroslav-tech" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">{% trans "View Code" %}</a>
+                        <a href="https://github.com/jardahrazdera/portfolio-jaroslav-tech" target="_blank" rel="noopener noreferrer" class="btn btn-primary">{% trans "View Code" %}</a>
                     </div>
                 </div>
                 <div class="project-card">
@@ -115,8 +115,8 @@ This template extends base.html and provides the actual content for the main pag
                     <p>{% blocktrans %}A lightweight TUI for managing network interfaces on Linux, built in Rust. Supports WiFi, VPN, and IPv4/IPv6 configurations through systemd-networkd. This systems-level project showcases my ability to work across the entire technology stack - from low-level networking to high-level web applications.{% endblocktrans %}</p>
                     <p class="project-tech"><strong>{% trans "Technologies:" %}</strong> Rust, Ratatui, systemd-networkd, Linux</p>
                     <div class="project-links">
-                        <a href="https://github.com/jardahrazdera/lantern" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">{% trans "GitHub" %}</a>
-                        <a href="#" class="btn btn-secondary btn-disabled" aria-disabled="true">{% trans "In Development" %}</a>
+                        <a href="https://github.com/jardahrazdera/lantern" target="_blank" rel="noopener noreferrer" class="btn btn-primary">{% trans "GitHub" %}</a>
+                        <a href="#" class="btn btn-primary btn-disabled" aria-disabled="true">{% trans "In Development" %}</a>
                     </div>
                 </div>
             </div>
