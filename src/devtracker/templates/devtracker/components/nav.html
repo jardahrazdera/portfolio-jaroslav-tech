@@ -15,29 +15,22 @@
                     <li><a href="{% url 'devtracker:login' %}">{% trans "Login" %}</a></li>
                     <li><a href="{% url 'devtracker:register' %}">{% trans "Register" %}</a></li>
                 {% endif %}
-
-                {% get_current_language as LANGUAGE_CODE %}
-                {% if LANGUAGE_CODE == 'en' %}
-                    <li class="lang-switch">
-                        <a href="/cs{{ request.get_full_path | slice:'3:' }}">
-                            Česky
-                            <img src="{% static 'core/assets/czech-republic.svg' %}" alt="Czech Flag" class="lang-flag">
-                        </a>
-                    </li>
-                {% elif LANGUAGE_CODE == 'cs' %}
-                    <li class="lang-switch">
-                        <a href="/en{{ request.get_full_path | slice:'3:' }}">
-                            English
-                            <img src="{% static 'core/assets/united-states.svg' %}" alt="USA Flag" class="lang-flag">
-                        </a>
-                    </li>
-                {% endif %}
-
                 <!-- Back to Portfolio link -->
                 <li class="nav-separator">::</li>
                 <li><a href="{% url 'core:index' %}" class="back-to-portfolio">← {% trans "Portfolio" %}</a></li>
-                <!-- Keep theme switcher -->
-                <li>
+                <!-- Controls -->
+                <li class="nav-controls">
+                    {% get_current_language as LANGUAGE_CODE %}
+                    {% if LANGUAGE_CODE == 'en' %}
+                        <a href="/cs{{ request.get_full_path | slice:'3:' }}" class="lang-switch" aria-label="{% trans 'Switch to Czech' %}">
+                            <img src="{% static 'core/assets/czech-republic.svg' %}" alt="Czech Flag" class="lang-flag">
+                        </a>
+                    {% elif LANGUAGE_CODE == 'cs' %}
+                        <a href="/en{{ request.get_full_path | slice:'3:' }}" class="lang-switch" aria-label="{% trans 'Switch to English' %}">
+                            <img src="{% static 'core/assets/united-states.svg' %}" alt="USA Flag" class="lang-flag">
+                        </a>
+                    {% endif %}
+
                     <button class="theme-switcher theme-toggle-btn" aria-label="{% trans 'Toggle theme' %}">
                         <svg class="theme-icon" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg">
                             <path id="moon-part" d="M 14,24 A 10,10 0 0 0 24,34 V 14 A 10,10 0 0 0 14,24 Z" />

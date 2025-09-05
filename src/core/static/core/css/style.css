@@ -588,17 +588,28 @@ body.light-theme .terminal-response {
 }
 
 /* --- Language Switcher with Flags --- */
-.lang-switch a {
+.nav-controls {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 15px;
+}
+
+.lang-switch {
+    display: flex;
+    align-items: center;
 }
 
 .lang-flag {
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     object-fit: cover;
+    padding: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.lang-switch:hover .lang-flag {
+    background-color: var(--crust);
 }
 
 /* --- Theme Switcher Styles --- */
