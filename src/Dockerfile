@@ -38,6 +38,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the entire built 'src' directory from the builder stage
 COPY --from=frontend-builder /build/src .
 
+# Copy node_modules so collectstatic can find Alpine.js
+# The final path will be /frontend/node_modules, to match STATICFILES_DIRS
+RUN mkdir /frontend
+COPY --from=frontend-builder /build/frontend/node_modules /frontend/node_modules
+
 # Create staticfiles directory
 RUN mkdir -p /app/staticfiles
 

@@ -24,7 +24,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./src
+          context: .
+          file: ./src/Dockerfile
           push: true
           tags: ${{ env.IMAGE_NAME }}:latest
           build-args: |
@@ -44,16 +45,16 @@ jobs:
             echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
           
             # Stop the app container
-            docker compose stop app
+            docker compose -f docker-compose.yml stop app
           
             # Clear the static files volume to force fresh static files
             docker volume rm jaroslavtech_static_volume || true
           
             # Pull new image and recreate
-            docker compose pull app
-            docker compose down app
+            docker compose -f docker-compose.yml pull app
+            docker compose -f docker-compose.yml down app
             docker volume rm jaroslavtech_static_volume || true
-            docker compose up -d --no-deps app
+            docker compose -f docker-compose.yml up -d --no-deps app
           
             # Run database migrations
-            docker compose exec app python manage.py migrate --no-input
+            docker compose -f docker-compose.yml exec app python manage.py migrate --no-input
