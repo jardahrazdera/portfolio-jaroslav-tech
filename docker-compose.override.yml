@@ -1,0 +1,25 @@
+# docker-compose.override.yml (For local development only)
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./src/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./src:/app
+      - ./frontend:/frontend
+      - static_volume:/app/staticfiles
+    ports:
+      - "8000:8000"
+    networks:
+      - default
+    # This removes the production labels for local development
+    labels: []
+  db:
+    ports:
+      - "5432:5432"
+
+networks:
+  proxy:
+    # We don't need the external proxy network for local development
+    external: false

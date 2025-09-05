@@ -1,46 +1,60 @@
 # src/Dockerfile
 
-# Use an official Python runtime as a parent image
+# --- Stage 1: Frontend Builder ---
+FROM node:20-slim AS frontend-builder
+
+# Set a build directory
+WORKDIR /build
+
+# Copy frontend and src folders to maintain directory structure
+COPY frontend ./frontend
+COPY src ./src
+
+# Install dependencies and run the build script
+# This creates the dist folder inside /build/src/static/
+RUN cd frontend && npm install && npm run build
+
+
+# --- Stage 2: Final Python Application ---
 FROM python:3.11-slim
 
-# Set environment variables to prevent temporary files
+# Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Set the working directory in the container
+# Set the working directory for the final app
 WORKDIR /app
 
-# Install system dependencies, including gettext for translations
+# Install system dependencies
 RUN apt-get update && apt-get install -y gettext && apt-get clean
 
-# Create a non-root user for running the app
+# Create a non-root user
 RUN useradd --create-home --shell /bin/bash app
 
-# Install dependencies
-COPY requirements.txt .
+# Copy Python requirements and install them
+COPY --from=frontend-builder /build/src/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application's code
-COPY . .
+# Copy the entire built 'src' directory from the builder stage
+COPY --from=frontend-builder /build/src .
 
-# Create staticfiles directory with correct permissions
+# Create staticfiles directory
 RUN mkdir -p /app/staticfiles
 
-# Change ownership to app user before compiling messages
+# Change ownership to app user
 RUN chown -R app:app /app
 
 # Switch to non-root user
 USER app
 
-# Compile translation messages with correct permissions
+# Compile translation messages
 RUN python manage.py compilemessages
 
-# Collect static files during build with correct permissions
-# Force cache invalidation by adding timestamp and git commit
+# Collect static files (will now include the built assets from dist/)
 ARG CACHEBUST=1
 ARG GIT_COMMIT=unknown
 ENV GIT_COMMIT=$GIT_COMMIT
 RUN python manage.py collectstatic --no-input --clear --verbosity=2
 
-# Run Gunicorn as non-root user, pointing to the correct WSGI application
+# Run Gunicorn
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "jaroslav_tech.wsgi:application"]
