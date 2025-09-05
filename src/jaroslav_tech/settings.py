@@ -206,3 +206,26 @@ LOGIN_REDIRECT_URL = '/tracker/dashboard/'
 RECAPTCHA_PUBLIC_KEY = os.environ.get('RECAPTCHA_PUBLIC_KEY', '')
 RECAPTCHA_PRIVATE_KEY = os.environ.get('RECAPTCHA_PRIVATE_KEY', '')
 RECAPTCHA_REQUIRED_SCORE = 0.85  # Score threshold for reCAPTCHA v3
+
+# Redis caching configuration
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://redis:6379/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'IGNORE_EXCEPTIONS': True,  # Application works even if Redis is unavailable
+            'SOCKET_CONNECT_TIMEOUT': 5,  # seconds
+            'SOCKET_TIMEOUT': 5,  # seconds
+        },
+        'KEY_PREFIX': 'jaroslav_tech',
+    }
+}
+
+# Cache timeout settings (in seconds)
+CACHE_MIDDLEWARE_SECONDS = 300  # 5 minutes for middleware caching
+CACHE_MIDDLEWARE_KEY_PREFIX = 'jaroslav_tech_middleware'
+
+# Optional: Cache session data for better performance
+# SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+# SESSION_CACHE_ALIAS = 'default'

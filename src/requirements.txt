@@ -9,3 +9,5 @@ whitenoise==6.7.0
 django-admin-interface==0.28.8
 django-colorfield==0.11.0
 django-recaptcha==4.0.0
+django-redis==5.4.0
+redis==5.2.1

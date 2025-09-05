@@ -7,6 +7,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.db.models import Q
+from django.core.cache import cache
 from .models import Project, Task, TimeLog, ProjectStatus, TrackerSettings
 from .forms import ProjectForm, TimeLogForm, TaskForm, ProjectStatusForm, RegistrationForm
 
@@ -30,19 +31,36 @@ class ProjectListView(ListView):
     
     def get_queryset(self):
         """For pagination, return all projects user should see."""
+        cache_key = f'project_list_{self.request.user.id if self.request.user.is_authenticated else "anonymous"}'
+        cached_data = cache.get(cache_key)
+        
+        if cached_data is not None:
+            return cached_data
+        
         base_queryset = Project.objects.select_related('owner').prefetch_related('tags', 'technologies')
         
         if self.request.user.is_authenticated:
             # Show user's own projects (public and private) + other users' public projects
-            return base_queryset.filter(
+            queryset = base_queryset.filter(
                 Q(owner=self.request.user) | Q(is_public=True)
             ).order_by('-updated_at')
-        return base_queryset.filter(is_public=True).order_by('-updated_at')
+        else:
+            queryset = base_queryset.filter(is_public=True).order_by('-updated_at')
+        
+        # Cache for 5 minutes
+        cache.set(cache_key, queryset, 300)
+        return queryset
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
         if self.request.user.is_authenticated:
+            cache_key = f'project_context_{self.request.user.id}'
+            cached_context = cache.get(cache_key)
+            
+            if cached_context is not None:
+                return {**context, **cached_context}
+            
             # Separate user's projects from other public projects
             base_queryset = Project.objects.select_related('owner').prefetch_related('tags', 'technologies')
             
@@ -54,14 +72,20 @@ class ProjectListView(ListView):
                 is_public=True
             ).exclude(owner=self.request.user).order_by('-updated_at')
             
-            context['user_projects'] = user_projects
-            context['public_projects'] = public_projects
-            context['total_projects'] = user_projects.count() + public_projects.count()
+            context_data = {
+                'user_projects': user_projects,
+                'public_projects': public_projects,
+                'total_projects': user_projects.count() + public_projects.count()
+            }
+            
+            # Cache context data for 2 minutes
+            cache.set(cache_key, context_data, 120)
+            context.update(context_data)
         else:
             # Anonymous users see only public projects
             context['user_projects'] = Project.objects.none()
             context['public_projects'] = context['projects']
-            context['total_projects'] = context['projects'].count()
+            context['total_projects'] = len(context['projects'])
             
         return context
 

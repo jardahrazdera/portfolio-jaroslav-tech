@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from datetime import date
 from decimal import Decimal
+from django.core.cache import cache
 from .models import Project, Task, TimeLog, Tag, Technology, ProjectStatus
 
 
@@ -555,6 +556,81 @@ class ProjectListViewTests(BaseTestCase):
         
         # Other public projects should show owner
         self.assertContains(response, 'by other')  # Owner username
+
+    def test_project_list_cache_behavior(self):
+        """Test that project list caching works correctly."""
+        self.client.login(username='testuser', password='testpass')
+        
+        # Clear cache before test
+        cache.clear()
+        
+        # First request - should miss cache and hit database
+        response1 = self.client.get(reverse('devtracker:project_list'))
+        self.assertEqual(response1.status_code, 200)
+        
+        # Second request - should hit cache (fewer or no database queries)
+        response2 = self.client.get(reverse('devtracker:project_list'))
+        self.assertEqual(response2.status_code, 200)
+        
+        # Verify both responses contain the same content
+        self.assertEqual(response1.content, response2.content)
+        
+        # Verify cache keys were created
+        cache_key = f'project_list_{self.user.id}'
+        self.assertIsNotNone(cache.get(cache_key))
+        
+        cache_context_key = f'project_context_{self.user.id}'
+        self.assertIsNotNone(cache.get(cache_context_key))
+
+    def test_anonymous_user_cache_behavior(self):
+        """Test that anonymous users have separate cache from authenticated users."""
+        # Clear cache
+        cache.clear()
+        
+        # Anonymous user request
+        response_anon = self.client.get(reverse('devtracker:project_list'))
+        self.assertEqual(response_anon.status_code, 200)
+        
+        # Login and make authenticated request
+        self.client.login(username='testuser', password='testpass')
+        response_auth = self.client.get(reverse('devtracker:project_list'))
+        self.assertEqual(response_auth.status_code, 200)
+        
+        # Verify different cache keys are used
+        anon_cache_key = 'project_list_anonymous'
+        auth_cache_key = f'project_list_{self.user.id}'
+        
+        self.assertIsNotNone(cache.get(anon_cache_key))
+        self.assertIsNotNone(cache.get(auth_cache_key))
+        
+        # Verify different content (anonymous vs authenticated)
+        self.assertNotEqual(response_anon.content, response_auth.content)
+
+    def test_cache_expiration_behavior(self):
+        """Test that cache expires correctly and new data is fetched."""
+        self.client.login(username='testuser', password='testpass')
+        
+        # Clear cache and make initial request
+        cache.clear()
+        response1 = self.client.get(reverse('devtracker:project_list'))
+        
+        # Create a new project to change the data
+        new_project = Project.objects.create(
+            name='New Test Project',
+            slug='new-test-project',
+            owner=self.user,
+            is_public=True,
+            description='New project for cache test'
+        )
+        
+        # Immediately request again - should still get cached version
+        response2 = self.client.get(reverse('devtracker:project_list'))
+        self.assertEqual(response1.content, response2.content)  # Should be cached
+        
+        # Clear cache and verify new data is loaded
+        cache.clear()
+        response3 = self.client.get(reverse('devtracker:project_list'))
+        self.assertContains(response3, 'New Test Project')  # Should contain new project
 
 
 class IntegrationTests(BaseTestCase):
