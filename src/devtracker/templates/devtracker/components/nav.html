@@ -15,6 +15,24 @@
                     <li><a href="{% url 'devtracker:login' %}">{% trans "Login" %}</a></li>
                     <li><a href="{% url 'devtracker:register' %}">{% trans "Register" %}</a></li>
                 {% endif %}
+
+                {% get_current_language as LANGUAGE_CODE %}
+                {% if LANGUAGE_CODE == 'en' %}
+                    <li class="lang-switch">
+                        <a href="/cs{{ request.get_full_path | slice:'3:' }}">
+                            Česky
+                            <img src="{% static 'core/assets/czech-republic.svg' %}" alt="Czech Flag" class="lang-flag">
+                        </a>
+                    </li>
+                {% elif LANGUAGE_CODE == 'cs' %}
+                    <li class="lang-switch">
+                        <a href="/en{{ request.get_full_path | slice:'3:' }}">
+                            English
+                            <img src="{% static 'core/assets/united-states.svg' %}" alt="USA Flag" class="lang-flag">
+                        </a>
+                    </li>
+                {% endif %}
+
                 <!-- Back to Portfolio link -->
                 <li class="nav-separator">::</li>
                 <li><a href="{% url 'core:index' %}" class="back-to-portfolio">← {% trans "Portfolio" %}</a></li>
