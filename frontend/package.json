@@ -1,0 +1,18 @@
+{
+  "name": "portfolio-jaroslav-tech-frontend",
+  "version": "1.0.0",
+  "description": "Frontend assets for the portfolio-jaroslav-tech project.",
+  "main": "index.js",
+  "scripts": {
+    "build": "mkdir -p ../src/static/dist && npm run build:css && npm run build:js",
+    "build:css": "cleancss -o ../src/static/dist/style.min.css ../src/core/static/core/css/fonts.css ../src/core/static/core/css/style.css ../src/static/devtracker/css/tracker.css",
+    "build:js": "terser ../src/core/static/core/js/main.js ../src/static/devtracker/js/dynamic-styles.js ../src/static/devtracker/js/form-validation.js -o ../src/static/dist/bundle.min.js --compress --mangle"
+  },
+  "author": "Jaroslav Hrazdera",
+  "license": "MIT",
+  "devDependencies": {
+    "alpinejs": "^3.14.1",
+    "clean-css-cli": "^5.6.3",
+    "terser": "^5.31.3"
+  }
+}

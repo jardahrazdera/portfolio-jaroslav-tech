@@ -103,3 +103,6 @@ cookies.txt
 *.cookie
 session.txt
 
+# Frontend build artifacts
+frontend/node_modules/
+src/static/dist/
