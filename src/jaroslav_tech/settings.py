@@ -235,3 +235,13 @@ CACHE_MIDDLEWARE_KEY_PREFIX = 'jaroslav_tech_middleware'
 # Optional: Cache session data for better performance
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'default'
+
+# Override caching for testing
+import sys
+if 'test' in sys.argv or 'pytest' in sys.modules:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+            'LOCATION': 'test-cache',
+        }
+    }
