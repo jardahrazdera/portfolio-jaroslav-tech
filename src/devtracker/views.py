@@ -47,9 +47,12 @@ class ProjectListView(ListView):
         else:
             queryset = base_queryset.filter(is_public=True).order_by('-updated_at')
         
+        # Convert to list for caching (QuerySets can't be cached properly)
+        projects_list = list(queryset)
+        
         # Cache for 5 minutes
-        cache.set(cache_key, queryset, 300)
-        return queryset
+        cache.set(cache_key, projects_list, 300)
+        return projects_list
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -72,10 +75,14 @@ class ProjectListView(ListView):
                 is_public=True
             ).exclude(owner=self.request.user).order_by('-updated_at')
             
+            # Convert to lists for caching
+            user_projects_list = list(user_projects)
+            public_projects_list = list(public_projects)
+            
             context_data = {
-                'user_projects': user_projects,
-                'public_projects': public_projects,
-                'total_projects': user_projects.count() + public_projects.count()
+                'user_projects': user_projects_list,
+                'public_projects': public_projects_list,
+                'total_projects': len(user_projects_list) + len(public_projects_list)
             }
             
             # Cache context data for 2 minutes
