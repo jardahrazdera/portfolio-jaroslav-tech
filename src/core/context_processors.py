@@ -12,3 +12,16 @@ def site_settings(request):
         'site_settings': SiteSettings.load(),
         'debug': settings.DEBUG
     }
+
+def seo_defaults(request):
+    """
+    Provides default SEO metadata to all templates.
+    """
+    return {
+        'seo': {
+            'title': 'Jarek - Fullstack Developer & DevOps Enthusiast',
+            'description': 'Personal portfolio of a passionate Fullstack Developer and DevOps enthusiast from the Czech Republic.',
+            'image': 'https://jaroslav.tech/static/core/assets/thumbnail.jpg',
+            'url': request.build_absolute_uri(),
+        }
+    }

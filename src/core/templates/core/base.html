@@ -10,30 +10,56 @@ Version with a robust language switcher.
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    {# SEO Meta Tags #}
-    <meta name="description" content="{% block meta_description %}{% trans 'Personal portfolio of a passionate Fullstack Developer and DevOps enthusiast from the Czech Republic.' %}{% endblock %}">
-    
-    <title>{% block title %}Jarek{% endblock %}</title>
+    {# SEO Meta Tags - Dynamically populated #}
+    <title>{% block title %}{{ seo.title }}{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}{{ seo.description }}{% endblock %}">
+    <link rel="canonical" href="{{ seo.url }}">
 
+    {# OpenGraph/Facebook Meta Tags #}
+    <meta property="og:title" content="{% block og_title %}{{ seo.title }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ seo.description }}{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{{ seo.image }}{% endblock %}">
+    <meta property="og:url" content="{{ seo.url }}">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Jarek's Portfolio">
+
+    {# Structured Data (JSON-LD) #}
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Jaroslav Hrazdera",
-      "url": "https://jaroslav.tech",
-      "jobTitle": "Fullstack Python Developer",
-      "worksFor": {
-        "@type": "Organization",
-        "name": "Freelancer"
-      },
-      "address": {
-        "@type": "PostalAddress",
-        "addressCountry": "CZ",
-        "addressLocality": "Czech Republic"
-      },
-      "sameAs": [
-        "https://github.com/jardahrazdera"
-        // "https://linkedin.com/in/your-profile-url"
+      "@graph": [
+        {
+          "@type": "Person",
+          "name": "Jaroslav Hrazdera",
+          "url": "https://jaroslav.tech",
+          "jobTitle": "Fullstack Python Developer",
+          "worksFor": {
+            "@type": "Organization",
+            "name": "Freelancer"
+          },
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "CZ",
+            "addressLocality": "Czech Republic"
+          },
+          "sameAs": [
+            "https://github.com/jardahrazdera"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "url": "https://jaroslav.tech",
+          "name": "Jarek's Portfolio",
+          "author": {
+            "@type": "Person",
+            "name": "Jaroslav Hrazdera"
+          },
+          "description": "{{ seo.description }}",
+          "publisher": {
+            "@type": "Person",
+            "name": "Jaroslav Hrazdera"
+          }
+        }
       ]
     }
     </script>
