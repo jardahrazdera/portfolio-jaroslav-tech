@@ -633,12 +633,24 @@ body.light-theme .terminal-response {
 }
 
 .theme-switcher .theme-icon {
-    width: 100%;
-    height: 100%;
+    width: 24px;
+    height: 24px;
 }
 
-#moon-part, #sun-part {
-    fill: currentColor; 
+/* Default (dark theme) shows sun icon */
+.theme-switcher .moon-icon { 
+    display: none; 
+}
+.theme-switcher .sun-icon { 
+    display: block; 
+}
+
+/* Light theme shows moon icon */
+body.light-theme .theme-switcher .moon-icon { 
+    display: block; 
+}
+body.light-theme .theme-switcher .sun-icon { 
+    display: none; 
 }
 
 /* --- Light Theme Adjustments --- */
