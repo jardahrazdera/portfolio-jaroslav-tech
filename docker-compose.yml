@@ -25,11 +25,15 @@ services:
       - "traefik.http.routers.jaroslavtech-secure.rule=Host(`jaroslav.tech`) || Host(`www.jaroslav.tech`)"
       - "traefik.http.routers.jaroslavtech-secure.entrypoints=websecure"
       - "traefik.http.routers.jaroslavtech-secure.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.jaroslavtech-secure.middlewares=compress"
+      - "traefik.http.routers.jaroslavtech-secure.middlewares=compress,cache"
       - "traefik.http.services.jaroslavtech.loadbalancer.server.port=8000"
 
       # Compression Middleware
       - "traefik.http.middlewares.compress.compress=true"
+
+      # Cache Middleware for static files
+      - "traefik.http.middlewares.cache.headers.cachecontrol.maxage=31536000"
+      - "traefik.http.middlewares.cache.headers.cachecontrol.public=true"
 
   db:
     image: postgres:16-alpine

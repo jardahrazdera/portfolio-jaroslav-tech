@@ -1,4 +1,5 @@
 User-agent: *
 Disallow: /admin/
+Disallow: /tracker/
 
 Sitemap: https://jaroslav.tech/sitemap.xml
