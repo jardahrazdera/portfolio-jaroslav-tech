@@ -25,7 +25,11 @@ services:
       - "traefik.http.routers.jaroslavtech-secure.rule=Host(`jaroslav.tech`) || Host(`www.jaroslav.tech`)"
       - "traefik.http.routers.jaroslavtech-secure.entrypoints=websecure"
       - "traefik.http.routers.jaroslavtech-secure.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.jaroslavtech-secure.middlewares=compress"
       - "traefik.http.services.jaroslavtech.loadbalancer.server.port=8000"
+
+      # Compression Middleware
+      - "traefik.http.middlewares.compress.compress=true"
 
   db:
     image: postgres:16-alpine
@@ -44,11 +48,10 @@ services:
   redis:
     image: redis:7-alpine
     restart: unless-stopped
-    ports:
-      - "6379:6379"
+    mem_limit: 256m
     volumes:
       - redis_data:/data
-    command: redis-server --save 60 1 --loglevel warning
+    command: redis-server --save 60 1 --loglevel warning --maxmemory 256mb --maxmemory-policy allkeys-lru
     networks:
       - default
     healthcheck:
