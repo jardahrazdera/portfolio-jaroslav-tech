@@ -79,6 +79,9 @@ Version with a robust language switcher.
     {% else %}
     <link rel="stylesheet" href="{% static 'dist/core.min.css' %}">
     {% endif %}
+
+    {# Umami Analytics Tracking Code #}
+    <script defer src="https://analytics.jaroslav.tech/script.js" data-website-id="7c8d7a39-df24-4b6f-8095-e4a5d446d38f"></script>
 </head>
 <body class="{% if site_settings.coming_soon_mode %}coming-soon-active{% endif %}">
 
