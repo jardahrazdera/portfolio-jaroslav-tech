@@ -41,12 +41,12 @@
 }
 
 body.light-theme {
-    /* LIGHT (Solarized) THEME - Softer & less bright */
+    /* LIGHT (Solarized) THEME - Softer & less bright with improved contrast */
     --base: #fdf6e3;
     --mantle: #f5efdc;
     --crust: #eee8d5;
-    --text: #586e75;
-    --subtext: #657b83;
+    --text: #073642; /* Solarized base03 for better contrast (7.7:1) */
+    --subtext: #586e75; /* Solarized base01 (5.7:1) */
     --overlay: #93a1a1;
     --mauve: #6c71c4;
     --pink: #d33682;
@@ -79,7 +79,7 @@ body {
 .container {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 clamp(1rem, 4vw, 1.25rem);
 }
 
 h1, h2 {
@@ -90,8 +90,8 @@ h1, h2 {
 
 h2 {
     text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 40px;
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
 }
 
 p {
@@ -110,12 +110,16 @@ a:hover {
 }
 
 .btn {
-    display: inline-block;
-    padding: 12px 28px;
+    padding: 14px 32px;
     border-radius: 8px;
     font-weight: 700;
     transition: all 0.3s ease;
     border: 2px solid transparent;
+    min-height: 48px;
+    min-width: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-primary {
@@ -192,7 +196,7 @@ a:hover {
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 80px 20px 40px; /* Top for header, bottom for spacing */
+    padding: 80px 0 40px;
     background-color: var(--crust);
 }
 
@@ -202,18 +206,19 @@ a:hover {
 }
 
 .hero-title {
-    font-size: 3.5rem;
+    font-size: clamp(2rem, 8vw, 3.5rem);
     font-weight: 700;
     margin: 10px 0;
+    line-height: 1.2;
 }
 
 .hero-subtitle {
-    font-size: 1.1rem;
-    max-width: 800px;
-    margin: 30px auto 30px;
-    /* Cache buster comment: Updated on 2025-01-09 */
+    font-size: clamp(0.95rem, 3vw, 1.1rem);
+    max-width: min(800px, 90vw);
+    margin: clamp(1.5rem, 4vw, 2rem) auto clamp(1.5rem, 4vw, 2rem);
     color: var(--subtext);
-    text-align: justify;
+    text-align: left;
+    line-height: 1.6;
 }
 
 .hero-buttons {
@@ -327,11 +332,10 @@ body.light-theme .photo-terminal-overlay {
     bottom: -25px;
     left: 50%;
     transform: translateX(-50%);
-    color: var(--overlay);
+    color: whitesmoke;
     font-size: 1.8rem;
     font-family: 'JetBrains Mono', monospace;
     font-weight: bold;
-    opacity: 0.9;
     animation: gentle-bounce 1s ease-in-out infinite;
     z-index: 2;
     transition: opacity 0.3s ease;
@@ -358,7 +362,7 @@ body.light-theme .photo-hint-arrow {
 
 .terminal-text {
     display: block;
-    color: var(--overlay);
+    color: var(--text);
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.9rem;
     margin-bottom: 5px;
@@ -386,9 +390,9 @@ body.light-theme .terminal-response {
     line-height: 1.8;
     color: var(--subtext);
     font-size: 1.1rem;
-    margin: 0;
-    text-align: justify;
-    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+    max-width: min(800px, 90vw);
 }
 
 /* --- Projects Section --- */
@@ -435,9 +439,16 @@ body.light-theme .terminal-response {
     text-align: center;
 }
 
+#contact .container {
+    max-width: 600px;
+}
+
 #contact .btn {
     margin-top: 20px;
     font-size: 1.2rem;
+    display: inline-flex;
+    min-width: auto;
+    width: auto;
 }
 
 .social-links {
@@ -484,12 +495,19 @@ body.light-theme .terminal-response {
     display: none;
     flex-direction: column;
     justify-content: space-around;
-    width: 30px;
-    height: 24px;
+    width: 44px;
+    height: 44px;
     background: transparent;
     border: none;
     cursor: pointer;
     z-index: 1001;
+    padding: 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.hamburger:hover {
+    background-color: var(--crust);
 }
 
 .hamburger span {
@@ -500,14 +518,93 @@ body.light-theme .terminal-response {
     transition: all 0.3s ease;
 }
 
+/* Additional responsive breakpoints for better mobile control */
+@media (max-width: 414px) {
+    /* Large mobile devices */
+    .hero-title {
+        font-size: clamp(2rem, 8vw, 2.5rem);
+    }
+    
+    .hero-subtitle {
+        font-size: 0.95rem;
+        margin: 20px auto 25px;
+    }
+    
+    .about-photo-container {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .container {
+        padding: 0 12px;
+    }
+    
+    .btn {
+        padding: 14px 24px;
+        min-height: 48px;
+        min-width: 120px;
+    }
+}
+
+@media (max-width: 375px) {
+    /* Medium mobile devices */
+    .hero-title {
+        font-size: clamp(1.8rem, 7vw, 2.2rem);
+    }
+    
+    .hero-subtitle {
+        font-size: 0.9rem;
+        margin: 18px auto 22px;
+    }
+    
+    .about-photo-container {
+        width: 180px;
+        height: 180px;
+    }
+    
+    .container {
+        padding: 0 10px;
+    }
+    
+    .btn {
+        padding: 12px 20px;
+        min-height: 44px;
+    }
+}
+
+@media (max-width: 320px) {
+    /* Ssmall mobile devices */
+    .hero-title {
+        font-size: clamp(1.6rem, 6vw, 2rem);
+    }
+    
+    .hero-subtitle {
+        font-size: 0.85rem;
+        margin: 15px auto 20px;
+    }
+    
+    .about-photo-container {
+        width: 160px;
+        height: 160px;
+    }
+    
+    .container {
+        padding: 0 8px;
+    }
+    
+    .btn {
+        padding: 10px 18px;
+        font-size: 0.9rem;
+    }
+}
 
 @media (max-width: 768px) {
-    h2 { font-size: 2rem; }
-    .hero-title { font-size: 2.5rem; }
+    h2 { font-size: clamp(1.6rem, 5vw, 2rem); }
+    .hero-title { font-size: clamp(2rem, 8vw, 2.5rem); }
     
     /* Adjust hero section padding on mobile */
     .hero-section {
-        padding: 100px 15px 40px;
+        padding: 90px 0 35px; /* Use container for horizontal padding */
     }
 
     .nav-links {
@@ -526,7 +623,7 @@ body.light-theme .terminal-response {
     }
 
     .nav-links li {
-        margin: 10px 0;
+        margin: 12px 0;
         text-align: center;
     }
     
