@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Portfolio Jarka\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-05 23:21+0000\n"
+"POT-Creation-Date: 2025-09-09 22:41+0000\n"
 "PO-Revision-Date: 2025-07-21 13:31+0200\n"
 "Last-Translator: Jarek <jarek@jaroslav.tech>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -40,58 +40,64 @@ msgstr "Nastavení stránky"
 msgid "Site Settings"
 msgstr "Nastavení stránek"
 
-#: core/templates/core/base.html:14
-msgid ""
-"Personal portfolio of a passionate Fullstack Developer and DevOps enthusiast "
-"from the Czech Republic."
-msgstr ""
-"Osobní portfolio vášnivého Fullstack vývojáře a DevOps nadšence z České "
-"republiky."
-
-#: core/templates/core/base.html:62 core/templates/core/base.html:111
-#: devtracker/templates/devtracker/components/nav.html:23
+#: core/templates/core/base.html:92 core/templates/core/base.html:156
+#: devtracker/templates/devtracker/components/nav.html:34
 msgid "Toggle theme"
 msgstr "Přepnout motiv"
 
-#: core/templates/core/base.html:70
+#: core/templates/core/base.html:114
 msgid "Coming soon"
 msgstr "Brzy spustíme"
 
-#: core/templates/core/base.html:71
+#: core/templates/core/base.html:115
 msgid "I'm working on it :)"
 msgstr "Pracuji na tom :)"
 
-#: core/templates/core/base.html:81
+#: core/templates/core/base.html:125
 msgid "About"
 msgstr "O mně"
 
-#: core/templates/core/base.html:82
+#: core/templates/core/base.html:126
 msgid "Skills"
 msgstr "Dovednosti"
 
-#: core/templates/core/base.html:83
+#: core/templates/core/base.html:127
 msgctxt "Portfolio menu item"
 msgid "Projects"
 msgstr ""
 
-#: core/templates/core/base.html:84
+#: core/templates/core/base.html:128
 msgid "Contact"
 msgstr "Kontakt"
 
-#: core/templates/core/base.html:86
+#: core/templates/core/base.html:130
 msgid "Visit my GitHub profile"
 msgstr "Navštivte můj profil na GitHub"
 
-#: core/templates/core/base.html:120
-#: devtracker/templates/devtracker/components/nav.html:32
+#: core/templates/core/base.html:137
+msgid "Visit my LinkedIn profile"
+msgstr "Navštivte můj profil na LinkedIn"
+
+#: core/templates/core/base.html:147
+#: devtracker/templates/devtracker/components/nav.html:25
+msgid "Switch to Czech"
+msgstr ""
+
+#: core/templates/core/base.html:151
+#: devtracker/templates/devtracker/components/nav.html:29
+msgid "Switch to English"
+msgstr ""
+
+#: core/templates/core/base.html:163
+#: devtracker/templates/devtracker/components/nav.html:41
 msgid "Open menu"
 msgstr "Otevřít menu"
 
-#: core/templates/core/base.html:134
+#: core/templates/core/base.html:177
 msgid "All rights reserved."
 msgstr "Všechna práva vyhrazena."
 
-#: core/templates/core/base.html:135
+#: core/templates/core/base.html:178
 msgid "Catppuccin Mocha Theme"
 msgstr "Motiv Catppuccin Mocha"
 
@@ -1016,6 +1022,13 @@ msgid "Total logged:"
 msgstr ""
 
 #~ msgid ""
+#~ "Personal portfolio of a passionate Fullstack Developer and DevOps "
+#~ "enthusiast from the Czech Republic."
+#~ msgstr ""
+#~ "Osobní portfolio vášnivého Fullstack vývojáře a DevOps nadšence z České "
+#~ "republiky."
+
+#~ msgid ""
 #~ "I build robust backends and elegant web solutions. Passionate about clean "
 #~ "code and object-oriented principles. I actively use AI as a tool to boost "
 #~ "my productivity and explore creative solutions."
@@ -1056,6 +1069,3 @@ msgstr ""
 #~ "úkoly, rychlé poznámky do jednoho plně přizpůsobitelného prostoru a mnoho "
 #~ "dalšího.Je to krok k digitální nezávislosti, postavený na Djangu s kapkou "
 #~ "JavaScriptu pro interaktivní widgety."
-
-#~ msgid "Visit my LinkedIn profile"
-#~ msgstr "Navštivte můj profil na LinkedIn"
