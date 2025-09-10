@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Portfolio Jarka\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-09 22:41+0000\n"
+"POT-Creation-Date: 2025-09-10 17:07+0000\n"
 "PO-Revision-Date: 2025-07-21 13:31+0200\n"
 "Last-Translator: Jarek <jarek@jaroslav.tech>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -40,66 +40,102 @@ msgstr "Nastavení stránky"
 msgid "Site Settings"
 msgstr "Nastavení stránek"
 
-#: core/templates/core/base.html:92 core/templates/core/base.html:156
+#: core/templates/core/base.html:94 core/templates/core/base.html:159
 #: devtracker/templates/devtracker/components/nav.html:34
 msgid "Toggle theme"
 msgstr "Přepnout motiv"
 
-#: core/templates/core/base.html:114
+#: core/templates/core/base.html:116
 msgid "Coming soon"
 msgstr "Brzy spustíme"
 
-#: core/templates/core/base.html:115
+#: core/templates/core/base.html:117
 msgid "I'm working on it :)"
 msgstr "Pracuji na tom :)"
 
-#: core/templates/core/base.html:125
+#: core/templates/core/base.html:127
 msgid "About"
 msgstr "O mně"
 
-#: core/templates/core/base.html:126
+#: core/templates/core/base.html:128
 msgid "Skills"
 msgstr "Dovednosti"
 
-#: core/templates/core/base.html:127
+#: core/templates/core/base.html:129
 msgctxt "Portfolio menu item"
 msgid "Projects"
-msgstr ""
+msgstr "Projekty"
 
-#: core/templates/core/base.html:128
+#: core/templates/core/base.html:130
 msgid "Contact"
 msgstr "Kontakt"
 
-#: core/templates/core/base.html:130
+#: core/templates/core/base.html:131
+msgid "CV"
+msgstr "CV"
+
+#: core/templates/core/base.html:133
 msgid "Visit my GitHub profile"
 msgstr "Navštivte můj profil na GitHub"
 
-#: core/templates/core/base.html:137
+#: core/templates/core/base.html:140
 msgid "Visit my LinkedIn profile"
 msgstr "Navštivte můj profil na LinkedIn"
 
-#: core/templates/core/base.html:147
+#: core/templates/core/base.html:150
 #: devtracker/templates/devtracker/components/nav.html:25
 msgid "Switch to Czech"
 msgstr ""
 
-#: core/templates/core/base.html:151
+#: core/templates/core/base.html:154
 #: devtracker/templates/devtracker/components/nav.html:29
 msgid "Switch to English"
 msgstr ""
 
-#: core/templates/core/base.html:163
+#: core/templates/core/base.html:166
 #: devtracker/templates/devtracker/components/nav.html:41
 msgid "Open menu"
 msgstr "Otevřít menu"
 
-#: core/templates/core/base.html:177
+#: core/templates/core/base.html:179
+msgid "Back to top"
+msgstr "Zpět nahoru"
+
+#: core/templates/core/base.html:189
 msgid "All rights reserved."
 msgstr "Všechna práva vyhrazena."
 
-#: core/templates/core/base.html:178
-msgid "Catppuccin Mocha Theme"
-msgstr "Motiv Catppuccin Mocha"
+#: core/templates/core/base.html:190
+msgid "Catppuccin Theme"
+msgstr "Motiv Catppuccin"
+
+#: core/templates/core/cv.html:52
+msgid "Hold up, hold up!"
+msgstr "Moment, moment!"
+
+#: core/templates/core/cv.html:53
+msgid "This is my 'corporate' CV"
+msgstr "Toto je můj 'korporátní' životopis"
+
+#: core/templates/core/cv.html:54
+msgid ""
+"It's full of buzzwords, metrics and LinkedIn-speak. If you want to see what "
+"I actually do, better check out my projects."
+msgstr ""
+"Je plný módních slovíček, metrik a LinkedIn-řeči. Pokud chcete vidět, co "
+"opravdu dělám, raději se podívejte na mé projekty."
+
+#: core/templates/core/cv.html:57
+msgid "Sure, show me the horror"
+msgstr "Jasně, ukaž mi tu hrůzu"
+
+#: core/templates/core/cv.html:60
+msgid "Better show me projects"
+msgstr "Raději mi ukaž projekty"
+
+#: core/templates/core/cv.html:76
+msgid "Download PDF"
+msgstr "Stáhnout PDF"
 
 #: core/templates/core/index.html:10
 msgid "Jarek - Fullstack Developer && DevOps Enthusiast"
