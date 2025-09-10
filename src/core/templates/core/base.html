@@ -80,6 +80,8 @@ Version with a robust language switcher.
     {% else %}
     <link rel="stylesheet" href="{% static 'dist/core.min.css' %}">
     {% endif %}
+    
+    {% block extra_head %}{% endblock %}
 
     {# Umami Analytics Tracking Code #}
     <script defer src="https://analytics.jaroslav.tech/script.js" data-website-id="7c8d7a39-df24-4b6f-8095-e4a5d446d38f"></script>
@@ -122,10 +124,11 @@ Version with a robust language switcher.
             <a href="{% url 'core:index' %}" class="logo">:: Jarek ::</a>
             <nav class="main-nav">
                 <ul class="nav-links">
-                    <li><a href="#about">{% trans "About" %}</a></li>
-                    <li><a href="#skills">{% trans "Skills" %}</a></li>
-                    <li><a href="#projects">{% blocktrans context "Portfolio menu item" %}Projects{% endblocktrans %}</a></li>
-                    <li><a href="#contact">{% trans "Contact" %}</a></li>
+                    <li><a href="{% url 'core:index' %}#about">{% trans "About" %}</a></li>
+                    <li><a href="{% url 'core:index' %}#skills">{% trans "Skills" %}</a></li>
+                    <li><a href="{% url 'core:index' %}#projects">{% blocktrans context "Portfolio menu item" %}Projects{% endblocktrans %}</a></li>
+                    <li><a href="{% url 'core:index' %}#contact">{% trans "Contact" %}</a></li>
+                    <li><a href="{% url 'core:cv' %}" class="nav-cv-link">{% trans "CV" %}</a></li>
                     <li>
                         <a href="https://github.com/jardahrazdera/" target="_blank" rel="noopener noreferrer" class="nav-icon-link" aria-label="{% trans 'Visit my GitHub profile' %}">
                             <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -172,10 +175,19 @@ Version with a robust language switcher.
         {% block content %}{% endblock %}
     </main>
 
+    <!-- Back to Top Button with Scroll Progress -->
+    <button id="back-to-top" class="back-to-top-btn print-hidden" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="{% trans 'Back to top' %}">
+        <svg class="progress-ring" width="54" height="54" viewBox="0 0 54 54">
+            <circle class="progress-ring-bg" cx="27" cy="27" r="25" fill="none" stroke="currentColor" stroke-opacity="0.2" stroke-width="2"></circle>
+            <circle class="progress-ring-circle" cx="27" cy="27" r="25" fill="none" stroke="currentColor" stroke-width="3"></circle>
+        </svg>
+        <span class="back-to-top-text">↑</span>
+    </button>
+
     <footer class="main-footer">
         <div class="container">
             <p>&copy; {% now "Y" %} Jarek. {% trans "All rights reserved." %}</p>
-            <p>{% trans "Catppuccin Mocha Theme" %}</p>
+            <p>{% trans "Catppuccin Theme" %}</p>
         </div>
     </footer>
 
@@ -184,5 +196,7 @@ Version with a robust language switcher.
     {% else %}
     <script src="{% static 'dist/bundle.min.js' %}"></script>
     {% endif %}
+    
+    {% block extra_js %}{% endblock %}
 </body>
 </html>
