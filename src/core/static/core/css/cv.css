@@ -1,0 +1,288 @@
+/* Print Styles */
+@media print {
+    .main-header,
+    .main-footer,
+    .print-hidden,
+    .coming-soon-overlay {
+        display: none !important;
+    }
+    
+    .cv-content {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    .container {
+        max-width: 100% !important;
+        padding: 20px !important;
+    }
+    
+    .cv-markdown-content {
+        font-size: 12px !important;
+        line-height: 1.4 !important;
+        color: #000 !important;
+    }
+    
+    .cv-markdown-content h1 {
+        font-size: 20px !important;
+        margin-bottom: 8px !important;
+        color: #000 !important;
+    }
+    
+    .cv-markdown-content h2 {
+        font-size: 16px !important;
+        margin: 16px 0 8px 0 !important;
+        color: #000 !important;
+    }
+    
+    .cv-markdown-content h3 {
+        font-size: 14px !important;
+        margin: 12px 0 4px 0 !important;
+        color: #000 !important;
+    }
+    
+    .cv-markdown-content p,
+    .cv-markdown-content li {
+        font-size: 11px !important;
+        margin-bottom: 4px !important;
+        color: #000 !important;
+    }
+    
+    .cv-markdown-content ul,
+    .cv-markdown-content ol {
+        margin: 4px 0 8px 16px !important;
+    }
+    
+    .cv-markdown-content strong {
+        color: #000 !important;
+    }
+    
+    .cv-markdown-content a {
+        color: #000 !important;
+        text-decoration: none !important;
+    }
+    
+    .cv-markdown-content hr {
+        border: 1px solid #ccc !important;
+        margin: 12px 0 !important;
+    }
+    
+    .cv-markdown-content h2 {
+        page-break-after: avoid !important;
+    }
+    
+    .cv-markdown-content h3 {
+        page-break-after: avoid !important;
+    }
+}
+
+/* CV Content Styling */
+.cv-content {
+    display: none;
+}
+
+.cv-content[x-show] {
+    display: block !important;
+}
+
+.cv-markdown-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 80px 20px 40px 20px;
+    color: var(--text);
+    line-height: 1.7;
+}
+
+.cv-markdown-content h1 {
+    color: var(--mauve);
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.cv-markdown-content h2 {
+    color: var(--pink);
+    font-size: 1.8rem;
+    margin: 2rem 0 1rem 0;
+    border-bottom: 2px solid var(--overlay);
+    padding-bottom: 0.5rem;
+}
+
+.cv-markdown-content h3 {
+    color: var(--peach);
+    font-size: 1.3rem;
+    margin: 1.5rem 0 0.5rem 0;
+}
+
+.cv-markdown-content p {
+    margin-bottom: 1rem;
+    text-align: justify;
+}
+
+.cv-markdown-content ul,
+.cv-markdown-content ol {
+    margin: 1rem 0 1rem 2rem;
+}
+
+.cv-markdown-content li {
+    margin-bottom: 0.5rem;
+}
+
+.cv-markdown-content strong {
+    color: var(--text);
+    font-weight: 700;
+}
+
+.cv-markdown-content a {
+    color: var(--pink);
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.cv-markdown-content a:hover {
+    color: var(--mauve);
+}
+
+.cv-markdown-content hr {
+    border: none;
+    border-top: 2px solid var(--overlay);
+    margin: 2rem 0;
+}
+
+/* CV Actions Button */
+.cv-actions {
+    position: fixed;
+    top: 120px;
+    right: 20px;
+    z-index: 50;
+}
+
+/* CV Overlay Content Width and Styling */
+.cv-page .coming-soon-content {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Button styling */
+.cv-page .btn,
+.cv-actions .btn {
+    font-family: 'JetBrains Mono', monospace !important;
+    padding: 14px 32px;
+    border-radius: 8px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    min-height: 48px;
+    min-width: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: var(--mauve);
+    color: var(--base);
+    border-color: var(--mauve);
+}
+
+.cv-page .btn:hover,
+.cv-actions .btn:hover {
+    background-color: transparent;
+    color: var(--mauve);
+    border-color: var(--mauve);
+}
+
+/* CV navigation active state when on CV page */
+.cv-page .nav-cv-link {
+    color: var(--mauve) !important;
+    font-weight: 700 !important;
+}
+
+.cv-page .nav-cv-link:hover {
+    color: var(--pink) !important;
+}
+
+/* Overlay text size adjustments */
+.cv-page .coming-soon-content h1 {
+    font-size: 2.2rem !important;
+}
+
+.cv-page .coming-soon-content p {
+    font-size: 1.1rem !important;
+}
+
+/* Tablet adjustments */
+@media (max-width: 1024px) {
+    .cv-actions {
+        top: 100px;
+        right: 15px;
+    }
+    
+    .cv-actions .btn {
+        padding: 12px 24px;
+        min-width: 120px;
+        font-size: 0.95rem;
+    }
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+    .cv-actions {
+        position: static !important;
+        text-align: center;
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+    
+    .cv-markdown-content {
+        padding: 60px 15px 20px 15px;
+    }
+    
+    .cv-markdown-content h1 {
+        font-size: 2rem;
+    }
+    
+    .cv-markdown-content p {
+        text-align: left;
+    }
+    
+    .cv-markdown-content h2 {
+        font-size: 1.5rem;
+    }
+    
+    .cv-markdown-content h3 {
+        font-size: 1.2rem;
+    }
+    
+    .cv-page .coming-soon-content {
+        padding: 0 1rem;
+    }
+    
+    .cv-page .btn {
+        padding: 14px 24px;
+        min-height: 48px;
+        min-width: 120px;
+    }
+    
+    .cv-page .coming-soon-content h1 {
+        font-size: 2rem !important;
+    }
+    
+    .cv-page .coming-soon-content p {
+        font-size: 1rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .cv-page .coming-soon-content {
+        padding: 0 0.5rem;
+    }
+    
+    .cv-page .btn {
+        padding: 12px 20px;
+        min-height: 44px;
+        min-width: 100px;
+        font-size: 0.9rem;
+    }
+}

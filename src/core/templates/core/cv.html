@@ -1,0 +1,91 @@
+{% extends "core/base.html" %}
+{% load static i18n %}
+
+{% block title %}{{ seo.title }}{% endblock %}
+
+{% block meta_description %}{{ seo.description }}{% endblock %}
+
+{% block extra_head %}
+<script defer src="{% static 'alpinejs/dist/cdn.min.js' %}"></script>
+{% if seo.noindex %}
+<meta name="robots" content="noindex, nofollow">
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'core/css/cv.css' %}">
+
+<div class="cv-page" x-data="{
+    showCV: false,
+    getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return null;
+    },
+    setCookie(name, value, days) {
+        const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
+        document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax`;
+    },
+    init() {
+        // Check if user has already seen the warning
+        if (this.getCookie('cv_warning_seen') === 'true') {
+            this.showCV = true;
+        }
+    },
+    showCVContent() {
+        this.showCV = true;
+        this.setCookie('cv_warning_seen', 'true', 30);
+    },
+    goToProjects() {
+        window.location.href = '{% url "core:index" %}#projects';
+    }
+}" x-init="init()">
+
+    <!-- CV Warning Overlay -->
+    <div x-show="!showCV" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="coming-soon-overlay">
+        <div class="coming-soon-content">
+            <h1>{% trans "Hold up, hold up!" %}</h1>
+            <p style="margin-bottom: 1rem;">{% trans "This is my 'corporate' CV" %}</p>
+            <p style="margin-bottom: 2rem;">{% trans "It's full of buzzwords, metrics and LinkedIn-speak. If you want to see what I actually do, better check out my projects." %}</p>
+            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                <button @click="showCVContent()" class="btn btn-primary">
+                    {% trans "Sure, show me the horror" %}
+                </button>
+                <button @click="goToProjects()" class="btn btn-secondary">
+                    {% trans "Better show me projects" %}
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CV Content -->
+    <div x-show="showCV" 
+         x-transition:enter="transition ease-out duration-500"
+         x-transition:enter-start="opacity-0 transform translate-y-4"
+         x-transition:enter-end="opacity-100 transform translate-y-0"
+         class="content-section cv-content">
+        <div class="container">
+            <!-- Print/Download Button -->
+            <div class="cv-actions print-hidden">
+                <button onclick="window.print()" class="btn btn-secondary">
+                    {% trans "Download PDF" %}
+                </button>
+            </div>
+
+            <!-- CV Content from Markdown -->
+            <div class="cv-markdown-content">
+                {{ cv_content|safe }}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
