@@ -8,7 +8,7 @@ def index(request):
     return render(request, "core/index.html")
 
 def cv_view(request):
-    cv_content = '''# JAROSLAV HRAZDĚRA
+    cv_content = '''# JAROSLAV HRAZDERA
 
 **Full-Stack Python Developer**
 
@@ -151,8 +151,8 @@ Intermediate full-stack developer with 6+ years of technical experience, transit
     context = {
         'cv_content': html_content,
         'seo': {
-            'title': 'CV - Jaroslav Hrazděra',
-            'description': 'Developer CV',
+            'title': 'CV - Jaroslav Hrazdera',
+            'description': 'Full-Stack Python Developer CV - Django, PostgreSQL, DevOps expertise. Open source contributor to Basecamp\'s Omarchy Linux with 6+ years technical experience in software development and IT infrastructure.',
             'noindex': True
         }
     }
