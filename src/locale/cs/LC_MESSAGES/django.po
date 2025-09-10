@@ -125,9 +125,9 @@ msgstr ""
 "Je plný módních slovíček, metrik a LinkedIn-řeči. Pokud chcete vidět, co "
 "opravdu dělám, raději se podívejte na mé projekty."
 
-#: core/templates/core/cv.html:57
-msgid "Sure, show me the horror"
-msgstr "Jasně, ukaž mi tu hrůzu"
+#: core/templates/core/cv.html:60
+msgid "Show me anyway"
+msgstr "Stejně mi to ukaž"
 
 #: core/templates/core/cv.html:60
 msgid "Better show me projects"
