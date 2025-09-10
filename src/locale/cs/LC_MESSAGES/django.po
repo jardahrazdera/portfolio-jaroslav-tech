@@ -255,7 +255,7 @@ msgid ""
 msgstr ""
 "Co lépe ukáže mé schopnosti než samotná stránka, která je prezentuje? Celý "
 "tento web, od kódu až po nasazení, je můj projekt. Vše běží na mém vlastním "
-"serveru s pouzitim virtualizace, který si sám spravuji, a demonstruje to "
+"serveru s použití virtualizace, který si sám spravuji, a demonstruje to "
 "praktické využití technologií jako Python, Django, Docker a CI/CD k "
 "vytvoření kompletního a robustního řešení."
 
