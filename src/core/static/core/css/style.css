@@ -146,6 +146,113 @@ a:hover {
     transition: background-color 0.3s ease;
 }
 
+/* Special styling for CV navigation link */
+.nav-cv-link {
+    color: var(--peach) !important;
+    font-weight: 600 !important;
+}
+
+.nav-cv-link:hover {
+    color: var(--mauve) !important;
+}
+
+/* Back to Top Button with Progress Ring */
+.back-to-top-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 40px;  /* More space from edge */
+    width: 56px;
+    height: 56px;
+    background-color: var(--base);  /* Theme-aware background */
+    color: var(--text);  /* Theme-aware text */
+    border: 2px solid var(--overlay);  /* Theme-aware border */
+    border-radius: 50%;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.5rem;
+    font-weight: 700;
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease, opacity 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    opacity: 1;
+    overflow: visible;
+}
+
+.back-to-top-btn:hover {
+    background-color: transparent;
+    color: var(--mauve);
+    border-color: var(--mauve);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.back-to-top-btn:hover .progress-ring-circle {
+    stroke: var(--mauve) !important;
+}
+
+.back-to-top-btn:hover .progress-ring-bg {
+    stroke: rgba(203, 166, 247, 0.4) !important;
+}
+
+/* Light theme specific adjustments */
+.light-theme .back-to-top-btn {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.light-theme .back-to-top-btn:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Progress Ring */
+.progress-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    pointer-events: none;
+}
+
+.progress-ring-circle {
+    transition: stroke-dashoffset 0.1s ease, stroke 0.3s ease;
+    stroke: var(--pink);
+}
+
+.progress-ring-bg {
+    transition: stroke 0.3s ease;
+    stroke: var(--overlay);
+    opacity: 0.3;
+}
+
+/* Back to top text/arrow */
+.back-to-top-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+/* Back to Top Button - Mobile */
+@media (max-width: 768px) {
+    .back-to-top-btn {
+        bottom: 20px;
+        right: 25px;
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
+    }
+    
+    .progress-ring {
+        width: 50px;
+        height: 50px;
+    }
+}
+
 .main-header .container {
     display: flex;
     justify-content: space-between;
@@ -598,15 +705,8 @@ body.light-theme .terminal-response {
     }
 }
 
-@media (max-width: 768px) {
-    h2 { font-size: clamp(1.6rem, 5vw, 2rem); }
-    .hero-title { font-size: clamp(2rem, 8vw, 2.5rem); }
-    
-    /* Adjust hero section padding on mobile */
-    .hero-section {
-        padding: 90px 0 35px; /* Use container for horizontal padding */
-    }
-
+/* Tablet breakpoint - for iPads and similar devices */
+@media (max-width: 1024px) {
     .nav-links {
         display: none;
         flex-direction: column;
@@ -616,6 +716,7 @@ body.light-theme .terminal-response {
         width: 100%;
         background-color: var(--mantle);
         padding: 20px 0;
+        z-index: 999;
     }
 
     .nav-links.active {
@@ -626,13 +727,25 @@ body.light-theme .terminal-response {
         margin: 12px 0;
         text-align: center;
     }
-    
-    .nav-links li:has(.theme-switcher) {
-        margin-left: 0;
-    }
 
     .hamburger {
         display: flex;
+    }
+    
+}
+
+/* Mobile breakpoint */
+@media (max-width: 768px) {
+    h2 { font-size: clamp(1.6rem, 5vw, 2rem); }
+    .hero-title { font-size: clamp(2rem, 8vw, 2.5rem); }
+    
+    /* Adjust hero section padding on mobile */
+    .hero-section {
+        padding: 90px 0 35px; /* Use container for horizontal padding */
+    }
+    
+    .nav-links li:has(.theme-switcher) {
+        margin-left: 0;
     }
     
     .lang-switch a {
