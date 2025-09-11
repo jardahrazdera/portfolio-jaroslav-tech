@@ -28,10 +28,15 @@
         document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax`;
     },
     init() {
+        {% if pdf_mode %}
+        // PDF mode - skip overlay
+        this.showCV = true;
+        {% else %}
         // Check if user has already seen the warning
         if (this.getCookie('cv_warning_seen') === 'true') {
             this.showCV = true;
         }
+        {% endif %}
     },
     showCVContent() {
         this.showCV = true;
@@ -73,11 +78,19 @@
          x-transition:enter-end="opacity-100 transform translate-y-0"
          class="content-section cv-content">
         <div class="container">
-            <!-- Print/Download Button -->
+            <!-- Print/Download Buttons for Both Languages -->
             <div class="cv-actions print-hidden">
-                <button onclick="window.print()" class="btn btn-secondary">
-                    {% trans "Download PDF" %}
-                </button>
+                <div class="cv-download-section">
+                    <div class="cv-download-buttons">
+                        <button onclick="downloadCV('en')" class="btn btn-secondary" title="{% trans 'Download English CV' %}">
+                            EN
+                        </button>
+                        <button onclick="downloadCV('cs')" class="btn btn-secondary" title="{% trans 'Download Czech CV' %}">
+                            CZ
+                        </button>
+                    </div>
+                    <span class="cv-download-label">{% trans "Download CV" %}</span>
+                </div>
             </div>
 
             <!-- CV Content from Markdown -->
@@ -87,5 +100,25 @@
         </div>
     </div>
 </div>
+
+<script>
+function downloadCV(lang) {
+    // Get current URL
+    let url = new URL(window.location.href);
+    
+    // Add language parameter
+    url.searchParams.set('pdf_lang', lang);
+    
+    // Open in new window for printing
+    let printWindow = window.open(url.toString(), '_blank');
+    
+    // Wait for content to load then trigger print
+    printWindow.addEventListener('load', function() {
+        setTimeout(function() {
+            printWindow.print();
+        }, 500);
+    });
+}
+</script>
 
 {% endblock %}
