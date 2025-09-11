@@ -88,7 +88,7 @@
 .cv-markdown-content {
     max-width: 800px;
     margin: 0 auto;
-    padding: 80px 20px 40px 20px;
+    padding: 20px 15px 20px 15px;
     color: var(--text);
     line-height: 1.7;
 }
@@ -151,10 +151,34 @@
 
 /* CV Actions Button */
 .cv-actions {
-    position: fixed;
-    top: 120px;
-    right: 20px;
-    z-index: 50;
+    position: static;
+    text-align: center;
+    margin: 30px 0 20px 0;
+}
+
+/* CV Download Section */
+.cv-download-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.cv-download-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.cv-actions .cv-download-buttons .btn {
+    min-width: 60px !important;
+    padding: 12px 20px !important;
+}
+
+.cv-download-label {
+    color: var(--subtext);
+    font-size: 0.9em;
+    font-family: 'JetBrains Mono', monospace;
 }
 
 /* CV Overlay Content Width and Styling */
@@ -214,11 +238,6 @@
 
 /* Tablet adjustments */
 @media (max-width: 1024px) {
-    .cv-actions {
-        top: 100px;
-        right: 15px;
-    }
-    
     .cv-actions .btn {
         padding: 12px 24px;
         min-width: 120px;
@@ -232,12 +251,9 @@
         position: static !important;
         text-align: center;
         margin-bottom: 20px;
-        margin-top: 10px;
+        margin-top: 30px;
     }
     
-    .cv-markdown-content {
-        padding: 60px 15px 20px 15px;
-    }
     
     .cv-markdown-content h1 {
         font-size: 2rem;
