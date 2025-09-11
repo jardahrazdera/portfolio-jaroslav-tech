@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Portfolio Jarka\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-10 17:07+0000\n"
+"POT-Creation-Date: 2025-09-11 15:36+0000\n"
 "PO-Revision-Date: 2025-07-21 13:31+0200\n"
 "Last-Translator: Jarek <jarek@jaroslav.tech>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -109,15 +109,15 @@ msgstr "Všechna práva vyhrazena."
 msgid "Catppuccin Theme"
 msgstr "Motiv Catppuccin"
 
-#: core/templates/core/cv.html:52
+#: core/templates/core/cv.html:60
 msgid "Hold up, hold up!"
 msgstr "Moment, moment!"
 
-#: core/templates/core/cv.html:53
+#: core/templates/core/cv.html:61
 msgid "This is my 'corporate' CV"
 msgstr "Toto je můj 'korporátní' životopis"
 
-#: core/templates/core/cv.html:54
+#: core/templates/core/cv.html:62
 msgid ""
 "It's full of buzzwords, metrics and LinkedIn-speak. If you want to see what "
 "I actually do, better check out my projects."
@@ -125,17 +125,25 @@ msgstr ""
 "Je plný módních slovíček, metrik a LinkedIn-řeči. Pokud chcete vidět, co "
 "opravdu dělám, raději se podívejte na mé projekty."
 
-#: core/templates/core/cv.html:60
+#: core/templates/core/cv.html:65
 msgid "Show me anyway"
 msgstr "Stejně mi to ukaž"
 
-#: core/templates/core/cv.html:60
+#: core/templates/core/cv.html:68
 msgid "Better show me projects"
 msgstr "Raději mi ukaž projekty"
 
-#: core/templates/core/cv.html:76
-msgid "Download PDF"
-msgstr "Stáhnout PDF"
+#: core/templates/core/cv.html:85
+msgid "Download English CV"
+msgstr "Stáhnout CV EN"
+
+#: core/templates/core/cv.html:88
+msgid "Download Czech CV"
+msgstr "Stáhnout CV CZ"
+
+#: core/templates/core/cv.html:92
+msgid "Download CV"
+msgstr "Stáhnout CV"
 
 #: core/templates/core/index.html:10
 msgid "Jarek - Fullstack Developer && DevOps Enthusiast"
@@ -1056,6 +1064,12 @@ msgstr ""
 #: devtracker/templates/devtracker/timelog_form.html:93
 msgid "Total logged:"
 msgstr ""
+
+#~ msgid "CV in English"
+#~ msgstr "CV EN"
+
+#~ msgid "CV in Czech"
+#~ msgstr "CV CZ"
 
 #~ msgid ""
 #~ "Personal portfolio of a passionate Fullstack Developer and DevOps "
