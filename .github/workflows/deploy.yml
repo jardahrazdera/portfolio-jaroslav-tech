@@ -57,4 +57,4 @@ jobs:
             docker compose -f docker-compose.yml up -d --no-deps app
           
             # Run database migrations
-            docker compose -f docker-compose.yml exec app python manage.py migrate --no-input
+            docker compose -f docker-compose.yml run --rm app python manage.py migrate --no-input

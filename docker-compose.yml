@@ -17,23 +17,19 @@ services:
       - proxy
     labels:
       - "traefik.enable=true"
-      # HTTP Router (for redirection) - CORRECTED SYNTAX
+      # HTTP Router (for redirection)
       - "traefik.http.routers.jaroslavtech.rule=Host(`jaroslav.tech`) || Host(`www.jaroslav.tech`)"
       - "traefik.http.routers.jaroslavtech.entrypoints=web"
       - "traefik.http.routers.jaroslavtech.middlewares=https-redirect@file"
-      # HTTPS Router - CORRECTED SYNTAX
+      # HTTPS Router
       - "traefik.http.routers.jaroslavtech-secure.rule=Host(`jaroslav.tech`) || Host(`www.jaroslav.tech`)"
       - "traefik.http.routers.jaroslavtech-secure.entrypoints=websecure"
       - "traefik.http.routers.jaroslavtech-secure.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.jaroslavtech-secure.middlewares=compress,cache"
+      - "traefik.http.routers.jaroslavtech-secure.middlewares=jaroslavtech-compress"
       - "traefik.http.services.jaroslavtech.loadbalancer.server.port=8000"
 
-      # Compression Middleware
-      - "traefik.http.middlewares.compress.compress=true"
-
-      # Cache Middleware for static files
-      - "traefik.http.middlewares.cache.headers.cachecontrol.maxage=31536000"
-      - "traefik.http.middlewares.cache.headers.cachecontrol.public=true"
+      # Compression Middleware (locally defined)
+      - "traefik.http.middlewares.jaroslavtech-compress.compress=true"
 
   db:
     image: postgres:16-alpine
