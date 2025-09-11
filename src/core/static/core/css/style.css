@@ -181,12 +181,14 @@ a:hover {
     overflow: visible;
 }
 
-.back-to-top-btn:hover {
-    background-color: transparent;
-    color: var(--mauve);
-    border-color: var(--mauve);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+@media (hover: hover) {
+    .back-to-top-btn:hover {
+        background-color: transparent;
+        color: var(--mauve);
+        border-color: var(--mauve);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    }
 }
 
 .back-to-top-btn:hover .progress-ring-circle {
