@@ -2,10 +2,10 @@
 
 **Full-Stack Python Developer**
 
-📧 Email: [jarek@jaroslav.tech](mailto:jarek@jaroslav.tech)  
-🌍 Lokalita: Brno, Česká republika  
-🌐 Web: [jaroslav.tech](https://jaroslav.tech)  
-💻 GitHub: [github.com/jardahrazdera](https://github.com/jardahrazdera)
+- 📧 **Email:** [jarek@jaroslav.tech](mailto:jarek@jaroslav.tech)
+- 🌍 **Lokalita:** Brno, Česká republika
+- 🌐 **Web:** [jaroslav.tech](https://jaroslav.tech)
+- 💻 **GitHub:** [github.com/jardahrazdera](https://github.com/jardahrazdera)
 
 ---
 
@@ -16,7 +16,7 @@ Certifikovaný Python Backend Developer přecházející z IT infrastruktury do 
 **Co mě odlišuje:**
 
 - **Open Source Contributor:** 10+ přijatých pull requestů do Omarchy projektu od Basecamp
-- **Spolupráce s DHH:** Přímá pozvánka do vývojového týmu Omarchy-ISO  
+- **Spolupráce s DHH:** Přímá pozvánka do vývojového týmu Omarchy-ISO
 - **Technické základy:** 6+ let zkušeností s IT infrastrukturou a automatizací
 - **Hardware nadšenec:** Stavím vlastní 3D tiskárny, experimentuji s IoT
 
@@ -92,7 +92,7 @@ Certifikovaný Python Backend Developer přecházející z IT infrastruktury do 
 
 ### Omarchy Linux distribuce - Open Source Contributor
 
-**Technologie:** Bash, Linux, Git  
+**Technologie:** Bash, Linux, Git
 **GitHub Stars:** 7.7k+ | **Aktivní uživatelé:** Tisíce vývojářů po celém světě
 
 - Aktivní přispěvatel do enterprise-scale Arch-based distribuce od Basecamp
@@ -102,7 +102,7 @@ Certifikovaný Python Backend Developer přecházející z IT infrastruktury do 
 
 ### Portfolio platforma
 
-**Technologie:** Django, PostgreSQL, Docker, HTML5, CSS3, JavaScript, Redis  
+**Technologie:** Django, PostgreSQL, Docker, HTML5, CSS3, JavaScript, Redis
 **Web:** [jaroslav.tech](https://jaroslav.tech)
 
 - Dvojjazyčné portfolio s integrovanou aplikací DevTracker
@@ -137,5 +137,8 @@ Certifikovaný Python Backend Developer přecházející z IT infrastruktury do 
 - **Čeština:** Rodilý mluvčí
 - **Angličtina:** B1 (Silná technická angličtina, aktivní v open source komunikaci)
 
+---
+
 ## DALŠÍ
+
 - **Řidičský průkaz:** B, C

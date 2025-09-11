@@ -2,10 +2,10 @@
 
 **Full-Stack Python Developer**
 
-📧 Email: [jarek@jaroslav.tech](mailto:jarek@jaroslav.tech)  
-🌍 Location: Brno, Czech Republic  
-🌐 Website: [jaroslav.tech](https://jaroslav.tech)  
-💻 GitHub: [github.com/jardahrazdera](https://github.com/jardahrazdera)
+- 📧 **Email:** [jarek@jaroslav.tech](mailto:jarek@jaroslav.tech)
+- 🌍 **Location:** Brno, Czech Republic
+- 🌐 **Website:** [jaroslav.tech](https://jaroslav.tech)
+- 💻 **GitHub:** [github.com/jardahrazdera](https://github.com/jardahrazdera)
 
 ---
 
@@ -16,7 +16,7 @@ Certified Python Backend Developer transitioning from IT infrastructure to softw
 **Core Differentiators:**
 
 - **Open Source Contributor:** 10+ merged pull requests to Basecamp's Omarchy project
-- **DHH Collaboration:** Direct invitation to join Omarchy-ISO development team  
+- **DHH Collaboration:** Direct invitation to join Omarchy-ISO development team
 - **Technical Foundation:** 6+ years of experience in IT infrastructure and automation
 - **Hardware Enthusiast:** Build custom 3D printers, experiment with IoT
 
@@ -92,7 +92,7 @@ Certified Python Backend Developer transitioning from IT infrastructure to softw
 
 ### Omarchy Linux Distribution - Open Source Contributor
 
-**Technologies:** Bash, Linux, Git  
+**Technologies:** Bash, Linux, Git
 **GitHub Stars:** 7.7k+ | **Active Users:** Thousands of developers worldwide
 
 - Active contributor to enterprise-scale Arch-based distribution by Basecamp
@@ -102,7 +102,7 @@ Certified Python Backend Developer transitioning from IT infrastructure to softw
 
 ### Portfolio Platform
 
-**Technologies:** Django, PostgreSQL, Docker, HTML5, CSS3, JavaScript, Redis  
+**Technologies:** Django, PostgreSQL, Docker, HTML5, CSS3, JavaScript, Redis
 **Live Demo:** [jaroslav.tech](https://jaroslav.tech)
 
 - Bilingual portfolio with integrated DevTracker application
@@ -137,5 +137,8 @@ Certified Python Backend Developer transitioning from IT infrastructure to softw
 - **Czech:** Native Speaker
 - **English:** B1 (Proficient in technical documentation, active open source contributor)
 
+---
+
 ## ADDITIONAL
+
 - **Driving License:** B, C
