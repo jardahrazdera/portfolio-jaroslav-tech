@@ -7,6 +7,7 @@
 
 {% block extra_head %}
 <script defer src="{% static 'alpinejs/dist/cdn.min.js' %}"></script>
+<script defer src="{% static 'core/js/cv-download.js' %}"></script>
 {% if seo.noindex %}
 <meta name="robots" content="noindex, nofollow">
 {% endif %}
@@ -101,24 +102,5 @@
     </div>
 </div>
 
-<script>
-function downloadCV(lang) {
-    // Get current URL
-    let url = new URL(window.location.href);
-    
-    // Add language parameter
-    url.searchParams.set('pdf_lang', lang);
-    
-    // Open in new window for printing
-    let printWindow = window.open(url.toString(), '_blank');
-    
-    // Wait for content to load then trigger print
-    printWindow.addEventListener('load', function() {
-        setTimeout(function() {
-            printWindow.print();
-        }, 500);
-    });
-}
-</script>
 
 {% endblock %}
