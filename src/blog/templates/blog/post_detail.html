@@ -4,7 +4,11 @@
 {% block title %}{{ post.title }} - {{ block.super }}{% endblock %}
 
 {% block extra_head %}
+{% if debug %}
 <link rel="stylesheet" href="{% static 'blog/css/blog.css' %}">
+{% else %}
+<link rel="stylesheet" href="{% static 'dist/blog.min.css' %}">
+{% endif %}
 {% endblock %}
 
 {% block content %}
