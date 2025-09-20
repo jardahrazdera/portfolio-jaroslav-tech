@@ -38,6 +38,10 @@
 </script>
 {% endblock %}
 
+{% block before_main %}
+{% include 'blog/components/breadcrumb.html' with post=post %}
+{% endblock %}
+
 {% block content %}
 <section class="content-section">
     <div class="container">
@@ -45,14 +49,7 @@
             <header class="post-header">
                 <h2>{{ post.title }}</h2>
 
-                <div class="blog-post-meta">
-                    <time>{{ post.created_at|date:"F j, Y" }}</time>
-                    <span class="author">by {{ post.author.get_full_name|default:post.author.username }}</span>
-
-                    {% if post.updated_at != post.created_at %}
-                        <span class="last-updated">Last updated: {{ post.updated_at|date:"F j, Y" }}</span>
-                    {% endif %}
-                </div>
+                {% include 'blog/components/post_meta.html' with post=post show_updated=True compact=False %}
 
                 {% if post.categories.exists or post.tags.exists %}
                     <div class="post-taxonomy">

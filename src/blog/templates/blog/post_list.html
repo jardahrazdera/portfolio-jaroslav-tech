@@ -11,6 +11,10 @@
 {% endif %}
 {% endblock %}
 
+{% block before_main %}
+{% include 'blog/components/breadcrumb.html' %}
+{% endblock %}
+
 {% block content %}
 <section class="content-section">
     <div class="container">
@@ -19,42 +23,7 @@
         {% if posts %}
             <div class="projects-grid">
                 {% for post in posts %}
-                    <article class="blog-post-card project-card">
-                        <header class="post-header">
-                            <h3><a href="{% url 'blog:post_detail' post.slug %}">{{ post.title }}</a></h3>
-
-                            <div class="blog-post-meta">
-                                <time>{{ post.created_at|date:"F j, Y" }}</time>
-                                <span class="author">by {{ post.author.get_full_name|default:post.author.username }}</span>
-                            </div>
-                        </header>
-
-                        {% if post.excerpt %}
-                            <p class="post-excerpt">{{ post.excerpt }}</p>
-                        {% else %}
-                            <p class="post-excerpt">{{ post.content|truncatewords:50 }}</p>
-                        {% endif %}
-
-                        {% if post.categories.exists %}
-                            <div class="post-categories">
-                                {% for category in post.categories.all %}
-                                    <span class="blog-category">{{ category.name }}</span>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-
-                        {% if post.tags.exists %}
-                            <div class="post-tags">
-                                {% for tag in post.tags.all %}
-                                    <span class="blog-tag" style="border-color: {{ tag.color }}">{{ tag.name }}</span>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-
-                        <div class="project-links">
-                            <a href="{% url 'blog:post_detail' post.slug %}" class="btn btn-primary">Read Article</a>
-                        </div>
-                    </article>
+                    {% include 'blog/components/post_card.html' with post=post %}
                 {% endfor %}
             </div>
         {% else %}
