@@ -2,7 +2,9 @@
 {% load static %}
 {% load i18n %}
 
-{% block title %}Blog - {{ block.super }}{% endblock %}
+{% block title %}{{ category.name }} - Blog - {{ block.super }}{% endblock %}
+
+{% block meta_description %}{% trans "Posts in category" %} {{ category.name }} - {% trans "Read blog posts about" %} {{ category.name|lower }}{% endblock %}
 
 {% block extra_head %}
 {% if debug %}
@@ -13,13 +15,13 @@
 {% endblock %}
 
 {% block before_main %}
-{% include 'blog/components/breadcrumb.html' %}
+{% include 'blog/components/breadcrumb.html' with category=category filter_type='category' %}
 {% endblock %}
 
 {% block content %}
 <section class="content-section">
     <div class="container">
-        <h2>Blog Posts</h2>
+        <h2>{% trans "Posts in" %} {{ category.name }}</h2>
 
         {% include 'blog/components/sidebar.html' with categories=categories tags=tags %}
 
@@ -35,7 +37,7 @@
                     <nav aria-label="{% trans 'Blog posts pagination' %}">
                         <div class="pagination">
                             {% if page_obj.has_previous %}
-                                <a href="{% url 'blog:post_list' %}?page={{ page_obj.previous_page_number }}"
+                                <a href="{% url 'blog:category_list' category.slug %}?page={{ page_obj.previous_page_number }}"
                                    class="btn btn-primary"
                                    aria-label="{% trans 'Previous page' %}">
                                     &larr; {% trans "Previous" %}
@@ -47,7 +49,7 @@
                             </span>
 
                             {% if page_obj.has_next %}
-                                <a href="{% url 'blog:post_list' %}?page={{ page_obj.next_page_number }}"
+                                <a href="{% url 'blog:category_list' category.slug %}?page={{ page_obj.next_page_number }}"
                                    class="btn btn-primary"
                                    aria-label="{% trans 'Next page' %}">
                                     {% trans "Next" %} &rarr;
@@ -59,7 +61,10 @@
             {% endif %}
         {% else %}
             <div class="hero-content">
-                <p class="hero-subtitle">No blog posts available yet. Check back soon for updates!</p>
+                <p class="hero-subtitle">{% trans "No posts found in this category yet. Check back soon for updates!" %}</p>
+                <div class="hero-buttons">
+                    <a href="{% url 'blog:post_list' %}" class="btn btn-primary">{% trans "View All Posts" %}</a>
+                </div>
             </div>
         {% endif %}
     </div>

@@ -4,6 +4,9 @@ Provides navigation breadcrumbs for blog pages
 Usage: {% include 'blog/components/breadcrumb.html' with post=post %}
 Parameters:
 - post: Blog post object (optional, for post detail pages)
+- category: Category object (optional, for category filtered pages)
+- tag: Tag object (optional, for tag filtered pages)
+- filter_type: Type of filter ('category' or 'tag', optional)
 - custom_title: Custom title for breadcrumb (optional)
 {% endcomment %}
 
@@ -33,6 +36,32 @@ Parameters:
 
                 <li class="breadcrumb-item current" role="listitem">
                     <span aria-current="page">{{ post.title }}</span>
+                </li>
+            {% elif category %}
+                <li class="breadcrumb-item" role="listitem">
+                    <a href="{% url 'blog:post_list' %}"
+                       aria-label="{% trans 'Go to blog list' %}">
+                        {% trans "Blog" %}
+                    </a>
+                </li>
+
+                <li class="breadcrumb-separator" aria-hidden="true">/</li>
+
+                <li class="breadcrumb-item current" role="listitem">
+                    <span aria-current="page">{{ category.name }}</span>
+                </li>
+            {% elif tag %}
+                <li class="breadcrumb-item" role="listitem">
+                    <a href="{% url 'blog:post_list' %}"
+                       aria-label="{% trans 'Go to blog list' %}">
+                        {% trans "Blog" %}
+                    </a>
+                </li>
+
+                <li class="breadcrumb-separator" aria-hidden="true">/</li>
+
+                <li class="breadcrumb-item current" role="listitem">
+                    <span aria-current="page">{{ tag.name }}</span>
                 </li>
             {% else %}
                 <li class="breadcrumb-item current" role="listitem">

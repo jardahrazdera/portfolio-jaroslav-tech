@@ -1,0 +1,56 @@
+{% comment %}
+Blog Sidebar Component
+Shows available categories and tags for navigation
+Usage: {% include 'blog/components/sidebar.html' with categories=categories tags=tags %}
+Parameters:
+- categories: QuerySet of available categories (optional)
+- tags: QuerySet of available tags (optional)
+{% endcomment %}
+
+{% load i18n %}
+
+<aside class="blog-sidebar" role="complementary" aria-label="{% trans 'Blog navigation' %}">
+    {% if categories %}
+        <section>
+            <h3>{% trans "Categories" %}</h3>
+            <ul class="category-list" role="list">
+                {% for category in categories %}
+                    <li role="listitem">
+                        <a href="{% url 'blog:category_list' category.slug %}"
+                           class="blog-category"
+                           aria-label="{% trans 'View posts in' %} {{ category.name }} {% trans 'category' %}">
+                            {{ category.name }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% endif %}
+
+    {% if tags %}
+        <section>
+            <h3>{% trans "Tags" %}</h3>
+            <ul class="tag-list" role="list">
+                {% for tag in tags %}
+                    <li role="listitem">
+                        <a href="{% url 'blog:tag_list' tag.slug %}"
+                           class="blog-tag"
+                           style="border-color: {{ tag.color }}"
+                           aria-label="{% trans 'View posts tagged with' %} {{ tag.name }}">
+                            {{ tag.name }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% endif %}
+
+    <section>
+        <h3>{% trans "Navigation" %}</h3>
+        <div class="blog-sidebar-nav">
+            <a href="{% url 'blog:post_list' %}" class="btn btn-primary">
+                {% trans "All Posts" %}
+            </a>
+        </div>
+    </section>
+</aside>
