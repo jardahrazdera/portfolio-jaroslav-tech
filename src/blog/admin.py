@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
+from ckeditor.widgets import CKEditorWidget
 from .models import Category, Tag, Post
 
 
@@ -24,6 +25,11 @@ class PostAdmin(admin.ModelAdmin):
     filter_horizontal = ('categories', 'tags')
     list_editable = ('is_published', 'is_featured')
     fields = ('title', 'slug', 'featured_image', 'excerpt', 'content', 'author', 'categories', 'tags', 'is_published', 'is_featured')
+
+    def formfield_for_dbfield(self, db_field, request, **kwargs):
+        if db_field.name == 'content':
+            kwargs['widget'] = CKEditorWidget()
+        return super().formfield_for_dbfield(db_field, request, **kwargs)
 
     def featured_image_thumbnail(self, obj):
         if obj.featured_image:

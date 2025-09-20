@@ -70,6 +70,8 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django_extensions',
     'django_recaptcha',  # django-recaptcha
+    'ckeditor',  # django-ckeditor
+    'ckeditor_uploader',  # django-ckeditor uploader
     'core.apps.CoreConfig',
     'devtracker.apps.DevtrackerConfig',
     'blog.apps.BlogConfig',
@@ -203,6 +205,32 @@ WHITENOISE_SKIP_COMPRESS_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'zip
 # ---
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# ---
+# CKEditor Configuration
+# ---
+CKEDITOR_UPLOAD_PATH = 'ckeditor_uploads/'
+CKEDITOR_RESTRICT_BY_USER = True
+CKEDITOR_BROWSE_SHOW_DIRS = True
+CKEDITOR_ALLOW_NONIMAGE_FILES = False
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Link', 'Unlink'],
+            ['RemoveFormat', 'Source'],
+            ['Format'],
+        ],
+        'format_tags': 'p;h1;h2;h3;h4;h5;h6;pre',
+        'height': 300,
+        'width': '100%',
+        'removePlugins': 'elementspath',
+        'resize_enabled': False,
+    }
+}
 
 
 # Default primary key field type
