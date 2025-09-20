@@ -288,6 +288,220 @@ picture img {
     display: block;
 }
 
+/* Code Block Styling - Catppuccin Theme */
+.code-container {
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    background: var(--crust);
+    border: 1px solid var(--overlay);
+    overflow: hidden;
+    font-family: var(--font-family);
+    position: relative;
+}
+
+.code-header {
+    background: var(--mantle);
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--overlay);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+}
+
+.language-label {
+    color: var(--mauve);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.copy-button {
+    background: transparent;
+    border: 1px solid var(--overlay);
+    color: var(--text);
+    padding: 0.375rem 0.75rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    transition: all 0.2s ease;
+    font-family: var(--font-family);
+}
+
+.copy-button:hover {
+    background: var(--surface0);
+    border-color: var(--mauve);
+    color: var(--mauve);
+}
+
+.copy-button:active {
+    transform: translateY(1px);
+}
+
+.copy-button.copied {
+    background: var(--green);
+    border-color: var(--green);
+    color: var(--base);
+}
+
+.code-block {
+    background: var(--base) !important;
+    color: var(--text) !important;
+    margin: 0;
+    padding: 1rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    overflow-x: auto;
+    white-space: pre;
+}
+
+.code-block pre {
+    margin: 0;
+    padding: 0;
+    background: transparent !important;
+    color: inherit !important;
+    font-family: var(--font-family);
+}
+
+/* Syntax highlighting colors - Catppuccin Mocha */
+.code-block .k { color: var(--mauve); } /* Keywords */
+.code-block .kn { color: var(--pink); } /* Keyword.Namespace */
+.code-block .kp { color: var(--mauve); } /* Keyword.Pseudo */
+.code-block .kr { color: var(--mauve); } /* Keyword.Reserved */
+.code-block .kt { color: var(--peach); } /* Keyword.Type */
+.code-block .n { color: var(--text); } /* Name */
+.code-block .nc { color: var(--peach); } /* Name.Class */
+.code-block .nd { color: var(--pink); } /* Name.Decorator */
+.code-block .ne { color: var(--maroon); } /* Name.Exception */
+.code-block .nf { color: var(--green); } /* Name.Function */
+.code-block .nl { color: var(--peach); } /* Name.Label */
+.code-block .nn { color: var(--peach); } /* Name.Namespace */
+.code-block .nt { color: var(--pink); } /* Name.Tag */
+.code-block .nv { color: var(--text); } /* Name.Variable */
+.code-block .s { color: var(--green); } /* String */
+.code-block .sa { color: var(--green); } /* String.Affix */
+.code-block .sb { color: var(--green); } /* String.Backtick */
+.code-block .sc { color: var(--green); } /* String.Char */
+.code-block .sd { color: var(--overlay); } /* String.Doc */
+.code-block .s2 { color: var(--green); } /* String.Double */
+.code-block .se { color: var(--pink); } /* String.Escape */
+.code-block .sh { color: var(--green); } /* String.Heredoc */
+.code-block .si { color: var(--pink); } /* String.Interpol */
+.code-block .sx { color: var(--green); } /* String.Other */
+.code-block .sr { color: var(--green); } /* String.Regex */
+.code-block .s1 { color: var(--green); } /* String.Single */
+.code-block .ss { color: var(--green); } /* String.Symbol */
+.code-block .m { color: var(--peach); } /* Number */
+.code-block .mb { color: var(--peach); } /* Number.Bin */
+.code-block .mf { color: var(--peach); } /* Number.Float */
+.code-block .mh { color: var(--peach); } /* Number.Hex */
+.code-block .mi { color: var(--peach); } /* Number.Integer */
+.code-block .mo { color: var(--peach); } /* Number.Oct */
+.code-block .o { color: var(--text); } /* Operator */
+.code-block .ow { color: var(--mauve); } /* Operator.Word */
+.code-block .p { color: var(--text); } /* Punctuation */
+.code-block .c { color: var(--overlay); } /* Comment */
+.code-block .ch { color: var(--overlay); } /* Comment.Hashbang */
+.code-block .cm { color: var(--overlay); } /* Comment.Multiline */
+.code-block .cp { color: var(--overlay); } /* Comment.Preproc */
+.code-block .cpf { color: var(--overlay); } /* Comment.PreprocFile */
+.code-block .c1 { color: var(--overlay); } /* Comment.Single */
+.code-block .cs { color: var(--overlay); } /* Comment.Special */
+
+/* Inline code styling */
+.inline-code {
+    background: var(--mantle);
+    color: var(--mauve);
+    padding: 0.125rem 0.375rem;
+    border-radius: 4px;
+    font-family: var(--font-family);
+    font-size: 0.875em;
+    border: 1px solid var(--overlay);
+}
+
+/* Light theme adjustments */
+body.light-theme .code-container {
+    background: var(--crust);
+    border-color: var(--overlay);
+}
+
+body.light-theme .code-header {
+    background: var(--mantle);
+    border-bottom-color: var(--overlay);
+}
+
+body.light-theme .copy-button {
+    border-color: var(--overlay);
+    color: var(--text);
+}
+
+body.light-theme .copy-button:hover {
+    background: var(--base);
+    border-color: var(--mauve);
+    color: var(--mauve);
+}
+
+body.light-theme .code-block {
+    background: var(--base) !important;
+    color: var(--text) !important;
+}
+
+body.light-theme .inline-code {
+    background: var(--mantle);
+    color: var(--mauve);
+    border-color: var(--overlay);
+}
+
+/* Responsive design for code blocks */
+@media (max-width: 640px) {
+    .code-container {
+        margin: 1rem -1rem;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+    }
+
+    .code-header {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    .code-block {
+        padding: 0.75rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    .copy-button {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+}
+
+/* Accessibility improvements */
+.code-block:focus-within {
+    outline: 2px solid var(--mauve);
+    outline-offset: 2px;
+}
+
+.copy-button:focus {
+    outline: 2px solid var(--mauve);
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .code-container {
+        border-width: 2px;
+    }
+
+    .copy-button {
+        border-width: 2px;
+    }
+}
+
 .blog-content p {
     margin-bottom: 1rem;
 }

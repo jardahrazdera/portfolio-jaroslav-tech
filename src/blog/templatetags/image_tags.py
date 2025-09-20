@@ -1,10 +1,11 @@
 """
-Template tags for responsive image handling in blog templates.
+Template tags for responsive image handling and syntax highlighting in blog templates.
 """
 from django import template
 from django.utils.safestring import mark_safe
 from django.templatetags.static import static
 from ..image_utils import generate_srcset, get_image_url
+from ..syntax_highlighter import process_code_blocks
 
 register = template.Library()
 
@@ -184,3 +185,17 @@ def image_dimensions(post, size='medium'):
 
     width, height = ImageProcessor.SIZES[size]
     return {'width': width, 'height': height}
+
+
+@register.filter
+def highlight_syntax(content):
+    """
+    Process blog content to add syntax highlighting to code blocks.
+
+    Usage:
+        {{ post.content|highlight_syntax|safe }}
+    """
+    if not content:
+        return ''
+
+    return process_code_blocks(content)
