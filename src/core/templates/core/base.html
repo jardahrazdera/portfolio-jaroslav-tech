@@ -13,7 +13,7 @@ Version with a robust language switcher.
     {# SEO Meta Tags - Dynamically populated #}
     <title>{% block title %}{{ seo.title }}{% endblock %}</title>
     <meta name="description" content="{% block meta_description %}{{ seo.description }}{% endblock %}">
-    <link rel="canonical" href="{{ seo.url }}">
+    <link rel="canonical" href="{% block canonical_url %}{{ seo.url }}{% endblock %}">
 
     {# OpenGraph/Facebook Meta Tags #}
     <meta property="og:title" content="{% block og_title %}{{ seo.title }}{% endblock %}">
@@ -24,6 +24,7 @@ Version with a robust language switcher.
     <meta property="og:site_name" content="Jarek's Portfolio">
 
     {# Structured Data (JSON-LD) #}
+    {% block structured_data %}
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -64,6 +65,7 @@ Version with a robust language switcher.
       ]
     }
     </script>
+    {% endblock %}
 
     {# Hreflang links for multilingual SEO #}
     {% get_available_languages as LANGUAGES %}
@@ -83,10 +85,12 @@ Version with a robust language switcher.
     
     {% block extra_head %}{% endblock %}
 
+    {% block extra_meta %}{% endblock %}
+
     {# Umami Analytics Tracking Code #}
     <script defer src="https://analytics.jaroslav.tech/script.js" data-website-id="7c8d7a39-df24-4b6f-8095-e4a5d446d38f"></script>
 </head>
-<body class="{% if site_settings.coming_soon_mode %}coming-soon-active{% endif %}">
+<body class="{% block body_class %}{% if site_settings.coming_soon_mode %}coming-soon-active{% endif %}{% endblock %}">
 
     {% if site_settings.coming_soon_mode %}
     <div class="coming-soon-overlay">
@@ -172,9 +176,13 @@ Version with a robust language switcher.
         </div>
     </header>
 
+    {% block before_main %}{% endblock %}
+
     <main>
         {% block content %}{% endblock %}
     </main>
+
+    {% block after_main %}{% endblock %}
 
     <!-- Back to Top Button with Scroll Progress -->
     <button id="back-to-top" class="back-to-top-btn print-hidden" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="{% trans 'Back to top' %}">
@@ -185,12 +193,14 @@ Version with a robust language switcher.
         <span class="back-to-top-text">↑</span>
     </button>
 
+    {% block footer %}
     <footer class="main-footer">
         <div class="container">
             <p>&copy; {% now "Y" %} Jarek. {% trans "All rights reserved." %}</p>
             <p>{% trans "Catppuccin Theme" %}</p>
         </div>
     </footer>
+    {% endblock %}
 
     {% if debug %}
     <script src="{% static 'core/js/main.js' %}"></script>

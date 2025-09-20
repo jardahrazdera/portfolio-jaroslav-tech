@@ -6,6 +6,11 @@
 {% block meta_description %}{{ seo.description }}{% endblock %}
 
 {% block extra_head %}
+{% if debug %}
+<link rel="stylesheet" href="{% static 'core/css/cv.css' %}">
+{% else %}
+<link rel="stylesheet" href="{% static 'dist/cv.min.css' %}">
+{% endif %}
 <script defer src="{% static 'alpinejs/dist/cdn.min.js' %}"></script>
 <script defer src="{% static 'core/js/cv-download.js' %}"></script>
 {% if seo.noindex %}
@@ -14,7 +19,6 @@
 {% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'dist/cv.min.css' %}">
 
 <div class="cv-page" x-data="{
     showCV: false,

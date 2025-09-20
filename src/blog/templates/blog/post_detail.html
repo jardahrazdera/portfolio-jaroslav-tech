@@ -3,12 +3,39 @@
 
 {% block title %}{{ post.title }} - {{ block.super }}{% endblock %}
 
+{% block meta_description %}{% if post.excerpt %}{{ post.excerpt|striptags }}{% else %}{{ post.content|striptags|truncatewords:50 }}{% endif %}{% endblock %}
+
 {% block extra_head %}
 {% if debug %}
 <link rel="stylesheet" href="{% static 'blog/css/blog.css' %}">
 {% else %}
 <link rel="stylesheet" href="{% static 'dist/blog.min.css' %}">
 {% endif %}
+{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "{{ post.title }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ post.author.get_full_name|default:post.author.username }}"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Jaroslav Hrazdera"
+  },
+  "datePublished": "{{ post.created_at|date:'c' }}",
+  "dateModified": "{{ post.updated_at|date:'c' }}",
+  "description": "{% if post.excerpt %}{{ post.excerpt|striptags }}{% else %}{{ post.content|striptags|truncatewords:50 }}{% endif %}",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ request.build_absolute_uri }}"
+  }
+}
+</script>
 {% endblock %}
 
 {% block content %}
