@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     'django_recaptcha',  # django-recaptcha
     'core.apps.CoreConfig',
     'devtracker.apps.DevtrackerConfig',
+    'blog.apps.BlogConfig',
 ]
 
 MIDDLEWARE = [
