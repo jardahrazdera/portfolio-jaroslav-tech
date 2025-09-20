@@ -197,6 +197,14 @@ WHITENOISE_MAX_AGE = 31536000  # 1 year in seconds
 WHITENOISE_SKIP_COMPRESS_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'zip', 'gz', 'tgz', 'bz2', 'tbz', 'xz', 'br', 'woff', 'woff2']
 
 
+# ---
+# Media files (User uploaded content)
+# https://docs.djangoproject.com/en/5.2/topics/files/
+# ---
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
