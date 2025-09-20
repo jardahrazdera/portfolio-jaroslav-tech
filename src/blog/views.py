@@ -1,5 +1,6 @@
 from django.views.generic import ListView, DetailView
 from django.shortcuts import get_object_or_404
+from django.db import models
 from .models import Post, Category, Tag
 
 
@@ -25,12 +26,17 @@ class BlogListView(ListView):
             is_featured=True
         ).select_related('author').prefetch_related('categories', 'tags').order_by('-created_at')[:3]
 
-        # Add categories and tags that have published posts
+        # Add categories and tags that have published posts with post counts
+        from django.db.models import Count
         context['categories'] = Category.objects.filter(
             post__is_published=True
+        ).annotate(
+            post_count=Count('post', filter=models.Q(post__is_published=True))
         ).distinct().order_by('name')
         context['tags'] = Tag.objects.filter(
             post__is_published=True
+        ).annotate(
+            post_count=Count('post', filter=models.Q(post__is_published=True))
         ).distinct().order_by('name')
         return context
 
@@ -60,12 +66,17 @@ class CategoryListView(ListView):
         context = super().get_context_data(**kwargs)
         context['category'] = self.category
         context['filter_type'] = 'category'
-        # Add all categories and tags for sidebar navigation
+        # Add all categories and tags for sidebar navigation with post counts
+        from django.db.models import Count
         context['categories'] = Category.objects.filter(
             post__is_published=True
+        ).annotate(
+            post_count=Count('post', filter=models.Q(post__is_published=True))
         ).distinct().order_by('name')
         context['tags'] = Tag.objects.filter(
             post__is_published=True
+        ).annotate(
+            post_count=Count('post', filter=models.Q(post__is_published=True))
         ).distinct().order_by('name')
         return context
 
@@ -88,12 +99,17 @@ class TagListView(ListView):
         context = super().get_context_data(**kwargs)
         context['tag'] = self.tag
         context['filter_type'] = 'tag'
-        # Add all categories and tags for sidebar navigation
+        # Add all categories and tags for sidebar navigation with post counts
+        from django.db.models import Count
         context['categories'] = Category.objects.filter(
             post__is_published=True
+        ).annotate(
+            post_count=Count('post', filter=models.Q(post__is_published=True))
         ).distinct().order_by('name')
         context['tags'] = Tag.objects.filter(
             post__is_published=True
+        ).annotate(
+            post_count=Count('post', filter=models.Q(post__is_published=True))
         ).distinct().order_by('name')
         return context
 

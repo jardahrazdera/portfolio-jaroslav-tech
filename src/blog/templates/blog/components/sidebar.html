@@ -11,44 +11,51 @@ Parameters:
 
 <aside class="blog-sidebar" role="complementary" aria-label="{% trans 'Blog navigation' %}">
     {% if categories %}
-        <section>
-            <h3>{% trans "Categories" %}</h3>
-            <ul class="category-list" role="list">
+        <section class="sidebar-section">
+            <h3 class="sidebar-title">
+                <span class="sidebar-icon" aria-hidden="true">📁</span>
+                {% trans "Categories" %}
+            </h3>
+            <div class="taxonomy-browse-grid">
                 {% for category in categories %}
-                    <li role="listitem">
-                        <a href="{% url 'blog:category_list' category.slug %}"
-                           class="blog-category"
-                           aria-label="{% trans 'View posts in' %} {{ category.name }} {% trans 'category' %}">
-                            {{ category.name }}
-                        </a>
-                    </li>
+                    <a href="{% url 'blog:category_list' category.slug %}"
+                       class="taxonomy-browse-item category-item"
+                       aria-label="{% trans 'View posts in' %} {{ category.name }} {% trans 'category' %}">
+                        <span class="taxonomy-name">{{ category.name }}</span>
+                        <span class="taxonomy-count" aria-label="{{ category.post_count }} posts">{{ category.post_count }}</span>
+                    </a>
                 {% endfor %}
-            </ul>
+            </div>
         </section>
     {% endif %}
 
     {% if tags %}
-        <section>
-            <h3>{% trans "Tags" %}</h3>
-            <ul class="tag-list" role="list">
+        <section class="sidebar-section">
+            <h3 class="sidebar-title">
+                <span class="sidebar-icon" aria-hidden="true">🏷️</span>
+                {% trans "Tags" %}
+            </h3>
+            <div class="taxonomy-browse-cloud">
                 {% for tag in tags %}
-                    <li role="listitem">
-                        <a href="{% url 'blog:tag_list' tag.slug %}"
-                           class="blog-tag"
-                           style="border-color: {{ tag.color }}"
-                           aria-label="{% trans 'View posts tagged with' %} {{ tag.name }}">
-                            {{ tag.name }}
-                        </a>
-                    </li>
+                    <a href="{% url 'blog:tag_list' tag.slug %}"
+                       class="taxonomy-browse-tag tag-item"
+                       style="border-color: {{ tag.color }}"
+                       aria-label="{% trans 'View posts tagged with' %} {{ tag.name }}">
+                        <span class="taxonomy-name">{{ tag.name }}</span>
+                        <span class="taxonomy-count" aria-label="{{ tag.post_count }} posts">{{ tag.post_count }}</span>
+                    </a>
                 {% endfor %}
-            </ul>
+            </div>
         </section>
     {% endif %}
 
-    <section>
-        <h3>{% trans "Navigation" %}</h3>
+    <section class="sidebar-section">
+        <h3 class="sidebar-title">
+            <span class="sidebar-icon" aria-hidden="true">🧭</span>
+            {% trans "Navigation" %}
+        </h3>
         <div class="blog-sidebar-nav">
-            <a href="{% url 'blog:post_list' %}" class="btn btn-primary">
+            <a href="{% url 'blog:post_list' %}" class="btn btn-primary sidebar-nav-btn">
                 {% trans "All Posts" %}
             </a>
         </div>
