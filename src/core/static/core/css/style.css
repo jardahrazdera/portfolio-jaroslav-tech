@@ -125,6 +125,7 @@ a:hover {
 .btn-primary {
     background-color: var(--mauve);
     color: var(--base);
+    border: 2px solid var(--mauve);
 }
 
 .btn-primary:hover {

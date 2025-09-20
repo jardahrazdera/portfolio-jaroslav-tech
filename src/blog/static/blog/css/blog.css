@@ -76,7 +76,7 @@ main .container {
     background: var(--base);
     border-radius: 12px;
     padding: 2rem;
-    border: 2px solid var(--surface0);
+    border: 2px solid var(--mantle);
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
@@ -89,7 +89,7 @@ main .container {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, var(--pink), var(--mauve), var(--blue));
+    background: linear-gradient(90deg, var(--pink), var(--mauve), var(--peach));
 }
 
 .featured-post-card:hover {
@@ -901,13 +901,13 @@ main .container {
 
 .blog-content h1 {
     font-size: 2.2rem;
-    border-bottom: 2px solid var(--surface1);
+    border-bottom: 2px solid var(--crust);
     padding-bottom: 0.5rem;
 }
 
 .blog-content h2 {
     font-size: 1.8rem;
-    border-bottom: 1px solid var(--surface1);
+    border-bottom: 1px solid var(--crust);
     padding-bottom: 0.3rem;
 }
 
@@ -918,12 +918,12 @@ main .container {
 
 .blog-content h4 {
     font-size: 1.3rem;
-    color: var(--blue);
+    color: var(--mauve);
 }
 
 .blog-content h5 {
     font-size: 1.1rem;
-    color: var(--teal);
+    color: var(--green);
 }
 
 .blog-content h6 {
@@ -959,7 +959,7 @@ main .container {
 }
 
 .blog-content code {
-    background: var(--surface0);
+    background: var(--mantle);
     color: var(--peach);
     padding: 0.2rem 0.4rem;
     border-radius: 4px;
@@ -969,7 +969,7 @@ main .container {
 
 .blog-content pre {
     background: var(--mantle);
-    border: 1px solid var(--surface1);
+    border: 1px solid var(--crust);
     border-radius: 8px;
     padding: 1.5rem;
     overflow-x: auto;
@@ -992,13 +992,13 @@ main .container {
 
 .blog-content th,
 .blog-content td {
-    border: 1px solid var(--surface1);
+    border: 1px solid var(--crust);
     padding: 0.75rem;
     text-align: left;
 }
 
 .blog-content th {
-    background: var(--surface0);
+    background: var(--mantle);
     color: var(--pink);
     font-weight: 600;
 }
@@ -1012,19 +1012,19 @@ main .container {
 }
 
 .blog-content a {
-    color: var(--blue);
+    color: var(--mauve);
     text-decoration: underline;
     transition: color 0.2s ease;
 }
 
 .blog-content a:hover {
-    color: var(--sky);
+    color: var(--pink);
 }
 
 .blog-content hr {
     border: none;
     height: 2px;
-    background: linear-gradient(90deg, transparent, var(--surface1), transparent);
+    background: linear-gradient(90deg, transparent, var(--crust), transparent);
     margin: 2rem 0;
 }
 
@@ -1108,7 +1108,7 @@ main .container {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    border-bottom: 2px solid var(--surface1);
+    border-bottom: 2px solid var(--crust);
     padding-bottom: 0.5rem;
 }
 
@@ -1127,8 +1127,8 @@ main .container {
     justify-content: space-between;
     align-items: center;
     padding: 0.75rem 1rem;
-    background: var(--surface0);
-    border: 1px solid var(--surface1);
+    background: var(--mantle);
+    border: 1px solid var(--crust);
     border-radius: 8px;
     text-decoration: none;
     transition: all 0.3s ease;
@@ -1148,7 +1148,7 @@ main .container {
 }
 
 .taxonomy-browse-item:hover {
-    background: var(--surface1);
+    background: var(--crust);
     border-color: var(--mauve);
     transform: translateX(4px);
 }
@@ -1158,11 +1158,11 @@ main .container {
 }
 
 .category-item {
-    border-left: 4px solid var(--blue);
+    border-left: 4px solid var(--mauve);
 }
 
 .category-item:hover {
-    border-left-color: var(--sky);
+    border-left-color: var(--pink);
 }
 
 .taxonomy-name {
@@ -1200,8 +1200,8 @@ main .container {
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 0.75rem;
-    background: var(--surface0);
-    border: 2px solid var(--surface1);
+    background: var(--mantle);
+    border: 2px solid var(--crust);
     border-radius: 20px;
     text-decoration: none;
     font-size: 0.85rem;
@@ -1210,7 +1210,7 @@ main .container {
 }
 
 .taxonomy-browse-tag:hover {
-    background: var(--surface1);
+    background: var(--crust);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -1221,7 +1221,7 @@ main .container {
 }
 
 .taxonomy-browse-tag .taxonomy-count {
-    background: var(--overlay0);
+    background: var(--overlay);
     color: var(--text);
     font-size: 0.75rem;
     padding: 0.2rem 0.4rem;
@@ -1260,25 +1260,25 @@ main .container {
 }
 
 .blog-category.taxonomy-item {
-    background: var(--blue);
+    background: var(--mauve);
     color: var(--base);
-    border: 2px solid var(--blue);
+    border: 2px solid var(--mauve);
 }
 
 .blog-category.taxonomy-item:hover {
-    background: var(--sky);
-    border-color: var(--sky);
-    box-shadow: 0 2px 8px rgba(137, 180, 250, 0.3);
+    background: var(--pink);
+    border-color: var(--pink);
+    box-shadow: 0 2px 8px rgba(245, 194, 231, 0.3);
 }
 
 .blog-tag.taxonomy-item {
-    background: var(--surface0);
+    background: var(--mantle);
     color: var(--text);
-    border: 2px solid var(--surface1);
+    border: 2px solid var(--crust);
 }
 
 .blog-tag.taxonomy-item:hover {
-    background: var(--surface1);
+    background: var(--crust);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
@@ -1359,8 +1359,8 @@ main .container {
 .sidebar-search-input {
     flex: 1;
     padding: 0.75rem 1rem;
-    background: var(--surface0);
-    border: 2px solid var(--surface1);
+    background: var(--mantle);
+    border: 2px solid var(--crust);
     border-radius: 8px;
     color: var(--text);
     font-size: 0.9rem;
@@ -1370,12 +1370,12 @@ main .container {
 .sidebar-search-input:focus {
     outline: none;
     border-color: var(--mauve);
-    background: var(--surface1);
+    background: var(--crust);
     box-shadow: 0 0 0 3px rgba(203, 166, 247, 0.1);
 }
 
 .sidebar-search-input::placeholder {
-    color: var(--overlay1);
+    color: var(--subtext);
 }
 
 .sidebar-search-submit {
@@ -1411,8 +1411,8 @@ main .container {
 .search-form .search-input-group {
     display: flex;
     gap: 0.5rem;
-    background: var(--surface0);
-    border: 2px solid var(--surface1);
+    background: var(--mantle);
+    border: 2px solid var(--crust);
     border-radius: 12px;
     padding: 0.5rem;
     transition: all 0.3s ease;
@@ -1420,7 +1420,7 @@ main .container {
 
 .search-form .search-input-group:focus-within {
     border-color: var(--mauve);
-    background: var(--surface1);
+    background: var(--crust);
     box-shadow: 0 0 0 3px rgba(203, 166, 247, 0.1);
 }
 
@@ -1435,7 +1435,7 @@ main .container {
 }
 
 .search-form .search-input::placeholder {
-    color: var(--overlay1);
+    color: var(--subtext);
 }
 
 .search-form .search-submit {
@@ -1469,7 +1469,7 @@ main .container {
 }
 
 .search-description {
-    color: var(--overlay2);
+    color: var(--subtext);
     font-size: 1.1rem;
     line-height: 1.6;
 }
@@ -1497,7 +1497,7 @@ main .container {
     left: 0;
     width: 4px;
     height: 100%;
-    background: var(--blue);
+    background: var(--mauve);
     border-radius: 2px 0 0 2px;
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -1521,9 +1521,9 @@ main .container {
 .no-results {
     text-align: center;
     padding: 4rem 2rem;
-    background: var(--surface0);
+    background: var(--mantle);
     border-radius: 16px;
-    border: 2px solid var(--surface1);
+    border: 2px solid var(--crust);
 }
 
 .no-results-icon {
@@ -1539,7 +1539,7 @@ main .container {
 }
 
 .no-results p {
-    color: var(--overlay2);
+    color: var(--subtext);
     margin-bottom: 2rem;
     font-size: 1.1rem;
 }
@@ -1565,11 +1565,11 @@ main .container {
 .suggestion-link {
     display: inline-block;
     padding: 0.5rem 1rem;
-    background: var(--surface1);
+    background: var(--crust);
     color: var(--text);
     text-decoration: none;
     border-radius: 20px;
-    border: 2px solid var(--surface2);
+    border: 2px solid var(--overlay);
     transition: all 0.3s ease;
     font-size: 0.9rem;
 }
@@ -1582,17 +1582,17 @@ main .container {
 }
 
 .suggestion-link.tag-link {
-    background: var(--surface0);
-    border-color: var(--overlay0);
+    background: var(--mantle);
+    border-color: var(--overlay);
 }
 
 /* Search Welcome (before search) */
 .search-welcome {
     text-align: center;
     padding: 4rem 2rem;
-    background: var(--surface0);
+    background: var(--mantle);
     border-radius: 16px;
-    border: 2px solid var(--surface1);
+    border: 2px solid var(--crust);
 }
 
 .search-welcome-icon {
@@ -1608,7 +1608,7 @@ main .container {
 }
 
 .search-welcome p {
-    color: var(--overlay2);
+    color: var(--subtext);
     margin-bottom: 2rem;
     font-size: 1.1rem;
 }
@@ -1635,26 +1635,26 @@ main .container {
 .browse-link {
     display: inline-block;
     padding: 0.6rem 1.2rem;
-    background: var(--surface1);
+    background: var(--crust);
     color: var(--text);
     text-decoration: none;
     border-radius: 8px;
-    border: 2px solid var(--surface2);
+    border: 2px solid var(--overlay);
     transition: all 0.3s ease;
     font-size: 0.9rem;
     font-weight: 500;
 }
 
 .browse-link:hover {
-    background: var(--blue);
+    background: var(--mauve);
     color: var(--base);
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(137, 180, 250, 0.3);
+    box-shadow: 0 4px 8px rgba(203, 166, 247, 0.3);
 }
 
 .browse-link.tag-link {
-    background: var(--surface0);
-    border-color: var(--overlay0);
+    background: var(--mantle);
+    border-color: var(--overlay);
 }
 
 .browse-link.tag-link:hover {
@@ -1746,4 +1746,17 @@ main .container {
     .search-welcome p {
         font-size: 1rem;
     }
+}
+
+/* Fix Back to Blog button visibility */
+.blog-navigation .btn-primary {
+    background-color: var(--mauve);
+    color: var(--crust);
+    border: 2px solid var(--mauve);
+}
+
+.blog-navigation .btn-primary:hover {
+    background-color: transparent;
+    color: var(--mauve);
+    border: 2px solid var(--mauve);
 }
