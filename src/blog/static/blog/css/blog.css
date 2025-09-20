@@ -1,0 +1,194 @@
+/*
+=================================================================
+                    BLOG SPECIFIC STYLES
+=================================================================
+Extends the existing Catppuccin theme with blog-specific components
+Uses CSS variables from core/css/style.css
+=================================================================
+*/
+
+/* Sticky Footer Layout for Blog Pages */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* Blog Container - Add padding for fixed header (only main content) */
+main .container {
+    padding-top: clamp(5rem, 8vw, 6rem);
+    padding-bottom: 2rem;
+}
+
+/* Blog Post Cards */
+.blog-post-card {
+    background: var(--mantle);
+    border-radius: 12px;
+    padding: clamp(1.25rem, 3vw, 1.75rem);
+    margin-bottom: clamp(1.5rem, 4vw, 2rem);
+    border: 1px solid var(--overlay);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.blog-post-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px var(--shadow-color);
+}
+
+.blog-post-card h2 {
+    color: var(--mauve);
+    font-size: clamp(1.25rem, 3vw, 1.5rem);
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+}
+
+.blog-post-card h2 a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.blog-post-card h2 a:hover {
+    color: var(--pink);
+}
+
+/* Blog Post Meta Information */
+.blog-post-meta {
+    color: var(--subtext);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.blog-post-meta time {
+    color: var(--overlay);
+}
+
+.blog-post-meta .author {
+    color: var(--peach);
+}
+
+/* Content Areas */
+.blog-content {
+    color: var(--text);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+}
+
+.blog-content p {
+    margin-bottom: 1rem;
+}
+
+.blog-content h1,
+.blog-content h2,
+.blog-content h3 {
+    color: var(--mauve);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.blog-content a {
+    color: var(--pink);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+}
+
+.blog-content a:hover {
+    border-bottom-color: var(--pink);
+}
+
+/* Tags and Categories */
+.blog-tag,
+.blog-category {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 16px;
+    font-size: 0.85rem;
+    margin: 0.25rem 0.5rem 0.25rem 0;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.blog-tag {
+    background: var(--crust);
+    color: var(--text);
+    border: 1px solid var(--overlay);
+}
+
+.blog-tag:hover {
+    background: var(--mauve);
+    color: var(--base);
+    transform: translateY(-1px);
+}
+
+.blog-category {
+    background: var(--peach);
+    color: var(--base);
+    font-weight: 500;
+}
+
+.blog-category:hover {
+    background: var(--maroon);
+    transform: translateY(-1px);
+}
+
+/* Post Excerpt */
+.post-excerpt {
+    color: var(--subtext);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+/* Read More Link */
+.read-more {
+    color: var(--green);
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.2s ease;
+}
+
+.read-more:hover {
+    color: var(--pink);
+}
+
+/* Blog Navigation */
+.blog-navigation {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--overlay);
+}
+
+.blog-navigation a {
+    color: var(--mauve);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.blog-navigation a:hover {
+    color: var(--pink);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 640px) {
+    .blog-post-meta {
+        font-size: 0.85rem;
+        gap: 0.75rem;
+    }
+
+    .blog-tag,
+    .blog-category {
+        font-size: 0.8rem;
+        padding: 0.2rem 0.6rem;
+    }
+}
