@@ -1,5 +1,7 @@
 from django import template
 from django.utils.html import strip_tags
+from django.utils.safestring import mark_safe
+from django.utils.html import escape
 from django.utils.timesince import timesince
 from django.utils import timezone
 import re
@@ -88,3 +90,29 @@ def post_meta_separator():
     Return a consistent separator for meta information.
     """
     return "•"
+
+
+@register.filter
+def highlight_search(text, search_term):
+    """
+    Highlight search terms in text with HTML markup.
+    Case-insensitive search with word boundary consideration.
+    """
+    if not search_term or not text:
+        return text
+
+    # Escape the text first to prevent XSS
+    escaped_text = escape(str(text))
+    escaped_search = escape(str(search_term))
+
+    # Create a regex pattern for case-insensitive search
+    # Use word boundaries for better matching
+    pattern = re.compile(re.escape(escaped_search), re.IGNORECASE)
+
+    # Replace matches with highlighted version
+    highlighted = pattern.sub(
+        lambda m: f'<mark class="search-highlight">{m.group()}</mark>',
+        escaped_text
+    )
+
+    return mark_safe(highlighted)

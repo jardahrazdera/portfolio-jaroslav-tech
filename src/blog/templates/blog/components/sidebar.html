@@ -10,6 +10,30 @@ Parameters:
 {% load i18n %}
 
 <aside class="blog-sidebar" role="complementary" aria-label="{% trans 'Blog navigation' %}">
+    <!-- Search Section -->
+    <section class="sidebar-section">
+        <h3 class="sidebar-title">
+            <span class="sidebar-icon" aria-hidden="true">🔍</span>
+            {% trans "Search" %}
+        </h3>
+        <form method="get" action="{% url 'blog:search' %}" class="sidebar-search-form" role="search" aria-label="{% trans 'Search blog posts' %}">
+            <div class="search-input-group">
+                <input
+                    type="search"
+                    name="q"
+                    value="{% if query %}{{ query }}{% endif %}"
+                    placeholder="{% trans 'Search posts...' %}"
+                    class="sidebar-search-input"
+                    aria-label="{% trans 'Search query' %}"
+                    required
+                >
+                <button type="submit" class="sidebar-search-submit" aria-label="{% trans 'Search' %}">
+                    <span class="search-icon" aria-hidden="true">🔍</span>
+                </button>
+            </div>
+        </form>
+    </section>
+
     {% if categories %}
         <section class="sidebar-section">
             <h3 class="sidebar-title">

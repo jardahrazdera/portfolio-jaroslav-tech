@@ -1,6 +1,7 @@
 from django.views.generic import ListView, DetailView
 from django.shortcuts import get_object_or_404
 from django.db import models
+from django.db.models import Q, Count
 from .models import Post, Category, Tag
 
 
@@ -114,8 +115,51 @@ class TagListView(ListView):
         return context
 
 
+class SearchView(ListView):
+    model = Post
+    template_name = 'blog/search_results.html'
+    context_object_name = 'posts'
+    ordering = ['-created_at']
+    paginate_by = 6
+
+    def get_queryset(self):
+        query = self.request.GET.get('q', '').strip()
+        if not query:
+            return Post.objects.none()
+
+        # Search in title, content, and excerpt
+        return Post.objects.filter(
+            Q(is_published=True) & (
+                Q(title__icontains=query) |
+                Q(content__icontains=query) |
+                Q(excerpt__icontains=query)
+            )
+        ).select_related('author').prefetch_related('categories', 'tags').distinct()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        query = self.request.GET.get('q', '').strip()
+        context['query'] = query
+        context['search_performed'] = bool(query)
+
+        # Add categories and tags for sidebar navigation with post counts
+        context['categories'] = Category.objects.filter(
+            post__is_published=True
+        ).annotate(
+            post_count=Count('post', filter=models.Q(post__is_published=True))
+        ).distinct().order_by('name')
+        context['tags'] = Tag.objects.filter(
+            post__is_published=True
+        ).annotate(
+            post_count=Count('post', filter=models.Q(post__is_published=True))
+        ).distinct().order_by('name')
+
+        return context
+
+
 # Function-based view aliases for URL patterns
 post_list = BlogListView.as_view()
 post_detail = BlogDetailView.as_view()
 category_list = CategoryListView.as_view()
 tag_list = TagListView.as_view()
+search = SearchView.as_view()
