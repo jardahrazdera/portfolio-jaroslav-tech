@@ -1,0 +1,90 @@
+{% comment %}
+Blog Pagination Component
+Provides styled pagination controls for blog list views
+Usage: {% include 'blog/components/pagination.html' with page_obj=page_obj url_name='blog:post_list' %}
+Parameters:
+- page_obj: Django page object (required)
+- url_name: URL name for pagination links (required)
+- url_kwargs: Additional URL kwargs (optional, for category/tag filtering)
+- query_params: Additional query parameters to preserve (optional)
+{% endcomment %}
+
+{% load i18n %}
+
+{% if page_obj and page_obj.paginator.num_pages > 1 %}
+<div class="pagination-container">
+    <nav aria-label="{% trans 'Blog posts pagination' %}" class="pagination-nav">
+        <div class="pagination">
+
+            {% comment %} Previous page link {% endcomment %}
+            {% if page_obj.has_previous %}
+                <a href="{% if url_kwargs %}{% url url_name url_kwargs.slug %}{% else %}{% url url_name %}{% endif %}?page={{ page_obj.previous_page_number }}{% if query_params %}&{{ query_params }}{% endif %}"
+                   class="btn btn-primary pagination-btn pagination-prev"
+                   aria-label="{% trans 'Go to previous page' %}">
+                    <span class="pagination-icon" aria-hidden="true">←</span>
+                    <span class="pagination-text">{% trans "Previous" %}</span>
+                </a>
+            {% else %}
+                <span class="btn pagination-btn pagination-prev disabled" aria-disabled="true">
+                    <span class="pagination-icon" aria-hidden="true">←</span>
+                    <span class="pagination-text">{% trans "Previous" %}</span>
+                </span>
+            {% endif %}
+
+            {% comment %} Page info {% endcomment %}
+            <div class="pagination-info">
+                <span class="page-current">{{ page_obj.number }}</span>
+                <span class="page-separator">/</span>
+                <span class="page-total">{{ page_obj.paginator.num_pages }}</span>
+                <span class="page-label" aria-label="{% trans 'Page' %} {{ page_obj.number }} {% trans 'of' %} {{ page_obj.paginator.num_pages }}">
+                    {% trans "pages" %}
+                </span>
+            </div>
+
+            {% comment %} Page number links for desktop {% endcomment %}
+            <div class="pagination-numbers" aria-label="{% trans 'Page numbers' %}">
+                {% for page_num in page_obj.paginator.page_range %}
+                    {% if page_num == page_obj.number %}
+                        <span class="pagination-number current" aria-current="page" aria-label="{% trans 'Current page' %} {{ page_num }}">
+                            {{ page_num }}
+                        </span>
+                    {% elif page_num == 1 or page_num == page_obj.paginator.num_pages or page_num >= page_obj.number|add:"-2" and page_num <= page_obj.number|add:"2" %}
+                        <a href="{% if url_kwargs %}{% url url_name url_kwargs.slug %}{% else %}{% url url_name %}{% endif %}?page={{ page_num }}{% if query_params %}&{{ query_params }}{% endif %}"
+                           class="pagination-number"
+                           aria-label="{% trans 'Go to page' %} {{ page_num }}">
+                            {{ page_num }}
+                        </a>
+                    {% elif page_num == 2 and page_obj.number > 4 %}
+                        <span class="pagination-ellipsis" aria-hidden="true">…</span>
+                    {% elif page_num == page_obj.paginator.num_pages|add:"-1" and page_obj.number < page_obj.paginator.num_pages|add:"-3" %}
+                        <span class="pagination-ellipsis" aria-hidden="true">…</span>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            {% comment %} Next page link {% endcomment %}
+            {% if page_obj.has_next %}
+                <a href="{% if url_kwargs %}{% url url_name url_kwargs.slug %}{% else %}{% url url_name %}{% endif %}?page={{ page_obj.next_page_number }}{% if query_params %}&{{ query_params }}{% endif %}"
+                   class="btn btn-primary pagination-btn pagination-next"
+                   aria-label="{% trans 'Go to next page' %}">
+                    <span class="pagination-text">{% trans "Next" %}</span>
+                    <span class="pagination-icon" aria-hidden="true">→</span>
+                </a>
+            {% else %}
+                <span class="btn pagination-btn pagination-next disabled" aria-disabled="true">
+                    <span class="pagination-text">{% trans "Next" %}</span>
+                    <span class="pagination-icon" aria-hidden="true">→</span>
+                </span>
+            {% endif %}
+
+        </div>
+
+        {% comment %} Additional page info {% endcomment %}
+        <div class="pagination-summary">
+            {% blocktrans with start=page_obj.start_index end=page_obj.end_index total=page_obj.paginator.count %}
+                Showing {{ start }}-{{ end }} of {{ total }} posts
+            {% endblocktrans %}
+        </div>
+    </nav>
+</div>
+{% endif %}

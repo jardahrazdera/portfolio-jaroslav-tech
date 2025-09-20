@@ -8,7 +8,7 @@ class BlogListView(ListView):
     template_name = 'blog/post_list.html'
     context_object_name = 'posts'
     ordering = ['-created_at']
-    paginate_by = 10
+    paginate_by = 6
 
     def get_queryset(self):
         return Post.objects.filter(is_published=True).select_related('author').prefetch_related('categories', 'tags')
@@ -37,7 +37,7 @@ class CategoryListView(ListView):
     template_name = 'blog/category_list.html'
     context_object_name = 'posts'
     ordering = ['-created_at']
-    paginate_by = 10
+    paginate_by = 6
 
     def get_queryset(self):
         self.category = get_object_or_404(Category, slug=self.kwargs['slug'])
@@ -65,7 +65,7 @@ class TagListView(ListView):
     template_name = 'blog/tag_list.html'
     context_object_name = 'posts'
     ordering = ['-created_at']
-    paginate_by = 10
+    paginate_by = 6
 
     def get_queryset(self):
         self.tag = get_object_or_404(Tag, slug=self.kwargs['slug'])
