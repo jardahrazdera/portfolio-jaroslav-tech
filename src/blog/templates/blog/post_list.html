@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Blog - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Blog Posts</h1>
+
+    {% if posts %}
+        <div class="posts-list">
+            {% for post in posts %}
+                <article class="post-summary">
+                    <h2><a href="{% url 'blog:post_detail' post.slug %}">{{ post.title }}</a></h2>
+
+                    <p class="post-meta">
+                        Published on {{ post.created_at|date:"F j, Y" }}
+                        by {{ post.author.get_full_name|default:post.author.username }}
+                    </p>
+
+                    {% if post.excerpt %}
+                        <p class="post-excerpt">{{ post.excerpt }}</p>
+                    {% else %}
+                        <p class="post-excerpt">{{ post.content|truncatewords:50 }}</p>
+                    {% endif %}
+
+                    <a href="{% url 'blog:post_detail' post.slug %}" class="read-more">Read more →</a>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No blog posts available yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
