@@ -11,10 +11,20 @@ class BlogListView(ListView):
     paginate_by = 6
 
     def get_queryset(self):
-        return Post.objects.filter(is_published=True).select_related('author').prefetch_related('categories', 'tags')
+        # Exclude featured posts from the main pagination to avoid duplicates
+        return Post.objects.filter(
+            is_published=True,
+            is_featured=False
+        ).select_related('author').prefetch_related('categories', 'tags')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # Add featured posts (limit to 3 maximum)
+        context['featured_posts'] = Post.objects.filter(
+            is_published=True,
+            is_featured=True
+        ).select_related('author').prefetch_related('categories', 'tags').order_by('-created_at')[:3]
+
         # Add categories and tags that have published posts
         context['categories'] = Category.objects.filter(
             post__is_published=True

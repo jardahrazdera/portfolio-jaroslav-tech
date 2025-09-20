@@ -42,6 +42,7 @@ class Post(models.Model):
     categories = models.ManyToManyField(Category, blank=True)
     tags = models.ManyToManyField(Tag, blank=True)
     is_published = models.BooleanField(default=False)
+    is_featured = models.BooleanField(default=False, help_text='Featured posts appear prominently on the blog homepage')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

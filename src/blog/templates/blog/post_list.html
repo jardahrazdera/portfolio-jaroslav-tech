@@ -17,9 +17,11 @@
 {% endblock %}
 
 {% block content %}
+{% include 'blog/components/featured_posts.html' with featured_posts=featured_posts %}
+
 <section class="content-section">
     <div class="container">
-        <h2>Blog Posts</h2>
+        <h2>{% if featured_posts %}{% trans "Recent Posts" %}{% else %}{% trans "Blog Posts" %}{% endif %}</h2>
 
         {% include 'blog/components/sidebar.html' with categories=categories tags=tags %}
 
@@ -33,7 +35,13 @@
             {% include 'blog/components/pagination.html' with page_obj=page_obj url_name='blog:post_list' %}
         {% else %}
             <div class="hero-content">
-                <p class="hero-subtitle">No blog posts available yet. Check back soon for updates!</p>
+                <p class="hero-subtitle">
+                    {% if featured_posts %}
+                        {% trans "No additional posts available yet. Check back soon for updates!" %}
+                    {% else %}
+                        {% trans "No blog posts available yet. Check back soon for updates!" %}
+                    {% endif %}
+                </p>
             </div>
         {% endif %}
     </div>
