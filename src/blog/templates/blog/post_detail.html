@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %}
+{% load image_tags %}
 
 {% block title %}{{ post.title }} - {{ block.super }}{% endblock %}
 
@@ -54,6 +55,12 @@
                 {% include 'blog/components/post_taxonomy.html' with post=post layout='horizontal' show_labels=True compact=False %}
             </header>
 
+            {% if post.featured_image %}
+                <div class="post-featured-image">
+                    {% responsive_image post size='large' css_class='featured-image' alt_text=post.title %}
+                </div>
+            {% endif %}
+
             {% if post.excerpt %}
                 <div class="post-excerpt-detail">
                     <em>{{ post.excerpt }}</em>
@@ -61,7 +68,7 @@
             {% endif %}
 
             <div class="blog-content">
-                {{ post.content|linebreaks }}
+                {{ post.content|safe }}
             </div>
         </article>
 

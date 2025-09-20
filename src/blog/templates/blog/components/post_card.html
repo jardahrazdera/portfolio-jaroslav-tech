@@ -3,8 +3,15 @@ Blog Post Card Component
 Reusable card component for displaying blog posts in list views
 Usage: {% include 'blog/components/post_card.html' with post=post %}
 {% endcomment %}
+{% load image_tags %}
 
 <article class="blog-post-card project-card" role="article" aria-labelledby="post-title-{{ post.slug }}">
+    {% if post.featured_image %}
+        <div class="post-card-image">
+            {% lazy_image post size='medium' css_class='card-image' alt_text=post.title %}
+        </div>
+    {% endif %}
+
     <header class="post-header">
         <h3 id="post-title-{{ post.slug }}">
             <a href="{% url 'blog:post_detail' post.slug %}" aria-describedby="post-meta-{{ post.slug }}">
