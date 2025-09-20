@@ -54,6 +54,12 @@
                 {% include 'blog/components/post_taxonomy.html' with post=post layout='horizontal' show_labels=True compact=False %}
             </header>
 
+            {% if post.excerpt %}
+                <div class="post-excerpt-detail">
+                    <em>{{ post.excerpt }}</em>
+                </div>
+            {% endif %}
+
             <div class="blog-content">
                 {{ post.content|linebreaks }}
             </div>

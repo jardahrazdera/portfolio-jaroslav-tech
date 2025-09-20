@@ -26,11 +26,13 @@ Parameters:
                             {% include 'blog/components/enhanced_post_meta.html' with post=post show_updated=False compact=True show_reading_time=True show_author=True show_stats=False id_suffix=post.slug|add:'-featured' %}
                         </header>
 
-                        {% if post.excerpt %}
-                            <p class="featured-post-excerpt">{{ post.excerpt }}</p>
-                        {% else %}
-                            <p class="featured-post-excerpt">{{ post.content|striptags|truncatewords:30 }}</p>
-                        {% endif %}
+                        <div class="featured-post-content-preview">
+                            {% if post.excerpt %}
+                                <p class="featured-post-excerpt">{{ post.excerpt|linebreaks }}</p>
+                            {% else %}
+                                <p class="featured-post-excerpt">{{ post.content|striptags|truncatewords:25 }}</p>
+                            {% endif %}
+                        </div>
 
                         {% include 'blog/components/post_taxonomy.html' with post=post layout='horizontal' show_labels=False compact=True %}
 

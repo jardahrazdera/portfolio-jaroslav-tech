@@ -15,11 +15,19 @@ Usage: {% include 'blog/components/post_card.html' with post=post %}
         {% include 'blog/components/enhanced_post_meta.html' with post=post show_updated=False compact=True show_reading_time=True show_author=True show_stats=False %}
     </header>
 
-    {% if post.excerpt %}
-        <p class="post-excerpt">{{ post.excerpt }}</p>
-    {% else %}
-        <p class="post-excerpt">{{ post.content|striptags|truncatewords:50 }}</p>
-    {% endif %}
+    <div class="post-content-preview">
+        {% if post.excerpt %}
+            <p class="post-excerpt">{{ post.excerpt|linebreaks }}</p>
+        {% else %}
+            <p class="post-excerpt">{{ post.content|striptags|truncatewords:30 }}</p>
+        {% endif %}
+
+        <div class="read-more-wrapper">
+            <a href="{% url 'blog:post_detail' post.slug %}" class="read-more-link" aria-label="Continue reading {{ post.title }}">
+                Continue reading →
+            </a>
+        </div>
+    </div>
 
     {% include 'blog/components/post_taxonomy.html' with post=post layout='horizontal' show_labels=False compact=True %}
 
