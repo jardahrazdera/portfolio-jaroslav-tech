@@ -1,8 +1,12 @@
 from django.views.generic import ListView, DetailView
 from django.shortcuts import get_object_or_404
+from django.http import HttpResponse, Http404, FileResponse
+from django.utils.encoding import smart_str
 from django.db import models
 from django.db.models import Q, Count
-from .models import Post, Category, Tag
+import os
+import mimetypes
+from .models import Post, Category, Tag, BlogFile
 
 
 class BlogListView(ListView):
@@ -155,6 +159,61 @@ class SearchView(ListView):
         ).distinct().order_by('name')
 
         return context
+
+
+def download_file(request, file_id):
+    """
+    Secure file download view with access control and download tracking.
+
+    Args:
+        request: HTTP request object
+        file_id: Primary key of the BlogFile to download
+
+    Returns:
+        FileResponse: The requested file for download
+
+    Raises:
+        Http404: If file doesn't exist or isn't public
+    """
+    # Get the file object or raise 404
+    blog_file = get_object_or_404(BlogFile, pk=file_id)
+
+    # Security checks
+    if not blog_file.is_public:
+        raise Http404("File not found or not available for download")
+
+    if not blog_file.post.is_published:
+        raise Http404("File not found or not available for download")
+
+    # Check if file actually exists on disk
+    if not blog_file.file or not os.path.exists(blog_file.file.path):
+        raise Http404("File not found on server")
+
+    # Increment download counter
+    blog_file.increment_download_count()
+
+    # Prepare file response
+    file_path = blog_file.file.path
+    file_name = os.path.basename(blog_file.file.name)
+
+    # Guess content type
+    content_type, _ = mimetypes.guess_type(file_path)
+    if content_type is None:
+        content_type = 'application/octet-stream'
+
+    # Create file response
+    response = FileResponse(
+        open(file_path, 'rb'),
+        content_type=content_type,
+        as_attachment=True,
+        filename=smart_str(file_name)
+    )
+
+    # Add security headers
+    response['X-Content-Type-Options'] = 'nosniff'
+    response['X-Frame-Options'] = 'DENY'
+
+    return response
 
 
 # Function-based view aliases for URL patterns

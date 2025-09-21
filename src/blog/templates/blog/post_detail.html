@@ -72,6 +72,10 @@
             <div class="blog-content">
                 {{ post.content|highlight_syntax|safe }}
             </div>
+
+            {% if post.attachments.exists %}
+                {% include 'blog/components/file_attachments.html' with post=post %}
+            {% endif %}
         </article>
 
         <nav class="blog-navigation">

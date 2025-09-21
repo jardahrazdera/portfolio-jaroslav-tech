@@ -9,4 +9,5 @@ urlpatterns = [
     path('post/<slug:slug>/', views.post_detail, name='post_detail'),
     path('category/<slug:slug>/', views.category_list, name='category_list'),
     path('tag/<slug:slug>/', views.tag_list, name='tag_list'),
+    path('download/<int:file_id>/', views.download_file, name='download_file'),
 ]

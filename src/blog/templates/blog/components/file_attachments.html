@@ -1,0 +1,66 @@
+{% load static %}
+
+<section class="file-attachments">
+    <h3 class="attachments-title">
+        <i class="fas fa-paperclip"></i>
+        File Attachments
+        <span class="attachment-count">({{ post.attachments.count }})</span>
+    </h3>
+
+    <div class="attachments-grid">
+        {% for attachment in post.attachments.all %}
+            {% if attachment.is_public %}
+                <div class="attachment-card">
+                    <div class="attachment-icon">
+                        {% with file_info=attachment.get_file_info %}
+                            <i class="fas fa-{{ file_info.icon }}"></i>
+                        {% endwith %}
+                    </div>
+
+                    <div class="attachment-info">
+                        <h4 class="attachment-title">{{ attachment.title }}</h4>
+
+                        <div class="attachment-meta">
+                            {% with file_info=attachment.get_file_info %}
+                                <span class="file-type">{{ file_info.description }}</span>
+                            {% endwith %}
+                            <span class="file-size">{{ attachment.get_file_size_display }}</span>
+                        </div>
+
+                        {% if attachment.description %}
+                            <p class="attachment-description">{{ attachment.description }}</p>
+                        {% endif %}
+
+                        <div class="attachment-stats">
+                            <span class="download-count">
+                                <i class="fas fa-download"></i>
+                                {{ attachment.download_count }} download{{ attachment.download_count|pluralize }}
+                            </span>
+                            <span class="upload-date">
+                                <i class="fas fa-calendar"></i>
+                                {{ attachment.uploaded_at|date:"M j, Y" }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="attachment-actions">
+                        <a href="{% url 'blog:download_file' attachment.pk %}"
+                           class="btn btn-secondary btn-sm download-btn"
+                           download="{{ attachment.file.name }}"
+                           data-file-id="{{ attachment.pk }}">
+                            <i class="fas fa-download"></i>
+                            Download
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    {% if not post.attachments.count %}
+        <div class="no-attachments">
+            <i class="fas fa-folder-open"></i>
+            <p>No file attachments available for this post.</p>
+        </div>
+    {% endif %}
+</section>

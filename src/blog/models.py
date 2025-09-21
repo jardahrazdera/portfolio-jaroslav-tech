@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.utils.text import slugify
 from ckeditor.fields import RichTextField
 from .image_utils import ImageProcessor
+from .file_utils import FileValidator, generate_file_path, get_file_type, format_file_size
 
 
 class Category(models.Model):
@@ -100,3 +101,92 @@ class Post(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+
+
+class BlogFile(models.Model):
+    """File attachments for blog posts."""
+
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='attachments')
+    file = models.FileField(
+        upload_to=generate_file_path,
+        validators=[FileValidator()],
+        help_text='Upload a document, archive, or code file to attach to this blog post'
+    )
+    title = models.CharField(
+        max_length=200,
+        blank=True,
+        help_text='Display title for the file (defaults to filename)'
+    )
+    description = models.TextField(
+        blank=True,
+        help_text='Optional description of the file contents'
+    )
+    is_public = models.BooleanField(
+        default=True,
+        help_text='Whether this file is publicly downloadable'
+    )
+    download_count = models.PositiveIntegerField(
+        default=0,
+        help_text='Number of times this file has been downloaded'
+    )
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        # Set title to filename if not provided
+        if not self.title and self.file:
+            self.title = os.path.splitext(os.path.basename(self.file.name))[0]
+        super().save(*args, **kwargs)
+
+    def get_file_info(self):
+        """Get file type information including icon and description."""
+        if self.file:
+            return get_file_type(self.file.name)
+        return None
+
+    def get_file_size_display(self):
+        """Get human-readable file size."""
+        if self.file:
+            return format_file_size(self.file.size)
+        return "Unknown"
+
+    def increment_download_count(self):
+        """Increment download counter."""
+        self.download_count += 1
+        self.save(update_fields=['download_count'])
+
+    def delete(self, *args, **kwargs):
+        """Override delete to clean up file before deleting the model instance."""
+        # Store file path before deletion
+        file_path = self.file.path if self.file else None
+
+        # Delete the model instance first
+        super().delete(*args, **kwargs)
+
+        # Then clean up the physical file
+        if file_path and os.path.exists(file_path):
+            try:
+                os.remove(file_path)
+
+                # Clean up empty directories
+                file_dir = os.path.dirname(file_path)
+                if 'blog/files' in file_dir and os.path.exists(file_dir):
+                    if not os.listdir(file_dir):
+                        os.rmdir(file_dir)
+
+                        # Also check parent directory
+                        parent_dir = os.path.dirname(file_dir)
+                        if 'blog/files' in parent_dir and os.path.exists(parent_dir):
+                            if not os.listdir(parent_dir):
+                                os.rmdir(parent_dir)
+            except OSError:
+                # File might be in use or permission denied
+                pass
+
+    def __str__(self):
+        return f"{self.title or self.file.name} - {self.post.title}"
+
+    class Meta:
+        ordering = ['-uploaded_at']
+        verbose_name = "Blog File"
+        verbose_name_plural = "Blog Files"
