@@ -1,4 +1,4 @@
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, Http404, FileResponse
 from django.utils.encoding import smart_str
@@ -216,9 +216,21 @@ def download_file(request, file_id):
     return response
 
 
+class EmbedDemoView(TemplateView):
+    """Demo page for embedded content functionality."""
+    template_name = 'blog/embed_demo.html'
+
+
+class EmbedGuideView(TemplateView):
+    """Guide page for using embedded content in blog posts."""
+    template_name = 'blog/embed_guide.html'
+
+
 # Function-based view aliases for URL patterns
 post_list = BlogListView.as_view()
 post_detail = BlogDetailView.as_view()
 category_list = CategoryListView.as_view()
 tag_list = TagListView.as_view()
 search = SearchView.as_view()
+embed_demo = EmbedDemoView.as_view()
+embed_guide = EmbedGuideView.as_view()

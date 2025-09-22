@@ -1,0 +1,110 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load simple_embeds %}
+
+{% block title %}Embed Demo - {{ block.super }}{% endblock %}
+
+{% block extra_head %}
+{% if debug %}
+<link rel="stylesheet" href="{% static 'blog/css/blog.css' %}">
+{% else %}
+<link rel="stylesheet" href="{% static 'dist/blog.min.css' %}">
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<section class="content-section">
+    <div class="container">
+        <article class="post-detail">
+            <header class="post-header">
+                <h2>✨ Embed Demo</h2>
+                <p>See how easy it is to embed content in blog posts!</p>
+            </header>
+
+            <div class="blog-content">
+                <h3>🚀 How It Works</h3>
+                <p>The embed system is incredibly simple. You can:</p>
+                <ul>
+                    <li><strong>Just paste URLs</strong> - they automatically become embeds!</li>
+                    <li><strong>Use simple shortcodes</strong> - like [youtube:VIDEO_ID]</li>
+                    <li><strong>Works seamlessly</strong> - in admin and frontend!</li>
+                </ul>
+
+                {% show_embed_help %}
+
+                <h3>🎬 Live Examples</h3>
+                <p>Here's content that demonstrates how the simple system works. This content was created with easy shortcodes and URLs:</p>
+
+                <div style="background: var(--mantle); padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
+                    <h4>Sample Blog Content (Raw):</h4>
+                    <pre style="background: var(--surface0); padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>Check out this awesome video:
+[youtube:dQw4w9WgXcQ]
+
+Here's a great CodePen demo:
+[codepen:chriscoyier/gfdDu]
+
+And here's a helpful code snippet:
+[gist:mojombo/1]
+
+You can also just paste URLs and they work automatically:
+https://twitter.com/github/status/1000000000000000000</code></pre>
+                </div>
+
+                <h4>Rendered Output:</h4>
+                <div style="border: 2px dashed var(--mauve); padding: 1.5rem; border-radius: 8px;">
+                    <p>Check out this awesome video:</p>
+                    {% quick_embed "youtube" "dQw4w9WgXcQ" "Never Gonna Give You Up" %}
+
+                    <p>Here's a great CodePen demo:</p>
+                    {% quick_embed "codepen" "chriscoyier/gfdDu" "CSS Loading Animation" %}
+
+                    <p>And here's a helpful code snippet:</p>
+                    {% quick_embed "gist" "mojombo/1" "Hello World Gist" %}
+                </div>
+
+                <h3>🎯 For Content Creators</h3>
+                <div style="background: var(--green); color: var(--base); padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                    <h4 style="margin-top: 0;">✅ What You Need to Know:</h4>
+                    <ul style="margin-bottom: 0;">
+                        <li>Copy and paste any YouTube, Twitter, CodePen, or GitHub Gist URL</li>
+                        <li>Use simple shortcodes like [youtube:VIDEO_ID] for quick embedding</li>
+                        <li>Everything is processed automatically when the post is displayed</li>
+                        <li>No need to remember complex template syntax!</li>
+                    </ul>
+                </div>
+
+                <h3>📝 In CKEditor</h3>
+                <p>When using the admin interface:</p>
+                <ol>
+                    <li><strong>Just paste URLs</strong> directly into the content editor</li>
+                    <li><strong>Use Templates</strong> - Click the "Templates" button for quick shortcuts</li>
+                    <li><strong>Type shortcodes</strong> - [youtube:abc123] is much easier than complex template tags</li>
+                    <li><strong>Preview works</strong> - What you see is what you get!</li>
+                </ol>
+
+                <h3>🔧 Technical Benefits</h3>
+                <ul>
+                    <li><strong>Automatic Processing</strong> - URLs are detected and converted automatically</li>
+                    <li><strong>Error Handling</strong> - Invalid URLs show helpful messages</li>
+                    <li><strong>Performance</strong> - Embeds are lazy-loaded for fast page speeds</li>
+                    <li><strong>Security</strong> - All embeds use security best practices</li>
+                    <li><strong>Responsive</strong> - Works perfectly on all devices</li>
+                    <li><strong>Accessible</strong> - Screen reader friendly with proper ARIA labels</li>
+                </ul>
+
+                <div style="background: var(--pink); color: var(--base); padding: 1rem; border-radius: 8px; margin: 2rem 0;">
+                    <h4 style="margin-top: 0;">🎉 Result:</h4>
+                    <p style="margin-bottom: 0;">Embedding content is now as easy as copy-paste. No technical knowledge required!</p>
+                </div>
+            </div>
+        </article>
+
+        <nav class="blog-navigation">
+            <div class="hero-buttons">
+                <a href="{% url 'blog:embed_guide' %}" class="btn btn-secondary">📖 Full Documentation</a>
+                <a href="{% url 'blog:post_list' %}" class="btn btn-primary">&larr; Back to Blog</a>
+            </div>
+        </nav>
+    </div>
+</section>
+{% endblock %}

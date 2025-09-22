@@ -222,15 +222,16 @@ CKEDITOR_CONFIGS = {
             ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
             ['Link', 'Unlink'],
             ['CodeSnippet'],
+            ['SpecialChar', 'HorizontalRule'],
             ['RemoveFormat', 'Source'],
             ['Format'],
         ],
         'format_tags': 'p;h1;h2;h3;h4;h5;h6;pre',
-        'height': 300,
+        'height': 400,
         'width': '100%',
         'removePlugins': 'elementspath',
-        'resize_enabled': False,
-        'extraPlugins': 'codesnippet',
+        'resize_enabled': True,
+        'extraPlugins': 'codesnippet,embedcontent',
         'codeSnippet_theme': 'monokai_sublime',
         'codeSnippet_languages': {
             'python': 'Python',
@@ -255,6 +256,18 @@ CKEDITOR_CONFIGS = {
             'kotlin': 'Kotlin',
             'dart': 'Dart',
         },
+        # Custom configuration for better embed experience
+        'forcePasteAsPlainText': False,
+        'autoParagraph': True,
+        'enterMode': 1,  # CKEDITOR.ENTER_P
+        'shiftEnterMode': 2,  # CKEDITOR.ENTER_BR
+        'pasteFromWordRemoveFontStyles': True,
+        'pasteFromWordRemoveStyles': True,
+        # Enable automatic link detection
+        'autolink_commitKeystrokes': [13, 32],  # Enter and Space
+        # Load external plugins properly
+        'extraPlugins': 'codesnippet',
+        'templates_replaceContent': False,
     }
 }
 

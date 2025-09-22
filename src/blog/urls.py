@@ -10,4 +10,6 @@ urlpatterns = [
     path('category/<slug:slug>/', views.category_list, name='category_list'),
     path('tag/<slug:slug>/', views.tag_list, name='tag_list'),
     path('download/<int:file_id>/', views.download_file, name='download_file'),
+    path('embed-demo/', views.embed_demo, name='embed_demo'),
+    path('embed-guide/', views.embed_guide, name='embed_guide'),
 ]

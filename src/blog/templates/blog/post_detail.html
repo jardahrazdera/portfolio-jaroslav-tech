@@ -1,6 +1,7 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% load image_tags %}
+{% load simple_embeds %}
 
 {% block title %}{{ post.title }} - {{ block.super }}{% endblock %}
 
@@ -70,7 +71,7 @@
             {% endif %}
 
             <div class="blog-content">
-                {{ post.content|highlight_syntax|safe }}
+                {{ post.content|process_embeds|highlight_syntax|safe }}
             </div>
 
             {% if post.attachments.exists %}

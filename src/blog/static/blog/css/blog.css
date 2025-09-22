@@ -2242,3 +2242,743 @@ Styling for blog post file attachments with Catppuccin theming
         gap: 0.5rem;
     }
 }
+
+/*
+=================================================================
+                    EMBEDDED CONTENT
+=================================================================
+Styling for embedded content (YouTube, Twitter, CodePen, GitHub Gists)
+with responsive design and Catppuccin theming
+=================================================================
+*/
+
+/* Base embed container */
+.embed-container {
+    margin: 2rem 0;
+    background: var(--mantle);
+    border-radius: 12px;
+    border: 1px solid var(--surface0);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.embed-container:hover {
+    border-color: var(--mauve);
+    box-shadow: 0 4px 16px rgba(203, 166, 247, 0.1);
+}
+
+/* Responsive embed wrapper */
+.embed-wrapper {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    background: var(--surface0);
+}
+
+.embed-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 8px 8px 0 0;
+}
+
+/* Fixed height embeds (CodePen, Gists) */
+.embed-wrapper[style*="height"] {
+    height: auto;
+    padding-bottom: 0;
+}
+
+.embed-wrapper[style*="height"] iframe {
+    position: static;
+    height: 100%;
+}
+
+/* Embed captions */
+.embed-caption {
+    padding: 1rem 1.5rem;
+    background: var(--surface0);
+    border-top: 1px solid var(--surface1);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+}
+
+.embed-caption i {
+    color: var(--mauve);
+    font-size: 1.1rem;
+}
+
+.embed-caption span {
+    color: var(--text);
+    font-weight: 500;
+    flex: 1;
+}
+
+.embed-link {
+    color: var(--pink);
+    text-decoration: none;
+    font-size: 0.85rem;
+    padding: 0.25rem 0.75rem;
+    border: 1px solid var(--pink);
+    border-radius: 16px;
+    transition: all 0.2s ease;
+}
+
+.embed-link:hover {
+    background: var(--pink);
+    color: var(--base);
+    transform: translateY(-1px);
+}
+
+/* YouTube specific styling */
+.youtube-embed {
+    border-left: 4px solid var(--red);
+}
+
+.youtube-embed .embed-caption i {
+    color: var(--red);
+}
+
+.youtube-embed:hover {
+    border-left-color: var(--maroon);
+}
+
+/* Twitter/X specific styling */
+.twitter-embed {
+    border-left: 4px solid var(--blue);
+}
+
+.twitter-embed .embed-caption i {
+    color: var(--blue);
+}
+
+.twitter-embed:hover {
+    border-left-color: var(--sapphire);
+}
+
+.twitter-embed .embed-wrapper {
+    padding: 1rem;
+    background: var(--base);
+}
+
+.twitter-embed .twitter-tweet {
+    margin: 0 !important;
+    max-width: none !important;
+}
+
+/* CodePen specific styling */
+.codepen-embed {
+    border-left: 4px solid var(--green);
+}
+
+.codepen-embed .embed-caption i {
+    color: var(--green);
+}
+
+.codepen-embed:hover {
+    border-left-color: var(--teal);
+}
+
+.codepen-embed .embed-wrapper {
+    background: var(--crust);
+    padding: 0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* GitHub Gist specific styling */
+.gist-embed {
+    border-left: 4px solid var(--lavender);
+}
+
+.gist-embed .embed-caption i {
+    color: var(--lavender);
+}
+
+.gist-embed:hover {
+    border-left-color: var(--mauve);
+}
+
+.gist-embed .embed-wrapper {
+    padding: 1rem;
+    background: var(--base);
+    border-radius: 8px;
+    overflow: auto;
+}
+
+/* Override GitHub Gist default styling */
+.gist-embed .gist {
+    margin: 0 !important;
+    font-size: 0.85rem !important;
+}
+
+.gist-embed .gist .gist-file {
+    border: none !important;
+    border-radius: 6px !important;
+    background: var(--mantle) !important;
+}
+
+.gist-embed .gist .gist-data {
+    background: var(--base) !important;
+    border: none !important;
+}
+
+.gist-embed .gist .gist-meta {
+    background: var(--surface0) !important;
+    color: var(--subtext1) !important;
+    border: none !important;
+    border-radius: 0 0 6px 6px !important;
+    padding: 0.5rem 1rem !important;
+}
+
+.gist-embed .gist .gist-meta a {
+    color: var(--mauve) !important;
+}
+
+.gist-embed .gist .gist-meta a:hover {
+    color: var(--pink) !important;
+}
+
+/* Generic embed styling */
+.generic-embed {
+    border-left: 4px solid var(--overlay0);
+}
+
+.generic-embed .embed-caption i {
+    color: var(--overlay0);
+}
+
+.generic-embed:hover {
+    border-left-color: var(--overlay1);
+}
+
+/* Embed error styling */
+.embed-error {
+    background: var(--surface0);
+    border: 1px solid var(--red);
+    border-left: 4px solid var(--red);
+    color: var(--red);
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+    font-weight: 500;
+}
+
+.embed-error::before {
+    content: "⚠️ ";
+    margin-right: 0.5rem;
+}
+
+/* Embed fallback for no-JS */
+.embed-fallback {
+    padding: 2rem;
+    text-align: center;
+    background: var(--surface0);
+    border-radius: 8px;
+    color: var(--subtext1);
+}
+
+.embed-fallback p {
+    margin-bottom: 1rem;
+    color: var(--text);
+}
+
+.embed-fallback a {
+    color: var(--mauve);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--mauve);
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.embed-fallback a:hover {
+    background: var(--mauve);
+    color: var(--base);
+}
+
+/* Responsive embed utility */
+.responsive-embed {
+    position: relative;
+    width: 100%;
+    height: 0;
+    margin: 2rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.responsive-embed > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Loading states */
+.embed-container.loading .embed-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0 -20px;
+    border: 3px solid var(--surface1);
+    border-top: 3px solid var(--mauve);
+    border-radius: 50%;
+    animation: embed-loading 1s linear infinite;
+}
+
+@keyframes embed-loading {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+    .embed-container {
+        margin: 1.5rem 0;
+        border-radius: 8px;
+    }
+
+    .embed-caption {
+        padding: 0.75rem 1rem;
+        font-size: 0.85rem;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .embed-caption span {
+        font-size: 0.85rem;
+    }
+
+    .embed-link {
+        font-size: 0.8rem;
+        padding: 0.2rem 0.6rem;
+        margin-top: 0.25rem;
+    }
+
+    /* Adjust fixed height embeds for mobile */
+    .codepen-embed .embed-wrapper[style*="height"] {
+        height: 300px !important;
+    }
+
+    .gist-embed .embed-wrapper {
+        padding: 0.75rem;
+    }
+
+    .gist-embed .gist {
+        font-size: 0.8rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .embed-container {
+        margin: 1rem 0;
+    }
+
+    .embed-caption {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+    }
+
+    .embed-caption i {
+        font-size: 1rem;
+    }
+
+    .codepen-embed .embed-wrapper[style*="height"] {
+        height: 250px !important;
+    }
+
+    .embed-fallback {
+        padding: 1.5rem 1rem;
+    }
+}
+
+/* High contrast mode adjustments */
+@media (prefers-contrast: high) {
+    .embed-container {
+        border-width: 2px;
+    }
+
+    .embed-container:hover {
+        border-width: 3px;
+    }
+
+    .embed-link {
+        border-width: 2px;
+    }
+}
+
+/* Reduced motion adjustments */
+@media (prefers-reduced-motion: reduce) {
+    .embed-container,
+    .embed-link,
+    .embed-fallback a {
+        transition: none;
+    }
+
+    .embed-loading {
+        animation: none;
+    }
+
+    .embed-container:hover {
+        transform: none;
+    }
+}
+
+/* Dark mode specific overrides */
+@media (prefers-color-scheme: dark) {
+    .twitter-embed .embed-wrapper {
+        background: var(--mantle);
+    }
+
+    .gist-embed .embed-wrapper {
+        background: var(--mantle);
+    }
+}
+
+/* Print styles */
+@media print {
+    .embed-container {
+        break-inside: avoid;
+        border: 2px solid var(--overlay0);
+        background: white;
+    }
+
+    .embed-wrapper {
+        display: none;
+    }
+
+    .embed-caption::after {
+        content: " (Embedded content not available in print)";
+        color: var(--overlay0);
+        font-style: italic;
+    }
+
+    .embed-link {
+        display: inline;
+        border: none;
+        padding: 0;
+        background: none;
+        color: var(--overlay0);
+    }
+
+    .embed-link::before {
+        content: " - ";
+    }
+}
+
+/*
+=================================================================
+                    UNIFIED EMBED INTERFACE
+=================================================================
+Advanced embed help widget with tabs and mode selector
+=================================================================
+*/
+
+/* Advanced embed help with tabs */
+.embed-help-widget.advanced {
+    background: var(--mantle);
+    border: 1px solid var(--surface0);
+    border-radius: 12px;
+    padding: 0;
+    margin: 2rem 0;
+    overflow: hidden;
+}
+
+.embed-help-tabs {
+    display: flex;
+    background: var(--surface0);
+    border-bottom: 1px solid var(--surface1);
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 1rem;
+    background: transparent;
+    border: none;
+    color: var(--subtext1);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-bottom: 3px solid transparent;
+}
+
+.tab-btn.active {
+    color: var(--pink);
+    background: var(--mantle);
+    border-bottom-color: var(--pink);
+}
+
+.tab-btn:hover:not(.active) {
+    color: var(--text);
+    background: var(--crust);
+}
+
+.tab-content {
+    padding: 1.5rem;
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab-content h4 {
+    margin: 0 0 1rem 0;
+    color: var(--mauve);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tab-content .embed-examples {
+    margin-bottom: 1rem;
+}
+
+.tab-content .embed-examples > div {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: var(--surface0);
+    border-radius: 6px;
+    border-left: 3px solid var(--mauve);
+}
+
+.tab-content .embed-examples code {
+    background: var(--crust);
+    color: var(--green);
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.85rem;
+    display: block;
+    margin-top: 0.5rem;
+    word-break: break-all;
+}
+
+.tab-content .tip {
+    background: var(--blue);
+    color: var(--base);
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Migration guide */
+.migration-guide {
+    background: var(--surface0);
+    border: 1px solid var(--surface1);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.migration-guide h4 {
+    margin: 0 0 1rem 0;
+    color: var(--pink);
+}
+
+.migration-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: var(--mantle);
+    border-radius: 6px;
+}
+
+.simple-col, .advanced-col {
+    text-align: center;
+}
+
+.simple-col strong {
+    color: var(--green);
+}
+
+.advanced-col strong {
+    color: var(--mauve);
+}
+
+.arrow {
+    font-size: 1.5rem;
+    color: var(--overlay1);
+}
+
+.migration-tip {
+    background: var(--yellow);
+    color: var(--base);
+    padding: 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+/* Mode selector */
+.embed-mode-selector {
+    background: var(--mantle);
+    border: 1px solid var(--surface0);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+}
+
+.embed-mode-selector h4 {
+    margin: 0 0 1.5rem 0;
+    color: var(--pink);
+    text-align: center;
+}
+
+.mode-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.mode-option {
+    cursor: pointer;
+}
+
+.mode-option input {
+    display: none;
+}
+
+.mode-card {
+    background: var(--surface0);
+    border: 2px solid var(--surface1);
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.mode-option input:checked + .mode-card {
+    border-color: var(--mauve);
+    background: var(--crust);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(203, 166, 247, 0.2);
+}
+
+.mode-card:hover {
+    border-color: var(--overlay1);
+    transform: translateY(-1px);
+}
+
+.mode-option input:checked + .mode-card:hover {
+    border-color: var(--pink);
+}
+
+.mode-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.mode-title {
+    color: var(--text);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.mode-desc {
+    color: var(--subtext1);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+}
+
+.mode-example {
+    background: var(--mantle);
+    color: var(--green);
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    word-break: break-all;
+}
+
+.mode-card.simple .mode-icon {
+    color: var(--green);
+}
+
+.mode-card.advanced .mode-icon {
+    color: var(--mauve);
+}
+
+.mode-card.hybrid .mode-icon {
+    color: var(--peach);
+}
+
+.mode-explanation {
+    background: var(--surface0);
+    border-radius: 8px;
+    padding: 1rem;
+    min-height: 80px;
+}
+
+.explanation {
+    display: none;
+    color: var(--text);
+    line-height: 1.5;
+}
+
+.explanation.active {
+    display: block;
+}
+
+.explanation code {
+    background: var(--crust);
+    color: var(--green);
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+    font-size: 0.9rem;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .migration-row {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+        text-align: center;
+    }
+
+    .arrow {
+        transform: rotate(90deg);
+    }
+
+    .mode-options {
+        grid-template-columns: 1fr;
+    }
+
+    .tab-content .embed-examples code {
+        font-size: 0.75rem;
+        padding: 0.3rem;
+    }
+
+    .embed-help-tabs {
+        flex-direction: column;
+    }
+
+    .tab-btn {
+        border-bottom: none;
+        border-right: 3px solid transparent;
+    }
+
+    .tab-btn.active {
+        border-right-color: var(--pink);
+        border-bottom: none;
+    }
+}
