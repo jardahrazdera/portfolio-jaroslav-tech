@@ -2,10 +2,11 @@
 {% load static %}
 {% load image_tags %}
 {% load simple_embeds %}
+{% load seo_tags %}
 
-{% block title %}{{ post.title }} - {{ block.super }}{% endblock %}
+{% block title %}{% page_title post %}{% endblock %}
 
-{% block meta_description %}{% if post.excerpt %}{{ post.excerpt|striptags }}{% else %}{{ post.content|striptags|truncatewords:50 }}{% endif %}{% endblock %}
+{% block meta_description %}{{ post.get_meta_description }}{% endblock %}
 
 {% block extra_head %}
 {% if debug %}
@@ -17,29 +18,14 @@
 {% endif %}
 {% endblock %}
 
+{% block extra_meta %}
+{% seo_meta_tags post %}
+{% endblock %}
+
 {% block structured_data %}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "{{ post.title }}",
-  "author": {
-    "@type": "Person",
-    "name": "{{ post.author.get_full_name|default:post.author.username }}"
-  },
-  "publisher": {
-    "@type": "Person",
-    "name": "Jaroslav Hrazdera"
-  },
-  "datePublished": "{{ post.created_at|date:'c' }}",
-  "dateModified": "{{ post.updated_at|date:'c' }}",
-  "description": "{% if post.excerpt %}{{ post.excerpt|striptags }}{% else %}{{ post.content|striptags|truncatewords:50 }}{% endif %}",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "{{ request.build_absolute_uri }}"
-  }
-}
-</script>
+{% structured_data_json_ld post %}
+{% breadcrumb_json_ld post %}
+{{ block.super }}
 {% endblock %}
 
 {% block before_main %}

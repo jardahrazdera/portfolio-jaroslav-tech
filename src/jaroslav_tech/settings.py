@@ -227,11 +227,16 @@ CKEDITOR_CONFIGS = {
             ['Format'],
         ],
         'format_tags': 'p;h1;h2;h3;h4;h5;h6;pre',
-        'height': 400,
-        'width': '100%',
+        'height': 500,
+        'width': 800,
         'removePlugins': 'elementspath',
         'resize_enabled': True,
-        'extraPlugins': 'codesnippet,embedcontent',
+        'resize_dir': 'both',
+        'resize_minWidth': 450,
+        'resize_minHeight': 300,
+        'resize_maxWidth': 1800,
+        'resize_maxHeight': 1200,
+        'extraPlugins': 'codesnippet,sourcearea,resize',
         'codeSnippet_theme': 'monokai_sublime',
         'codeSnippet_languages': {
             'python': 'Python',
@@ -265,9 +270,11 @@ CKEDITOR_CONFIGS = {
         'pasteFromWordRemoveStyles': True,
         # Enable automatic link detection
         'autolink_commitKeystrokes': [13, 32],  # Enter and Space
-        # Load external plugins properly
-        'extraPlugins': 'codesnippet',
+        # Ensure source button works
+        'allowedContent': True,  # Allow all content in source mode
         'templates_replaceContent': False,
+        # Source area configuration for better readability
+        'sourceAreaTabSize': 4,
     }
 }
 

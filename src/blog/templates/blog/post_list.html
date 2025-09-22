@@ -1,8 +1,9 @@
 {% extends 'core/base.html' %}
 {% load static %}
 {% load i18n %}
+{% load seo_tags %}
 
-{% block title %}Blog - {{ block.super }}{% endblock %}
+{% block title %}{% page_title page_title="Blog" %}{% endblock %}
 
 {% block extra_head %}
 {% if debug %}
@@ -10,6 +11,16 @@
 {% else %}
 <link rel="stylesheet" href="{% static 'dist/blog.min.css' %}">
 {% endif %}
+{% endblock %}
+
+{% block extra_meta %}
+{% seo_meta_tags %}
+{% endblock %}
+
+{% block structured_data %}
+{% structured_data_json_ld %}
+{% breadcrumb_json_ld %}
+{{ block.super }}
 {% endblock %}
 
 {% block before_main %}

@@ -2,6 +2,7 @@ import os
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
+from django.urls import reverse
 from ckeditor.fields import RichTextField
 from .image_utils import ImageProcessor
 from .file_utils import FileValidator, generate_file_path, get_file_type, format_file_size
@@ -48,6 +49,19 @@ class Post(models.Model):
     tags = models.ManyToManyField(Tag, blank=True)
     is_published = models.BooleanField(default=False)
     is_featured = models.BooleanField(default=False, help_text='Featured posts appear prominently on the blog homepage')
+
+    # SEO Meta Fields
+    meta_description = models.TextField(
+        max_length=155,
+        blank=True,
+        help_text='SEO meta description (max 155 characters, will fall back to excerpt if empty)'
+    )
+    meta_keywords = models.CharField(
+        max_length=255,
+        blank=True,
+        help_text='SEO keywords, comma-separated (will auto-generate from tags if empty)'
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -95,6 +109,39 @@ class Post(models.Model):
         if self.featured_image:
             return f"post_{self.pk}_{os.path.splitext(os.path.basename(self.featured_image.name))[0]}"
         return None
+
+    def get_absolute_url(self):
+        """Get the absolute URL for this post."""
+        return reverse('blog:post_detail', kwargs={'slug': self.slug})
+
+    def get_meta_description(self):
+        """Get SEO meta description, falling back to excerpt if empty."""
+        if self.meta_description:
+            return self.meta_description[:155]
+        elif self.excerpt:
+            return self.excerpt[:155]
+        else:
+            # Strip HTML tags from content and truncate
+            import re
+            content_text = re.sub(r'<[^>]+>', '', self.content)
+            return content_text[:155].strip()
+
+    def get_meta_keywords(self):
+        """Get SEO keywords, auto-generating from tags if empty."""
+        if self.meta_keywords:
+            return self.meta_keywords
+        else:
+            return ', '.join([tag.name for tag in self.tags.all()])
+
+    def get_reading_time(self):
+        """Calculate estimated reading time in minutes."""
+        import re
+        # Strip HTML tags and count words
+        content_text = re.sub(r'<[^>]+>', '', self.content)
+        word_count = len(content_text.split())
+        # Average reading speed: 200 words per minute
+        reading_time = max(1, round(word_count / 200))
+        return reading_time
 
     def __str__(self):
         return self.title
