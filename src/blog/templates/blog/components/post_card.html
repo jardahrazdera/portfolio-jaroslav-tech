@@ -42,5 +42,6 @@ Usage: {% include 'blog/components/post_card.html' with post=post %}
         <a href="{% url 'blog:post_detail' post.slug %}" class="btn btn-primary" aria-label="Read full article: {{ post.title }}">
             Read Article
         </a>
+        {% include 'blog/components/bookmark_button.html' with post=post size='small' compact=True %}
     </div>
 </article>

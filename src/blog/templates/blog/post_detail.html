@@ -11,10 +11,16 @@
 {% block extra_head %}
 {% if debug %}
 <link rel="stylesheet" href="{% static 'blog/css/blog.css' %}">
+<script src="{% static 'blog/js/bookmarks.js' %}"></script>
+<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 <script src="{% static 'blog/js/code-blocks.js' %}" defer></script>
+<script src="{% static 'blog/js/sharing-analytics.js' %}" defer></script>
 {% else %}
 <link rel="stylesheet" href="{% static 'dist/blog.min.css' %}">
+<script src="{% static 'blog/js/bookmarks.js' %}"></script>
+<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 <script src="{% static 'blog/js/code-blocks.js' %}" defer></script>
+<script src="{% static 'blog/js/sharing-analytics.js' %}" defer></script>
 {% endif %}
 {% endblock %}
 
@@ -34,7 +40,7 @@
 
 {% block content %}
 <section class="content-section">
-    <div class="container">
+    <div class="container" x-data="bookmarkManager()">
         <article class="post-detail">
             <header class="post-header">
                 <h2>{{ post.title }}</h2>
@@ -42,6 +48,10 @@
                 {% include 'blog/components/enhanced_post_meta.html' with post=post show_updated=True compact=False show_reading_time=True show_author=True show_stats=True %}
 
                 {% include 'blog/components/post_taxonomy.html' with post=post layout='horizontal' show_labels=True compact=False %}
+
+                <div class="post-actions">
+                    {% include 'blog/components/bookmark_button.html' with post=post size='medium' %}
+                </div>
             </header>
 
             {% if post.featured_image %}
@@ -63,11 +73,20 @@
             {% if post.attachments.exists %}
                 {% include 'blog/components/file_attachments.html' with post=post %}
             {% endif %}
+
+            {% include 'blog/components/social_sharing.html' with post=post %}
+
+            {% include 'blog/components/discussion_link.html' with post=post %}
         </article>
 
         <nav class="blog-navigation">
             <div class="hero-buttons">
                 <a href="{% url 'blog:post_list' %}" class="btn btn-primary">&larr; Back to Blog</a>
+                <a href="{% url 'blog:saved_posts' %}" class="btn btn-secondary">
+                    <i class="fas fa-bookmark" aria-hidden="true"></i>
+                    Saved Posts
+                    <span x-show="getBookmarkCount() > 0" x-text="`(${getBookmarkCount()})`" class="bookmark-count"></span>
+                </a>
             </div>
         </nav>
     </div>

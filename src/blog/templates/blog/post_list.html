@@ -8,8 +8,12 @@
 {% block extra_head %}
 {% if debug %}
 <link rel="stylesheet" href="{% static 'blog/css/blog.css' %}">
+<script src="{% static 'blog/js/bookmarks.js' %}"></script>
+<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 {% else %}
 <link rel="stylesheet" href="{% static 'dist/blog.min.css' %}">
+<script src="{% static 'blog/js/bookmarks.js' %}"></script>
+<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 {% endif %}
 {% endblock %}
 
@@ -31,7 +35,7 @@
 {% include 'blog/components/featured_posts.html' with featured_posts=featured_posts %}
 
 <section class="content-section">
-    <div class="container">
+    <div class="container" x-data="bookmarkManager()">
         <h2>{% if featured_posts %}{% trans "Recent Posts" %}{% else %}{% trans "Blog Posts" %}{% endif %}</h2>
 
         {% include 'blog/components/sidebar.html' with categories=categories tags=tags %}

@@ -116,3 +116,14 @@ def highlight_search(text, search_term):
     )
 
     return mark_safe(highlighted)
+
+
+@register.filter
+def lookup(dictionary, key):
+    """
+    Template filter to lookup dictionary values by key.
+    Usage: {{ dict|lookup:key }}
+    """
+    if isinstance(dictionary, dict):
+        return dictionary.get(key, 0)
+    return 0

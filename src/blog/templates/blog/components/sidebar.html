@@ -82,6 +82,11 @@ Parameters:
             <a href="{% url 'blog:post_list' %}" class="btn btn-primary sidebar-nav-btn">
                 {% trans "All Posts" %}
             </a>
+            <a href="{% url 'blog:saved_posts' %}" class="btn btn-secondary sidebar-nav-btn bookmark-nav-link">
+                <i class="fas fa-bookmark" aria-hidden="true"></i>
+                {% trans "Saved Posts" %}
+                <span x-show="getBookmarkCount() > 0" x-text="`(${getBookmarkCount()})`" class="bookmark-count"></span>
+            </a>
         </div>
     </section>
 </aside>
