@@ -62,6 +62,20 @@ class Post(models.Model):
         help_text='SEO keywords, comma-separated (will auto-generate from tags if empty)'
     )
 
+    # External Discussion Link
+    discussion_url = models.URLField(
+        blank=True,
+        max_length=500,
+        help_text='Link to external discussion (Twitter thread, LinkedIn post, Reddit discussion, etc.)'
+    )
+
+    # Sharing Analytics (Basic)
+    share_count_twitter = models.PositiveIntegerField(default=0, help_text='Number of Twitter shares')
+    share_count_linkedin = models.PositiveIntegerField(default=0, help_text='Number of LinkedIn shares')
+    share_count_facebook = models.PositiveIntegerField(default=0, help_text='Number of Facebook shares')
+    share_count_reddit = models.PositiveIntegerField(default=0, help_text='Number of Reddit shares')
+    total_shares = models.PositiveIntegerField(default=0, help_text='Total number of shares across all platforms')
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -142,6 +156,225 @@ class Post(models.Model):
         # Average reading speed: 200 words per minute
         reading_time = max(1, round(word_count / 200))
         return reading_time
+
+    def get_discussion_platform(self):
+        """Detect the discussion platform from the URL."""
+        if not self.discussion_url:
+            return None
+
+        url = self.discussion_url.lower()
+
+        if 'twitter.com' in url or 'x.com' in url:
+            return {
+                'name': 'Twitter',
+                'icon': 'fab fa-twitter',
+                'color': '#1DA1F2',
+                'label': 'Join the discussion on Twitter'
+            }
+        elif 'linkedin.com' in url:
+            return {
+                'name': 'LinkedIn',
+                'icon': 'fab fa-linkedin',
+                'color': '#0077B5',
+                'label': 'Join the discussion on LinkedIn'
+            }
+        elif 'reddit.com' in url:
+            return {
+                'name': 'Reddit',
+                'icon': 'fab fa-reddit',
+                'color': '#FF4500',
+                'label': 'Join the discussion on Reddit'
+            }
+        elif 'news.ycombinator.com' in url:
+            return {
+                'name': 'Hacker News',
+                'icon': 'fab fa-hacker-news',
+                'color': '#FF6600',
+                'label': 'Join the discussion on Hacker News'
+            }
+        elif 'github.com' in url:
+            return {
+                'name': 'GitHub',
+                'icon': 'fab fa-github',
+                'color': '#333',
+                'label': 'Join the discussion on GitHub'
+            }
+        elif 'dev.to' in url:
+            return {
+                'name': 'DEV',
+                'icon': 'fab fa-dev',
+                'color': '#0A0A0A',
+                'label': 'Join the discussion on DEV'
+            }
+        elif 'hashnode.com' in url:
+            return {
+                'name': 'Hashnode',
+                'icon': 'fas fa-hashtag',
+                'color': '#2962FF',
+                'label': 'Join the discussion on Hashnode'
+            }
+        else:
+            return {
+                'name': 'External Discussion',
+                'icon': 'fas fa-external-link-alt',
+                'color': 'var(--mauve)',
+                'label': 'Join the external discussion'
+            }
+
+    def get_sharing_data(self, request=None):
+        """Generate platform-specific sharing data with discussion prompts."""
+        import urllib.parse
+
+        if request:
+            post_url = request.build_absolute_uri(self.get_absolute_url())
+        else:
+            post_url = f"https://jaroslav.tech{self.get_absolute_url()}"
+
+        # Create engaging discussion prompts based on post content
+        base_prompt = f"Just read this insightful post: \"{self.title}\""
+
+        # Generate category-based prompts
+        categories = list(self.categories.all())
+        if categories:
+            category_names = [cat.name.lower() for cat in categories]
+            if any(cat in ['tutorial', 'guide', 'how-to'] for cat in category_names):
+                discussion_prompt = "Have you tried this approach? What's been your experience?"
+            elif any(cat in ['opinion', 'thoughts', 'analysis'] for cat in category_names):
+                discussion_prompt = "What's your take on this? Do you agree or see it differently?"
+            elif any(cat in ['news', 'updates', 'announcement'] for cat in category_names):
+                discussion_prompt = "Thoughts on this development? How might it impact the industry?"
+            elif any(cat in ['review', 'comparison'] for cat in category_names):
+                discussion_prompt = "What has your experience been? Any other alternatives you'd recommend?"
+            else:
+                discussion_prompt = "What are your thoughts? Have you encountered similar challenges or insights?"
+        else:
+            discussion_prompt = "What are your thoughts? I'd love to hear your perspective on this!"
+
+        # Get relevant hashtags from tags
+        tags = list(self.tags.all())
+        hashtags = []
+        if tags:
+            # Limit to 3-4 most relevant tags for each platform
+            for tag in tags[:4]:
+                hashtag = tag.name.replace(' ', '').replace('-', '').replace('_', '')
+                if hashtag.isalnum():
+                    hashtags.append(f"#{hashtag}")
+
+        return {
+            'twitter': {
+                'name': 'Twitter/X',
+                'icon': 'fab fa-x-twitter',
+                'color': '#000000',
+                'url': self._generate_twitter_share_url(post_url, base_prompt, discussion_prompt, hashtags),
+                'text': f"{base_prompt} {discussion_prompt}",
+                'prompt': "Share your thoughts on Twitter and start a conversation!"
+            },
+            'linkedin': {
+                'name': 'LinkedIn',
+                'icon': 'fab fa-linkedin',
+                'color': '#0077B5',
+                'url': self._generate_linkedin_share_url(post_url, base_prompt, discussion_prompt),
+                'text': f"{base_prompt} {discussion_prompt} #TechInsights #WebDevelopment",
+                'prompt': "Share with your professional network on LinkedIn!"
+            },
+            'facebook': {
+                'name': 'Facebook',
+                'icon': 'fab fa-facebook',
+                'color': '#1877F2',
+                'url': self._generate_facebook_share_url(post_url),
+                'text': f"{base_prompt} {discussion_prompt}",
+                'prompt': "Share with friends and start a discussion!"
+            },
+            'reddit': {
+                'name': 'Reddit',
+                'icon': 'fab fa-reddit',
+                'color': '#FF4500',
+                'url': self._generate_reddit_share_url(post_url, self.title),
+                'text': f"Found this interesting article: \"{self.title}\" - {discussion_prompt}",
+                'prompt': "Share in relevant subreddits and get community feedback!"
+            }
+        }
+
+    def _generate_twitter_share_url(self, post_url, base_prompt, discussion_prompt, hashtags):
+        """Generate Twitter/X share URL with optimized text."""
+        import urllib.parse
+
+        # Twitter has 280 char limit, so we need to be strategic
+        hashtag_text = ' '.join(hashtags[:3]) if hashtags else ''  # Max 3 hashtags
+
+        # Calculate available space for content
+        url_length = 23  # Twitter's t.co URL length
+        hashtag_length = len(hashtag_text)
+        available_space = 280 - url_length - hashtag_length - 4  # 4 for spaces
+
+        # Trim content to fit
+        full_text = f"{base_prompt} {discussion_prompt}"
+        if len(full_text) > available_space:
+            # Prioritize the discussion prompt
+            if len(discussion_prompt) + 10 < available_space:  # 10 for "Just read: "
+                content = f"Just read: \"{self.title[:available_space-len(discussion_prompt)-15]}...\" {discussion_prompt}"
+            else:
+                content = full_text[:available_space-3] + "..."
+        else:
+            content = full_text
+
+        tweet_text = f"{content} {hashtag_text}".strip()
+
+        return f"https://twitter.com/intent/tweet?text={urllib.parse.quote(tweet_text)}&url={urllib.parse.quote(post_url)}"
+
+    def _generate_linkedin_share_url(self, post_url, base_prompt, discussion_prompt):
+        """Generate LinkedIn share URL."""
+        import urllib.parse
+
+        summary = f"{base_prompt} {discussion_prompt} What's your experience with this? #TechInsights #WebDevelopment"
+
+        return f"https://www.linkedin.com/sharing/share-offsite/?url={urllib.parse.quote(post_url)}"
+
+    def _generate_facebook_share_url(self, post_url):
+        """Generate Facebook share URL."""
+        import urllib.parse
+
+        return f"https://www.facebook.com/sharer/sharer.php?u={urllib.parse.quote(post_url)}"
+
+    def _generate_reddit_share_url(self, post_url, title):
+        """Generate Reddit share URL."""
+        import urllib.parse
+
+        return f"https://www.reddit.com/submit?url={urllib.parse.quote(post_url)}&title={urllib.parse.quote(title)}"
+
+    def increment_share_count(self, platform):
+        """Increment share count for a specific platform."""
+        platform_map = {
+            'twitter': 'share_count_twitter',
+            'linkedin': 'share_count_linkedin',
+            'facebook': 'share_count_facebook',
+            'reddit': 'share_count_reddit'
+        }
+
+        if platform in platform_map:
+            field_name = platform_map[platform]
+            current_count = getattr(self, field_name)
+            setattr(self, field_name, current_count + 1)
+
+            # Update total shares
+            self.total_shares = (
+                self.share_count_twitter +
+                self.share_count_linkedin +
+                self.share_count_facebook +
+                self.share_count_reddit
+            )
+
+            self.save(update_fields=[field_name, 'total_shares'])
+
+    def get_share_counts(self):
+        """Get sharing statistics for this post."""
+        return {
+            'twitter': self.share_count_twitter,
+            'linkedin': self.share_count_linkedin,
+            'facebook': self.share_count_facebook,
+            'reddit': self.share_count_reddit,
+            'total': self.total_shares
+        }
 
     def __str__(self):
         return self.title

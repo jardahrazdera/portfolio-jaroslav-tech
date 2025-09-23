@@ -62,9 +62,14 @@ class PostAdmin(admin.ModelAdmin):
             'fields': ('is_published', 'is_featured'),
             'description': 'Publication status and featured post settings'
         }),
+        ('External Discussion', {
+            'fields': ('discussion_url', 'discussion_platform_display'),
+            'description': 'Link to external discussion platforms (Twitter, Reddit, LinkedIn, etc.)',
+            'classes': ('collapse',)
+        }),
     )
 
-    readonly_fields = ('seo_status_display',)
+    readonly_fields = ('seo_status_display', 'discussion_platform_display')
 
     def formfield_for_dbfield(self, db_field, request, **kwargs):
         if db_field.name == 'content':
@@ -251,6 +256,52 @@ class PostAdmin(admin.ModelAdmin):
         return format_html(html)
 
     seo_status_display.short_description = 'SEO Analysis'
+
+    def discussion_platform_display(self, obj):
+        """Display detected discussion platform information."""
+        if not obj.discussion_url:
+            return format_html(
+                '<div style="padding: 10px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; color: #6c757d;">'
+                '<i class="fas fa-info-circle"></i> No external discussion link set'
+                '</div>'
+            )
+
+        platform = obj.get_discussion_platform()
+        if platform:
+            return format_html(
+                '<div style="padding: 12px; background: white; border: 2px solid #e9ecef; border-radius: 6px;">'
+                '<div style="margin-bottom: 8px;">'
+                '<strong style="color: #212529; font-size: 14px;">Discussion Platform:</strong>'
+                '</div>'
+                '<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">'
+                '<i class="{}" style="color: {}; font-size: 18px;"></i>'
+                '<span style="font-weight: 600; color: #495057;">{}</span>'
+                '</div>'
+                '<div style="color: #6c757d; font-size: 13px; margin-bottom: 8px;">'
+                '{}'
+                '</div>'
+                '<a href="{}" target="_blank" rel="noopener noreferrer" '
+                'style="display: inline-block; padding: 6px 12px; background: {}; color: white; '
+                'text-decoration: none; border-radius: 4px; font-size: 12px; font-weight: 500;">'
+                '<i class="fas fa-external-link-alt"></i> View Discussion'
+                '</a>'
+                '</div>',
+                platform['icon'],
+                platform['color'],
+                platform['name'],
+                platform['label'],
+                obj.discussion_url,
+                platform['color']
+            )
+        else:
+            return format_html(
+                '<div style="padding: 10px; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px;">'
+                '<i class="fas fa-question-circle" style="color: #856404;"></i> '
+                '<span style="color: #856404;">Unknown platform</span>'
+                '</div>'
+            )
+
+    discussion_platform_display.short_description = 'Discussion Platform'
 
 
 @admin.register(BlogFile)
