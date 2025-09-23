@@ -12,4 +12,6 @@ urlpatterns = [
     path('download/<int:file_id>/', views.download_file, name='download_file'),
     path('embed-demo/', views.embed_demo, name='embed_demo'),
     path('embed-guide/', views.embed_guide, name='embed_guide'),
+    path('saved/', views.saved_posts, name='saved_posts'),
+    path('api/track-share/', views.track_share, name='track_share'),
 ]
