@@ -485,3 +485,11 @@ embed_guide = EmbedGuideView.as_view()
 saved_posts = SavedPostsView.as_view()
 newsletter_subscribe = NewsletterSubscribeView.as_view()
 newsletter_success = NewsletterSuccessView.as_view()
+
+
+def newsletter_unsubscribe_general(request):
+    """General unsubscribe page for people without a token."""
+    context = {
+        'page_title': 'Unsubscribe from Newsletter'
+    }
+    return render(request, 'blog/newsletter/unsubscribe_general.html', context)

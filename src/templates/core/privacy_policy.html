@@ -1,0 +1,187 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{{ seo.title }}{% endblock %}
+
+{% block meta_description %}{{ seo.description }}{% endblock %}
+
+{% block content %}
+<section class="content-section">
+    <div class="container">
+        <div class="privacy-policy-page">
+            <header class="privacy-header">
+                <h1>Privacy Policy</h1>
+                <p class="lead">
+                    Your privacy is important to us. This policy explains how we collect, use, and protect your personal information.
+                </p>
+                <p class="text-muted">
+                    <small>Last updated: September 2024</small>
+                </p>
+            </header>
+
+            <div class="privacy-content">
+                <section class="privacy-section">
+                    <h2>Information We Collect</h2>
+
+                    <h3>Newsletter Subscription</h3>
+                    <p>
+                        When you subscribe to our newsletter, we collect:
+                    </p>
+                    <ul>
+                        <li><strong>Email address:</strong> Required to send you newsletter content</li>
+                        <li><strong>First name:</strong> Optional, used for personalization</li>
+                        <li><strong>Subscription date:</strong> For record keeping and analytics</li>
+                        <li><strong>IP address:</strong> For security and spam prevention</li>
+                    </ul>
+
+                    <h3>Website Analytics</h3>
+                    <p>
+                        We may collect basic website usage information including:
+                    </p>
+                    <ul>
+                        <li>Pages visited and time spent on pages</li>
+                        <li>Browser type and device information</li>
+                        <li>Referring websites</li>
+                        <li>General geographic location (country/city level)</li>
+                    </ul>
+                </section>
+
+                <section class="privacy-section">
+                    <h2>How We Use Your Information</h2>
+
+                    <h3>Newsletter</h3>
+                    <ul>
+                        <li>Send you blog post updates and newsletter content</li>
+                        <li>Provide subscriber-only content and resources</li>
+                        <li>Improve our content based on subscriber interests</li>
+                    </ul>
+
+                    <h3>Website Improvement</h3>
+                    <ul>
+                        <li>Analyze website usage to improve user experience</li>
+                        <li>Monitor website performance and security</li>
+                        <li>Understand which content is most valuable to visitors</li>
+                    </ul>
+                </section>
+
+                <section class="privacy-section">
+                    <h2>Information Sharing</h2>
+                    <p>
+                        <strong>We do not sell, rent, or share your personal information with third parties</strong> except in the following limited circumstances:
+                    </p>
+                    <ul>
+                        <li><strong>Legal requirements:</strong> When required by law or to protect our rights</li>
+                        <li><strong>Service providers:</strong> Trusted services that help us operate the website (e.g., email delivery, hosting)</li>
+                        <li><strong>Your consent:</strong> When you explicitly agree to share information</li>
+                    </ul>
+                </section>
+
+                <section class="privacy-section">
+                    <h2>Data Security</h2>
+                    <p>
+                        We implement appropriate security measures to protect your personal information:
+                    </p>
+                    <ul>
+                        <li>Secure HTTPS encryption for all data transmission</li>
+                        <li>Regular security updates and monitoring</li>
+                        <li>Limited access to personal data on a need-to-know basis</li>
+                        <li>Secure database storage with regular backups</li>
+                    </ul>
+                </section>
+
+                <section class="privacy-section">
+                    <h2>Your Rights</h2>
+                    <p>
+                        You have the following rights regarding your personal information:
+                    </p>
+                    <ul>
+                        <li><strong>Access:</strong> Request a copy of the personal data we hold about you</li>
+                        <li><strong>Correction:</strong> Request correction of inaccurate or incomplete data</li>
+                        <li><strong>Deletion:</strong> Request deletion of your personal data</li>
+                        <li><strong>Unsubscribe:</strong> Opt out of newsletter communications at any time</li>
+                        <li><strong>Data portability:</strong> Request your data in a portable format</li>
+                    </ul>
+                </section>
+
+                <section class="privacy-section">
+                    <h2>Newsletter Specific Information</h2>
+
+                    <h3>Double Opt-In Process</h3>
+                    <p>
+                        We use a double opt-in process for newsletter subscriptions. This means:
+                    </p>
+                    <ol>
+                        <li>You enter your email address and consent to receive emails</li>
+                        <li>We send you a confirmation email</li>
+                        <li>You must click the confirmation link to activate your subscription</li>
+                        <li>Only then will you receive newsletter content</li>
+                    </ol>
+
+                    <h3>Unsubscribing</h3>
+                    <p>
+                        You can unsubscribe from our newsletter at any time by:
+                    </p>
+                    <ul>
+                        <li>Clicking the "unsubscribe" link in any newsletter email</li>
+                        <li>Contacting us directly at the email address below</li>
+                    </ul>
+                    <p>
+                        Upon unsubscribing, we will stop sending you newsletters but may retain your email address to prevent accidental re-subscription.
+                    </p>
+                </section>
+
+                <section class="privacy-section">
+                    <h2>Cookies and Tracking</h2>
+                    <p>
+                        This website uses minimal cookies and tracking:
+                    </p>
+                    <ul>
+                        <li><strong>Essential cookies:</strong> Required for website functionality (e.g., language preferences)</li>
+                        <li><strong>Analytics:</strong> Basic usage statistics to improve the website</li>
+                        <li><strong>No advertising cookies:</strong> We do not use advertising or social media tracking</li>
+                    </ul>
+                </section>
+
+                <section class="privacy-section">
+                    <h2>Changes to This Policy</h2>
+                    <p>
+                        We may update this privacy policy from time to time. When we do:
+                    </p>
+                    <ul>
+                        <li>We will update the "Last updated" date at the top of this page</li>
+                        <li>For significant changes, we will notify newsletter subscribers via email</li>
+                        <li>Continued use of the website after changes constitutes acceptance of the new policy</li>
+                    </ul>
+                </section>
+
+                <section class="privacy-section">
+                    <h2>Contact Information</h2>
+                    <p>
+                        If you have questions about this privacy policy or want to exercise your rights, contact us:
+                    </p>
+                    <div class="contact-info">
+                        <p>
+                            <strong>Email:</strong> <a href="mailto:privacy@jaroslav.tech">privacy@jaroslav.tech</a><br>
+                            <strong>Website:</strong> <a href="{% url 'core:index' %}">jaroslav.tech</a>
+                        </p>
+                    </div>
+                </section>
+            </div>
+
+            <div class="privacy-actions">
+                <div class="hero-buttons">
+                    <a href="{% url 'core:index' %}" class="btn btn-primary">
+                        <i class="fas fa-home" aria-hidden="true"></i>
+                        Back to Home
+                    </a>
+                    <a href="{% url 'blog:post_list' %}" class="btn btn-secondary">
+                        <i class="fas fa-blog" aria-hidden="true"></i>
+                        Visit Blog
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

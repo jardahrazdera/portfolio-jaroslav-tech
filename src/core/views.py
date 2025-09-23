@@ -49,6 +49,18 @@ def cv_view(request):
     }
     return render(request, 'core/cv.html', context)
 
+def privacy_policy(request):
+    """Privacy policy page for the website and newsletter."""
+    context = {
+        'seo': {
+            'title': 'Privacy Policy - Jaroslav.tech',
+            'description': 'Privacy policy for jaroslav.tech website and newsletter subscription.',
+            'noindex': False
+        }
+    }
+    return render(request, 'core/privacy_policy.html', context)
+
+
 class RobotstxtView(TemplateView):
     template_name = "robots.txt"
     content_type = "text/plain"
