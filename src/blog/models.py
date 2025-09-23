@@ -1,8 +1,11 @@
 import os
+import uuid
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.urls import reverse
+from django.core.validators import EmailValidator
+from django.utils import timezone
 from ckeditor.fields import RichTextField
 from .image_utils import ImageProcessor
 from .file_utils import FileValidator, generate_file_path, get_file_type, format_file_size
@@ -470,3 +473,161 @@ class BlogFile(models.Model):
         ordering = ['-uploaded_at']
         verbose_name = "Blog File"
         verbose_name_plural = "Blog Files"
+
+
+class Newsletter(models.Model):
+    """Newsletter subscription model with GDPR compliance and double opt-in."""
+
+    # Core fields
+    email = models.EmailField(
+        unique=True,
+        validators=[EmailValidator()],
+        help_text='Subscriber email address'
+    )
+
+    # Subscription status
+    is_active = models.BooleanField(
+        default=False,
+        help_text='Whether the subscription is active (confirmed)'
+    )
+    is_confirmed = models.BooleanField(
+        default=False,
+        help_text='Whether the email has been confirmed via double opt-in'
+    )
+
+    # GDPR compliance
+    confirmation_token = models.UUIDField(
+        default=uuid.uuid4,
+        unique=True,
+        help_text='Unique token for email confirmation'
+    )
+    unsubscribe_token = models.UUIDField(
+        default=uuid.uuid4,
+        unique=True,
+        help_text='Unique token for unsubscribing'
+    )
+
+    # Timestamps
+    subscribed_at = models.DateTimeField(
+        auto_now_add=True,
+        help_text='When the subscription was first created'
+    )
+    confirmed_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text='When the email was confirmed'
+    )
+    unsubscribed_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        help_text='When the subscription was cancelled'
+    )
+
+    # Metadata
+    ip_address = models.GenericIPAddressField(
+        null=True,
+        blank=True,
+        help_text='IP address when subscribed (for compliance tracking)'
+    )
+    user_agent = models.TextField(
+        blank=True,
+        help_text='User agent when subscribed (for compliance tracking)'
+    )
+
+    # Source tracking
+    source = models.CharField(
+        max_length=100,
+        default='website',
+        help_text='Where the subscription came from (website, sidebar, post, etc.)'
+    )
+
+    def confirm_subscription(self):
+        """Confirm the subscription via double opt-in."""
+        if not self.is_confirmed:
+            self.is_confirmed = True
+            self.is_active = True
+            self.confirmed_at = timezone.now()
+            self.save(update_fields=['is_confirmed', 'is_active', 'confirmed_at'])
+
+    def unsubscribe(self):
+        """Unsubscribe the user."""
+        if self.is_active:
+            self.is_active = False
+            self.unsubscribed_at = timezone.now()
+            self.save(update_fields=['is_active', 'unsubscribed_at'])
+
+    def resubscribe(self):
+        """Reactivate subscription (if already confirmed)."""
+        if self.is_confirmed:
+            self.is_active = True
+            self.unsubscribed_at = None
+            self.save(update_fields=['is_active', 'unsubscribed_at'])
+
+    def regenerate_tokens(self):
+        """Regenerate confirmation and unsubscribe tokens."""
+        self.confirmation_token = uuid.uuid4()
+        self.unsubscribe_token = uuid.uuid4()
+        self.save(update_fields=['confirmation_token', 'unsubscribe_token'])
+
+    @property
+    def subscription_status(self):
+        """Get human-readable subscription status."""
+        if not self.is_confirmed:
+            return "Pending Confirmation"
+        elif self.is_active:
+            return "Active"
+        else:
+            return "Unsubscribed"
+
+    @property
+    def days_since_subscription(self):
+        """Get number of days since first subscription."""
+        return (timezone.now() - self.subscribed_at).days
+
+    def get_confirmation_url(self, request=None):
+        """Generate confirmation URL for double opt-in."""
+        from django.urls import reverse
+
+        confirmation_path = reverse('blog:confirm_subscription', kwargs={'token': self.confirmation_token})
+
+        if request:
+            return request.build_absolute_uri(confirmation_path)
+        else:
+            return f"https://jaroslav.tech{confirmation_path}"
+
+    def get_unsubscribe_url(self, request=None):
+        """Generate unsubscribe URL."""
+        from django.urls import reverse
+
+        unsubscribe_path = reverse('blog:unsubscribe', kwargs={'token': self.unsubscribe_token})
+
+        if request:
+            return request.build_absolute_uri(unsubscribe_path)
+        else:
+            return f"https://jaroslav.tech{unsubscribe_path}"
+
+    def clean(self):
+        """Validate the model."""
+        from django.core.exceptions import ValidationError
+
+        # Normalize email
+        if self.email:
+            self.email = self.email.lower().strip()
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.email} - {self.subscription_status}"
+
+    class Meta:
+        ordering = ['-subscribed_at']
+        verbose_name = "Newsletter Subscription"
+        verbose_name_plural = "Newsletter Subscriptions"
+        indexes = [
+            models.Index(fields=['email']),
+            models.Index(fields=['is_active', 'is_confirmed']),
+            models.Index(fields=['confirmation_token']),
+            models.Index(fields=['unsubscribe_token']),
+        ]

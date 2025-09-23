@@ -79,6 +79,15 @@
             {% include 'blog/components/discussion_link.html' with post=post %}
         </article>
 
+        <!-- Newsletter Signup Section -->
+        <section class="post-newsletter-section">
+            <div class="newsletter-cta">
+                <h3>Enjoyed this post?</h3>
+                <p>Subscribe to get notified about new posts and updates!</p>
+            </div>
+            {% include 'blog/components/newsletter_signup.html' %}
+        </section>
+
         <nav class="blog-navigation">
             <div class="hero-buttons">
                 <a href="{% url 'blog:post_list' %}" class="btn btn-primary">&larr; Back to Blog</a>

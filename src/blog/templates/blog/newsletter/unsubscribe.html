@@ -1,0 +1,144 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load seo_tags %}
+
+{% block title %}{% page_title page_title="Unsubscribe from Newsletter" %}{% endblock %}
+
+{% block extra_head %}
+{% if debug %}
+<link rel="stylesheet" href="{% static 'blog/css/blog.css' %}">
+{% else %}
+<link rel="stylesheet" href="{% static 'dist/blog.min.css' %}">
+{% endif %}
+{% endblock %}
+
+{% block extra_meta %}
+{% seo_meta_tags %}
+{% endblock %}
+
+{% block structured_data %}
+{% structured_data_json_ld %}
+{% breadcrumb_json_ld %}
+{{ block.super }}
+{% endblock %}
+
+{% block before_main %}
+{% include 'blog/components/breadcrumb.html' %}
+{% endblock %}
+
+{% block content %}
+<section class="content-section">
+    <div class="container">
+        <div class="newsletter-unsubscribe-page">
+            <div class="unsubscribe-header">
+                <div class="unsubscribe-icon">
+                    <i class="fas fa-envelope-open" aria-hidden="true"></i>
+                </div>
+                <h2>Unsubscribe from Newsletter</h2>
+                <p class="lead">
+                    We're sorry to see you go! You're about to unsubscribe
+                    <strong>{{ newsletter.email }}</strong> from our newsletter.
+                </p>
+            </div>
+
+            <div class="unsubscribe-content">
+                <div class="subscription-info">
+                    <h3>Current Subscription Details</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <strong>Email:</strong> {{ newsletter.email }}
+                        </div>
+                        <div class="info-item">
+                            <strong>Subscribed:</strong> {{ newsletter.subscribed_at|date:"F j, Y" }}
+                        </div>
+                        <div class="info-item">
+                            <strong>Status:</strong> {{ newsletter.subscription_status }}
+                        </div>
+                    </div>
+                </div>
+
+                <form method="post" class="unsubscribe-form">
+                    {% csrf_token %}
+
+                    <div class="form-section">
+                        <h3>Confirmation Required</h3>
+                        <div class="form-group">
+                            {{ form.confirm }}
+                            <label for="{{ form.confirm.id_for_label }}" class="form-check-label">
+                                {{ form.confirm.label }}
+                            </label>
+                            {% if form.confirm.errors %}
+                                <div class="invalid-feedback">{{ form.confirm.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Help Us Improve (Optional)</h3>
+                        <div class="form-group">
+                            <label for="{{ form.reason.id_for_label }}">{{ form.reason.label }}</label>
+                            {{ form.reason }}
+                            {% if form.reason.errors %}
+                                <div class="invalid-feedback">{{ form.reason.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.feedback.id_for_label }}">{{ form.feedback.label }}</label>
+                            {{ form.feedback }}
+                            {% if form.feedback.errors %}
+                                <div class="invalid-feedback">{{ form.feedback.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-times" aria-hidden="true"></i>
+                            Confirm Unsubscribe
+                        </button>
+                        <a href="{% url 'blog:post_list' %}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                            Keep Subscription
+                        </a>
+                    </div>
+                </form>
+
+                <div class="alternatives">
+                    <h3>Before you go...</h3>
+                    <p>Instead of unsubscribing completely, you might want to:</p>
+                    <ul class="alternatives-list">
+                        <li>
+                            <i class="fas fa-filter" aria-hidden="true"></i>
+                            <strong>Set up email filters</strong> to organize newsletters better
+                        </li>
+                        <li>
+                            <i class="fas fa-pause" aria-hidden="true"></i>
+                            <strong>Take a temporary break</strong> and resubscribe later
+                        </li>
+                        <li>
+                            <i class="fas fa-rss" aria-hidden="true"></i>
+                            <strong>Use RSS feeds</strong> to follow updates without email
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <h4>
+                            <i class="fas fa-question-circle" aria-hidden="true"></i>
+                            Having Issues?
+                        </h4>
+                        <p>
+                            If you're experiencing problems with our emails or have questions,
+                            please <a href="{% url 'core:contact' %}" class="text-link">contact us</a>
+                            instead of unsubscribing.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

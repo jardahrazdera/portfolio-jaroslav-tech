@@ -1,8 +1,10 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from django.http import HttpResponse
+from django.contrib import messages
 from ckeditor.widgets import CKEditorWidget
-from .models import Category, Tag, Post, BlogFile
+from .models import Category, Tag, Post, BlogFile, Newsletter
+from .email_service import NewsletterEmailService
 
 
 @admin.register(Category)
@@ -347,3 +349,190 @@ class BlogFileAdmin(admin.ModelAdmin):
             )
         return "No file"
     file_info_display.short_description = 'File Information'
+
+
+@admin.register(Newsletter)
+class NewsletterAdmin(admin.ModelAdmin):
+    list_display = ('email', 'subscription_status_display', 'is_active', 'is_confirmed', 'days_since_subscription', 'source', 'subscribed_at')
+    list_filter = ('is_active', 'is_confirmed', 'source', 'subscribed_at')
+    search_fields = ('email',)
+    readonly_fields = ('confirmation_token', 'unsubscribe_token', 'subscribed_at', 'confirmed_at', 'unsubscribed_at', 'days_since_subscription', 'subscription_urls')
+    actions = ['send_confirmation_email', 'activate_subscriptions', 'deactivate_subscriptions', 'export_active_subscribers']
+
+    fieldsets = (
+        ('Subscription Information', {
+            'fields': ('email', 'subscription_status_display', 'is_active', 'is_confirmed'),
+            'description': 'Core subscription details and status'
+        }),
+        ('GDPR Compliance & Tokens', {
+            'fields': ('confirmation_token', 'unsubscribe_token', 'subscription_urls'),
+            'description': 'Security tokens and URLs for GDPR compliance',
+            'classes': ('collapse',)
+        }),
+        ('Timestamps', {
+            'fields': ('subscribed_at', 'confirmed_at', 'unsubscribed_at', 'days_since_subscription'),
+            'description': 'Subscription timeline and history',
+            'classes': ('collapse',)
+        }),
+        ('Metadata', {
+            'fields': ('source', 'ip_address', 'user_agent'),
+            'description': 'Source tracking and compliance metadata',
+            'classes': ('collapse',)
+        }),
+    )
+
+    def subscription_status_display(self, obj):
+        """Display subscription status with color coding."""
+        status = obj.subscription_status
+
+        if status == "Active":
+            color = "#28a745"  # Green
+            icon = "fas fa-check-circle"
+        elif status == "Pending Confirmation":
+            color = "#ffc107"  # Yellow
+            icon = "fas fa-clock"
+        else:  # Unsubscribed
+            color = "#dc3545"  # Red
+            icon = "fas fa-times-circle"
+
+        return format_html(
+            '<span style="color: {}; font-weight: 600;"><i class="{}"></i> {}</span>',
+            color,
+            icon,
+            status
+        )
+    subscription_status_display.short_description = 'Status'
+
+    def days_since_subscription(self, obj):
+        """Display days since subscription with formatting."""
+        days = obj.days_since_subscription
+        if days == 0:
+            return "Today"
+        elif days == 1:
+            return "1 day ago"
+        else:
+            return f"{days} days ago"
+    days_since_subscription.short_description = 'Subscribed'
+
+    def subscription_urls(self, obj):
+        """Display confirmation and unsubscribe URLs."""
+        if not obj.pk:
+            return format_html(
+                '<div style="padding: 10px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px;">'
+                'Save the subscription first to generate URLs'
+                '</div>'
+            )
+
+        confirmation_url = obj.get_confirmation_url()
+        unsubscribe_url = obj.get_unsubscribe_url()
+
+        return format_html(
+            '<div style="padding: 15px; background: white; border: 2px solid #dee2e6; border-radius: 6px;">'
+            '<div style="margin-bottom: 10px;">'
+            '<strong style="color: #212529;">Confirmation URL:</strong><br>'
+            '<a href="{}" target="_blank" style="color: #007bff; word-break: break-all;">{}</a>'
+            '</div>'
+            '<div>'
+            '<strong style="color: #212529;">Unsubscribe URL:</strong><br>'
+            '<a href="{}" target="_blank" style="color: #dc3545; word-break: break-all;">{}</a>'
+            '</div>'
+            '</div>',
+            confirmation_url,
+            confirmation_url,
+            unsubscribe_url,
+            unsubscribe_url
+        )
+    subscription_urls.short_description = 'GDPR URLs'
+
+    def send_confirmation_email(self, request, queryset):
+        """Send confirmation emails to selected unconfirmed subscribers."""
+        sent_count = 0
+        failed_count = 0
+
+        for newsletter in queryset.filter(is_confirmed=False):
+            try:
+                success = NewsletterEmailService.send_confirmation_email(newsletter, request)
+                if success:
+                    sent_count += 1
+                else:
+                    failed_count += 1
+                    self.message_user(
+                        request,
+                        f"Failed to send confirmation email to {newsletter.email}",
+                        level=messages.WARNING
+                    )
+            except Exception as e:
+                failed_count += 1
+                self.message_user(
+                    request,
+                    f"Error sending email to {newsletter.email}: {e}",
+                    level=messages.ERROR
+                )
+
+        if sent_count > 0:
+            self.message_user(
+                request,
+                f"Successfully sent {sent_count} confirmation emails.",
+                level=messages.SUCCESS
+            )
+
+        if failed_count > 0:
+            self.message_user(
+                request,
+                f"Failed to send {failed_count} emails. Please check email configuration.",
+                level=messages.ERROR
+            )
+    send_confirmation_email.short_description = "Send confirmation emails"
+
+    def activate_subscriptions(self, request, queryset):
+        """Activate selected confirmed subscriptions."""
+        updated = queryset.filter(is_confirmed=True).update(is_active=True)
+        self.message_user(
+            request,
+            f"Activated {updated} confirmed subscriptions.",
+            level=messages.SUCCESS
+        )
+    activate_subscriptions.short_description = "Activate confirmed subscriptions"
+
+    def deactivate_subscriptions(self, request, queryset):
+        """Deactivate selected subscriptions."""
+        updated = queryset.update(is_active=False)
+        self.message_user(
+            request,
+            f"Deactivated {updated} subscriptions.",
+            level=messages.SUCCESS
+        )
+    deactivate_subscriptions.short_description = "Deactivate subscriptions"
+
+    def export_active_subscribers(self, request, queryset):
+        """Export active subscribers as CSV."""
+        import csv
+
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="newsletter_subscribers.csv"'
+
+        writer = csv.writer(response)
+        writer.writerow(['Email', 'Subscribed Date', 'Confirmed Date', 'Source', 'Days Active'])
+
+        active_subscribers = queryset.filter(is_active=True, is_confirmed=True)
+        for subscriber in active_subscribers:
+            writer.writerow([
+                subscriber.email,
+                subscriber.subscribed_at.strftime('%Y-%m-%d %H:%M:%S'),
+                subscriber.confirmed_at.strftime('%Y-%m-%d %H:%M:%S') if subscriber.confirmed_at else '',
+                subscriber.source,
+                subscriber.days_since_subscription
+            ])
+
+        self.message_user(
+            request,
+            f"Exported {active_subscribers.count()} active subscribers.",
+            level=messages.SUCCESS
+        )
+
+        return response
+    export_active_subscribers.short_description = "Export active subscribers (CSV)"
+
+    def get_queryset(self, request):
+        """Optimize queryset for admin list view."""
+        return super().get_queryset(request).select_related()

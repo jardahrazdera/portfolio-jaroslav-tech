@@ -13,5 +13,14 @@ urlpatterns = [
     path('embed-demo/', views.embed_demo, name='embed_demo'),
     path('embed-guide/', views.embed_guide, name='embed_guide'),
     path('saved/', views.saved_posts, name='saved_posts'),
+
+    # Newsletter URLs
+    path('newsletter/subscribe/', views.newsletter_subscribe, name='newsletter_subscribe'),
+    path('newsletter/success/', views.newsletter_success, name='newsletter_success'),
+    path('newsletter/confirm/<uuid:token>/', views.confirm_newsletter_subscription, name='confirm_subscription'),
+    path('newsletter/unsubscribe/<uuid:token>/', views.unsubscribe_newsletter, name='unsubscribe'),
+
+    # API endpoints
     path('api/track-share/', views.track_share, name='track_share'),
+    path('api/newsletter/subscribe/', views.newsletter_subscribe_ajax, name='newsletter_subscribe_ajax'),
 ]

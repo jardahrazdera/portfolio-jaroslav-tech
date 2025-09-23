@@ -1,5 +1,5 @@
-from django.views.generic import ListView, DetailView, TemplateView
-from django.shortcuts import get_object_or_404
+from django.views.generic import ListView, DetailView, TemplateView, FormView
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse, Http404, FileResponse, JsonResponse
 from django.utils.encoding import smart_str
 from django.views.decorators.csrf import csrf_exempt
@@ -7,10 +7,16 @@ from django.views.decorators.http import require_POST
 from django.utils.decorators import method_decorator
 from django.db import models
 from django.db.models import Q, Count
+from django.contrib import messages
+from django.urls import reverse_lazy, reverse
+from django.core.exceptions import ValidationError
 import os
 import mimetypes
 import json
-from .models import Post, Category, Tag, BlogFile
+import uuid
+from .models import Post, Category, Tag, BlogFile, Newsletter
+from .forms import NewsletterSubscriptionForm, NewsletterUnsubscribeForm
+from .email_service import NewsletterEmailService
 
 
 class BlogListView(ListView):
@@ -286,6 +292,188 @@ def track_share(request):
         return JsonResponse({'error': 'Internal server error'}, status=500)
 
 
+class NewsletterSubscribeView(FormView):
+    """Newsletter subscription view with GDPR compliance."""
+    template_name = 'blog/newsletter/subscribe.html'
+    form_class = NewsletterSubscriptionForm
+    success_url = reverse_lazy('blog:newsletter_success')
+
+    def form_valid(self, form):
+        """Process valid subscription form."""
+        try:
+            newsletter = form.save(request=self.request)
+
+            # Store email in session for success page
+            self.request.session['newsletter_email'] = newsletter.email
+
+            # Send confirmation email
+            email_sent = NewsletterEmailService.send_confirmation_email(newsletter, self.request)
+
+            if email_sent:
+                messages.success(
+                    self.request,
+                    f"Thank you! A confirmation email has been sent to {newsletter.email}. "
+                    f"Please check your inbox and click the confirmation link to complete your subscription."
+                )
+            else:
+                messages.warning(
+                    self.request,
+                    f"Your subscription has been registered, but we couldn't send the confirmation email. "
+                    f"Please contact us if you don't receive the confirmation email within a few minutes."
+                )
+
+            return super().form_valid(form)
+
+        except ValidationError as e:
+            form.add_error(None, e)
+            return self.form_invalid(form)
+        except Exception as e:
+            messages.error(
+                self.request,
+                "Sorry, there was an error processing your subscription. Please try again later."
+            )
+            return self.form_invalid(form)
+
+    def get_context_data(self, **kwargs):
+        """Add extra context for the template."""
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = "Subscribe to Newsletter"
+        return context
+
+
+class NewsletterSuccessView(TemplateView):
+    """Success page after newsletter subscription."""
+    template_name = 'blog/newsletter/success.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['email'] = self.request.session.get('newsletter_email', '')
+        context['page_title'] = "Subscription Successful"
+        return context
+
+
+def confirm_newsletter_subscription(request, token):
+    """Confirm newsletter subscription via token."""
+    try:
+        # Convert string token to UUID
+        token_uuid = uuid.UUID(str(token))
+        newsletter = get_object_or_404(Newsletter, confirmation_token=token_uuid)
+
+        if newsletter.is_confirmed:
+            messages.info(
+                request,
+                f"Your email {newsletter.email} is already confirmed and subscribed to our newsletter."
+            )
+        else:
+            newsletter.confirm_subscription()
+
+            # Send welcome email
+            NewsletterEmailService.send_welcome_email(newsletter, request)
+
+            messages.success(
+                request,
+                f"Great! Your email {newsletter.email} has been confirmed. "
+                f"You're now subscribed to our newsletter."
+            )
+
+        return render(request, 'blog/newsletter/confirmed.html', {
+            'newsletter': newsletter,
+            'page_title': 'Subscription Confirmed'
+        })
+
+    except (ValueError, ValidationError):
+        messages.error(request, "Invalid confirmation link. Please try subscribing again.")
+        return redirect('blog:newsletter_subscribe')
+
+
+def unsubscribe_newsletter(request, token):
+    """Unsubscribe from newsletter via token."""
+    try:
+        # Convert string token to UUID
+        token_uuid = uuid.UUID(str(token))
+        newsletter = get_object_or_404(Newsletter, unsubscribe_token=token_uuid)
+
+        if request.method == 'POST':
+            form = NewsletterUnsubscribeForm(request.POST)
+            if form.is_valid():
+                newsletter.unsubscribe()
+
+                # Log feedback if provided (for future improvement)
+                reason = form.cleaned_data.get('reason')
+                feedback = form.cleaned_data.get('feedback')
+
+                # TODO: Log unsubscribe feedback for analytics
+
+                messages.success(
+                    request,
+                    f"You have been successfully unsubscribed from our newsletter. "
+                    f"We're sorry to see you go!"
+                )
+
+                return render(request, 'blog/newsletter/unsubscribed.html', {
+                    'newsletter': newsletter,
+                    'page_title': 'Unsubscribed Successfully'
+                })
+        else:
+            form = NewsletterUnsubscribeForm()
+
+        return render(request, 'blog/newsletter/unsubscribe.html', {
+            'form': form,
+            'newsletter': newsletter,
+            'page_title': 'Unsubscribe from Newsletter'
+        })
+
+    except (ValueError, ValidationError):
+        messages.error(request, "Invalid unsubscribe link. Please contact us for assistance.")
+        return redirect('blog:post_list')
+
+
+@csrf_exempt
+@require_POST
+def newsletter_subscribe_ajax(request):
+    """AJAX endpoint for newsletter subscription from form components."""
+    try:
+        form = NewsletterSubscriptionForm(request.POST)
+
+        if form.is_valid():
+            newsletter = form.save(request=request)
+
+            # Send confirmation email
+            email_sent = NewsletterEmailService.send_confirmation_email(newsletter, request)
+
+            if email_sent:
+                return JsonResponse({
+                    'success': True,
+                    'message': f'Thank you! A confirmation email has been sent to {newsletter.email}. '
+                              f'Please check your inbox to complete your subscription.',
+                    'email': newsletter.email
+                })
+            else:
+                return JsonResponse({
+                    'success': True,
+                    'message': f'Your subscription has been registered, but we couldn\'t send the confirmation email. '
+                              f'Please contact us if you don\'t receive it within a few minutes.',
+                    'email': newsletter.email
+                })
+        else:
+            # Return form errors
+            errors = {}
+            for field, field_errors in form.errors.items():
+                errors[field] = [str(error) for error in field_errors]
+
+            return JsonResponse({
+                'success': False,
+                'errors': errors,
+                'message': 'Please correct the errors below.'
+            }, status=400)
+
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'message': 'Sorry, there was an error processing your subscription. Please try again later.'
+        }, status=500)
+
+
 # Function-based view aliases for URL patterns
 post_list = BlogListView.as_view()
 post_detail = BlogDetailView.as_view()
@@ -295,3 +483,5 @@ search = SearchView.as_view()
 embed_demo = EmbedDemoView.as_view()
 embed_guide = EmbedGuideView.as_view()
 saved_posts = SavedPostsView.as_view()
+newsletter_subscribe = NewsletterSubscribeView.as_view()
+newsletter_success = NewsletterSuccessView.as_view()
