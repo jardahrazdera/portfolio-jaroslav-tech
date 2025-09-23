@@ -1,0 +1,86 @@
+{% load blog_extras %}
+{% comment %}
+Enhanced Social Sharing Component
+Shows sharing buttons with platform-specific discussion prompts and analytics tracking.
+Encourages engagement through conversation starters.
+{% endcomment %}
+
+<div class="social-sharing-section">
+    <div class="sharing-container">
+        <div class="sharing-header">
+            <div class="sharing-icon-wrapper">
+                <i class="fas fa-share-alt sharing-main-icon"></i>
+            </div>
+            <div class="sharing-header-content">
+                <h3 class="sharing-title">Share Your Thoughts</h3>
+                <p class="sharing-subtitle">Found this helpful? Share it and start a conversation!</p>
+            </div>
+        </div>
+
+        <div class="sharing-buttons">
+            {% for platform_key, platform in sharing_data.items %}
+                <a href="{{ platform.url }}"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="sharing-button sharing-button-{{ platform_key }}"
+                   data-platform="{{ platform_key }}"
+                   data-post-id="{{ post.id }}"
+                   aria-label="Share on {{ platform.name }}">
+
+                    <div class="sharing-button-content">
+                        <div class="sharing-button-header">
+                            <i class="{{ platform.icon }}"
+                               style="color: {{ platform.color }};"
+                               aria-hidden="true"></i>
+                            <span class="platform-name">{{ platform.name }}</span>
+                            <i class="fas fa-external-link-alt sharing-external-icon" aria-hidden="true"></i>
+                        </div>
+
+                        <div class="sharing-prompt">
+                            {{ platform.prompt }}
+                        </div>
+
+                        <div class="sharing-preview">
+                            <span class="preview-label">Preview:</span>
+                            <span class="preview-text">"{{ platform.text|truncatechars:100 }}"</span>
+                        </div>
+                    </div>
+
+                    <div class="sharing-stats" data-platform="{{ platform_key }}">
+                        {% with count=post.get_share_counts %}
+                            {% if count|lookup:platform_key > 0 %}
+                                <span class="share-count">{{ count|lookup:platform_key }}</span>
+                                <span class="share-label">shares</span>
+                            {% else %}
+                                <span class="share-label">Be the first!</span>
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+
+        <div class="sharing-footer">
+            <div class="sharing-total">
+                {% if post.total_shares > 0 %}
+                    <i class="fas fa-heart" aria-hidden="true"></i>
+                    <span>This post has been shared <strong>{{ post.total_shares }}</strong> time{{ post.total_shares|pluralize }}</span>
+                {% else %}
+                    <i class="fas fa-rocket" aria-hidden="true"></i>
+                    <span>Be the first to share this post!</span>
+                {% endif %}
+            </div>
+
+            <div class="sharing-call-to-action">
+                <p class="cta-text">
+                    <i class="fas fa-comments" aria-hidden="true"></i>
+                    Your perspective matters! Share this post and let others know what you think.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% comment %}
+Template filter for dictionary lookup - add this to templatetags if needed
+{% endcomment %}

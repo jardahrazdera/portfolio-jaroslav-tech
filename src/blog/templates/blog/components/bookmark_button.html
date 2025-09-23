@@ -1,0 +1,36 @@
+{% comment %}
+Bookmark Button Component
+Displays a bookmark button that allows users to save posts for later reading.
+Usage: {% include 'blog/components/bookmark_button.html' with post=post size='small' %}
+{% endcomment %}
+
+<div class="bookmark-button-wrapper">
+    <button
+        x-data="bookmarkButton({
+            id: {{ post.id }},
+            title: '{{ post.title|escapejs }}',
+            slug: '{{ post.slug }}',
+            url: '{{ request.build_absolute_uri }}',
+            excerpt: '{{ post.excerpt|default:""|escapejs }}',
+            author: '{{ post.author.get_full_name|default:post.author.username|escapejs }}',
+            publishedAt: '{{ post.created_at.isoformat }}',
+            categories: [{% for category in post.categories.all %}'{{ category.name|escapejs }}'{% if not forloop.last %}, {% endif %}{% endfor %}],
+            tags: [{% for tag in post.tags.all %}'{{ tag.name|escapejs }}'{% if not forloop.last %}, {% endif %}{% endfor %}]
+        })"
+        @click="toggleBookmark()"
+        :class="['bookmark-button', 'bookmark-button-{{ size|default:"medium" }}', { 'bookmarked': isBookmarked }]"
+        :aria-label="isBookmarked ? 'Remove from bookmarks' : 'Save for later reading'"
+        :title="bookmarkText"
+        class="bookmark-button bookmark-button-{{ size|default:'medium' }}">
+
+        <span class="bookmark-icon">
+            <i :class="bookmarkIcon" aria-hidden="true"></i>
+        </span>
+
+        {% if not compact %}
+        <span class="bookmark-text" x-text="bookmarkText"></span>
+        {% endif %}
+
+        <span class="bookmark-ripple" x-show="isAnimating" x-transition></span>
+    </button>
+</div>
