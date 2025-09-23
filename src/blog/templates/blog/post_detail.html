@@ -74,7 +74,7 @@
                 {% include 'blog/components/file_attachments.html' with post=post %}
             {% endif %}
 
-            {% include 'blog/components/social_sharing.html' with post=post %}
+            {% include 'blog/components/social_sharing.html' with post=post sharing_data=sharing_data %}
 
             {% include 'blog/components/discussion_link.html' with post=post %}
         </article>
