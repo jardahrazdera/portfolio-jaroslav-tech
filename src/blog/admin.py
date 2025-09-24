@@ -356,7 +356,7 @@ class NewsletterAdmin(admin.ModelAdmin):
     list_display = ('email', 'subscription_status_display', 'is_active', 'is_confirmed', 'days_since_subscription', 'source', 'subscribed_at')
     list_filter = ('is_active', 'is_confirmed', 'source', 'subscribed_at')
     search_fields = ('email',)
-    readonly_fields = ('confirmation_token', 'unsubscribe_token', 'subscribed_at', 'confirmed_at', 'unsubscribed_at', 'days_since_subscription', 'subscription_urls')
+    readonly_fields = ('subscription_status_display', 'confirmation_token', 'unsubscribe_token', 'subscribed_at', 'confirmed_at', 'unsubscribed_at', 'days_since_subscription', 'subscription_urls')
     actions = ['send_confirmation_email', 'activate_subscriptions', 'deactivate_subscriptions', 'export_active_subscribers']
 
     fieldsets = (
