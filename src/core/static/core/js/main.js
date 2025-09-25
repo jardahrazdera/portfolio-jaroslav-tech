@@ -68,6 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- Back to Top Button Logic with Progress Ring ---
     const backToTopButton = document.getElementById('back-to-top');
     const progressRing = document.querySelector('.progress-ring-circle');
+    const scrollPercentage = document.getElementById('scroll-percentage');
     
     if (backToTopButton) {
         // Show button immediately
@@ -94,6 +95,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 const circumference = 2 * Math.PI * 25;
                 const offset = circumference - (scrollProgress * circumference);
                 progressRing.style.strokeDashoffset = offset;
+
+                // Update percentage text
+                if (scrollPercentage) {
+                    const percentage = Math.round(scrollProgress * 100);
+                    scrollPercentage.innerText = `${percentage}%`;
+                }
             }
         });
     }

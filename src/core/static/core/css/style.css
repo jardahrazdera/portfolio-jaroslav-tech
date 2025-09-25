@@ -229,15 +229,24 @@ a:hover {
     opacity: 0.3;
 }
 
-/* Back to top text/arrow */
-.back-to-top-text {
+/* Back to top content container */
+.back-to-top-content {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 2;
-    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     line-height: 1;
+}
+
+/* Percentage text style */
+#scroll-percentage {
+    font-size: 0.8rem;
+    font-weight: 400;
 }
 
 /* Back to Top Button - Mobile */
