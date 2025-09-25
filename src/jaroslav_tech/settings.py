@@ -407,3 +407,26 @@ if 'test' in sys.argv or 'pytest' in sys.modules:
             'LOCATION': 'test-cache',
         }
     }
+
+# Database query debugging for development
+if DEBUG:
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'handlers': {
+            'console': {
+                'level': 'DEBUG',
+                'class': 'logging.StreamHandler',
+            },
+        },
+        'loggers': {
+            'django.db.backends': {
+                'level': 'DEBUG',
+                'handlers': ['console'],
+                'propagate': False,
+            },
+        },
+    }
+
+    # Enable query counting middleware for development
+    MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE if 'debug_toolbar' not in ' '.join(MIDDLEWARE) else MIDDLEWARE
