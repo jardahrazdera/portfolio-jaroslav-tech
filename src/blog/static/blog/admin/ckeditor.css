@@ -1,0 +1,352 @@
+/* CKEditor 5 Admin Styling Improvements */
+
+/* ===== CKEditor 5 Main Container ===== */
+.ck-editor {
+    max-width: none !important;
+    width: 100% !important;
+}
+
+/* ===== Content Area Styling ===== */
+.ck-editor__editable {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+    padding: 20px !important;
+    border: 2px solid #e9ecef !important;
+    border-radius: 6px !important;
+    min-height: 400px !important;
+    max-height: none !important;
+}
+
+/* Focus state for better visibility */
+.ck-editor__editable:focus {
+    border-color: #007cba !important;
+    box-shadow: 0 0 0 3px rgba(0, 124, 186, 0.1) !important;
+    outline: none !important;
+}
+
+/* ===== Toolbar Styling ===== */
+.ck-toolbar {
+    background-color: #f8f9fa !important;
+    border: 1px solid #e9ecef !important;
+    border-bottom: none !important;
+    border-radius: 6px 6px 0 0 !important;
+    padding: 8px 12px !important;
+    flex-wrap: wrap !important;
+}
+
+.ck-toolbar__separator {
+    background-color: #dee2e6 !important;
+    margin: 0 8px !important;
+}
+
+/* ===== Button Styling ===== */
+.ck-button {
+    color: #495057 !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    border-radius: 4px !important;
+    padding: 6px 8px !important;
+    margin: 2px !important;
+}
+
+.ck-button:hover {
+    background-color: #e9ecef !important;
+    color: #212529 !important;
+}
+
+.ck-button.ck-on {
+    background-color: #007cba !important;
+    color: #ffffff !important;
+}
+
+/* ===== Source Editing Mode ===== */
+.ck-source-editing-area textarea {
+    background-color: #2d3748 !important;
+    color: #e2e8f0 !important;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'Courier New', monospace !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    padding: 20px !important;
+    border: 2px solid #4a5568 !important;
+    border-radius: 6px !important;
+    tab-size: 2 !important;
+    -moz-tab-size: 2 !important;
+    min-height: 400px !important;
+    resize: vertical !important;
+}
+
+.ck-source-editing-area textarea:focus {
+    outline: none !important;
+    border-color: #007cba !important;
+    box-shadow: 0 0 0 3px rgba(0, 124, 186, 0.1) !important;
+}
+
+/* ===== Dropdown Styling ===== */
+.ck-dropdown__panel {
+    background-color: #ffffff !important;
+    border: 1px solid #dee2e6 !important;
+    border-radius: 6px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+.ck-list__item {
+    color: #495057 !important;
+    padding: 8px 12px !important;
+}
+
+.ck-list__item:hover {
+    background-color: #f8f9fa !important;
+    color: #212529 !important;
+}
+
+/* ===== Image and Media Styling ===== */
+.ck-content .image {
+    margin: 1em 0 !important;
+}
+
+.ck-content .image img {
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: 4px !important;
+}
+
+/* ===== Table Styling ===== */
+.ck-content .table {
+    margin: 1em 0 !important;
+    border-collapse: collapse !important;
+    width: 100% !important;
+}
+
+.ck-content .table td,
+.ck-content .table th {
+    border: 1px solid #dee2e6 !important;
+    padding: 8px 12px !important;
+}
+
+.ck-content .table th {
+    background-color: #f8f9fa !important;
+    font-weight: 600 !important;
+}
+
+/* ===== Code Block Styling ===== */
+.ck-content pre {
+    background-color: #f8f9fa !important;
+    border: 1px solid #e9ecef !important;
+    border-radius: 4px !important;
+    padding: 16px !important;
+    overflow-x: auto !important;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'Courier New', monospace !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    color: #495057 !important;
+}
+
+.ck-content code {
+    background-color: #f8f9fa !important;
+    color: #e83e8c !important;
+    padding: 2px 6px !important;
+    border-radius: 3px !important;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'Courier New', monospace !important;
+    font-size: 0.9em !important;
+}
+
+/* ===== Headings Styling ===== */
+.ck-content h1 {
+    font-size: 2.5em !important;
+    color: #212529 !important;
+    font-weight: 600 !important;
+    margin: 1em 0 0.5em 0 !important;
+    line-height: 1.2 !important;
+}
+
+.ck-content h2 {
+    font-size: 2em !important;
+    color: #212529 !important;
+    font-weight: 600 !important;
+    margin: 1em 0 0.5em 0 !important;
+    line-height: 1.3 !important;
+}
+
+.ck-content h3 {
+    font-size: 1.5em !important;
+    color: #212529 !important;
+    font-weight: 600 !important;
+    margin: 1em 0 0.5em 0 !important;
+    line-height: 1.4 !important;
+}
+
+/* ===== Blockquote Styling ===== */
+.ck-content blockquote {
+    border-left: 4px solid #007cba !important;
+    padding-left: 16px !important;
+    margin: 1em 0 !important;
+    font-style: italic !important;
+    color: #6c757d !important;
+    background-color: #f8f9fa !important;
+    padding: 16px 16px 16px 20px !important;
+    border-radius: 0 4px 4px 0 !important;
+}
+
+/* ===== List Styling ===== */
+.ck-content ul,
+.ck-content ol {
+    margin: 1em 0 !important;
+    padding-left: 2em !important;
+}
+
+.ck-content li {
+    margin: 0.25em 0 !important;
+    line-height: 1.6 !important;
+}
+
+/* ===== Django Admin Integration ===== */
+.field-content,
+.form-row .field-content,
+.form-row,
+.fieldBox {
+    max-width: none !important;
+    overflow: visible !important;
+}
+
+.change-form .form-row {
+    overflow: visible !important;
+}
+
+.change-form fieldset {
+    overflow: visible !important;
+}
+
+.change-form .fieldBox {
+    overflow: visible !important;
+    max-width: none !important;
+}
+
+/* Allow horizontal scrolling if needed */
+.change-form {
+    overflow-x: auto !important;
+}
+
+/* ===== Responsive Behavior ===== */
+@media (max-width: 768px) {
+    .ck-editor {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .ck-toolbar {
+        flex-wrap: wrap !important;
+        gap: 4px !important;
+    }
+
+    .ck-editor__editable {
+        font-size: 16px !important;
+        padding: 16px !important;
+        min-height: 300px !important;
+    }
+}
+
+/* ===== Balloon Toolbar (Context Menu) ===== */
+.ck-balloon-panel {
+    background-color: #ffffff !important;
+    border: 1px solid #dee2e6 !important;
+    border-radius: 6px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+.ck-balloon-panel .ck-toolbar {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 4px !important;
+}
+
+/* ===== Placeholders ===== */
+.ck-placeholder::before {
+    color: #6c757d !important;
+    font-style: italic !important;
+}
+
+/* ===== Fix for content overflow ===== */
+.ck-content {
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+}
+
+/* ===== Make editor resizable and flexible ===== */
+.ck-editor__editable {
+    resize: vertical !important;
+    min-height: 300px !important;
+    max-height: 80vh !important;
+}
+
+/* ===== Ensure the editor takes full available width ===== */
+.ck-editor {
+    width: 100% !important;
+    min-width: 100% !important;
+}
+
+/* ===== Better mobile experience ===== */
+@media (max-width: 480px) {
+    .ck-toolbar {
+        padding: 6px !important;
+    }
+
+    .ck-button {
+        padding: 4px 6px !important;
+        font-size: 14px !important;
+    }
+
+    .ck-editor__editable {
+        padding: 12px !important;
+        min-height: 250px !important;
+    }
+}
+
+/* ===== Content formatting improvements ===== */
+.ck-content p {
+    margin: 0.5em 0 !important;
+    line-height: 1.6 !important;
+}
+
+.ck-content p:first-child {
+    margin-top: 0 !important;
+}
+
+.ck-content p:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* ===== Better link styling ===== */
+.ck-content a {
+    color: #007cba !important;
+    text-decoration: underline !important;
+}
+
+.ck-content a:hover {
+    color: #005a8b !important;
+}
+
+/* ===== Improved toolbar layout ===== */
+.ck-toolbar {
+    justify-content: flex-start !important;
+    align-items: center !important;
+}
+
+.ck-toolbar .ck-toolbar__separator {
+    margin: 0 4px !important;
+    height: 20px !important;
+    width: 1px !important;
+}
+
+/* ===== Source editing improvements ===== */
+.ck-source-editing-area {
+    width: 100% !important;
+}
+
+.ck-source-editing-area textarea {
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
