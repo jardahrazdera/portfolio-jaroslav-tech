@@ -1,100 +1,198 @@
 """
-Blog app signal handlers for file cleanup and other automated tasks.
+Django signals for automatic cache invalidation when blog content changes.
 """
-import os
-from django.db.models.signals import pre_delete, post_delete
+from django.db.models.signals import post_save, post_delete, m2m_changed
 from django.dispatch import receiver
-from .models import BlogFile, Post
+from django.core.cache import cache
+from .models import Post, Category, Tag
+from .cache_service import BlogCacheService
+import logging
+
+logger = logging.getLogger(__name__)
 
 
-@receiver(pre_delete, sender=BlogFile)
-def delete_file_on_blogfile_delete(sender, instance, **kwargs):
+@receiver(post_save, sender=Post)
+def invalidate_post_caches_on_save(sender, instance, created, **kwargs):
     """
-    Delete the physical file when a BlogFile instance is deleted.
+    Invalidate caches when a post is saved.
 
-    This signal handler ensures that when a BlogFile is deleted from the database,
-    the corresponding file is also removed from the filesystem to prevent
-    orphaned files from accumulating.
+    This handles:
+    - New post creation
+    - Post updates (title, content, publication status, etc.)
+    - Featured status changes
     """
-    if instance.file:
-        # Check if file exists before attempting to delete
-        if os.path.isfile(instance.file.path):
-            try:
-                os.remove(instance.file.path)
-            except OSError:
-                # File might be in use or permission denied
-                # Log the error but don't raise exception to prevent
-                # database deletion from failing
-                pass
+    logger.info(f"Post {'created' if created else 'updated'}: {instance.title}")
+
+    # Always invalidate post-specific caches
+    BlogCacheService.invalidate_post_caches(instance.slug)
+
+    # If post was published/unpublished or featured status changed, invalidate lists
+    if created or instance.is_published or getattr(instance, '_was_published', False):
+        BlogCacheService.invalidate_list_caches()
+        logger.debug(f"Invalidated list caches due to post publication status change")
+
+    # If this is a featured post, invalidate featured posts cache specifically
+    if instance.is_featured:
+        featured_cache_key = BlogCacheService._make_cache_key(
+            BlogCacheService.FEATURED_POSTS_PREFIX
+        )
+        cache.delete(featured_cache_key)
+        logger.debug(f"Invalidated featured posts cache")
 
 
-@receiver(post_delete, sender=BlogFile)
-def cleanup_empty_directories(sender, instance, **kwargs):
+@receiver(post_delete, sender=Post)
+def invalidate_post_caches_on_delete(sender, instance, **kwargs):
     """
-    Clean up empty directories after file deletion.
-
-    When files are deleted, this removes empty parent directories
-    to keep the media folder organized.
+    Invalidate caches when a post is deleted.
     """
-    if instance.file:
+    logger.info(f"Post deleted: {instance.title}")
+
+    # Invalidate post-specific caches
+    BlogCacheService.invalidate_post_caches(instance.slug)
+
+    # Invalidate list caches since post counts will change
+    BlogCacheService.invalidate_list_caches()
+
+
+@receiver(m2m_changed, sender=Post.categories.through)
+def invalidate_category_caches_on_change(sender, instance, action, pk_set, **kwargs):
+    """
+    Invalidate caches when post-category relationships change.
+    """
+    if action in ['post_add', 'post_remove', 'post_clear']:
+        logger.info(f"Post categories changed for: {instance.title}")
+
+        # Invalidate post-specific caches
+        BlogCacheService.invalidate_post_caches(instance.slug)
+
+        # Invalidate category caches
+        categories_cache_key = BlogCacheService._make_cache_key(
+            BlogCacheService.CATEGORIES_PREFIX, 'with_counts'
+        )
+        cache.delete(categories_cache_key)
+
+        # Invalidate list caches
+        BlogCacheService.invalidate_list_caches()
+
+        logger.debug(f"Invalidated category-related caches")
+
+
+@receiver(m2m_changed, sender=Post.tags.through)
+def invalidate_tag_caches_on_change(sender, instance, action, pk_set, **kwargs):
+    """
+    Invalidate caches when post-tag relationships change.
+    """
+    if action in ['post_add', 'post_remove', 'post_clear']:
+        logger.info(f"Post tags changed for: {instance.title}")
+
+        # Invalidate post-specific caches
+        BlogCacheService.invalidate_post_caches(instance.slug)
+
+        # Invalidate tag caches
+        tags_cache_key = BlogCacheService._make_cache_key(
+            BlogCacheService.TAGS_PREFIX, 'with_counts'
+        )
+        cache.delete(tags_cache_key)
+
+        # Invalidate list caches
+        BlogCacheService.invalidate_list_caches()
+
+        logger.debug(f"Invalidated tag-related caches")
+
+
+@receiver(post_save, sender=Category)
+def invalidate_category_caches_on_category_save(sender, instance, created, **kwargs):
+    """
+    Invalidate caches when a category is created or updated.
+    """
+    logger.info(f"Category {'created' if created else 'updated'}: {instance.name}")
+
+    # Invalidate category caches
+    categories_cache_key = BlogCacheService._make_cache_key(
+        BlogCacheService.CATEGORIES_PREFIX, 'with_counts'
+    )
+    cache.delete(categories_cache_key)
+
+    # If category slug changed, invalidate related list caches
+    if not created:
+        BlogCacheService.invalidate_list_caches()
+
+    logger.debug(f"Invalidated category caches")
+
+
+@receiver(post_delete, sender=Category)
+def invalidate_category_caches_on_category_delete(sender, instance, **kwargs):
+    """
+    Invalidate caches when a category is deleted.
+    """
+    logger.info(f"Category deleted: {instance.name}")
+
+    # Invalidate all related caches
+    categories_cache_key = BlogCacheService._make_cache_key(
+        BlogCacheService.CATEGORIES_PREFIX, 'with_counts'
+    )
+    cache.delete(categories_cache_key)
+
+    BlogCacheService.invalidate_list_caches()
+
+
+@receiver(post_save, sender=Tag)
+def invalidate_tag_caches_on_tag_save(sender, instance, created, **kwargs):
+    """
+    Invalidate caches when a tag is created or updated.
+    """
+    logger.info(f"Tag {'created' if created else 'updated'}: {instance.name}")
+
+    # Invalidate tag caches
+    tags_cache_key = BlogCacheService._make_cache_key(
+        BlogCacheService.TAGS_PREFIX, 'with_counts'
+    )
+    cache.delete(tags_cache_key)
+
+    # If tag slug changed, invalidate related list caches
+    if not created:
+        BlogCacheService.invalidate_list_caches()
+
+    logger.debug(f"Invalidated tag caches")
+
+
+@receiver(post_delete, sender=Tag)
+def invalidate_tag_caches_on_tag_delete(sender, instance, **kwargs):
+    """
+    Invalidate caches when a tag is deleted.
+    """
+    logger.info(f"Tag deleted: {instance.name}")
+
+    # Invalidate all related caches
+    tags_cache_key = BlogCacheService._make_cache_key(
+        BlogCacheService.TAGS_PREFIX, 'with_counts'
+    )
+    cache.delete(tags_cache_key)
+
+    BlogCacheService.invalidate_list_caches()
+
+
+def track_field_changes(sender, instance, **kwargs):
+    """
+    Track field changes for better cache invalidation decisions.
+    This is a helper to track what fields actually changed.
+    """
+    if instance.pk:
         try:
-            # Get the directory containing the file
-            file_dir = os.path.dirname(instance.file.path)
-
-            # Only remove if directory is empty and it's within our blog files structure
-            if 'blog/files' in file_dir and os.path.exists(file_dir):
-                # Check if directory is empty
-                if not os.listdir(file_dir):
-                    os.rmdir(file_dir)
-
-                    # Also check parent directory (post_X folder)
-                    parent_dir = os.path.dirname(file_dir)
-                    if 'blog/files' in parent_dir and os.path.exists(parent_dir):
-                        if not os.listdir(parent_dir):
-                            os.rmdir(parent_dir)
-        except OSError:
-            # Directory might not be empty or permission denied
-            # Fail silently to avoid breaking the deletion process
-            pass
+            old_instance = sender.objects.get(pk=instance.pk)
+            instance._was_published = old_instance.is_published
+            instance._was_featured = old_instance.is_featured
+            instance._old_slug = old_instance.slug
+        except sender.DoesNotExist:
+            instance._was_published = False
+            instance._was_featured = False
+            instance._old_slug = None
 
 
-@receiver(pre_delete, sender=Post)
-def cleanup_post_files_on_delete(sender, instance, **kwargs):
-    """
-    Clean up all associated files when a Post is deleted.
+# Connect the field change tracking to pre_save signal
+from django.db.models.signals import pre_save
 
-    This ensures that when a blog post is deleted, all its file attachments
-    are also removed from the filesystem.
-    """
-    # Get all file attachments for this post
-    attachments = instance.attachments.all()
-
-    for attachment in attachments:
-        if attachment.file and os.path.isfile(attachment.file.path):
-            try:
-                os.remove(attachment.file.path)
-            except OSError:
-                # File might be in use or permission denied
-                pass
-
-    # Clean up the post's file directory
-    if attachments.exists():
-        try:
-            # Construct the expected directory path
-            post_dir = os.path.join(
-                os.path.dirname(attachments.first().file.path),
-                f'post_{instance.pk}'
-            )
-
-            if os.path.exists(post_dir):
-                # Remove any remaining files in the directory
-                for filename in os.listdir(post_dir):
-                    file_path = os.path.join(post_dir, filename)
-                    if os.path.isfile(file_path):
-                        os.remove(file_path)
-
-                # Remove the directory if it's empty
-                if not os.listdir(post_dir):
-                    os.rmdir(post_dir)
-        except OSError:
-            pass
+@receiver(pre_save, sender=Post)
+def track_post_changes(sender, instance, **kwargs):
+    """Track Post field changes before saving."""
+    track_field_changes(sender, instance, **kwargs)
