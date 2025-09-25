@@ -11,6 +11,82 @@ from .image_utils import ImageProcessor
 from .file_utils import FileValidator, generate_file_path, get_file_type, format_file_size
 
 
+class PostManager(models.Manager):
+    """Custom manager for Post model with optimized query methods."""
+
+    def published(self):
+        """Get published posts with related data pre-loaded."""
+        return self.filter(is_published=True).select_related('author').prefetch_related('categories', 'tags')
+
+    def featured(self):
+        """Get featured published posts with related data."""
+        return self.published().filter(is_featured=True)
+
+    def by_category(self, category_slug):
+        """Get published posts in a specific category."""
+        return self.published().filter(categories__slug=category_slug).distinct()
+
+    def by_tag(self, tag_slug):
+        """Get published posts with a specific tag."""
+        return self.published().filter(tags__slug=tag_slug).distinct()
+
+    def by_author(self, author_id):
+        """Get published posts by a specific author."""
+        return self.published().filter(author_id=author_id)
+
+    def search(self, query):
+        """Search published posts by title, content, or excerpt with PostgreSQL full-text search."""
+        if not query:
+            return self.none()
+
+        from django.db.models import Q
+        from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+        import re
+
+        # Clean the query
+        query = re.sub(r'[^\w\s-]', '', query.strip())
+        if not query:
+            return self.none()
+
+        try:
+            # Use PostgreSQL full-text search if available
+            search_vector = SearchVector('title', weight='A') + SearchVector('content', weight='B') + SearchVector('excerpt', weight='C')
+            search_query = SearchQuery(query)
+
+            return self.published().annotate(
+                search=search_vector,
+                rank=SearchRank(search_vector, search_query)
+            ).filter(search=search_query).order_by('-rank', '-created_at')
+
+        except Exception:
+            # Fallback to icontains search for non-PostgreSQL databases
+            return self.published().filter(
+                Q(title__icontains=query) |
+                Q(content__icontains=query) |
+                Q(excerpt__icontains=query)
+            ).distinct()
+
+    def recent(self, count=10):
+        """Get recent published posts."""
+        return self.published().order_by('-created_at')[:count]
+
+    def popular_by_views(self, days=30, count=10):
+        """Get popular posts by view count in the last N days."""
+        from django.utils import timezone
+        from django.db.models import Count, Q
+
+        cutoff_date = timezone.now() - timezone.timedelta(days=days)
+        return self.published().filter(
+            views__viewed_at__gte=cutoff_date
+        ).annotate(
+            view_count=Count('views', filter=Q(views__viewed_at__gte=cutoff_date))
+        ).order_by('-view_count')[:count]
+
+    def with_attachments(self):
+        """Get posts that have file attachments."""
+        return self.published().filter(attachments__isnull=False).prefetch_related('attachments').distinct()
+
+
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True, blank=True)
@@ -25,6 +101,10 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = "Categories"
+        indexes = [
+            models.Index(fields=['slug']),  # Category slug lookups
+            models.Index(fields=['name']),  # Category name ordering/search
+        ]
 
 
 class Tag(models.Model):
@@ -39,6 +119,12 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['slug']),  # Tag slug lookups
+            models.Index(fields=['name']),  # Tag name ordering/search
+        ]
 
 
 class Post(models.Model):
@@ -81,6 +167,9 @@ class Post(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    # Custom manager with optimized query methods
+    objects = PostManager()
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -552,6 +641,14 @@ class Post(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['slug']),  # Slug lookups (already unique, but explicit index)
+            models.Index(fields=['is_published', '-created_at']),  # Published posts ordered by date
+            models.Index(fields=['is_featured', 'is_published']),  # Featured published posts
+            models.Index(fields=['author', 'is_published']),  # Posts by author
+            models.Index(fields=['-created_at']),  # Date ordering
+            models.Index(fields=['is_published', 'title']),  # Search by title
+        ]
 
 
 class BlogFile(models.Model):
