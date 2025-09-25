@@ -464,6 +464,89 @@ class Post(models.Model):
         """Get recommendations specifically for sidebar display."""
         return self.get_reading_recommendations(context='sidebar')
 
+    def get_view_count(self, period=None):
+        """
+        Get view count for this post.
+
+        Args:
+            period (str): 'week', 'month', or None for all-time
+
+        Returns:
+            int: Number of views
+        """
+        from django.utils import timezone
+        from django.db.models import Count
+
+        views = self.views.all()
+
+        if period == 'week':
+            cutoff = timezone.now() - timezone.timedelta(days=7)
+            views = views.filter(viewed_at__gte=cutoff)
+        elif period == 'month':
+            cutoff = timezone.now() - timezone.timedelta(days=30)
+            views = views.filter(viewed_at__gte=cutoff)
+
+        return views.count()
+
+    def get_reading_completion_rate(self):
+        """
+        Get reading completion rate as percentage.
+
+        Returns:
+            float: Percentage of viewers who completed reading
+        """
+        total_views = self.views.count()
+        if total_views == 0:
+            return 0.0
+
+        completed_views = self.views.filter(completed_reading=True).count()
+        return (completed_views / total_views) * 100
+
+    def get_average_reading_time(self):
+        """
+        Get average reading time in seconds.
+
+        Returns:
+            float: Average reading time or None if no data
+        """
+        from django.db.models import Avg
+
+        result = self.views.filter(
+            reading_time_seconds__isnull=False
+        ).aggregate(avg_time=Avg('reading_time_seconds'))
+
+        return result['avg_time']
+
+    def is_trending(self, days=7, min_views=5):
+        """
+        Check if this post is currently trending.
+
+        Args:
+            days (int): Period to check for trending
+            min_views (int): Minimum views to consider trending
+
+        Returns:
+            bool: True if post is trending
+        """
+        recent_views = self.get_view_count(period='week' if days == 7 else None)
+        return recent_views >= min_views
+
+    def get_view_stats(self):
+        """
+        Get comprehensive view statistics for this post.
+
+        Returns:
+            dict: Statistics including view counts, completion rate, etc.
+        """
+        return {
+            'total_views': self.get_view_count(),
+            'weekly_views': self.get_view_count(period='week'),
+            'monthly_views': self.get_view_count(period='month'),
+            'completion_rate': self.get_reading_completion_rate(),
+            'average_reading_time': self.get_average_reading_time(),
+            'is_trending': self.is_trending(),
+        }
+
     def __str__(self):
         return self.title
 
@@ -558,6 +641,207 @@ class BlogFile(models.Model):
         ordering = ['-uploaded_at']
         verbose_name = "Blog File"
         verbose_name_plural = "Blog Files"
+
+
+class PostView(models.Model):
+    """
+    Privacy-friendly post view tracking model.
+    Tracks page views without storing any personal data or IP addresses.
+    """
+
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE,
+        related_name='views',
+        help_text='Post being viewed'
+    )
+
+    # Privacy-friendly tracking - no IP addresses or personal data
+    viewed_at = models.DateTimeField(
+        auto_now_add=True,
+        help_text='When the view occurred',
+        db_index=True  # Index for fast time-based queries
+    )
+
+    # Optional reading engagement data
+    reading_time_seconds = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        help_text='How long user spent reading (seconds) - tracked via JavaScript'
+    )
+
+    completed_reading = models.BooleanField(
+        default=False,
+        help_text='Whether user scrolled to end of article'
+    )
+
+    # Technical metadata (no personal data)
+    user_agent_hash = models.CharField(
+        max_length=64,
+        null=True,
+        blank=True,
+        help_text='Hashed user agent for bot detection (no personal data stored)',
+        db_index=True
+    )
+
+    referrer_domain = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+        help_text='Domain of referring site (no full URLs stored)'
+    )
+
+    # Session-based duplicate prevention (no personal tracking)
+    session_hash = models.CharField(
+        max_length=64,
+        null=True,
+        blank=True,
+        help_text='Anonymized session identifier for duplicate view prevention',
+        db_index=True
+    )
+
+    class Meta:
+        verbose_name = "Post View"
+        verbose_name_plural = "Post Views"
+        ordering = ['-viewed_at']
+        indexes = [
+            models.Index(fields=['post', '-viewed_at']),  # Fast post-specific queries
+            models.Index(fields=['-viewed_at']),          # Trending queries
+            models.Index(fields=['post', 'session_hash']), # Duplicate prevention
+        ]
+
+    def __str__(self):
+        return f"View of '{self.post.title}' at {self.viewed_at.strftime('%Y-%m-%d %H:%M')}"
+
+    @classmethod
+    def get_trending_posts(cls, days=7, limit=10):
+        """
+        Get trending posts based on recent views.
+
+        Args:
+            days (int): Number of days to look back
+            limit (int): Maximum number of posts to return
+
+        Returns:
+            QuerySet: Posts ordered by view count in specified period
+        """
+        from django.utils import timezone
+        from django.db.models import Count
+
+        cutoff_date = timezone.now() - timezone.timedelta(days=days)
+
+        return Post.objects.filter(
+            is_published=True,
+            views__viewed_at__gte=cutoff_date
+        ).annotate(
+            recent_views=Count('views', filter=models.Q(views__viewed_at__gte=cutoff_date))
+        ).filter(
+            recent_views__gt=0
+        ).order_by('-recent_views')[:limit]
+
+    @classmethod
+    def get_popular_posts(cls, period='week', limit=10):
+        """
+        Get popular posts for different time periods.
+
+        Args:
+            period (str): 'week', 'month', or 'all_time'
+            limit (int): Maximum number of posts to return
+
+        Returns:
+            QuerySet: Posts with view counts
+        """
+        from django.utils import timezone
+        from django.db.models import Count
+
+        now = timezone.now()
+
+        if period == 'week':
+            cutoff = now - timezone.timedelta(days=7)
+        elif period == 'month':
+            cutoff = now - timezone.timedelta(days=30)
+        else:  # all_time
+            cutoff = None
+
+        queryset = Post.objects.filter(is_published=True)
+
+        if cutoff:
+            queryset = queryset.annotate(
+                period_views=Count('views', filter=models.Q(views__viewed_at__gte=cutoff))
+            ).filter(period_views__gt=0).order_by('-period_views')
+        else:
+            queryset = queryset.annotate(
+                total_views=Count('views')
+            ).filter(total_views__gt=0).order_by('-total_views')
+
+        return queryset[:limit]
+
+    @classmethod
+    def add_view(cls, post, request=None, reading_data=None):
+        """
+        Add a privacy-friendly page view.
+
+        Args:
+            post: Post instance being viewed
+            request: HTTP request (optional, for metadata)
+            reading_data: Dict with reading engagement data (optional)
+
+        Returns:
+            PostView: Created view instance or None if duplicate
+        """
+        import hashlib
+        from urllib.parse import urlparse
+
+        # Create session hash for duplicate prevention (no personal data)
+        session_key = request.session.session_key if request and hasattr(request, 'session') else None
+        session_hash = None
+
+        if session_key:
+            # Hash the session key so we don't store personal data
+            session_hash = hashlib.sha256(session_key.encode()).hexdigest()
+
+            # Check for duplicate views in the last hour
+            from django.utils import timezone
+            recent_cutoff = timezone.now() - timezone.timedelta(hours=1)
+
+            if cls.objects.filter(
+                post=post,
+                session_hash=session_hash,
+                viewed_at__gte=recent_cutoff
+            ).exists():
+                return None  # Duplicate view, don't count
+
+        # Process user agent (hash only, no personal data)
+        user_agent_hash = None
+        if request and request.META.get('HTTP_USER_AGENT'):
+            user_agent = request.META['HTTP_USER_AGENT']
+            user_agent_hash = hashlib.md5(user_agent.encode()).hexdigest()
+
+        # Process referrer (domain only, no personal data)
+        referrer_domain = None
+        if request and request.META.get('HTTP_REFERER'):
+            try:
+                parsed = urlparse(request.META['HTTP_REFERER'])
+                referrer_domain = parsed.netloc[:100]  # Limit length
+            except:
+                pass
+
+        # Create view record
+        view_data = {
+            'post': post,
+            'session_hash': session_hash,
+            'user_agent_hash': user_agent_hash,
+            'referrer_domain': referrer_domain,
+        }
+
+        # Add reading engagement data if provided
+        if reading_data:
+            if 'reading_time_seconds' in reading_data:
+                view_data['reading_time_seconds'] = reading_data['reading_time_seconds']
+            if 'completed_reading' in reading_data:
+                view_data['completed_reading'] = reading_data['completed_reading']
+
+        return cls.objects.create(**view_data)
 
 
 class Newsletter(models.Model):
