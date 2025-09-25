@@ -45,6 +45,16 @@ def time_ago(date):
     if not date:
         return ""
 
+    # Handle string dates (from cache serialization)
+    if isinstance(date, str):
+        from django.utils.dateparse import parse_datetime
+        try:
+            date = parse_datetime(date)
+            if not date:
+                return ""
+        except (ValueError, TypeError):
+            return ""
+
     now = timezone.now()
     diff = now - date
 
