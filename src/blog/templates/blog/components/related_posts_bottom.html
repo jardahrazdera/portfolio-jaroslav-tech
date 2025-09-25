@@ -1,0 +1,262 @@
+{% load static %}
+{% load i18n %}
+{% load blog_extras %}
+
+<!-- Full-width Bottom Related Posts -->
+<div class="bottom-related-posts" x-data="bottomRelatedPosts()">
+    {% if recommendations.primary.posts %}
+        <section class="bottom-related-section">
+            <div class="container">
+                <!-- Main Section Header -->
+                <header class="bottom-related__header">
+                    <h3 class="bottom-related__title">
+                        <i class="fas fa-compass" aria-hidden="true"></i>
+                        Continue Your Learning Journey
+                    </h3>
+                    <p class="bottom-related__subtitle">
+                        Discover more insights and expand your knowledge with these handpicked articles
+                    </p>
+                </header>
+
+                <!-- Primary Related Posts Grid -->
+                <div class="bottom-related__grid">
+                    {% for item in recommendations.primary.posts %}
+                        <article class="bottom-related-card"
+                                 @click="trackClick('{{ item.post.slug }}', 'primary')">
+
+                            <!-- Featured Image -->
+                            {% if item.post.featured_image %}
+                                <div class="bottom-related-card__image">
+                                    <a href="{{ item.post.get_absolute_url }}"
+                                       class="bottom-related-card__image-link">
+
+                                        {% if item.post.get_image_base_name %}
+                                            <picture class="bottom-related-card__picture">
+                                                <source media="(max-width: 640px)"
+                                                        srcset="{% static 'media/processed_images/' %}{{ item.post.get_image_base_name }}_mobile.webp"
+                                                        type="image/webp">
+                                                <source srcset="{% static 'media/processed_images/' %}{{ item.post.get_image_base_name }}_tablet.webp"
+                                                        type="image/webp">
+                                                <img src="{% static 'media/processed_images/' %}{{ item.post.get_image_base_name }}_tablet.jpg"
+                                                     alt="{{ item.post.title }}"
+                                                     class="bottom-related-card__img"
+                                                     loading="lazy">
+                                            </picture>
+                                        {% else %}
+                                            <img src="{{ item.post.featured_image.url }}"
+                                                 alt="{{ item.post.title }}"
+                                                 class="bottom-related-card__img"
+                                                 loading="lazy">
+                                        {% endif %}
+
+                                        <!-- Reading indicators -->
+                                        <div class="bottom-related-card__indicators">
+                                            <span class="reading-indicator reading-indicator--time">
+                                                <i class="fas fa-clock" aria-hidden="true"></i>
+                                                {{ item.reading_time }} min
+                                            </span>
+                                            {% if item.is_recent %}
+                                                <span class="reading-indicator reading-indicator--new">
+                                                    <i class="fas fa-sparkles" aria-hidden="true"></i>
+                                                    New
+                                                </span>
+                                            {% endif %}
+                                        </div>
+                                    </a>
+                                </div>
+                            {% endif %}
+
+                            <!-- Content -->
+                            <div class="bottom-related-card__content">
+                                <!-- Category & Tags -->
+                                <div class="bottom-related-card__taxonomy">
+                                    {% if item.primary_category %}
+                                        <a href="{% url 'blog:category_list' item.primary_category.slug %}"
+                                           class="category-tag category-tag--primary">
+                                            {{ item.primary_category.name }}
+                                        </a>
+                                    {% endif %}
+
+                                    <!-- Show top tags if no primary category -->
+                                    {% if not item.primary_category and item.post.tags.all %}
+                                        {% for tag in item.post.tags.all|slice:":2" %}
+                                            <span class="tag-badge tag-badge--small"
+                                                  style="background-color: {{ tag.color }};">
+                                                {{ tag.name }}
+                                            </span>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+
+                                <!-- Title -->
+                                <h4 class="bottom-related-card__title">
+                                    <a href="{{ item.post.get_absolute_url }}"
+                                       class="bottom-related-card__title-link">
+                                        {{ item.post.title }}
+                                    </a>
+                                </h4>
+
+                                <!-- Excerpt -->
+                                <p class="bottom-related-card__excerpt">
+                                    {{ item.post.get_meta_description|truncatewords:25 }}
+                                </p>
+
+                                <!-- Metadata -->
+                                <div class="bottom-related-card__meta">
+                                    <div class="bottom-related-card__meta-primary">
+                                        <span class="bottom-related-card__reading-time">
+                                            <i class="fas fa-book-open" aria-hidden="true"></i>
+                                            {{ item.reading_time }} minute read
+                                        </span>
+
+                                        {% if item.share_popularity > 0 %}
+                                            <span class="bottom-related-card__popularity">
+                                                <i class="fas fa-share" aria-hidden="true"></i>
+                                                {{ item.share_popularity }} shares
+                                            </span>
+                                        {% endif %}
+                                    </div>
+
+                                    <!-- Engagement hints -->
+                                    {% if item.engagement_hints %}
+                                        <div class="bottom-related-card__hints">
+                                            {% for hint in item.engagement_hints|slice:":3" %}
+                                                <span class="engagement-badge engagement-badge--{{ hint|slugify }}">
+                                                    {{ hint }}
+                                                </span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Reading context -->
+                                {% if item.reading_context %}
+                                    <div class="bottom-related-card__context">
+                                        <small class="text-muted">
+                                            <i class="fas fa-lightbulb" aria-hidden="true"></i>
+                                            {{ item.reading_context.0 }}
+                                        </small>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+
+                <!-- Secondary Sections -->
+                <div class="bottom-related__secondary">
+                    <div class="bottom-related__secondary-grid">
+
+                        <!-- More from Author -->
+                        {% if recommendations.more_from_author %}
+                            <div class="bottom-related__author-section">
+                                <h4 class="bottom-related__section-title">
+                                    <i class="fas fa-user-edit" aria-hidden="true"></i>
+                                    More from {{ recommendations.more_from_author.0.post.author.get_full_name|default:recommendations.more_from_author.0.post.author.username }}
+                                </h4>
+                                <div class="bottom-related__author-list">
+                                    {% for item in recommendations.more_from_author %}
+                                        <div class="bottom-related__author-item">
+                                            <a href="{{ item.post.get_absolute_url }}"
+                                               class="bottom-related__author-link"
+                                               @click="trackClick('{{ item.post.slug }}', 'author')">
+                                                <span class="bottom-related__author-title">{{ item.post.title }}</span>
+                                                <span class="bottom-related__author-meta">
+                                                    {{ item.reading_time }} min read
+                                                    {% if item.engagement_hints.0 %} • {{ item.engagement_hints.0 }}{% endif %}
+                                                </span>
+                                            </a>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <!-- More from Category -->
+                        {% if recommendations.from_category %}
+                            <div class="bottom-related__category-section">
+                                <h4 class="bottom-related__section-title">
+                                    <i class="fas fa-folder-open" aria-hidden="true"></i>
+                                    More from this category
+                                </h4>
+                                <div class="bottom-related__category-list">
+                                    {% for item in recommendations.from_category %}
+                                        <div class="bottom-related__category-item">
+                                            <a href="{{ item.post.get_absolute_url }}"
+                                               class="bottom-related__category-link"
+                                               @click="trackClick('{{ item.post.slug }}', 'category')">
+                                                <span class="bottom-related__category-title">{{ item.post.title }}</span>
+                                                <span class="bottom-related__category-meta">
+                                                    {{ item.reading_time }} min read
+                                                </span>
+                                            </a>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Performance info (debug) -->
+                {% if debug %}
+                    <div class="bottom-related__debug">
+                        <details class="debug-info">
+                            <summary>Related Posts Debug Info</summary>
+                            <div class="debug-content">
+                                <p><strong>Cache hit:</strong> {{ recommendations.cache_hit|yesno:"Yes,No" }}</p>
+                                {% if recommendations.generated_at %}
+                                    <p><strong>Generated:</strong> {{ recommendations.generated_at }}</p>
+                                {% endif %}
+                                <p><strong>Algorithm:</strong> Content similarity with tag weighting</p>
+                            </div>
+                        </details>
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+    {% endif %}
+</div>
+
+<script>
+function bottomRelatedPosts() {
+    return {
+        trackClick(postSlug, context) {
+            // Enhanced tracking for bottom section
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'related_post_click', {
+                    'event_category': 'bottom_engagement',
+                    'event_label': postSlug,
+                    'custom_parameter_1': context,
+                    'custom_parameter_2': 'bottom_section'
+                });
+            }
+
+            // Send to backend tracking
+            if (typeof fetch !== 'undefined') {
+                fetch('{% url "blog:track_related_click" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': this.getCSRFToken()
+                    },
+                    body: JSON.stringify({
+                        'source_post': '{{ post.slug }}',
+                        'target_post': postSlug,
+                        'context': context,
+                        'layout_type': 'bottom',
+                        'section': 'bottom_related'
+                    })
+                }).catch(error => {
+                    console.debug('Bottom related tracking error:', error);
+                });
+            }
+        },
+
+        getCSRFToken() {
+            const token = document.querySelector('[name=csrfmiddlewaretoken]');
+            return token ? token.value : '';
+        }
+    }
+}
+</script>

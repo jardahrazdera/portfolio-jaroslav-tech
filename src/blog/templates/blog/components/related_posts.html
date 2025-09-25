@@ -1,0 +1,265 @@
+{% load static %}
+{% load i18n %}
+{% load blog_extras %}
+
+<!-- Related Posts Component with Multiple Layout Support -->
+<div class="related-posts-container" x-data="relatedPostsTracker()">
+    {% if recommendations.primary.posts %}
+        <section class="related-posts related-posts--{{ layout_type|default:'default' }}">
+            <!-- Section Header -->
+            <div class="related-posts__header">
+                <h3 class="related-posts__title">
+                    <i class="fas fa-lightbulb" aria-hidden="true"></i>
+                    {% if layout_type == 'sidebar' %}
+                        You might also like
+                    {% elif layout_type == 'bottom' %}
+                        Continue Reading
+                    {% elif layout_type == 'cards' %}
+                        Recommended for You
+                    {% else %}
+                        Related Posts
+                    {% endif %}
+                </h3>
+
+                {% if recommendations.primary.algorithm_scores and debug %}
+                    <div class="related-posts__debug">
+                        <details>
+                            <summary>Algorithm Debug Info</summary>
+                            <pre>{{ recommendations.primary.algorithm_scores|pprint }}</pre>
+                        </details>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Posts Grid/List -->
+            <div class="related-posts__grid related-posts__grid--{{ layout_type|default:'default' }}">
+                {% for item in recommendations.primary.posts %}
+                    <article class="related-post-card related-post-card--{{ layout_type|default:'default' }}"
+                             @click="trackClick('{{ item.post.slug }}', '{{ layout_type|default:"default" }}')">
+
+                        <!-- Post Image (if enabled) -->
+                        {% if recommendations.layout_hints.show_images and item.post.featured_image %}
+                            <div class="related-post-card__image">
+                                <a href="{{ item.post.get_absolute_url }}"
+                                   class="related-post-card__image-link"
+                                   :data-track-click="'related_post_{{ item.post.slug }}'">
+
+                                    <!-- Responsive image using existing system -->
+                                    {% if item.post.get_image_base_name %}
+                                        <picture class="related-post-card__picture">
+                                            <!-- WebP versions -->
+                                            <source media="(max-width: 640px)"
+                                                    srcset="{% static 'media/processed_images/' %}{{ item.post.get_image_base_name }}_mobile.webp"
+                                                    type="image/webp">
+                                            <source media="(max-width: 1024px)"
+                                                    srcset="{% static 'media/processed_images/' %}{{ item.post.get_image_base_name }}_tablet.webp"
+                                                    type="image/webp">
+                                            <source srcset="{% static 'media/processed_images/' %}{{ item.post.get_image_base_name }}_desktop.webp"
+                                                    type="image/webp">
+
+                                            <!-- Fallback -->
+                                            <img src="{% static 'media/processed_images/' %}{{ item.post.get_image_base_name }}_tablet.jpg"
+                                                 alt="{{ item.post.title }}"
+                                                 class="related-post-card__img"
+                                                 loading="lazy"
+                                                 width="300"
+                                                 height="200">
+                                        </picture>
+                                    {% else %}
+                                        <!-- Fallback for posts without processed images -->
+                                        <img src="{{ item.post.featured_image.url }}"
+                                             alt="{{ item.post.title }}"
+                                             class="related-post-card__img"
+                                             loading="lazy">
+                                    {% endif %}
+
+                                    <!-- Overlay with reading time -->
+                                    {% if recommendations.layout_hints.show_reading_time %}
+                                        <div class="related-post-card__overlay">
+                                            <span class="reading-time-badge">
+                                                <i class="fas fa-clock" aria-hidden="true"></i>
+                                                {{ item.reading_time }} min read
+                                            </span>
+                                        </div>
+                                    {% endif %}
+                                </a>
+                            </div>
+                        {% endif %}
+
+                        <!-- Post Content -->
+                        <div class="related-post-card__content">
+                            <!-- Category Badge -->
+                            {% if item.primary_category and layout_type != 'minimal' %}
+                                <div class="related-post-card__category">
+                                    <a href="{% url 'blog:category_list' item.primary_category.slug %}"
+                                       class="category-badge category-badge--small">
+                                        {{ item.primary_category.name }}
+                                    </a>
+                                </div>
+                            {% endif %}
+
+                            <!-- Post Title -->
+                            <h4 class="related-post-card__title">
+                                <a href="{{ item.post.get_absolute_url }}"
+                                   class="related-post-card__title-link"
+                                   :data-track-click="'related_post_{{ item.post.slug }}'">
+                                    {{ item.post.title }}
+                                </a>
+                            </h4>
+
+                            <!-- Post Excerpt -->
+                            {% if recommendations.layout_hints.show_excerpt and item.post.excerpt %}
+                                <p class="related-post-card__excerpt">
+                                    {{ item.post.excerpt|truncatewords:20 }}
+                                </p>
+                            {% endif %}
+
+                            <!-- Post Metadata -->
+                            <div class="related-post-card__meta">
+                                <!-- Reading Time -->
+                                {% if recommendations.layout_hints.show_reading_time %}
+                                    <span class="related-post-card__meta-item">
+                                        <i class="fas fa-clock" aria-hidden="true"></i>
+                                        {{ item.reading_time }} min read
+                                    </span>
+                                {% endif %}
+
+                                <!-- Engagement Hints -->
+                                {% if recommendations.layout_hints.show_engagement_hints and item.engagement_hints %}
+                                    <div class="related-post-card__hints">
+                                        {% for hint in item.engagement_hints %}
+                                            <span class="engagement-hint engagement-hint--{{ hint|slugify }}">
+                                                {{ hint }}
+                                            </span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+
+                                <!-- Similarity Score (Debug) -->
+                                {% if debug and item.similarity_score %}
+                                    <span class="related-post-card__score" title="Similarity Score">
+                                        Score: {{ item.similarity_score|floatformat:3 }}
+                                    </span>
+                                {% endif %}
+                            </div>
+
+                            <!-- Reading Context -->
+                            {% if item.reading_context and layout_type == 'cards' %}
+                                <div class="related-post-card__context">
+                                    <small class="text-muted">
+                                        <i class="fas fa-info-circle" aria-hidden="true"></i>
+                                        {{ item.reading_context.0 }}
+                                    </small>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+
+            <!-- More from Author Section (for bottom layout) -->
+            {% if layout_type == 'bottom' and recommendations.more_from_author %}
+                <div class="related-posts__more-from-author">
+                    <h4 class="related-posts__subtitle">
+                        <i class="fas fa-user-edit" aria-hidden="true"></i>
+                        More from {{ recommendations.more_from_author.0.post.author.get_full_name|default:recommendations.more_from_author.0.post.author.username }}
+                    </h4>
+                    <div class="related-posts__author-grid">
+                        {% for item in recommendations.more_from_author %}
+                            <div class="related-post-minimal">
+                                <a href="{{ item.post.get_absolute_url }}"
+                                   class="related-post-minimal__link"
+                                   @click="trackClick('{{ item.post.slug }}', 'author_more')">
+                                    <span class="related-post-minimal__title">{{ item.post.title }}</span>
+                                    <span class="related-post-minimal__meta">
+                                        {{ item.reading_time }} min read
+                                    </span>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Category Fallback Section -->
+            {% if recommendations.fallback_category %}
+                <div class="related-posts__category-fallback">
+                    <h4 class="related-posts__subtitle">
+                        <i class="fas fa-folder-open" aria-hidden="true"></i>
+                        More from this category
+                    </h4>
+                    <div class="related-posts__category-list">
+                        {% for item in recommendations.fallback_category %}
+                            <div class="related-post-minimal">
+                                <a href="{{ item.post.get_absolute_url }}"
+                                   class="related-post-minimal__link"
+                                   @click="trackClick('{{ item.post.slug }}', 'category_fallback')">
+                                    <span class="related-post-minimal__title">{{ item.post.title }}</span>
+                                    <span class="related-post-minimal__meta">
+                                        {{ item.reading_time }} min read
+                                    </span>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Cache Debug Info -->
+            {% if debug and recommendations.cache_hit %}
+                <div class="related-posts__cache-info">
+                    <small class="text-muted">
+                        <i class="fas fa-tachometer-alt" aria-hidden="true"></i>
+                        Loaded from cache
+                        {% if recommendations.generated_at %}
+                            (generated {{ recommendations.generated_at|timeuntil }} ago)
+                        {% endif %}
+                    </small>
+                </div>
+            {% endif %}
+        </section>
+    {% endif %}
+</div>
+
+<!-- Related Posts JavaScript -->
+<script>
+function relatedPostsTracker() {
+    return {
+        trackClick(postSlug, context) {
+            // Track related post clicks for analytics
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'related_post_click', {
+                    'event_category': 'engagement',
+                    'event_label': postSlug,
+                    'custom_parameter_1': context,
+                    'custom_parameter_2': '{{ layout_type|default:"default" }}'
+                });
+            }
+
+            // Send to custom tracking endpoint if available
+            if (typeof fetch !== 'undefined') {
+                fetch('{% url "blog:track_related_click" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': this.getCSRFToken()
+                    },
+                    body: JSON.stringify({
+                        'source_post': '{{ post.slug }}',
+                        'target_post': postSlug,
+                        'context': context,
+                        'layout_type': '{{ layout_type|default:"default" }}'
+                    })
+                }).catch(error => {
+                    console.debug('Related post tracking error:', error);
+                });
+            }
+        },
+
+        getCSRFToken() {
+            const token = document.querySelector('[name=csrfmiddlewaretoken]');
+            return token ? token.value : '';
+        }
+    }
+}
+</script>

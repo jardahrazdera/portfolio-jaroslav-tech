@@ -1,0 +1,263 @@
+{% load static %}
+{% load i18n %}
+{% load blog_extras %}
+
+<!-- Card-based Related Posts for In-Content Use -->
+<div class="related-posts-cards" x-data="cardsRelatedPosts()">
+    {% if recommendations.primary.posts %}
+        <section class="related-cards-section">
+            <!-- Section Header -->
+            <header class="related-cards__header">
+                <h3 class="related-cards__title">
+                    <i class="fas fa-bookmark" aria-hidden="true"></i>
+                    Recommended Reading
+                </h3>
+                <p class="related-cards__description">
+                    Based on your current reading, here are some articles you might find valuable
+                </p>
+            </header>
+
+            <!-- Cards Grid -->
+            <div class="related-cards__grid">
+                {% for item in recommendations.primary.posts %}
+                    <article class="related-card"
+                             @click="trackClick('{{ item.post.slug }}')">
+
+                        <!-- Card Image -->
+                        {% if item.post.featured_image %}
+                            <div class="related-card__image-wrapper">
+                                <a href="{{ item.post.get_absolute_url }}"
+                                   class="related-card__image-link">
+
+                                    {% if item.post.get_image_base_name %}
+                                        <picture class="related-card__picture">
+                                            <source srcset="{% static 'media/processed_images/' %}{{ item.post.get_image_base_name }}_mobile.webp"
+                                                    type="image/webp">
+                                            <img src="{% static 'media/processed_images/' %}{{ item.post.get_image_base_name }}_mobile.jpg"
+                                                 alt="{{ item.post.title }}"
+                                                 class="related-card__image"
+                                                 loading="lazy">
+                                        </picture>
+                                    {% else %}
+                                        <img src="{{ item.post.featured_image.url }}"
+                                             alt="{{ item.post.title }}"
+                                             class="related-card__image"
+                                             loading="lazy">
+                                    {% endif %}
+
+                                    <!-- Overlay badges -->
+                                    <div class="related-card__image-overlay">
+                                        <!-- Reading time -->
+                                        <span class="related-card__reading-badge">
+                                            <i class="fas fa-clock" aria-hidden="true"></i>
+                                            {{ item.reading_time }} min
+                                        </span>
+
+                                        <!-- Popular badge -->
+                                        {% if item.share_popularity > 10 %}
+                                            <span class="related-card__popular-badge">
+                                                <i class="fas fa-fire" aria-hidden="true"></i>
+                                                Popular
+                                            </span>
+                                        {% endif %}
+
+                                        <!-- Recent badge -->
+                                        {% if item.is_recent %}
+                                            <span class="related-card__new-badge">
+                                                <i class="fas fa-sparkles" aria-hidden="true"></i>
+                                                New
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                </a>
+                            </div>
+                        {% endif %}
+
+                        <!-- Card Content -->
+                        <div class="related-card__content">
+                            <!-- Category -->
+                            {% if item.primary_category %}
+                                <div class="related-card__category">
+                                    <a href="{% url 'blog:category_list' item.primary_category.slug %}"
+                                       class="related-card__category-link">
+                                        {{ item.primary_category.name }}
+                                    </a>
+                                </div>
+                            {% endif %}
+
+                            <!-- Title -->
+                            <h4 class="related-card__title">
+                                <a href="{{ item.post.get_absolute_url }}"
+                                   class="related-card__title-link">
+                                    {{ item.post.title }}
+                                </a>
+                            </h4>
+
+                            <!-- Excerpt -->
+                            <p class="related-card__excerpt">
+                                {{ item.post.get_meta_description|truncatewords:20 }}
+                            </p>
+
+                            <!-- Tags (limited) -->
+                            {% if item.post.tags.all %}
+                                <div class="related-card__tags">
+                                    {% for tag in item.post.tags.all|slice:":3" %}
+                                        <span class="related-card__tag"
+                                              style="background-color: {{ tag.color }};">
+                                            {{ tag.name }}
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            <!-- Card Footer -->
+                            <div class="related-card__footer">
+                                <!-- Author and reading stats -->
+                                <div class="related-card__stats">
+                                    <span class="related-card__author">
+                                        <i class="fas fa-user" aria-hidden="true"></i>
+                                        {{ item.post.author.get_full_name|default:item.post.author.username }}
+                                    </span>
+                                    <span class="related-card__reading-time">
+                                        <i class="fas fa-book-open" aria-hidden="true"></i>
+                                        {{ item.reading_time }} minute read
+                                    </span>
+                                </div>
+
+                                <!-- Engagement hints -->
+                                {% if item.engagement_hints %}
+                                    <div class="related-card__engagement">
+                                        {% for hint in item.engagement_hints|slice:":2" %}
+                                            <span class="related-card__hint related-card__hint--{{ hint|slugify }}">
+                                                {{ hint }}
+                                            </span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+
+                                <!-- Reading context -->
+                                {% if item.reading_context.1 %}
+                                    <div class="related-card__context">
+                                        <small class="related-card__context-text">
+                                            <i class="fas fa-info-circle" aria-hidden="true"></i>
+                                            {{ item.reading_context.1 }}
+                                        </small>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Call to Action -->
+                            <div class="related-card__cta">
+                                <a href="{{ item.post.get_absolute_url }}"
+                                   class="related-card__cta-button">
+                                    Read Article
+                                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Similarity indicator (debug) -->
+                        {% if debug and item.similarity_score %}
+                            <div class="related-card__debug">
+                                <span class="related-card__similarity-score"
+                                      title="Content Similarity Score">
+                                    Match: {{ item.similarity_score|floatformat:1 }}%
+                                </span>
+                            </div>
+                        {% endif %}
+                    </article>
+                {% endfor %}
+            </div>
+
+            <!-- Load More Button (if applicable) -->
+            <div class="related-cards__actions">
+                <button class="related-cards__load-more btn btn-outline-primary"
+                        @click="loadMorePosts()"
+                        x-show="!allLoaded"
+                        :disabled="loading">
+                    <span x-show="!loading">
+                        <i class="fas fa-plus" aria-hidden="true"></i>
+                        Show More Related Posts
+                    </span>
+                    <span x-show="loading">
+                        <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        Loading...
+                    </span>
+                </button>
+            </div>
+        </section>
+    {% endif %}
+</div>
+
+<script>
+function cardsRelatedPosts() {
+    return {
+        loading: false,
+        allLoaded: false,
+        currentOffset: {{ recommendations.primary.posts|length }},
+
+        trackClick(postSlug) {
+            // Track card clicks
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'related_post_click', {
+                    'event_category': 'card_engagement',
+                    'event_label': postSlug,
+                    'custom_parameter_1': 'cards_layout'
+                });
+            }
+
+            // Backend tracking
+            if (typeof fetch !== 'undefined') {
+                fetch('{% url "blog:track_related_click" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': this.getCSRFToken()
+                    },
+                    body: JSON.stringify({
+                        'source_post': '{{ post.slug }}',
+                        'target_post': postSlug,
+                        'context': 'cards',
+                        'layout_type': 'cards'
+                    })
+                }).catch(error => {
+                    console.debug('Cards related tracking error:', error);
+                });
+            }
+        },
+
+        async loadMorePosts() {
+            if (this.loading || this.allLoaded) return;
+
+            this.loading = true;
+
+            try {
+                const response = await fetch(`{% url "blog:related_posts_ajax" post.slug %}?offset=${this.currentOffset}&count=4&layout=cards`);
+                const data = await response.json();
+
+                if (data.success && data.posts.length > 0) {
+                    // In a real implementation, you'd append the new posts to the DOM
+                    // This would require more complex DOM manipulation or a full frontend framework
+                    this.currentOffset += data.posts.length;
+
+                    if (data.posts.length < 4) {
+                        this.allLoaded = true;
+                    }
+                } else {
+                    this.allLoaded = true;
+                }
+            } catch (error) {
+                console.error('Error loading more related posts:', error);
+                this.allLoaded = true;
+            }
+
+            this.loading = false;
+        },
+
+        getCSRFToken() {
+            const token = document.querySelector('[name=csrfmiddlewaretoken]');
+            return token ? token.value : '';
+        }
+    }
+}
+</script>
