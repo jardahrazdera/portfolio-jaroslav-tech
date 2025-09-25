@@ -493,3 +493,118 @@ def newsletter_unsubscribe_general(request):
         'page_title': 'Unsubscribe from Newsletter'
     }
     return render(request, 'blog/newsletter/unsubscribe_general.html', context)
+
+
+@require_POST
+def track_related_click(request):
+    """Track related post clicks for analytics."""
+    import json
+    import logging
+    from django.http import JsonResponse
+    from django.views.decorators.http import require_POST
+    from django.views.decorators.csrf import csrf_protect
+
+    logger = logging.getLogger(__name__)
+
+    try:
+        data = json.loads(request.body)
+        source_post_slug = data.get('source_post')
+        target_post_slug = data.get('target_post')
+        context = data.get('context', 'unknown')
+        layout_type = data.get('layout_type', 'default')
+
+        # Log the click for analytics
+        logger.info(f"Related post click: {source_post_slug} -> {target_post_slug} (context: {context}, layout: {layout_type})")
+
+        # In a production environment, you might want to:
+        # 1. Store clicks in a database table for analytics
+        # 2. Send to Google Analytics or other analytics services
+        # 3. Use for improving the recommendation algorithm
+
+        # Basic response for now
+        return JsonResponse({
+            'success': True,
+            'message': 'Click tracked successfully'
+        })
+
+    except (json.JSONDecodeError, KeyError) as e:
+        logger.error(f"Invalid related post click tracking data: {e}")
+        return JsonResponse({
+            'success': False,
+            'error': 'Invalid data format'
+        }, status=400)
+
+    except Exception as e:
+        logger.error(f"Error tracking related post click: {e}")
+        return JsonResponse({
+            'success': False,
+            'error': 'Internal server error'
+        }, status=500)
+
+
+def related_posts_ajax(request, slug):
+    """AJAX endpoint for loading more related posts."""
+    import json
+    from django.http import JsonResponse
+    from django.core.serializers.json import DjangoJSONEncoder
+
+    try:
+        # Get the source post
+        post = get_object_or_404(Post, slug=slug, is_published=True)
+
+        # Get pagination parameters
+        offset = int(request.GET.get('offset', 0))
+        count = min(int(request.GET.get('count', 4)), 10)  # Max 10 posts per request
+        layout_type = request.GET.get('layout', 'default')
+
+        # Get related posts using the advanced algorithm
+        all_related = post.get_related_posts(count=offset + count, layout_type=layout_type)
+
+        # Slice to get only the new posts
+        new_posts = all_related['posts'][offset:offset + count]
+
+        # Serialize the posts for JSON response
+        posts_data = []
+        for item in new_posts:
+            post_data = {
+                'title': item['post'].title,
+                'slug': item['post'].slug,
+                'url': item['post'].get_absolute_url(),
+                'excerpt': item['post'].get_meta_description()[:100],
+                'reading_time': item['reading_time'],
+                'engagement_hints': item['engagement_hints'],
+                'primary_category': {
+                    'name': item['primary_category'].name,
+                    'slug': item['primary_category'].slug
+                } if item['primary_category'] else None,
+                'featured_image_url': item['post'].featured_image.url if item['post'].featured_image else None,
+                'similarity_score': item['similarity_score']
+            }
+            posts_data.append(post_data)
+
+        return JsonResponse({
+            'success': True,
+            'posts': posts_data,
+            'has_more': len(all_related['posts']) > offset + count,
+            'total_available': len(all_related['posts'])
+        })
+
+    except Post.DoesNotExist:
+        return JsonResponse({
+            'success': False,
+            'error': 'Post not found'
+        }, status=404)
+
+    except ValueError as e:
+        return JsonResponse({
+            'success': False,
+            'error': f'Invalid parameters: {e}'
+        }, status=400)
+
+    except Exception as e:
+        logger = logging.getLogger(__name__)
+        logger.error(f"Error loading related posts AJAX for {slug}: {e}")
+        return JsonResponse({
+            'success': False,
+            'error': 'Internal server error'
+        }, status=500)

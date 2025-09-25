@@ -23,5 +23,7 @@ urlpatterns = [
 
     # API endpoints
     path('api/track-share/', views.track_share, name='track_share'),
+    path('api/track-related-click/', views.track_related_click, name='track_related_click'),
+    path('api/related-posts/<slug:slug>/', views.related_posts_ajax, name='related_posts_ajax'),
     path('api/newsletter/subscribe/', views.newsletter_subscribe_ajax, name='newsletter_subscribe_ajax'),
 ]
