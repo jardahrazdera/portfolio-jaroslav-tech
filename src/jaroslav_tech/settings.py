@@ -70,8 +70,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django_extensions',
     'django_recaptcha',  # django-recaptcha
-    'ckeditor',  # django-ckeditor
-    'ckeditor_uploader',  # django-ckeditor uploader
+    'django_ckeditor_5',  # django-ckeditor-5
     'core.apps.CoreConfig',
     'devtracker.apps.DevtrackerConfig',
     'blog.apps.BlogConfig',
@@ -277,6 +276,78 @@ CKEDITOR_CONFIGS = {
         'templates_replaceContent': False,
         # Source area configuration for better readability
         'sourceAreaTabSize': 4,
+    }
+}
+
+# ---
+# CKEditor 5 Configuration
+# ---
+CKEDITOR_5_CONFIGS = {
+    'default': {
+        'toolbar': ['heading', '|', 'bold', 'italic', 'link',
+                    'bulletedList', 'numberedList', 'blockQuote', 'imageUpload'],
+        'height': '400px',
+    },
+    'extends': {
+        'toolbar': [
+            'heading', '|',
+            'bold', 'italic', 'underline', 'strikethrough', '|',
+            'link', 'blockQuote', 'code', 'codeBlock', '|',
+            'bulletedList', 'numberedList', 'outdent', 'indent', '|',
+            'insertImage', 'insertTable', 'mediaEmbed', '|',
+            'undo', 'redo', 'sourceEditing'
+        ],
+        'heading': {
+            'options': [
+                {'model': 'paragraph', 'title': 'Paragraph', 'class': 'ck-heading_paragraph'},
+                {'model': 'heading1', 'view': 'h1', 'title': 'Heading 1', 'class': 'ck-heading_heading1'},
+                {'model': 'heading2', 'view': 'h2', 'title': 'Heading 2', 'class': 'ck-heading_heading2'},
+                {'model': 'heading3', 'view': 'h3', 'title': 'Heading 3', 'class': 'ck-heading_heading3'}
+            ]
+        },
+        'image': {
+            'toolbar': [
+                'imageStyle:inline',
+                'imageStyle:block',
+                'imageStyle:side',
+                '|',
+                'toggleImageCaption',
+                'imageTextAlternative'
+            ]
+        },
+        'table': {
+            'contentToolbar': [
+                'tableColumn',
+                'tableRow',
+                'mergeTableCells',
+                'tableCellProperties',
+                'tableProperties'
+            ]
+        },
+        'codeBlock': {
+            'languages': [
+                {'language': 'plaintext', 'label': 'Plain text'},
+                {'language': 'html', 'label': 'HTML'},
+                {'language': 'css', 'label': 'CSS'},
+                {'language': 'javascript', 'label': 'JavaScript'},
+                {'language': 'python', 'label': 'Python'},
+                {'language': 'php', 'label': 'PHP'},
+                {'language': 'bash', 'label': 'Bash'},
+                {'language': 'sql', 'label': 'SQL'},
+                {'language': 'json', 'label': 'JSON'},
+                {'language': 'xml', 'label': 'XML'}
+            ]
+        },
+        'height': '500px',
+        'width': '100%',
+        'mediaEmbed': {
+            'previewsInData': True
+        },
+        'image': {
+            'upload': {
+                'types': ['jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff']
+            }
+        }
     }
 }
 
