@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from django.http import HttpResponse
 from django.contrib import messages
-from ckeditor.widgets import CKEditorWidget
+from django_ckeditor_5.widgets import CKEditor5Widget
 from .models import Category, Tag, Post, BlogFile, Newsletter, PostView
 from .email_service import NewsletterEmailService
 
@@ -39,7 +39,7 @@ class PostAdmin(admin.ModelAdmin):
 
     class Media:
         css = {
-            'all': ('blog/admin/ckeditor_fix.css',)
+            'all': ('blog/admin/ckeditor.css',)
         }
 
     fieldsets = (
@@ -75,7 +75,7 @@ class PostAdmin(admin.ModelAdmin):
 
     def formfield_for_dbfield(self, db_field, request, **kwargs):
         if db_field.name == 'content':
-            kwargs['widget'] = CKEditorWidget()
+            kwargs['widget'] = CKEditor5Widget(config_name='extends')
         return super().formfield_for_dbfield(db_field, request, **kwargs)
 
     def featured_image_thumbnail(self, obj):
