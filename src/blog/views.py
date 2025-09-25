@@ -715,6 +715,7 @@ def related_posts_ajax(request, slug):
         }, status=500)
 
 
+@csrf_exempt
 @require_POST
 def track_reading(request):
     """Track reading engagement data for analytics."""
