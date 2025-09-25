@@ -487,6 +487,111 @@ newsletter_subscribe = NewsletterSubscribeView.as_view()
 newsletter_success = NewsletterSuccessView.as_view()
 
 
+class TrendingPostsView(ListView):
+    """View for displaying trending posts based on recent view activity."""
+
+    model = Post
+    template_name = 'blog/trending_posts.html'
+    context_object_name = 'posts'
+    paginate_by = 12
+
+    def get_queryset(self):
+        """Get trending posts with view counts."""
+        from .models import PostView
+        from django.db.models import Count, Q
+        from django.utils import timezone
+
+        # Get posts with recent views (last 7 days)
+        cutoff_date = timezone.now() - timezone.timedelta(days=7)
+
+        return Post.objects.filter(
+            is_published=True,
+            views__viewed_at__gte=cutoff_date
+        ).annotate(
+            recent_views=Count('views', filter=Q(views__viewed_at__gte=cutoff_date)),
+            total_views=Count('views')
+        ).filter(
+            recent_views__gt=0
+        ).order_by('-recent_views', '-total_views').distinct()
+
+    def get_context_data(self, **kwargs):
+        """Add additional context for trending posts page."""
+        context = super().get_context_data(**kwargs)
+
+        context.update({
+            'page_title': 'Trending Posts',
+            'page_description': 'Discover the most popular and engaging content from the past week.',
+            'canonical_url': self.request.build_absolute_uri(),
+            'categories': Category.objects.annotate(
+                post_count=Count('post', filter=Q(post__is_published=True))
+            ).filter(post_count__gt=0).order_by('name'),
+            'trending_period': 'week',
+            'seo': {
+                'title': 'Trending Posts - Jaroslav.tech',
+                'description': 'Discover the most popular and engaging content from the past week. Find trending articles that readers are talking about.',
+                'keywords': 'trending posts, popular articles, hot topics, viral content, most viewed',
+                'noindex': False
+            }
+        })
+
+        return context
+
+
+class PopularPostsView(ListView):
+    """View for displaying popular posts with different time periods."""
+
+    model = Post
+    template_name = 'blog/popular_posts.html'
+    context_object_name = 'posts'
+    paginate_by = 12
+
+    def get_queryset(self):
+        """Get popular posts for the specified time period."""
+        from .models import PostView
+
+        period = self.request.GET.get('period', 'month')  # week, month, all_time
+        return PostView.get_popular_posts(period=period, limit=50)  # Get more for pagination
+
+    def get_context_data(self, **kwargs):
+        """Add additional context for popular posts page."""
+        context = super().get_context_data(**kwargs)
+
+        period = self.request.GET.get('period', 'month')
+        period_display = {
+            'week': 'This Week',
+            'month': 'This Month',
+            'all_time': 'All Time'
+        }.get(period, 'This Month')
+
+        context.update({
+            'page_title': f'Popular Posts - {period_display}',
+            'page_description': f'Discover the most popular blog posts {period_display.lower()}.',
+            'canonical_url': self.request.build_absolute_uri(),
+            'categories': Category.objects.annotate(
+                post_count=Count('post', filter=Q(post__is_published=True))
+            ).filter(post_count__gt=0).order_by('name'),
+            'current_period': period,
+            'period_display': period_display,
+            'available_periods': [
+                ('week', 'This Week'),
+                ('month', 'This Month'),
+                ('all_time', 'All Time')
+            ],
+            'seo': {
+                'title': f'Popular Posts {period_display} - Jaroslav.tech',
+                'description': f'Discover the most popular and most-read blog posts {period_display.lower()}. Find content that resonates with readers.',
+                'keywords': f'popular posts, most read articles, top content, {period} highlights',
+                'noindex': False
+            }
+        })
+
+        return context
+
+
+trending_posts = TrendingPostsView.as_view()
+popular_posts = PopularPostsView.as_view()
+
+
 def newsletter_unsubscribe_general(request):
     """General unsubscribe page for people without a token."""
     context = {
@@ -604,6 +709,99 @@ def related_posts_ajax(request, slug):
     except Exception as e:
         logger = logging.getLogger(__name__)
         logger.error(f"Error loading related posts AJAX for {slug}: {e}")
+        return JsonResponse({
+            'success': False,
+            'error': 'Internal server error'
+        }, status=500)
+
+
+@require_POST
+def track_reading(request):
+    """Track reading engagement data for analytics."""
+    import json
+    import logging
+    from django.http import JsonResponse
+    from .models import Post, PostView
+
+    logger = logging.getLogger(__name__)
+
+    try:
+        data = json.loads(request.body)
+        post_slug = data.get('post_slug')
+        reading_time = data.get('reading_time_seconds')
+        completed_reading = data.get('completed_reading', False)
+        max_scroll_percent = data.get('max_scroll_percent', 0)
+
+        if not post_slug:
+            return JsonResponse({
+                'success': False,
+                'error': 'Missing post slug'
+            }, status=400)
+
+        # Get the post
+        try:
+            post = Post.objects.get(slug=post_slug, is_published=True)
+        except Post.DoesNotExist:
+            return JsonResponse({
+                'success': False,
+                'error': 'Post not found'
+            }, status=404)
+
+        # Find the most recent view from this session to update
+        import hashlib
+        session_key = request.session.session_key
+        if session_key:
+            session_hash = hashlib.sha256(session_key.encode()).hexdigest()
+
+            # Find recent view within last hour
+            from django.utils import timezone
+            recent_cutoff = timezone.now() - timezone.timedelta(hours=1)
+
+            recent_view = PostView.objects.filter(
+                post=post,
+                session_hash=session_hash,
+                viewed_at__gte=recent_cutoff
+            ).first()
+
+            if recent_view:
+                # Update existing view with reading data
+                recent_view.reading_time_seconds = reading_time
+                recent_view.completed_reading = completed_reading
+                recent_view.save(update_fields=['reading_time_seconds', 'completed_reading'])
+
+                logger.info(f"Updated reading data for post: {post.title} (time: {reading_time}s, completed: {completed_reading})")
+
+                return JsonResponse({
+                    'success': True,
+                    'message': 'Reading data tracked successfully'
+                })
+
+        # If no recent view found, create new one with reading data
+        reading_data = {
+            'reading_time_seconds': reading_time,
+            'completed_reading': completed_reading
+        }
+
+        view = PostView.add_view(post, request, reading_data)
+
+        if view:
+            logger.info(f"Created new view with reading data for post: {post.title}")
+        else:
+            logger.debug(f"Duplicate view, reading data not tracked for post: {post.title}")
+
+        return JsonResponse({
+            'success': True,
+            'message': 'Reading data processed successfully'
+        })
+
+    except json.JSONDecodeError:
+        return JsonResponse({
+            'success': False,
+            'error': 'Invalid JSON data'
+        }, status=400)
+
+    except Exception as e:
+        logger.error(f"Error tracking reading data: {e}")
         return JsonResponse({
             'success': False,
             'error': 'Internal server error'

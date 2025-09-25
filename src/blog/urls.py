@@ -9,6 +9,8 @@ urlpatterns = [
     path('post/<slug:slug>/', views.post_detail, name='post_detail'),
     path('category/<slug:slug>/', views.category_list, name='category_list'),
     path('tag/<slug:slug>/', views.tag_list, name='tag_list'),
+    path('trending/', views.trending_posts, name='trending_posts'),
+    path('popular/', views.popular_posts, name='popular_posts'),
     path('download/<int:file_id>/', views.download_file, name='download_file'),
     path('embed-demo/', views.embed_demo, name='embed_demo'),
     path('embed-guide/', views.embed_guide, name='embed_guide'),
@@ -24,6 +26,7 @@ urlpatterns = [
     # API endpoints
     path('api/track-share/', views.track_share, name='track_share'),
     path('api/track-related-click/', views.track_related_click, name='track_related_click'),
+    path('api/track-reading/', views.track_reading, name='track_reading'),
     path('api/related-posts/<slug:slug>/', views.related_posts_ajax, name='related_posts_ajax'),
     path('api/newsletter/subscribe/', views.newsletter_subscribe_ajax, name='newsletter_subscribe_ajax'),
 ]
