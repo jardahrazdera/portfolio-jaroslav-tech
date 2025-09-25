@@ -379,6 +379,91 @@ class Post(models.Model):
             'total': self.total_shares
         }
 
+    def get_related_posts(self, count=6, layout_type='default'):
+        """Get related posts using advanced similarity algorithm."""
+        from .related_posts_service import RelatedPostsService
+        service = RelatedPostsService(self)
+        return service.get_related_posts(count=count, layout_type=layout_type)
+
+    def get_related_by_category(self, count=4):
+        """Get related posts from the same categories (fallback method)."""
+        from .related_posts_service import RelatedPostsService
+        service = RelatedPostsService(self)
+        return service.get_related_by_category(count=count)
+
+    def get_more_from_author(self, count=3):
+        """Get more posts from the same author."""
+        from .related_posts_service import RelatedPostsService
+        service = RelatedPostsService(self)
+        return service.get_more_from_author(count=count)
+
+    def get_reading_recommendations(self, context='bottom'):
+        """
+        Get reading recommendations based on context.
+
+        Args:
+            context (str): 'sidebar', 'bottom', 'cards', 'minimal'
+
+        Returns:
+            dict: Context-appropriate recommendations with metadata
+        """
+        from .related_posts_service import RelatedPostsService
+        service = RelatedPostsService(self)
+
+        if context == 'sidebar':
+            # Compact sidebar display
+            related = service.get_related_posts(count=4, layout_type='sidebar')
+            return {
+                'primary': related,
+                'fallback_category': service.get_related_by_category(count=2),
+                'layout_hints': {
+                    'compact': True,
+                    'show_images': False,
+                    'show_excerpt': False,
+                    'show_reading_time': True
+                }
+            }
+        elif context == 'bottom':
+            # Full-width bottom section
+            related = service.get_related_posts(count=6, layout_type='grid')
+            return {
+                'primary': related,
+                'more_from_author': service.get_more_from_author(count=3),
+                'from_category': service.get_related_by_category(count=3),
+                'layout_hints': {
+                    'compact': False,
+                    'show_images': True,
+                    'show_excerpt': True,
+                    'show_reading_time': True,
+                    'grid_columns': 3
+                }
+            }
+        elif context == 'cards':
+            # Card-based display
+            related = service.get_related_posts(count=4, layout_type='cards')
+            return {
+                'primary': related,
+                'layout_hints': {
+                    'card_style': True,
+                    'show_images': True,
+                    'show_excerpt': True,
+                    'show_engagement_hints': True
+                }
+            }
+        else:  # minimal
+            related = service.get_related_posts(count=3, layout_type='minimal')
+            return {
+                'primary': related,
+                'layout_hints': {
+                    'minimal': True,
+                    'show_title_only': True
+                }
+            }
+
+    def get_sidebar_recommendations(self):
+        """Get recommendations specifically for sidebar display."""
+        return self.get_reading_recommendations(context='sidebar')
+
     def __str__(self):
         return self.title
 
