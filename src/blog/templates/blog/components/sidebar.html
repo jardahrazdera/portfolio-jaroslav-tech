@@ -78,6 +78,17 @@ Parameters:
         {% include 'blog/components/newsletter_signup.html' %}
     </section>
 
+    <!-- Related Posts Section (only show on post detail pages) -->
+    {% if post %}
+        <section class="sidebar-section">
+            {% with recommendations=post.get_sidebar_recommendations %}
+                {% if recommendations.primary.posts %}
+                    {% include 'blog/components/related_posts_sidebar.html' with recommendations=recommendations %}
+                {% endif %}
+            {% endwith %}
+        </section>
+    {% endif %}
+
     <section class="sidebar-section">
         <h3 class="sidebar-title">
             <span class="sidebar-icon" aria-hidden="true">🧭</span>

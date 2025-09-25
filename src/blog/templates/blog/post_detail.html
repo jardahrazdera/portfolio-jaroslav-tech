@@ -88,6 +88,13 @@
             {% include 'blog/components/newsletter_signup.html' %}
         </section>
 
+        <!-- Related Posts Section -->
+        {% with recommendations=post.get_reading_recommendations %}
+            {% if recommendations.primary.posts %}
+                {% include 'blog/components/related_posts_bottom.html' with recommendations=recommendations layout_type='bottom' %}
+            {% endif %}
+        {% endwith %}
+
         <nav class="blog-navigation">
             <div class="hero-buttons">
                 <a href="{% url 'blog:post_list' %}" class="btn btn-primary">&larr; Back to Blog</a>
