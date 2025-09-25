@@ -3,7 +3,7 @@ from django.utils.html import format_html
 from django.http import HttpResponse
 from django.contrib import messages
 from ckeditor.widgets import CKEditorWidget
-from .models import Category, Tag, Post, BlogFile, Newsletter
+from .models import Category, Tag, Post, BlogFile, Newsletter, PostView
 from .email_service import NewsletterEmailService
 
 
@@ -29,7 +29,7 @@ class BlogFileInline(admin.TabularInline):
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author', 'featured_image_thumbnail', 'attachment_count', 'is_published', 'is_featured', 'seo_status', 'created_at')
+    list_display = ('title', 'author', 'featured_image_thumbnail', 'attachment_count', 'view_stats_display', 'is_published', 'is_featured', 'seo_status', 'created_at')
     list_filter = ('is_published', 'is_featured', 'categories', 'created_at')
     search_fields = ('title', 'content', 'meta_description', 'meta_keywords')
     prepopulated_fields = {'slug': ('title',)}
@@ -305,6 +305,52 @@ class PostAdmin(admin.ModelAdmin):
 
     discussion_platform_display.short_description = 'Discussion Platform'
 
+    def view_stats_display(self, obj):
+        """Display view statistics for the post."""
+        if not obj.pk:
+            return format_html(
+                '<div style="text-align: center; color: #999;">—</div>'
+            )
+
+        total_views = obj.get_view_count()
+        weekly_views = obj.get_view_count('week')
+        completion_rate = obj.get_reading_completion_rate()
+        is_trending = obj.is_trending()
+
+        # Choose color based on performance
+        if total_views >= 100 or is_trending:
+            color = '#28a745'  # Green
+        elif total_views >= 50:
+            color = '#ffc107'  # Yellow
+        elif total_views >= 10:
+            color = '#fd7e14'  # Orange
+        else:
+            color = '#6c757d'  # Gray
+
+        # Build display
+        html = f'''
+        <div style="text-align: center; min-width: 80px;">
+            <div style="font-weight: 600; color: {color}; font-size: 14px;">
+                {total_views} views
+            </div>
+        '''
+
+        if weekly_views > 0:
+            html += f'<div style="font-size: 11px; color: #666; margin-top: 2px;">{weekly_views} this week</div>'
+
+        if completion_rate > 0:
+            rate_color = '#28a745' if completion_rate >= 70 else '#ffc107' if completion_rate >= 50 else '#dc3545'
+            html += f'<div style="font-size: 11px; color: {rate_color}; margin-top: 2px;">{completion_rate:.0f}% completion</div>'
+
+        if is_trending:
+            html += '<div style="font-size: 10px; color: #dc3545; margin-top: 2px; font-weight: 600;">🔥 TRENDING</div>'
+
+        html += '</div>'
+
+        return format_html(html)
+
+    view_stats_display.short_description = 'Analytics'
+
 
 @admin.register(BlogFile)
 class BlogFileAdmin(admin.ModelAdmin):
@@ -536,3 +582,58 @@ class NewsletterAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         """Optimize queryset for admin list view."""
         return super().get_queryset(request).select_related()
+
+
+@admin.register(PostView)
+class PostViewAdmin(admin.ModelAdmin):
+    """Admin interface for post view analytics."""
+
+    list_display = ('post', 'viewed_at', 'reading_time_display', 'completed_reading', 'referrer_display')
+    list_filter = ('viewed_at', 'completed_reading', 'referrer_domain')
+    search_fields = ('post__title', 'referrer_domain')
+    readonly_fields = ('post', 'viewed_at', 'reading_time_seconds', 'completed_reading',
+                      'user_agent_hash', 'referrer_domain', 'session_hash')
+    date_hierarchy = 'viewed_at'
+    list_per_page = 50
+
+    # Disable add/edit permissions (views are auto-created)
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.is_superuser  # Only superusers can delete analytics
+
+    def reading_time_display(self, obj):
+        """Display reading time in a user-friendly format."""
+        if obj.reading_time_seconds:
+            minutes, seconds = divmod(obj.reading_time_seconds, 60)
+            if minutes > 0:
+                return f"{minutes}m {seconds}s"
+            else:
+                return f"{seconds}s"
+        return "—"
+    reading_time_display.short_description = 'Reading Time'
+
+    def referrer_display(self, obj):
+        """Display referrer domain with icon."""
+        if obj.referrer_domain:
+            if 'google' in obj.referrer_domain.lower():
+                icon = '🔍'
+            elif 'twitter' in obj.referrer_domain.lower():
+                icon = '🐦'
+            elif 'facebook' in obj.referrer_domain.lower():
+                icon = '📘'
+            elif 'linkedin' in obj.referrer_domain.lower():
+                icon = '💼'
+            else:
+                icon = '🌐'
+            return f"{icon} {obj.referrer_domain}"
+        return "Direct"
+    referrer_display.short_description = 'Referrer'
+
+    def get_queryset(self, request):
+        """Optimize queryset for admin list view."""
+        return super().get_queryset(request).select_related('post')
