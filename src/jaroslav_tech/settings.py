@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 import os
+import sys
 from pathlib import Path
-from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -87,8 +87,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'blog.middleware.PostViewTrackingMiddleware',
-    'blog.middleware.ReadingAnalyticsMiddleware',
+    'blog.middleware.tracking.PostViewTrackingMiddleware',
+    'blog.middleware.analytics.ReadingAnalyticsMiddleware',
+    'blog.middleware.cache_headers.BlogCacheHeadersMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
@@ -313,7 +314,10 @@ CKEDITOR_5_CONFIGS = {
                 '|',
                 'toggleImageCaption',
                 'imageTextAlternative'
-            ]
+            ],
+            'upload': {
+                'types': ['jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff']
+            }
         },
         'table': {
             'contentToolbar': [
@@ -342,11 +346,6 @@ CKEDITOR_5_CONFIGS = {
         'width': '100%',
         'mediaEmbed': {
             'previewsInData': True
-        },
-        'image': {
-            'upload': {
-                'types': ['jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff']
-            }
         }
     }
 }
@@ -399,7 +398,6 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'default'
 
 # Override caching for testing
-import sys
 if 'test' in sys.argv or 'pytest' in sys.modules:
     CACHES = {
         'default': {
