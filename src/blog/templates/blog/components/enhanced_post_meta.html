@@ -85,5 +85,24 @@ Parameters:
             </span>
         </div>
     {% endif %}
+
+    {% comment %} View count - show if available and not minimal compact mode {% endcomment %}
+    {% with view_count=post.get_view_count %}
+    {% if view_count > 0 and not compact %}
+        <span class="meta-separator" aria-hidden="true">{{ separator }}</span>
+        <div class="meta-item meta-views">
+            <span class="meta-icon" aria-hidden="true">👁️</span>
+            <span class="meta-value" aria-label="{% trans 'View count' %}">
+                {{ view_count|format_view_count }} {% trans "views" %}
+            </span>
+        </div>
+    {% elif view_count > 0 and compact %}
+        <span class="meta-separator" aria-hidden="true">{{ separator }}</span>
+        <div class="meta-item meta-views compact">
+            <span class="meta-icon" aria-hidden="true">👁️</span>
+            <span class="meta-value">{{ view_count|format_view_count }}</span>
+        </div>
+    {% endif %}
+    {% endwith %}
 </div>
 {% endif %}

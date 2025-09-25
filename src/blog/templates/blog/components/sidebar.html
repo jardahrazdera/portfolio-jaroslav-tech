@@ -73,6 +73,12 @@ Parameters:
         </section>
     {% endif %}
 
+    <!-- Popular Posts Section -->
+    <section class="sidebar-section">
+        {% load blog_extras %}
+        {% popular_posts_widget period='week' limit=4 show_view_all=True %}
+    </section>
+
     <!-- Newsletter Section -->
     <section class="sidebar-section">
         {% include 'blog/components/newsletter_signup.html' %}
