@@ -127,3 +127,74 @@ def lookup(dictionary, key):
     if isinstance(dictionary, dict):
         return dictionary.get(key, 0)
     return 0
+
+
+@register.inclusion_tag('blog/components/popular_posts.html', takes_context=True)
+def popular_posts_widget(context, period='week', limit=5, show_view_all=True, show_period_selector=False):
+    """
+    Template tag to display popular posts widget.
+
+    Usage:
+    {% popular_posts_widget period='week' limit=5 show_view_all=True %}
+    """
+    from ..models import PostView
+
+    popular_posts = PostView.get_popular_posts(period=period, limit=limit)
+
+    return {
+        'popular_posts': popular_posts,
+        'period': period,
+        'show_view_all': show_view_all,
+        'show_period_selector': show_period_selector,
+        'debug': context.get('debug', False),
+        'request': context['request']
+    }
+
+
+@register.simple_tag
+def get_trending_posts(limit=10):
+    """
+    Template tag to get trending posts.
+
+    Usage:
+    {% get_trending_posts limit=5 as trending %}
+    """
+    from ..models import PostView
+    return PostView.get_trending_posts(limit=limit)
+
+
+@register.filter
+def format_view_count(count):
+    """
+    Format view count for display (e.g., 1.2K, 3.4M).
+
+    Usage: {{ post.get_view_count|format_view_count }}
+    """
+    if not count:
+        return '0'
+
+    if count < 1000:
+        return str(count)
+    elif count < 1000000:
+        return f"{count/1000:.1f}K"
+    else:
+        return f"{count/1000000:.1f}M"
+
+
+@register.filter
+def completion_rate_class(rate):
+    """
+    Get CSS class for completion rate.
+
+    Usage: {{ post.get_reading_completion_rate|completion_rate_class }}
+    """
+    if not rate:
+        return 'completion-rate--unknown'
+    elif rate >= 80:
+        return 'completion-rate--excellent'
+    elif rate >= 60:
+        return 'completion-rate--good'
+    elif rate >= 40:
+        return 'completion-rate--average'
+    else:
+        return 'completion-rate--low'
