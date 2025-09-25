@@ -6,7 +6,7 @@ from django.utils.text import slugify
 from django.urls import reverse
 from django.core.validators import EmailValidator
 from django.utils import timezone
-from ckeditor.fields import RichTextField
+from django_ckeditor_5.fields import CKEditor5Field
 from .image_utils import ImageProcessor
 from .file_utils import FileValidator, generate_file_path, get_file_type, format_file_size
 
@@ -44,7 +44,7 @@ class Tag(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True, blank=True)
-    content = RichTextField()
+    content = CKEditor5Field('Text', config_name='extends')
     excerpt = models.TextField(blank=True)
     featured_image = models.ImageField(upload_to='blog/images/', blank=True, null=True, help_text='Featured image for the blog post')
     author = models.ForeignKey(User, on_delete=models.CASCADE)
