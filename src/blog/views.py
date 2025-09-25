@@ -60,7 +60,9 @@ class BlogDetailView(DetailView):
     model = Post
     template_name = 'blog/post_detail.html'
     context_object_name = 'post'
-    queryset = Post.objects.filter(is_published=True)
+    queryset = Post.objects.filter(is_published=True).select_related('author').prefetch_related(
+        'categories', 'tags', 'attachments'
+    )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -146,14 +148,8 @@ class SearchView(ListView):
         if not query:
             return Post.objects.none()
 
-        # Search in title, content, and excerpt
-        return Post.objects.filter(
-            Q(is_published=True) & (
-                Q(title__icontains=query) |
-                Q(content__icontains=query) |
-                Q(excerpt__icontains=query)
-            )
-        ).select_related('author').prefetch_related('categories', 'tags').distinct()
+        # Use the optimized search method from PostManager
+        return Post.objects.search(query)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -507,7 +503,7 @@ class TrendingPostsView(ListView):
         return Post.objects.filter(
             is_published=True,
             views__viewed_at__gte=cutoff_date
-        ).annotate(
+        ).select_related('author').prefetch_related('categories', 'tags').annotate(
             recent_views=Count('views', filter=Q(views__viewed_at__gte=cutoff_date)),
             total_views=Count('views')
         ).filter(

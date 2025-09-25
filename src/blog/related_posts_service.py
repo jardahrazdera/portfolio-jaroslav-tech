@@ -98,7 +98,7 @@ class RelatedPostsService:
             is_published=True
         ).exclude(
             id=self.post.id
-        ).annotate(
+        ).select_related('author').prefetch_related('categories', 'tags').annotate(
             shared_categories=Count('categories', filter=Q(categories__in=self.post.categories.all()))
         ).order_by('-shared_categories', '-created_at').distinct()[:count]
 
@@ -121,7 +121,7 @@ class RelatedPostsService:
             is_published=True
         ).exclude(
             id=self.post.id
-        ).order_by('-created_at')[:count]
+        ).select_related('author').prefetch_related('categories', 'tags').order_by('-created_at')[:count]
 
         enhanced = self._enhance_posts_metadata(list(more_posts))
         cache.set(cache_key, enhanced, self.CACHE_TIMEOUT // 2)
