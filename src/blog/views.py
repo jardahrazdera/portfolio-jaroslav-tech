@@ -831,7 +831,22 @@ def track_reading(request):
     logger = logging.getLogger(__name__)
 
     try:
-        data = json.loads(request.body)
+        # Handle both JSON (from fetch) and FormData (from sendBeacon)
+        if request.content_type == 'application/json':
+            data = json.loads(request.body)
+        else:
+            # Handle FormData from sendBeacon
+            if 'data' in request.POST:
+                data = json.loads(request.POST['data'])
+            else:
+                # Fallback: treat POST data as direct parameters
+                data = {
+                    'post_slug': request.POST.get('post_slug'),
+                    'reading_time_seconds': request.POST.get('reading_time_seconds'),
+                    'completed_reading': request.POST.get('completed_reading') == 'true',
+                    'max_scroll_percent': int(request.POST.get('max_scroll_percent', 0))
+                }
+
         post_slug = data.get('post_slug')
         reading_time = data.get('reading_time_seconds')
         completed_reading = data.get('completed_reading', False)

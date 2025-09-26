@@ -83,9 +83,9 @@ class PostViewTrackingMiddleware(MiddlewareMixin):
         """Check if the request is for a blog post detail page."""
         path = request.path
 
-        # Check if path matches blog post pattern: /blog/post/slug/
-        # Adjust this pattern based on your URL structure
-        if '/blog/post/' in path and path.count('/') >= 4:
+        # Check if path matches blog post pattern: /[lang]/blog/post/slug/
+        # Support both /blog/post/slug/ and /en/blog/post/slug/
+        if '/blog/post/' in path:
             return True
 
         return False
