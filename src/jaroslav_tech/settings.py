@@ -76,6 +76,15 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
 ]
 
+# Conditionally add django-crontab if available
+try:
+    import django_crontab
+    INSTALLED_APPS.append('django_crontab')
+except ImportError:
+    # django-crontab not installed - cron jobs will be unavailable
+    # but other cleanup methods (signals, middleware) will still work
+    pass
+
 MIDDLEWARE = [
     'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -90,6 +99,8 @@ MIDDLEWARE = [
     'blog.middleware.tracking.PostViewTrackingMiddleware',
     'blog.middleware.analytics.ReadingAnalyticsMiddleware',
     'blog.middleware.cache_headers.BlogCacheHeadersMiddleware',
+    'blog.middleware.cleanup.PeriodicCleanupMiddleware',
+    'blog.middleware.cleanup.StorageMonitoringMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
@@ -407,24 +418,130 @@ if 'test' in sys.argv or 'pytest' in sys.modules:
     }
 
 # Database query debugging for development
-if DEBUG:
-    LOGGING = {
-        'version': 1,
-        'disable_existing_loggers': False,
-        'handlers': {
-            'console': {
-                'level': 'DEBUG',
-                'class': 'logging.StreamHandler',
-            },
-        },
-        'loggers': {
-            'django.db.backends': {
-                'level': 'DEBUG',
-                'handlers': ['console'],
-                'propagate': False,
-            },
-        },
-    }
+# if DEBUG:
+#     LOGGING = {
+#         'version': 1,
+#         'disable_existing_loggers': False,
+#         'handlers': {
+#             'console': {
+#                 'level': 'DEBUG',
+#                 'class': 'logging.StreamHandler',
+#             },
+#         },
+#         'loggers': {
+#             'django.db.backends': {
+#                 'level': 'DEBUG',
+#                 'handlers': ['console'],
+#                 'propagate': False,
+#             },
+#         },
+#     }
 
     # Enable query counting middleware for development
     MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE if 'debug_toolbar' not in ' '.join(MIDDLEWARE) else MIDDLEWARE
+
+
+# ---
+# Automated Image Cleanup Configuration
+# django-crontab settings for automatic file cleanup
+# ---
+CRONJOBS = [
+    # Daily orphaned file cleanup at 3:00 AM
+    ('0 3 * * *', 'blog.cron.daily_cleanup_orphaned_files', '>> /tmp/django_cron.log 2>&1'),
+
+    # Weekly deep storage analysis at Sunday 2:00 AM
+    ('0 2 * * 0', 'blog.cron.weekly_storage_analysis', '>> /tmp/django_cron.log 2>&1'),
+
+    # Monthly storage report at 1st day of month, 1:00 AM
+    ('0 1 1 * *', 'blog.cron.monthly_storage_report', '>> /tmp/django_cron.log 2>&1'),
+]
+
+# Crontab command path (important for Docker environments)
+CRONTAB_DJANGO_MANAGE_PATH = '/app/manage.py'
+
+# ---
+# Comprehensive Logging Configuration for Image Cleanup
+# Ensures all cleanup operations are properly logged for monitoring
+# ---
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '[{levelname}] {asctime} {name} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '[{levelname}] {message}',
+            'style': '{',
+        },
+        'cleanup': {
+            'format': '[CLEANUP] {asctime} {levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': '/tmp/django.log',
+            'formatter': 'verbose',
+        },
+        'cleanup_file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/tmp/django_cleanup.log',
+            'formatter': 'cleanup',
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter': 'verbose',
+            'include_html': True,
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'blog.signals': {
+            'handlers': ['console', 'cleanup_file', 'mail_admins'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'blog.cron': {
+            'handlers': ['console', 'cleanup_file', 'mail_admins'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'blog.middleware': {
+            'handlers': ['console', 'cleanup_file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'blog.image_utils_enhanced': {
+            'handlers': ['console', 'cleanup_file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+}
+
+# Blog-specific cleanup configuration
+BLOG_CLEANUP_INTERVAL = int(os.environ.get('BLOG_CLEANUP_INTERVAL', '1000'))  # Every N requests
+BLOG_MONITORING_INTERVAL = int(os.environ.get('BLOG_MONITORING_INTERVAL', '5000'))  # Every N requests
+
+# Storage alert thresholds
+BLOG_STORAGE_WARNING_THRESHOLD_MB = int(os.environ.get('BLOG_STORAGE_WARNING_MB', '1000'))  # 1GB
+BLOG_STORAGE_CRITICAL_THRESHOLD_MB = int(os.environ.get('BLOG_STORAGE_CRITICAL_MB', '5000'))  # 5GB

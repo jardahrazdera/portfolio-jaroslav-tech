@@ -8,6 +8,7 @@ from django.core.validators import EmailValidator
 from django.utils import timezone
 from django_ckeditor_5.fields import CKEditor5Field
 from .image_utils import ImageProcessor
+from .image_utils_enhanced import ImageProcessor as EnhancedImageProcessor, AltTextManager
 from .file_utils import FileValidator, generate_file_path, get_file_type, format_file_size
 
 
@@ -198,16 +199,32 @@ class Post(models.Model):
             # Clean up old processed images if they exist
             if old_image_name:
                 ImageProcessor.cleanup_processed_images(old_image_name)
+                EnhancedImageProcessor.cleanup_processed_images(old_image_name)
 
-            # Process new image
+            # Process new image with enhanced processor
             base_name = f"post_{self.pk}_{os.path.splitext(os.path.basename(self.featured_image.name))[0]}"
-            ImageProcessor.process_image(self.featured_image, base_name)
+
+            # Use enhanced processor for better optimization
+            is_hero = self.is_featured  # Featured posts use hero image processing
+            processed_data = EnhancedImageProcessor.process_image(
+                self.featured_image,
+                base_name,
+                is_hero=is_hero,
+                generate_alt=True
+            )
+
+            # Store generated alt text if available and meta_description is empty
+            if processed_data.get('generated_alt') and not self.meta_description:
+                self.meta_description = processed_data['generated_alt'][:155]
+                # Save only the meta_description field to avoid recursion
+                Post.objects.filter(pk=self.pk).update(meta_description=self.meta_description)
 
     def delete(self, *args, **kwargs):
         # Clean up processed images when post is deleted
         if self.featured_image:
             base_name = f"post_{self.pk}_{os.path.splitext(os.path.basename(self.featured_image.name))[0]}"
             ImageProcessor.cleanup_processed_images(base_name)
+            EnhancedImageProcessor.cleanup_processed_images(base_name)
         super().delete(*args, **kwargs)
 
     def get_image_base_name(self):

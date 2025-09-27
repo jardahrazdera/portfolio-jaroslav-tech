@@ -17,3 +17,4 @@ django-ckeditor-5==0.2.13
 pillow==10.4.0
 pygments==2.17.2
 django-debug-toolbar==4.3.0
+django-crontab==0.7.1
