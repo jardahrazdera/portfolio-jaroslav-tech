@@ -8,7 +8,13 @@ Usage: {% include 'blog/components/post_card.html' with post=post %}
 <article class="blog-post-card project-card" role="article" aria-labelledby="post-title-{{ post.slug }}">
     {% if post.featured_image %}
         <div class="post-card-image">
-            {% lazy_image post size='medium' css_class='card-image' alt_text=post.title %}
+            {% comment %}Use enhanced lazy loading for card images{% endcomment %}
+            {% if post.get_image_base_name|has_optimized_images %}
+                {% lazy_image_enhanced post.get_image_base_name post.title "card-image" "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" %}
+            {% else %}
+                {% comment %}Fallback to standard lazy image{% endcomment %}
+                {% lazy_image post size='medium' css_class='card-image' alt_text=post.title %}
+            {% endif %}
         </div>
     {% endif %}
 

@@ -15,17 +15,29 @@
 <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 <script src="{% static 'blog/js/code-blocks.js' %}" defer></script>
 <script src="{% static 'blog/js/sharing-analytics.js' %}" defer></script>
+<script src="{% static 'blog/js/image-optimization.js' %}" defer></script>
 {% else %}
 <link rel="stylesheet" href="{% static 'dist/blog.min.css' %}">
 <script src="{% static 'blog/js/bookmarks.js' %}"></script>
 <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 <script src="{% static 'blog/js/code-blocks.js' %}" defer></script>
 <script src="{% static 'blog/js/sharing-analytics.js' %}" defer></script>
+<script src="{% static 'blog/js/image-optimization.js' %}" defer></script>
+{% endif %}
+
+{% comment %}Image optimization critical CSS and preload hints{% endcomment %}
+{% critical_image_css %}
+
+{% comment %}Preload hints for featured image{% endcomment %}
+{% if post.featured_image and post.get_image_base_name %}
+    {% image_preload_hints post.get_image_base_name "high" %}
 {% endif %}
 {% endblock %}
 
 {% block extra_meta %}
 {% seo_meta_tags post %}
+{% comment %}Enhanced image meta tags for social sharing{% endcomment %}
+{% image_meta_tags post %}
 {% endblock %}
 
 {% block structured_data %}
@@ -54,11 +66,6 @@
                 </div>
             </header>
 
-            {% if post.featured_image %}
-                <div class="post-featured-image">
-                    {% responsive_image post size='large' css_class='featured-image' alt_text=post.title %}
-                </div>
-            {% endif %}
 
             {% if post.excerpt %}
                 <div class="post-excerpt-detail">
