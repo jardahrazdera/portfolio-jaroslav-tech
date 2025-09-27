@@ -1,10 +1,14 @@
 from django.contrib import admin
 from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 from django.http import HttpResponse
 from django.contrib import messages
 from django_ckeditor_5.widgets import CKEditor5Widget
+import time
 from .models import Category, Tag, Post, BlogFile, Newsletter, PostView
 from .email_service import NewsletterEmailService
+from .signals import cleanup_orphaned_files, get_storage_stats, format_file_size
+from .image_utils_enhanced import get_image_metadata
 
 
 @admin.register(Category)
@@ -29,7 +33,7 @@ class BlogFileInline(admin.TabularInline):
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author', 'featured_image_thumbnail', 'attachment_count', 'view_stats_display', 'is_published', 'is_featured', 'seo_status', 'created_at')
+    list_display = ('title', 'author', 'featured_image_thumbnail', 'image_optimization_status', 'attachment_count', 'view_stats_display', 'is_published', 'is_featured', 'seo_status', 'created_at')
     list_filter = ('is_published', 'is_featured', 'categories', 'created_at')
     search_fields = ('title', 'content', 'meta_description', 'meta_keywords')
     prepopulated_fields = {'slug': ('title',)}
@@ -350,6 +354,369 @@ class PostAdmin(admin.ModelAdmin):
         return format_html(html)
 
     view_stats_display.short_description = 'Analytics'
+
+    def image_optimization_status(self, obj):
+        """Display image optimization status."""
+        if not obj.featured_image:
+            return format_html(
+                '<div style="text-align: center; color: #999;">—</div>'
+            )
+
+        base_name = obj.get_image_base_name()
+        if not base_name:
+            return format_html(
+                '<div style="text-align: center; color: #dc3545; font-size: 12px;">Not processed</div>'
+            )
+
+        try:
+            metadata = get_image_metadata(base_name)
+            variant_count = metadata.get('total_variants', 0)
+
+            if variant_count > 0:
+                formats = metadata.get('available_formats', [])
+                webp_available = 'webp' in formats
+
+                # Determine status
+                if webp_available and variant_count >= 4:
+                    color = '#28a745'  # Green
+                    status = '✓ Optimized'
+                elif variant_count >= 2:
+                    color = '#ffc107'  # Yellow
+                    status = '⚠ Partial'
+                else:
+                    color = '#fd7e14'  # Orange
+                    status = '○ Basic'
+
+                webp_indicator = mark_safe('<div style="font-size: 10px; color: #28a745;">WebP ✓</div>') if webp_available else ''
+                return format_html(
+                    '<div style="text-align: center;">'
+                    '<div style="font-weight: 600; color: {}; font-size: 12px;">{}</div>'
+                    '<div style="font-size: 10px; color: #666;">{} variants</div>'
+                    '{}'
+                    '</div>',
+                    color, status, variant_count, webp_indicator
+                )
+            else:
+                return format_html(
+                    '<div style="text-align: center; color: #dc3545; font-size: 12px;">✗ Failed</div>'
+                )
+        except Exception:
+            return format_html(
+                '<div style="text-align: center; color: #dc3545; font-size: 12px;">Error</div>'
+            )
+
+    image_optimization_status.short_description = 'Image Opt.'
+
+    # Admin actions
+    actions = ['optimize_selected_images', 'cleanup_orphaned_files_action']
+
+    def optimize_selected_images(self, request, queryset):
+        """Admin action to optimize images for selected posts."""
+        from .image_utils_enhanced import ImageProcessor as EnhancedImageProcessor
+
+        optimized_count = 0
+        failed_count = 0
+
+        for post in queryset.filter(featured_image__isnull=False):
+            try:
+                base_name = post.get_image_base_name()
+                if not base_name:
+                    base_name = f'post_{post.pk}_{int(time.time())}'
+
+                is_hero = post.is_featured
+                processed_data = EnhancedImageProcessor.process_image(
+                    post.featured_image,
+                    base_name,
+                    is_hero=is_hero,
+                    generate_alt=True
+                )
+
+                if processed_data:
+                    optimized_count += 1
+                else:
+                    failed_count += 1
+
+            except Exception as e:
+                failed_count += 1
+
+        if optimized_count > 0:
+            self.message_user(
+                request,
+                f'Successfully optimized {optimized_count} images. {failed_count} failed.',
+                messages.SUCCESS if failed_count == 0 else messages.WARNING
+            )
+        else:
+            self.message_user(
+                request,
+                f'No images were optimized. {failed_count} failed.',
+                messages.ERROR
+            )
+
+    optimize_selected_images.short_description = "Optimize featured images for selected posts"
+
+    def cleanup_orphaned_files_action(self, request, queryset):
+        """Admin action to clean up orphaned files."""
+        try:
+            orphaned_count = cleanup_orphaned_files()
+            if orphaned_count > 0:
+                self.message_user(
+                    request,
+                    f'Successfully cleaned up {orphaned_count} orphaned files.',
+                    messages.SUCCESS
+                )
+            else:
+                self.message_user(
+                    request,
+                    'No orphaned files found.',
+                    messages.INFO
+                )
+        except Exception as e:
+            self.message_user(
+                request,
+                f'Error during cleanup: {e}',
+                messages.ERROR
+            )
+
+    cleanup_orphaned_files_action.short_description = "Clean up orphaned files (run only once)"
+
+    def get_readonly_fields(self, request, obj=None):
+        """Add image optimization info to readonly fields."""
+        readonly = list(super().get_readonly_fields(request, obj))
+        if obj and obj.featured_image:
+            readonly.extend(['image_optimization_info'])
+        return readonly
+
+    def image_optimization_info(self, obj):
+        """Detailed image optimization information for the edit form."""
+        if not obj.featured_image:
+            return "No featured image"
+
+        base_name = obj.get_image_base_name()
+        if not base_name:
+            return format_html(
+                '<div style="padding: 10px; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px;">'
+                'Image not processed yet. Save the post to trigger optimization.'
+                '</div>'
+            )
+
+        try:
+            metadata = get_image_metadata(base_name)
+            variant_count = metadata.get('total_variants', 0)
+
+            if variant_count == 0:
+                return format_html(
+                    '<div style="padding: 10px; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px;">'
+                    'Image processing failed. Try re-saving the post or check the logs.'
+                    '</div>'
+                )
+
+            storage_stats = get_storage_stats()
+
+            html = f'''
+            <div style="padding: 15px; background: white; border: 2px solid #dee2e6; border-radius: 6px;">
+                <h4 style="margin-top: 0; color: #495057;">Image Optimization Status</h4>
+                <div style="margin-bottom: 10px;">
+                    <strong>Total Variants:</strong> {variant_count}
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <strong>Available Formats:</strong> {', '.join(metadata.get('available_formats', []))}
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <strong>Available Sizes:</strong> {len(metadata.get('available_sizes', []))}
+                </div>
+            '''
+
+            if metadata.get('available_sizes'):
+                html += '<div style="margin-bottom: 10px;"><strong>Size Variants:</strong><ul style="margin: 5px 0;">'
+                for size_data in metadata['available_sizes']:
+                    html += f'<li>{size_data["name"]} ({size_data["width"]}×{size_data["height"]}) - {", ".join(size_data["formats"])}</li>'
+                html += '</ul></div>'
+
+            # Show total storage info
+            html += f'''
+                <div style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #dee2e6;">
+                    <strong>Storage Overview:</strong><br>
+                    • Featured Images: {storage_stats["featured_images"]["count"]} files ({format_file_size(storage_stats["featured_images"]["size"])})<br>
+                    • Processed Images: {storage_stats["processed_images"]["count"]} files ({format_file_size(storage_stats["processed_images"]["size"])})<br>
+                    • Blog Files: {storage_stats["blog_files"]["count"]} files ({format_file_size(storage_stats["blog_files"]["size"])})
+                </div>
+            </div>
+            '''
+
+            return format_html(html)
+
+        except Exception as e:
+            return format_html(
+                '<div style="padding: 10px; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px;">'
+                f'Error loading optimization info: {e}'
+                '</div>'
+            )
+
+    image_optimization_info.short_description = 'Image Optimization Details'
+
+    # === Cleanup Monitoring and Management Actions ===
+
+    def cleanup_monitoring_display(self, obj):
+        """Display cleanup monitoring information in admin."""
+        try:
+            from .middleware.cleanup import get_cleanup_stats, get_storage_history
+
+            # Get latest cleanup stats
+            cleanup_stats = get_cleanup_stats()
+            storage_history = get_storage_history()
+
+            if not cleanup_stats:
+                return format_html(
+                    '<div style="padding: 8px; background: #ffeaa7; border-left: 4px solid #fdcb6e;">'
+                    '<strong>Cleanup Status:</strong> No cleanup performed yet<br>'
+                    '<small>Automatic cleanup will trigger based on request count</small>'
+                    '</div>'
+                )
+
+            last_cleanup = cleanup_stats.get('last_cleanup', 0)
+            if last_cleanup:
+                from datetime import datetime
+                cleanup_time = datetime.fromtimestamp(last_cleanup)
+                time_ago = datetime.now() - cleanup_time
+                hours_ago = time_ago.total_seconds() / 3600
+
+                if hours_ago < 1:
+                    time_display = f"{int(time_ago.total_seconds() / 60)} minutes ago"
+                elif hours_ago < 24:
+                    time_display = f"{int(hours_ago)} hours ago"
+                else:
+                    time_display = f"{int(hours_ago / 24)} days ago"
+
+                # Status color based on recency
+                if hours_ago < 24:
+                    status_color = "#00b894"  # Green - recent
+                elif hours_ago < 168:  # 1 week
+                    status_color = "#fdcb6e"  # Yellow - moderate
+                else:
+                    status_color = "#e17055"  # Red - old
+
+                return format_html(
+                    '<div style="padding: 8px; background: #f8f9fa; border-left: 4px solid {};">'
+                    '<strong>Last Cleanup:</strong> {} ({})<br>'
+                    '<strong>Files Cleaned:</strong> {}<br>'
+                    '<strong>Duration:</strong> {:.2f}s<br>'
+                    '<strong>Storage:</strong> {:.1f}MB<br>'
+                    '<small>Trigger: {}</small>'
+                    '</div>',
+                    status_color,
+                    cleanup_time.strftime('%Y-%m-%d %H:%M'),
+                    time_display,
+                    cleanup_stats.get('last_files_cleaned', 0),
+                    cleanup_stats.get('last_duration', 0),
+                    cleanup_stats.get('total_storage_mb', 0),
+                    cleanup_stats.get('last_trigger_path', 'Unknown')
+                )
+            else:
+                return format_html(
+                    '<div style="padding: 8px; background: #ffeaa7; border-left: 4px solid #fdcb6e;">'
+                    'No cleanup data available'
+                    '</div>'
+                )
+
+        except Exception as e:
+            return format_html(
+                '<div style="padding: 8px; background: #fab1a0; border-left: 4px solid #e17055;">'
+                f'Error loading cleanup info: {e}'
+                '</div>'
+            )
+
+    cleanup_monitoring_display.short_description = 'Cleanup Status'
+
+    # Admin Actions for Cleanup Management
+
+    def trigger_manual_cleanup(self, request, queryset):
+        """Admin action to manually trigger cleanup."""
+        try:
+            from .middleware.cleanup import force_cleanup
+            from .signals import cleanup_orphaned_files
+
+            # Run immediate cleanup (synchronous for admin feedback)
+            cleaned_count = cleanup_orphaned_files()
+
+            if cleaned_count > 0:
+                self.message_user(
+                    request,
+                    f"Cleanup completed successfully! Removed {cleaned_count} orphaned files.",
+                    level='SUCCESS'
+                )
+            else:
+                self.message_user(
+                    request,
+                    "Cleanup completed - no orphaned files found.",
+                    level='INFO'
+                )
+
+        except Exception as e:
+            self.message_user(
+                request,
+                f"Cleanup failed: {str(e)}",
+                level='ERROR'
+            )
+
+    trigger_manual_cleanup.short_description = "🧹 Clean up orphaned files"
+
+    def display_storage_stats(self, request, queryset):
+        """Admin action to display detailed storage statistics."""
+        try:
+            stats = get_storage_stats()
+            total_size_mb = stats['total_size'] / (1024 * 1024)
+
+            message = (
+                f"📊 Storage Statistics:\n"
+                f"• Total Storage: {format_file_size(stats['total_size'])}\n"
+                f"• Featured Images: {stats['featured_images']['count']} files "
+                f"({format_file_size(stats['featured_images']['size'])})\n"
+                f"• Processed Images: {stats['processed_images']['count']} files "
+                f"({format_file_size(stats['processed_images']['size'])})\n"
+                f"• Blog Files: {stats['blog_files']['count']} files "
+                f"({format_file_size(stats['blog_files']['size'])})"
+            )
+
+            level = 'INFO'
+            if total_size_mb > 1000:  # Over 1GB
+                level = 'WARNING'
+                message += "\n⚠️ High storage usage detected!"
+
+            self.message_user(request, message, level=level)
+
+        except Exception as e:
+            self.message_user(
+                request,
+                f"Failed to get storage stats: {str(e)}",
+                level='ERROR'
+            )
+
+    display_storage_stats.short_description = "📊 Show storage statistics"
+
+    def reset_cleanup_counters(self, request, queryset):
+        """Admin action to reset cleanup counters."""
+        try:
+            from .middleware.cleanup import reset_cleanup_counters
+            reset_cleanup_counters()
+
+            self.message_user(
+                request,
+                "Cleanup counters have been reset. Next cleanup will trigger based on new request count.",
+                level='SUCCESS'
+            )
+
+        except Exception as e:
+            self.message_user(
+                request,
+                f"Failed to reset counters: {str(e)}",
+                level='ERROR'
+            )
+
+    reset_cleanup_counters.short_description = "🔄 Reset cleanup counters"
+
+    # Add cleanup actions to the list
+    actions = ['bulk_publish', 'bulk_unpublish', 'bulk_optimize_images', 'bulk_cleanup_orphaned_files',
+               'trigger_manual_cleanup', 'display_storage_stats', 'reset_cleanup_counters']
 
 
 @admin.register(BlogFile)
