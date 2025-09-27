@@ -220,85 +220,26 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # ---
-# CKEditor Configuration
+# CKEditor 5 File Upload Configuration
 # ---
-CKEDITOR_UPLOAD_PATH = 'ckeditor_uploads/'
-CKEDITOR_RESTRICT_BY_USER = True
-CKEDITOR_BROWSE_SHOW_DIRS = True
-CKEDITOR_ALLOW_NONIMAGE_FILES = False
-
-CKEDITOR_CONFIGS = {
-    'default': {
-        'toolbar': 'Custom',
-        'toolbar_Custom': [
-            ['Bold', 'Italic', 'Underline'],
-            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-            ['Link', 'Unlink'],
-            ['CodeSnippet'],
-            ['SpecialChar', 'HorizontalRule'],
-            ['RemoveFormat', 'Source'],
-            ['Format'],
-        ],
-        'format_tags': 'p;h1;h2;h3;h4;h5;h6;pre',
-        'height': 500,
-        'width': 800,
-        'removePlugins': 'elementspath',
-        'resize_enabled': True,
-        'resize_dir': 'both',
-        'resize_minWidth': 450,
-        'resize_minHeight': 300,
-        'resize_maxWidth': 1800,
-        'resize_maxHeight': 1200,
-        'extraPlugins': 'codesnippet,sourcearea,resize',
-        'codeSnippet_theme': 'monokai_sublime',
-        'codeSnippet_languages': {
-            'python': 'Python',
-            'javascript': 'JavaScript',
-            'typescript': 'TypeScript',
-            'html': 'HTML',
-            'css': 'CSS',
-            'scss': 'SCSS',
-            'json': 'JSON',
-            'xml': 'XML',
-            'yaml': 'YAML',
-            'bash': 'Bash',
-            'sql': 'SQL',
-            'java': 'Java',
-            'cpp': 'C++',
-            'csharp': 'C#',
-            'php': 'PHP',
-            'ruby': 'Ruby',
-            'go': 'Go',
-            'rust': 'Rust',
-            'swift': 'Swift',
-            'kotlin': 'Kotlin',
-            'dart': 'Dart',
-        },
-        # Custom configuration for better embed experience
-        'forcePasteAsPlainText': False,
-        'autoParagraph': True,
-        'enterMode': 1,  # CKEDITOR.ENTER_P
-        'shiftEnterMode': 2,  # CKEDITOR.ENTER_BR
-        'pasteFromWordRemoveFontStyles': True,
-        'pasteFromWordRemoveStyles': True,
-        # Enable automatic link detection
-        'autolink_commitKeystrokes': [13, 32],  # Enter and Space
-        # Ensure source button works
-        'allowedContent': True,  # Allow all content in source mode
-        'templates_replaceContent': False,
-        # Source area configuration for better readability
-        'sourceAreaTabSize': 4,
-    }
-}
+CKEDITOR_5_FILE_STORAGE = "django.core.files.storage.default_storage"
+CKEDITOR_5_UPLOAD_PATH = "ckeditor5_uploads/"
+CKEDITOR_5_MAX_FILE_SIZE = 10  # Max file size in MB
 
 # ---
 # CKEditor 5 Configuration
 # ---
 CKEDITOR_5_CONFIGS = {
     'default': {
-        'toolbar': ['heading', '|', 'bold', 'italic', 'link',
-                    'bulletedList', 'numberedList', 'blockQuote', 'imageUpload'],
+        'toolbar': [
+            'heading', '|',
+            'bold', 'italic', 'link', '|',
+            'bulletedList', 'numberedList', 'blockQuote', '|',
+            'imageUpload', 'insertTable', '|',
+            'undo', 'redo'
+        ],
         'height': '400px',
+        'width': '100%',
     },
     'extends': {
         'toolbar': [
@@ -306,7 +247,7 @@ CKEDITOR_5_CONFIGS = {
             'bold', 'italic', 'underline', 'strikethrough', '|',
             'link', 'blockQuote', 'code', 'codeBlock', '|',
             'bulletedList', 'numberedList', 'outdent', 'indent', '|',
-            'insertImage', 'insertTable', 'mediaEmbed', '|',
+            'insertImage', 'imageUpload', 'insertTable', '|',
             'undo', 'redo', 'sourceEditing'
         ],
         'heading': {
@@ -314,7 +255,9 @@ CKEDITOR_5_CONFIGS = {
                 {'model': 'paragraph', 'title': 'Paragraph', 'class': 'ck-heading_paragraph'},
                 {'model': 'heading1', 'view': 'h1', 'title': 'Heading 1', 'class': 'ck-heading_heading1'},
                 {'model': 'heading2', 'view': 'h2', 'title': 'Heading 2', 'class': 'ck-heading_heading2'},
-                {'model': 'heading3', 'view': 'h3', 'title': 'Heading 3', 'class': 'ck-heading_heading3'}
+                {'model': 'heading3', 'view': 'h3', 'title': 'Heading 3', 'class': 'ck-heading_heading3'},
+                {'model': 'heading4', 'view': 'h4', 'title': 'Heading 4', 'class': 'ck-heading_heading4'},
+                {'model': 'heading5', 'view': 'h5', 'title': 'Heading 5', 'class': 'ck-heading_heading5'}
             ]
         },
         'image': {
@@ -327,16 +270,14 @@ CKEDITOR_5_CONFIGS = {
                 'imageTextAlternative'
             ],
             'upload': {
-                'types': ['jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff']
+                'types': ['jpeg', 'jpg', 'png', 'gif', 'bmp', 'webp', 'tiff']
             }
         },
         'table': {
             'contentToolbar': [
                 'tableColumn',
                 'tableRow',
-                'mergeTableCells',
-                'tableCellProperties',
-                'tableProperties'
+                'mergeTableCells'
             ]
         },
         'codeBlock': {
@@ -353,11 +294,15 @@ CKEDITOR_5_CONFIGS = {
                 {'language': 'xml', 'label': 'XML'}
             ]
         },
+        'link': {
+            'decorators': {
+                'addTargetToExternalLinks': True,
+                'defaultProtocol': 'https://'
+            }
+        },
         'height': '500px',
         'width': '100%',
-        'mediaEmbed': {
-            'previewsInData': True
-        }
+        'placeholder': 'Start writing your amazing content here...'
     }
 }
 

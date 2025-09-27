@@ -4,6 +4,11 @@
  * Version: 2025-09-26-v2
  */
 (function() {
+    // Don't run analytics in Django admin
+    if (window.location.pathname.includes('/admin/')) {
+        return;
+    }
+
     // Reading analytics for blog posts
     let startTime = Date.now();
     let maxScrollPercent = 0;
