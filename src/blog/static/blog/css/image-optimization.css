@@ -1,0 +1,309 @@
+/**
+ * Image Optimization Styles
+ * Provides styling for optimized images with lazy loading,
+ * responsive design, and smooth transitions.
+ */
+
+/* Base image containers */
+.responsive-image,
+.lazy-image,
+.hero-image,
+.optimized-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Image elements */
+.responsive-img,
+.hero-img,
+.lazy-img,
+.optimized-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: opacity 0.3s ease-in-out, filter 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+/* Loading states */
+.responsive-image:not([data-loaded="true"]),
+.lazy-image:not([data-loaded="true"]) {
+    background: linear-gradient(
+        90deg,
+        var(--surface0, #f0f0f0) 25%,
+        transparent 25%,
+        transparent 50%,
+        var(--surface0, #f0f0f0) 50%,
+        var(--surface0, #f0f0f0) 75%,
+        transparent 75%,
+        transparent
+    );
+    background-size: 20px 20px;
+    animation: loading-shimmer 1.5s infinite linear;
+    min-height: 200px;
+}
+
+/* Image loading states */
+.responsive-img:not(.loaded),
+.hero-img:not(.loaded),
+.lazy-img:not(.loaded),
+.optimized-img:not(.loaded) {
+    opacity: 0;
+    filter: blur(5px);
+}
+
+.responsive-img.loading,
+.hero-img.loading,
+.lazy-img.loading,
+.optimized-img.loading {
+    opacity: 0.7;
+    filter: blur(2px);
+}
+
+.responsive-img.loaded,
+.hero-img.loaded,
+.lazy-img.loaded,
+.optimized-img.loaded {
+    opacity: 1;
+    filter: blur(0);
+}
+
+.responsive-img.error,
+.hero-img.error,
+.lazy-img.error,
+.optimized-img.error {
+    opacity: 0.5;
+    filter: grayscale(100%);
+}
+
+/* Hero image specific styles */
+.hero-image {
+    min-height: 300px;
+    max-height: 600px;
+    object-fit: cover;
+}
+
+.hero-img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+/* Featured image styles */
+.featured-image {
+    margin: 2rem 0;
+    border-radius: var(--border-radius, 8px);
+    box-shadow: var(--shadow-lg, 0 10px 25px rgba(0, 0, 0, 0.1));
+}
+
+.featured-image.hero-style {
+    margin: 0 0 2rem 0;
+    border-radius: 0;
+    max-height: 50vh;
+}
+
+/* Card image styles */
+.post-card-image {
+    overflow: hidden;
+    border-radius: var(--border-radius, 8px) var(--border-radius, 8px) 0 0;
+    aspect-ratio: 16 / 9;
+    background-color: var(--surface0, #f5f5f5);
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
+}
+
+.post-card:hover .card-image.loaded {
+    transform: scale(1.05);
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+    .featured-image {
+        margin: 1rem 0;
+        border-radius: var(--border-radius-sm, 4px);
+    }
+
+    .hero-image {
+        min-height: 200px;
+        max-height: 400px;
+    }
+
+    .responsive-image:not([data-loaded="true"]),
+    .lazy-image:not([data-loaded="true"]) {
+        min-height: 150px;
+    }
+}
+
+/* Image placeholder for missing images */
+.image-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    background-color: var(--surface0, #f5f5f5);
+    border: 2px dashed var(--overlay0, #ccc);
+    border-radius: var(--border-radius, 8px);
+    color: var(--text, #666);
+}
+
+.image-placeholder svg {
+    opacity: 0.6;
+}
+
+/* Loading animation */
+@keyframes loading-shimmer {
+    0% {
+        background-position: -468px 0;
+    }
+    100% {
+        background-position: 468px 0;
+    }
+}
+
+/* Remove loading effects once image is loaded */
+.responsive-image[data-loaded="true"],
+.lazy-image[data-loaded="true"],
+.hero-image,
+.optimized-image {
+    background: none;
+    animation: none;
+}
+
+/* Critical image performance optimizations */
+.hero-img,
+.featured-image img,
+[data-critical="true"] img {
+    content-visibility: auto;
+    contain-intrinsic-size: 1200px 600px;
+}
+
+/* Lazy loading intersection styles */
+.lazy-img[data-src] {
+    background-color: var(--surface0, #f5f5f5);
+}
+
+/* High-performance mode for critical images */
+@media (prefers-reduced-motion: reduce) {
+    .responsive-img,
+    .hero-img,
+    .lazy-img,
+    .optimized-img {
+        transition: none;
+    }
+
+    .responsive-image:not([data-loaded="true"]),
+    .lazy-image:not([data-loaded="true"]) {
+        animation: none;
+        background: var(--surface0, #f0f0f0);
+    }
+}
+
+/* Print styles */
+@media print {
+    .responsive-image,
+    .lazy-image,
+    .hero-image,
+    .optimized-image {
+        background: none !important;
+        animation: none !important;
+    }
+
+    .responsive-img,
+    .hero-img,
+    .lazy-img,
+    .optimized-img {
+        opacity: 1 !important;
+        filter: none !important;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .image-placeholder {
+        background-color: var(--surface0, #2a2a2a);
+        border-color: var(--overlay0, #555);
+        color: var(--text, #ccc);
+    }
+
+    .responsive-image:not([data-loaded="true"]),
+    .lazy-image:not([data-loaded="true"]) {
+        background: linear-gradient(
+            90deg,
+            var(--surface0, #2a2a2a) 25%,
+            transparent 25%,
+            transparent 50%,
+            var(--surface0, #2a2a2a) 50%,
+            var(--surface0, #2a2a2a) 75%,
+            transparent 75%,
+            transparent
+        );
+    }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+    .card-image {
+        transition: none;
+    }
+
+    .post-card:hover .card-image.loaded {
+        transform: none;
+    }
+}
+
+/* Focus states for accessibility */
+.responsive-image:focus-within,
+.lazy-image:focus-within,
+.hero-image:focus-within,
+.optimized-image:focus-within {
+    outline: 2px solid var(--accent, #007acc);
+    outline-offset: 2px;
+}
+
+/* Utility classes */
+.image-loading {
+    pointer-events: none;
+}
+
+.image-error .responsive-img,
+.image-error .hero-img,
+.image-error .lazy-img,
+.image-error .optimized-img {
+    filter: grayscale(100%) brightness(0.8);
+}
+
+/* Performance hints for browsers */
+.hero-img,
+.featured-image img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* Modern browser optimizations */
+@supports (aspect-ratio: 1) {
+    .post-card-image {
+        aspect-ratio: 16 / 9;
+        height: auto;
+    }
+}
+
+@supports (object-fit: cover) {
+    .hero-img,
+    .card-image {
+        object-fit: cover;
+    }
+}
+
+@supports (content-visibility: auto) {
+    .lazy-img {
+        content-visibility: auto;
+        contain-intrinsic-size: 800px 600px;
+    }
+}
