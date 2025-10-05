@@ -290,17 +290,20 @@ CKEDITOR_5_CONFIGS = {
                 'defaultProtocol': 'https://'
             }
         },
-        'height': '500px',
-        'width': '100%',
         'placeholder': 'Start writing your amazing content here...'
     },
     'extends': {
         'toolbar': [
             'heading', '|',
             'bold', 'italic', 'underline', 'strikethrough', '|',
+            'fontSize', 'fontColor', 'fontBackgroundColor', '|',
+            'alignment', '|',
+            'highlight', 'removeFormat', '|',
             'link', 'blockQuote', 'code', 'codeBlock', '|',
             'bulletedList', 'numberedList', 'outdent', 'indent', '|',
+            'horizontalLine', 'specialCharacters', '|',
             'insertImage', 'imageUpload', 'insertTable', '|',
+            'findAndReplace', 'selectAll', '|',
             'undo', 'redo', 'sourceEditing'
         ],
         'heading': {
@@ -310,7 +313,8 @@ CKEDITOR_5_CONFIGS = {
                 {'model': 'heading2', 'view': 'h2', 'title': 'Heading 2', 'class': 'ck-heading_heading2'},
                 {'model': 'heading3', 'view': 'h3', 'title': 'Heading 3', 'class': 'ck-heading_heading3'},
                 {'model': 'heading4', 'view': 'h4', 'title': 'Heading 4', 'class': 'ck-heading_heading4'},
-                {'model': 'heading5', 'view': 'h5', 'title': 'Heading 5', 'class': 'ck-heading_heading5'}
+                {'model': 'heading5', 'view': 'h5', 'title': 'Heading 5', 'class': 'ck-heading_heading5'},
+                {'model': 'heading6', 'view': 'h6', 'title': 'Heading 6', 'class': 'ck-heading_heading6'}
             ]
         },
         'image': {
@@ -323,14 +327,16 @@ CKEDITOR_5_CONFIGS = {
                 'imageTextAlternative'
             ],
             'upload': {
-                'types': ['jpeg', 'jpg', 'png', 'gif', 'bmp', 'webp', 'tiff']
+                'types': ['jpeg', 'jpg', 'png', 'gif', 'bmp', 'webp', 'tiff', 'svg']
             }
         },
         'table': {
             'contentToolbar': [
                 'tableColumn',
                 'tableRow',
-                'mergeTableCells'
+                'mergeTableCells',
+                'tableProperties',
+                'tableCellProperties'
             ]
         },
         'codeBlock': {
@@ -338,13 +344,31 @@ CKEDITOR_5_CONFIGS = {
                 {'language': 'plaintext', 'label': 'Plain text'},
                 {'language': 'html', 'label': 'HTML'},
                 {'language': 'css', 'label': 'CSS'},
+                {'language': 'scss', 'label': 'SCSS'},
                 {'language': 'javascript', 'label': 'JavaScript'},
+                {'language': 'typescript', 'label': 'TypeScript'},
                 {'language': 'python', 'label': 'Python'},
                 {'language': 'php', 'label': 'PHP'},
+                {'language': 'ruby', 'label': 'Ruby'},
+                {'language': 'java', 'label': 'Java'},
+                {'language': 'c', 'label': 'C'},
+                {'language': 'cpp', 'label': 'C++'},
+                {'language': 'cs', 'label': 'C#'},
+                {'language': 'swift', 'label': 'Swift'},
+                {'language': 'kotlin', 'label': 'Kotlin'},
+                {'language': 'go', 'label': 'Go'},
+                {'language': 'rust', 'label': 'Rust'},
                 {'language': 'bash', 'label': 'Bash'},
+                {'language': 'shell', 'label': 'Shell'},
+                {'language': 'powershell', 'label': 'PowerShell'},
                 {'language': 'sql', 'label': 'SQL'},
                 {'language': 'json', 'label': 'JSON'},
-                {'language': 'xml', 'label': 'XML'}
+                {'language': 'yaml', 'label': 'YAML'},
+                {'language': 'xml', 'label': 'XML'},
+                {'language': 'markdown', 'label': 'Markdown'},
+                {'language': 'dockerfile', 'label': 'Dockerfile'},
+                {'language': 'nginx', 'label': 'Nginx'},
+                {'language': 'dart', 'label': 'Dart'}
             ]
         },
         'link': {
@@ -353,8 +377,100 @@ CKEDITOR_5_CONFIGS = {
                 'defaultProtocol': 'https://'
             }
         },
-        'height': '500px',
-        'width': '100%',
+        'fontColor': {
+            'colors': [
+                {'color': '#000000', 'label': 'Black'},
+                {'color': '#ffffff', 'label': 'White'},
+                {'color': '#dc3545', 'label': 'Red'},
+                {'color': '#28a745', 'label': 'Green'},
+                {'color': '#007bff', 'label': 'Blue'},
+                {'color': '#ffc107', 'label': 'Yellow'},
+                {'color': '#fd7e14', 'label': 'Orange'},
+                {'color': '#6f42c1', 'label': 'Purple'},
+                {'color': '#CBA6F7', 'label': 'Mauve'},
+                {'color': '#F5C2E7', 'label': 'Pink'},
+                {'color': '#FAB387', 'label': 'Peach'},
+                {'color': '#A6E3A1', 'label': 'Green'},
+                {'color': '#89B4FA', 'label': 'Blue'},
+                {'color': '#F9E2AF', 'label': 'Yellow'}
+            ]
+        },
+        'fontBackgroundColor': {
+            'colors': [
+                {'color': '#000000', 'label': 'Black'},
+                {'color': '#ffffff', 'label': 'White'},
+                {'color': '#dc3545', 'label': 'Red'},
+                {'color': '#28a745', 'label': 'Green'},
+                {'color': '#007bff', 'label': 'Blue'},
+                {'color': '#ffc107', 'label': 'Yellow'},
+                {'color': '#fd7e14', 'label': 'Orange'},
+                {'color': '#6f42c1', 'label': 'Purple'},
+                {'color': '#CBA6F7', 'label': 'Mauve'},
+                {'color': '#F5C2E7', 'label': 'Pink'},
+                {'color': '#FAB387', 'label': 'Peach'},
+                {'color': '#A6E3A1', 'label': 'Green'},
+                {'color': '#89B4FA', 'label': 'Blue'},
+                {'color': '#F9E2AF', 'label': 'Yellow'}
+            ]
+        },
+        'fontSize': {
+            'options': [
+                'tiny',
+                'small',
+                'default',
+                'big',
+                'huge'
+            ]
+        },
+        'alignment': {
+            'options': ['left', 'center', 'right', 'justify']
+        },
+        'highlight': {
+            'options': [
+                {
+                    'model': 'yellowMarker',
+                    'class': 'marker-yellow',
+                    'title': 'Yellow marker',
+                    'color': 'var(--ck-highlight-marker-yellow)',
+                    'type': 'marker'
+                },
+                {
+                    'model': 'greenMarker',
+                    'class': 'marker-green',
+                    'title': 'Green marker',
+                    'color': 'var(--ck-highlight-marker-green)',
+                    'type': 'marker'
+                },
+                {
+                    'model': 'pinkMarker',
+                    'class': 'marker-pink',
+                    'title': 'Pink marker',
+                    'color': 'var(--ck-highlight-marker-pink)',
+                    'type': 'marker'
+                },
+                {
+                    'model': 'blueMarker',
+                    'class': 'marker-blue',
+                    'title': 'Blue marker',
+                    'color': 'var(--ck-highlight-marker-blue)',
+                    'type': 'marker'
+                },
+                {
+                    'model': 'redPen',
+                    'class': 'pen-red',
+                    'title': 'Red pen',
+                    'color': 'var(--ck-highlight-pen-red)',
+                    'type': 'pen'
+                },
+                {
+                    'model': 'greenPen',
+                    'class': 'pen-green',
+                    'title': 'Green pen',
+                    'color': 'var(--ck-highlight-pen-green)',
+                    'type': 'pen'
+                }
+            ]
+        },
         'placeholder': 'Start writing your amazing content here...'
     }
 }
