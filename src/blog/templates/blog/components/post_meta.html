@@ -1,0 +1,46 @@
+{% comment %}
+Blog Post Meta Component
+Displays comprehensive post metadata including publication date, author, reading time, and optionally updated date
+Usage: {% include 'blog/components/post_meta.html' with post=post show_updated=True compact=False show_reading_time=True %}
+Parameters:
+- post: Blog post object (required)
+- show_updated: Show last updated date if different from created (default: True)
+- compact: Use compact layout for cards (default: False)
+- show_reading_time: Show estimated reading time (default: True)
+- show_author: Show author information (default: True)
+- id_suffix: Unique suffix for IDs when multiple instances exist (default: post.slug)
+{% endcomment %}
+
+{% load i18n %}
+{% load blog_extras %}
+
+{% if not id_suffix %}
+    {% with id_suffix=post.slug %}
+        {% include 'blog/components/post_meta.html' %}
+    {% endwith %}
+{% else %}
+<div class="blog-post-meta{% if compact %} compact{% endif %}"
+     id="post-meta-{{ id_suffix }}"
+     role="group"
+     aria-label="{% trans 'Article publication information' %}">
+
+    <time datetime="{{ post.created_at|date:'c' }}"
+          aria-label="{% trans 'Published on' %} {{ post.created_at|date:'F j, Y' }}">
+        {{ post.created_at|date:"F j, Y" }}
+    </time>
+
+    <span class="author"
+          aria-label="{% trans 'Author' %}">
+        {% trans "by" %} {{ post.author.get_full_name|default:post.author.username }}
+    </span>
+
+    {% if show_updated|default:True and post.updated_at != post.created_at %}
+        <span class="last-updated"
+              aria-label="{% trans 'Last updated on' %} {{ post.updated_at|date:'F j, Y' }}">
+            <time datetime="{{ post.updated_at|date:'c' }}">
+                {% trans "Last updated:" %} {{ post.updated_at|date:"F j, Y" }}
+            </time>
+        </span>
+    {% endif %}
+</div>
+{% endif %}

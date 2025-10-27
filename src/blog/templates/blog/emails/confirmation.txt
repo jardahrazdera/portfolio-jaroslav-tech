@@ -1,0 +1,33 @@
+{{ site_name }} - Confirm Your Newsletter Subscription
+
+Hello!
+
+Thank you for subscribing to the {{ site_name }} newsletter! To complete your subscription and start receiving our latest posts and updates, please confirm your email address by visiting this link:
+
+{{ confirmation_url }}
+
+Why do we need confirmation?
+We use double opt-in to ensure your email security and comply with privacy regulations. This confirms that you actually want to receive our newsletter.
+
+What you'll receive:
+• Latest blog posts and tutorials
+• Exclusive tips and insights
+• Code snippets and resources
+• Industry updates and trends
+
+Our Promise:
+• We never share your email address
+• Quality content, no spam
+• Easy unsubscribe anytime
+• Mobile-friendly emails
+
+DIDN'T SUBSCRIBE?
+If you received this email by mistake, you can safely ignore it. Your email address will not be added to our newsletter list.
+
+This confirmation link will expire in 7 days for security reasons.
+
+Best regards,
+The {{ site_name }} Team
+
+{{ site_name }}: {{ site_url }}
+Blog: {{ site_url }}/en/blog/

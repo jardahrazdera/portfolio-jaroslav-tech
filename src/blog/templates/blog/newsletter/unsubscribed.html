@@ -1,0 +1,174 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load seo_tags %}
+
+{% block title %}{% page_title page_title="Successfully Unsubscribed" %}{% endblock %}
+
+{% block extra_head %}
+{% if debug %}
+<link rel="stylesheet" href="{% static 'blog/css/blog.css' %}">
+{% else %}
+<link rel="stylesheet" href="{% static 'dist/blog.min.css' %}">
+{% endif %}
+{% endblock %}
+
+{% block extra_meta %}
+{% seo_meta_tags %}
+{% endblock %}
+
+{% block structured_data %}
+{% structured_data_json_ld %}
+{% breadcrumb_json_ld %}
+{{ block.super }}
+{% endblock %}
+
+{% block before_main %}
+{% include 'blog/components/breadcrumb.html' %}
+{% endblock %}
+
+{% block content %}
+<section class="content-section">
+    <div class="container">
+        <div class="newsletter-unsubscribed-page">
+            <div class="unsubscribed-header">
+                <div class="unsubscribed-icon">
+                    <i class="fas fa-check-circle" aria-hidden="true"></i>
+                </div>
+                <h2>Successfully Unsubscribed</h2>
+                <p class="lead">
+                    <strong>{{ newsletter.email }}</strong> has been successfully unsubscribed
+                    from our newsletter. We're sorry to see you go!
+                </p>
+            </div>
+
+            <div class="unsubscribed-content">
+                <div class="confirmation-details">
+                    <h3>Unsubscription Confirmed</h3>
+                    <div class="details-grid">
+                        <div class="detail-item">
+                            <i class="fas fa-envelope" aria-hidden="true"></i>
+                            <div>
+                                <strong>Email Address</strong>
+                                <p>{{ newsletter.email }}</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-calendar-times" aria-hidden="true"></i>
+                            <div>
+                                <strong>Unsubscribed On</strong>
+                                <p>{{ newsletter.unsubscribed_at|date:"F j, Y \a\t g:i A" }}</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-times-circle" aria-hidden="true"></i>
+                            <div>
+                                <strong>Status</strong>
+                                <p class="status-inactive">Unsubscribed</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="what-happens-next">
+                    <h3>What happens next?</h3>
+                    <ul class="next-steps">
+                        <li>
+                            <i class="fas fa-stop" aria-hidden="true"></i>
+                            You will no longer receive newsletter emails from us
+                        </li>
+                        <li>
+                            <i class="fas fa-clock" aria-hidden="true"></i>
+                            It may take up to 24 hours for the unsubscription to take full effect
+                        </li>
+                        <li>
+                            <i class="fas fa-shield-alt" aria-hidden="true"></i>
+                            Your email data will be kept for compliance purposes as required by law
+                        </li>
+                        <li>
+                            <i class="fas fa-undo" aria-hidden="true"></i>
+                            You can resubscribe at any time if you change your mind
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="stay-connected">
+                    <h3>Other ways to stay connected</h3>
+                    <p>Even without the newsletter, you can still:</p>
+                    <div class="connection-options">
+                        <div class="connection-option">
+                            <i class="fas fa-rss" aria-hidden="true"></i>
+                            <div>
+                                <strong>RSS Feed</strong>
+                                <p>Subscribe to our RSS feed to get updates without email</p>
+                                <a href="#" class="btn btn-secondary btn-small">
+                                    <i class="fas fa-rss" aria-hidden="true"></i>
+                                    RSS Feed
+                                </a>
+                            </div>
+                        </div>
+                        <div class="connection-option">
+                            <i class="fab fa-twitter" aria-hidden="true"></i>
+                            <div>
+                                <strong>Follow on Social Media</strong>
+                                <p>Get updates and engage with us on social platforms</p>
+                                <div class="social-links">
+                                    <a href="#" class="btn btn-secondary btn-small">
+                                        <i class="fab fa-twitter" aria-hidden="true"></i>
+                                        Twitter
+                                    </a>
+                                    <a href="#" class="btn btn-secondary btn-small">
+                                        <i class="fab fa-linkedin" aria-hidden="true"></i>
+                                        LinkedIn
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="connection-option">
+                            <i class="fas fa-bookmark" aria-hidden="true"></i>
+                            <div>
+                                <strong>Bookmark the Blog</strong>
+                                <p>Visit the blog regularly to catch the latest posts</p>
+                                <a href="{% url 'blog:post_list' %}" class="btn btn-secondary btn-small">
+                                    <i class="fas fa-newspaper" aria-hidden="true"></i>
+                                    Visit Blog
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="resubscribe-option">
+                    <div class="resubscribe-card">
+                        <h4>
+                            <i class="fas fa-heart" aria-hidden="true"></i>
+                            Changed your mind?
+                        </h4>
+                        <p>
+                            We'd love to have you back! You can resubscribe to our newsletter
+                            at any time using the same email address.
+                        </p>
+                        <a href="{% url 'blog:newsletter_subscribe' %}" class="btn btn-primary">
+                            <i class="fas fa-envelope" aria-hidden="true"></i>
+                            Resubscribe to Newsletter
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="unsubscribed-actions">
+                <div class="hero-buttons">
+                    <a href="{% url 'blog:post_list' %}" class="btn btn-primary">
+                        <i class="fas fa-newspaper" aria-hidden="true"></i>
+                        Read Latest Posts
+                    </a>
+                    <a href="{% url 'core:home' %}" class="btn btn-secondary">
+                        <i class="fas fa-home" aria-hidden="true"></i>
+                        Back to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

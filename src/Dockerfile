@@ -12,7 +12,7 @@ COPY src ./src
 
 # Install dependencies and run the build script
 # This creates the dist folder inside /build/src/static/
-RUN cd frontend && npm install && npm run build
+RUN cd frontend && npm ci && npm run build
 
 
 # --- Stage 2: Final Python Application ---

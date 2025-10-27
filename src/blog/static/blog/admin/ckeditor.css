@@ -1,0 +1,28 @@
+/* Force CKEditor wrapper and editor to respect parent container width */
+.ck-editor-container,
+.ck.ck-editor {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+}
+
+/* Force CKEditor toolbar to not exceed parent width but allow dropdowns */
+.ck.ck-editor .ck-editor__top {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow: visible !important;
+}
+
+/* Force CKEditor content area to not exceed parent width */
+.ck.ck-editor .ck-editor__main {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: auto !important;
+}
+
+/* Set readable text color in content area */
+.ck.ck-editor .ck-editor__main .ck-content {
+    color: #000000 !important;
+}

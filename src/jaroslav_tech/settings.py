@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 import os
+import sys
 from pathlib import Path
-from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -70,9 +70,20 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django_extensions',
     'django_recaptcha',  # django-recaptcha
+    'django_ckeditor_5',  # django-ckeditor-5
     'core.apps.CoreConfig',
     'devtracker.apps.DevtrackerConfig',
+    'blog.apps.BlogConfig',
 ]
+
+# Conditionally add django-crontab if available
+try:
+    import django_crontab
+    INSTALLED_APPS.append('django_crontab')
+except ImportError:
+    # django-crontab not installed - cron jobs will be unavailable
+    # but other cleanup methods (signals, middleware) will still work
+    pass
 
 MIDDLEWARE = [
     'django.middleware.cache.UpdateCacheMiddleware',
@@ -85,6 +96,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'blog.middleware.tracking.PostViewTrackingMiddleware',
+    'blog.middleware.analytics.ReadingAnalyticsMiddleware',
+    'blog.middleware.cache_headers.BlogCacheHeadersMiddleware',
+    'blog.middleware.cleanup.PeriodicCleanupMiddleware',
+    'blog.middleware.cleanup.StorageMonitoringMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
@@ -196,6 +212,270 @@ WHITENOISE_MAX_AGE = 31536000  # 1 year in seconds
 WHITENOISE_SKIP_COMPRESS_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'zip', 'gz', 'tgz', 'bz2', 'tbz', 'xz', 'br', 'woff', 'woff2']
 
 
+# ---
+# Media files (User uploaded content)
+# https://docs.djangoproject.com/en/5.2/topics/files/
+# ---
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# ---
+# CKEditor 5 File Upload Configuration
+# ---
+CKEDITOR_5_FILE_STORAGE = "django.core.files.storage.default_storage"
+CKEDITOR_5_UPLOAD_PATH = "ckeditor5_uploads/"
+CKEDITOR_5_MAX_FILE_SIZE = 10  # Max file size in MB
+
+# ---
+# CKEditor 5 Configuration
+# ---
+CKEDITOR_5_CONFIGS = {
+    'default': {
+        'toolbar': [
+            'heading', '|',
+            'bold', 'italic', 'underline', 'strikethrough', '|',
+            'code', 'codeBlock', '|',
+            'link', 'blockQuote', '|',
+            'bulletedList', 'numberedList', 'outdent', 'indent', '|',
+            'imageUpload', 'insertTable', '|',
+            'sourceEditing', 'undo', 'redo'
+        ],
+        'heading': {
+            'options': [
+                {'model': 'paragraph', 'title': 'Paragraph', 'class': 'ck-heading_paragraph'},
+                {'model': 'heading1', 'view': 'h1', 'title': 'Heading 1', 'class': 'ck-heading_heading1'},
+                {'model': 'heading2', 'view': 'h2', 'title': 'Heading 2', 'class': 'ck-heading_heading2'},
+                {'model': 'heading3', 'view': 'h3', 'title': 'Heading 3', 'class': 'ck-heading_heading3'},
+                {'model': 'heading4', 'view': 'h4', 'title': 'Heading 4', 'class': 'ck-heading_heading4'},
+                {'model': 'heading5', 'view': 'h5', 'title': 'Heading 5', 'class': 'ck-heading_heading5'}
+            ]
+        },
+        'image': {
+            'toolbar': [
+                'imageStyle:inline',
+                'imageStyle:block',
+                'imageStyle:side',
+                '|',
+                'toggleImageCaption',
+                'imageTextAlternative'
+            ],
+            'upload': {
+                'types': ['jpeg', 'jpg', 'png', 'gif', 'bmp', 'webp', 'tiff']
+            }
+        },
+        'table': {
+            'contentToolbar': [
+                'tableColumn',
+                'tableRow',
+                'mergeTableCells'
+            ]
+        },
+        'codeBlock': {
+            'languages': [
+                {'language': 'plaintext', 'label': 'Plain text'},
+                {'language': 'html', 'label': 'HTML'},
+                {'language': 'css', 'label': 'CSS'},
+                {'language': 'javascript', 'label': 'JavaScript'},
+                {'language': 'python', 'label': 'Python'},
+                {'language': 'php', 'label': 'PHP'},
+                {'language': 'bash', 'label': 'Bash'},
+                {'language': 'sql', 'label': 'SQL'},
+                {'language': 'json', 'label': 'JSON'},
+                {'language': 'xml', 'label': 'XML'}
+            ]
+        },
+        'link': {
+            'decorators': {
+                'addTargetToExternalLinks': True,
+                'defaultProtocol': 'https://'
+            }
+        },
+        'placeholder': 'Start writing your amazing content here...'
+    },
+    'extends': {
+        'toolbar': [
+            'heading', '|',
+            'bold', 'italic', 'underline', 'strikethrough', '|',
+            'fontSize', 'fontColor', 'fontBackgroundColor', '|',
+            'alignment', '|',
+            'highlight', 'removeFormat', '|',
+            'link', 'blockQuote', 'code', 'codeBlock', '|',
+            'bulletedList', 'numberedList', 'outdent', 'indent', '|',
+            'horizontalLine', 'specialCharacters', '|',
+            'insertImage', 'imageUpload', 'insertTable', '|',
+            'findAndReplace', 'selectAll', '|',
+            'undo', 'redo', 'sourceEditing'
+        ],
+        'heading': {
+            'options': [
+                {'model': 'paragraph', 'title': 'Paragraph', 'class': 'ck-heading_paragraph'},
+                {'model': 'heading1', 'view': 'h1', 'title': 'Heading 1', 'class': 'ck-heading_heading1'},
+                {'model': 'heading2', 'view': 'h2', 'title': 'Heading 2', 'class': 'ck-heading_heading2'},
+                {'model': 'heading3', 'view': 'h3', 'title': 'Heading 3', 'class': 'ck-heading_heading3'},
+                {'model': 'heading4', 'view': 'h4', 'title': 'Heading 4', 'class': 'ck-heading_heading4'},
+                {'model': 'heading5', 'view': 'h5', 'title': 'Heading 5', 'class': 'ck-heading_heading5'},
+                {'model': 'heading6', 'view': 'h6', 'title': 'Heading 6', 'class': 'ck-heading_heading6'}
+            ]
+        },
+        'image': {
+            'toolbar': [
+                'imageStyle:inline',
+                'imageStyle:block',
+                'imageStyle:side',
+                '|',
+                'toggleImageCaption',
+                'imageTextAlternative'
+            ],
+            'upload': {
+                'types': ['jpeg', 'jpg', 'png', 'gif', 'bmp', 'webp', 'tiff', 'svg']
+            }
+        },
+        'table': {
+            'contentToolbar': [
+                'tableColumn',
+                'tableRow',
+                'mergeTableCells',
+                'tableProperties',
+                'tableCellProperties'
+            ]
+        },
+        'codeBlock': {
+            'languages': [
+                {'language': 'plaintext', 'label': 'Plain text'},
+                {'language': 'html', 'label': 'HTML'},
+                {'language': 'css', 'label': 'CSS'},
+                {'language': 'scss', 'label': 'SCSS'},
+                {'language': 'javascript', 'label': 'JavaScript'},
+                {'language': 'typescript', 'label': 'TypeScript'},
+                {'language': 'python', 'label': 'Python'},
+                {'language': 'php', 'label': 'PHP'},
+                {'language': 'ruby', 'label': 'Ruby'},
+                {'language': 'java', 'label': 'Java'},
+                {'language': 'c', 'label': 'C'},
+                {'language': 'cpp', 'label': 'C++'},
+                {'language': 'cs', 'label': 'C#'},
+                {'language': 'swift', 'label': 'Swift'},
+                {'language': 'kotlin', 'label': 'Kotlin'},
+                {'language': 'go', 'label': 'Go'},
+                {'language': 'rust', 'label': 'Rust'},
+                {'language': 'bash', 'label': 'Bash'},
+                {'language': 'shell', 'label': 'Shell'},
+                {'language': 'powershell', 'label': 'PowerShell'},
+                {'language': 'sql', 'label': 'SQL'},
+                {'language': 'json', 'label': 'JSON'},
+                {'language': 'yaml', 'label': 'YAML'},
+                {'language': 'xml', 'label': 'XML'},
+                {'language': 'markdown', 'label': 'Markdown'},
+                {'language': 'dockerfile', 'label': 'Dockerfile'},
+                {'language': 'nginx', 'label': 'Nginx'},
+                {'language': 'dart', 'label': 'Dart'}
+            ]
+        },
+        'link': {
+            'decorators': {
+                'addTargetToExternalLinks': True,
+                'defaultProtocol': 'https://'
+            }
+        },
+        'fontColor': {
+            'colors': [
+                {'color': '#000000', 'label': 'Black'},
+                {'color': '#ffffff', 'label': 'White'},
+                {'color': '#dc3545', 'label': 'Red'},
+                {'color': '#28a745', 'label': 'Green'},
+                {'color': '#007bff', 'label': 'Blue'},
+                {'color': '#ffc107', 'label': 'Yellow'},
+                {'color': '#fd7e14', 'label': 'Orange'},
+                {'color': '#6f42c1', 'label': 'Purple'},
+                {'color': '#CBA6F7', 'label': 'Mauve'},
+                {'color': '#F5C2E7', 'label': 'Pink'},
+                {'color': '#FAB387', 'label': 'Peach'},
+                {'color': '#A6E3A1', 'label': 'Green'},
+                {'color': '#89B4FA', 'label': 'Blue'},
+                {'color': '#F9E2AF', 'label': 'Yellow'}
+            ]
+        },
+        'fontBackgroundColor': {
+            'colors': [
+                {'color': '#000000', 'label': 'Black'},
+                {'color': '#ffffff', 'label': 'White'},
+                {'color': '#dc3545', 'label': 'Red'},
+                {'color': '#28a745', 'label': 'Green'},
+                {'color': '#007bff', 'label': 'Blue'},
+                {'color': '#ffc107', 'label': 'Yellow'},
+                {'color': '#fd7e14', 'label': 'Orange'},
+                {'color': '#6f42c1', 'label': 'Purple'},
+                {'color': '#CBA6F7', 'label': 'Mauve'},
+                {'color': '#F5C2E7', 'label': 'Pink'},
+                {'color': '#FAB387', 'label': 'Peach'},
+                {'color': '#A6E3A1', 'label': 'Green'},
+                {'color': '#89B4FA', 'label': 'Blue'},
+                {'color': '#F9E2AF', 'label': 'Yellow'}
+            ]
+        },
+        'fontSize': {
+            'options': [
+                'tiny',
+                'small',
+                'default',
+                'big',
+                'huge'
+            ]
+        },
+        'alignment': {
+            'options': ['left', 'center', 'right', 'justify']
+        },
+        'highlight': {
+            'options': [
+                {
+                    'model': 'yellowMarker',
+                    'class': 'marker-yellow',
+                    'title': 'Yellow marker',
+                    'color': 'var(--ck-highlight-marker-yellow)',
+                    'type': 'marker'
+                },
+                {
+                    'model': 'greenMarker',
+                    'class': 'marker-green',
+                    'title': 'Green marker',
+                    'color': 'var(--ck-highlight-marker-green)',
+                    'type': 'marker'
+                },
+                {
+                    'model': 'pinkMarker',
+                    'class': 'marker-pink',
+                    'title': 'Pink marker',
+                    'color': 'var(--ck-highlight-marker-pink)',
+                    'type': 'marker'
+                },
+                {
+                    'model': 'blueMarker',
+                    'class': 'marker-blue',
+                    'title': 'Blue marker',
+                    'color': 'var(--ck-highlight-marker-blue)',
+                    'type': 'marker'
+                },
+                {
+                    'model': 'redPen',
+                    'class': 'pen-red',
+                    'title': 'Red pen',
+                    'color': 'var(--ck-highlight-pen-red)',
+                    'type': 'pen'
+                },
+                {
+                    'model': 'greenPen',
+                    'class': 'pen-green',
+                    'title': 'Green pen',
+                    'color': 'var(--ck-highlight-pen-green)',
+                    'type': 'pen'
+                }
+            ]
+        },
+        'placeholder': 'Start writing your amazing content here...'
+    }
+}
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -243,7 +523,6 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'default'
 
 # Override caching for testing
-import sys
 if 'test' in sys.argv or 'pytest' in sys.modules:
     CACHES = {
         'default': {
@@ -251,3 +530,132 @@ if 'test' in sys.argv or 'pytest' in sys.modules:
             'LOCATION': 'test-cache',
         }
     }
+
+# Database query debugging for development
+# if DEBUG:
+#     LOGGING = {
+#         'version': 1,
+#         'disable_existing_loggers': False,
+#         'handlers': {
+#             'console': {
+#                 'level': 'DEBUG',
+#                 'class': 'logging.StreamHandler',
+#             },
+#         },
+#         'loggers': {
+#             'django.db.backends': {
+#                 'level': 'DEBUG',
+#                 'handlers': ['console'],
+#                 'propagate': False,
+#             },
+#         },
+#     }
+
+    # Enable query counting middleware for development
+    MIDDLEWARE = ['debug_toolbar.middleware.DebugToolbarMiddleware'] + MIDDLEWARE if 'debug_toolbar' not in ' '.join(MIDDLEWARE) else MIDDLEWARE
+
+
+# ---
+# Automated Image Cleanup Configuration
+# django-crontab settings for automatic file cleanup
+# ---
+CRONJOBS = [
+    # Daily orphaned file cleanup at 3:00 AM
+    ('0 3 * * *', 'blog.cron.daily_cleanup_orphaned_files', '>> /tmp/django_cron.log 2>&1'),
+
+    # Weekly deep storage analysis at Sunday 2:00 AM
+    ('0 2 * * 0', 'blog.cron.weekly_storage_analysis', '>> /tmp/django_cron.log 2>&1'),
+
+    # Monthly storage report at 1st day of month, 1:00 AM
+    ('0 1 1 * *', 'blog.cron.monthly_storage_report', '>> /tmp/django_cron.log 2>&1'),
+]
+
+# Crontab command path (important for Docker environments)
+CRONTAB_DJANGO_MANAGE_PATH = '/app/manage.py'
+
+# ---
+# Comprehensive Logging Configuration for Image Cleanup
+# Ensures all cleanup operations are properly logged for monitoring
+# ---
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '[{levelname}] {asctime} {name} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '[{levelname}] {message}',
+            'style': '{',
+        },
+        'cleanup': {
+            'format': '[CLEANUP] {asctime} {levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': '/tmp/django.log',
+            'formatter': 'verbose',
+        },
+        'cleanup_file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/tmp/django_cleanup.log',
+            'formatter': 'cleanup',
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter': 'verbose',
+            'include_html': True,
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'blog.signals': {
+            'handlers': ['console', 'cleanup_file', 'mail_admins'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'blog.cron': {
+            'handlers': ['console', 'cleanup_file', 'mail_admins'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'blog.middleware': {
+            'handlers': ['console', 'cleanup_file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'blog.image_utils_enhanced': {
+            'handlers': ['console', 'cleanup_file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+}
+
+# Blog-specific cleanup configuration
+BLOG_CLEANUP_INTERVAL = int(os.environ.get('BLOG_CLEANUP_INTERVAL', '1000'))  # Every N requests
+BLOG_MONITORING_INTERVAL = int(os.environ.get('BLOG_MONITORING_INTERVAL', '5000'))  # Every N requests
+
+# Storage alert thresholds
+BLOG_STORAGE_WARNING_THRESHOLD_MB = int(os.environ.get('BLOG_STORAGE_WARNING_MB', '1000'))  # 1GB
+BLOG_STORAGE_CRITICAL_THRESHOLD_MB = int(os.environ.get('BLOG_STORAGE_CRITICAL_MB', '5000'))  # 5GB

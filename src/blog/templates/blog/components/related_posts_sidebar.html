@@ -1,0 +1,94 @@
+{% load static %}
+{% load i18n %}
+{% load blog_extras %}
+
+<!-- Compact Sidebar Related Posts -->
+<div class="sidebar-related-posts" x-data="sidebarRelatedPosts()">
+    {% if recommendations.primary.posts %}
+        <div class="sidebar-widget">
+            <h3 class="sidebar-widget__title">
+                <i class="fas fa-lightbulb" aria-hidden="true"></i>
+                You might also like
+            </h3>
+
+            <div class="sidebar-related-posts__list">
+                {% for item in recommendations.primary.posts %}
+                    <article class="sidebar-related-post"
+                             @click="trackClick('{{ item.post.slug }}')">
+
+                        <!-- Compact post content -->
+                        <div class="sidebar-related-post__content">
+                            <h4 class="sidebar-related-post__title">
+                                <a href="{{ item.post.get_absolute_url }}"
+                                   class="sidebar-related-post__link">
+                                    {{ item.post.title|truncatechars:60 }}
+                                </a>
+                            </h4>
+
+                            <div class="sidebar-related-post__meta">
+                                <!-- Reading time -->
+                                <span class="sidebar-related-post__reading-time">
+                                    <i class="fas fa-clock" aria-hidden="true"></i>
+                                    {{ item.reading_time }} min
+                                </span>
+
+                                <!-- Primary engagement hint -->
+                                {% if item.engagement_hints.0 %}
+                                    <span class="sidebar-related-post__hint">
+                                        {{ item.engagement_hints.0 }}
+                                    </span>
+                                {% endif %}
+                            </div>
+
+                            <!-- Category badge (minimal) -->
+                            {% if item.primary_category %}
+                                <div class="sidebar-related-post__category">
+                                    <span class="category-badge category-badge--mini"
+                                          style="background-color: {{ item.primary_category.color|default:'var(--mauve)' }};">
+                                        {{ item.primary_category.name }}
+                                    </span>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+
+            <!-- Fallback category suggestions -->
+            {% if recommendations.fallback_category %}
+                <div class="sidebar-related-posts__more">
+                    <h4 class="sidebar-related-posts__more-title">
+                        More from category
+                    </h4>
+                    {% for item in recommendations.fallback_category %}
+                        <div class="sidebar-related-post-mini">
+                            <a href="{{ item.post.get_absolute_url }}"
+                               class="sidebar-related-post-mini__link"
+                               @click="trackClick('{{ item.post.slug }}', 'category')">
+                                {{ item.post.title|truncatechars:45 }}
+                                <small>({{ item.reading_time }} min)</small>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+
+<script>
+function sidebarRelatedPosts() {
+    return {
+        trackClick(postSlug, context = 'sidebar') {
+            // Simplified tracking for sidebar
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'related_post_click', {
+                    'event_category': 'sidebar_engagement',
+                    'event_label': postSlug,
+                    'custom_parameter_1': context
+                });
+            }
+        }
+    }
+}
+</script>

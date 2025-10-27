@@ -1,0 +1,155 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+{% if query %}
+{% blocktranslate with query=query %}Search Results for "{{ query }}"{% endblocktranslate %} - {{ block.super }}
+{% else %}
+{% trans "Search" %} - {{ block.super }}
+{% endif %}
+{% endblock %}
+
+{% block extra_head %}
+{% if debug %}
+<link rel="stylesheet" href="{% static 'blog/css/blog.css' %}">
+{% else %}
+<link rel="stylesheet" href="{% static 'dist/blog.min.css' %}">
+{% endif %}
+{% endblock %}
+
+{% block before_main %}
+{% include 'blog/components/breadcrumb.html' with current_page="Search Results" %}
+{% endblock %}
+
+{% block content %}
+<section class="content-section">
+    <div class="container">
+        <div class="search-header">
+            {% if search_performed %}
+                {% if posts %}
+                    <h2>
+                        {% blocktranslate count counter=posts|length with query=query %}
+                        {{ counter }} result for "{{ query }}"
+                        {% plural %}
+                        {{ counter }} results for "{{ query }}"
+                        {% endblocktranslate %}
+                    </h2>
+                {% else %}
+                    <h2>{% blocktranslate with query=query %}No results found for "{{ query }}"{% endblocktranslate %}</h2>
+                {% endif %}
+            {% else %}
+                <h2>{% trans "Search Blog Posts" %}</h2>
+                <p class="search-description">{% trans "Enter your search terms to find blog posts by title, content, or excerpt." %}</p>
+            {% endif %}
+        </div>
+
+        <!-- Search Form -->
+        <div class="search-form-container">
+            <form method="get" action="{% url 'blog:search' %}" class="search-form" role="search" aria-label="{% trans 'Search blog posts' %}">
+                <div class="search-input-group">
+                    <input
+                        type="search"
+                        name="q"
+                        value="{{ query|default:'' }}"
+                        placeholder="{% trans 'Search posts...' %}"
+                        class="search-input"
+                        aria-label="{% trans 'Search query' %}"
+                        required
+                    >
+                    <button type="submit" class="search-submit" aria-label="{% trans 'Search' %}">
+                        <span class="search-icon" aria-hidden="true">🔍</span>
+                        <span class="search-text">{% trans "Search" %}</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="search-content">
+            {% include 'blog/components/sidebar.html' with categories=categories tags=tags %}
+
+            {% if search_performed %}
+                {% if posts %}
+                    <div class="search-results">
+                        <div class="projects-grid">
+                            {% for post in posts %}
+                                {% include 'blog/components/search_result_card.html' with post=post query=query %}
+                            {% endfor %}
+                        </div>
+
+                        {% include 'blog/components/pagination.html' with page_obj=page_obj url_name='blog:search' query_params='q='|add:query %}
+                    </div>
+                {% else %}
+                    <div class="no-results">
+                        <div class="no-results-icon" aria-hidden="true">📝</div>
+                        <h3>{% trans "No posts found" %}</h3>
+                        <p>{% trans "Try adjusting your search terms or browse by category:" %}</p>
+                        <div class="search-suggestions">
+                            {% if categories %}
+                                <div class="suggestion-group">
+                                    <h4>{% trans "Browse Categories:" %}</h4>
+                                    <div class="suggestion-links">
+                                        {% for category in categories|slice:":5" %}
+                                            <a href="{% url 'blog:category_list' category.slug %}" class="suggestion-link">
+                                                {{ category.name }}
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if tags %}
+                                <div class="suggestion-group">
+                                    <h4>{% trans "Popular Tags:" %}</h4>
+                                    <div class="suggestion-links">
+                                        {% for tag in tags|slice:":8" %}
+                                            <a href="{% url 'blog:tag_list' tag.slug %}" class="suggestion-link tag-link">
+                                                {{ tag.name }}
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="search-welcome">
+                    <div class="search-welcome-icon" aria-hidden="true">🔍</div>
+                    <h3>{% trans "Discover Blog Content" %}</h3>
+                    <p>{% trans "Use the search box above to find specific posts, or browse our categories and tags." %}</p>
+
+                    {% if categories or tags %}
+                        <div class="browse-options">
+                            {% if categories %}
+                                <div class="browse-group">
+                                    <h4>{% trans "Browse by Category:" %}</h4>
+                                    <div class="browse-links">
+                                        {% for category in categories|slice:":4" %}
+                                            <a href="{% url 'blog:category_list' category.slug %}" class="browse-link">
+                                                {{ category.name }} ({{ category.post_count }})
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {% if tags %}
+                                <div class="browse-group">
+                                    <h4>{% trans "Popular Tags:" %}</h4>
+                                    <div class="browse-links tag-links">
+                                        {% for tag in tags|slice:":6" %}
+                                            <a href="{% url 'blog:tag_list' tag.slug %}" class="browse-link tag-link">
+                                                {{ tag.name }}
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

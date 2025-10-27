@@ -1,0 +1,108 @@
+{% comment %}
+Enhanced Blog Post Meta Component
+Displays comprehensive post metadata including publication date, author, reading time, and optionally updated date
+Usage: {% include 'blog/components/enhanced_post_meta.html' with post=post show_updated=True compact=False show_reading_time=True %}
+Parameters:
+- post: Blog post object (required)
+- show_updated: Show last updated date if different from created (default: True)
+- compact: Use compact layout for cards (default: False)
+- show_reading_time: Show estimated reading time (default: True)
+- show_author: Show author information (default: True)
+- show_stats: Show word count and other stats (default: False for compact, True for full)
+- id_suffix: Unique suffix for IDs when multiple instances exist (default: post.slug)
+{% endcomment %}
+
+{% load i18n %}
+{% load blog_extras %}
+
+{% if not id_suffix %}
+    {% with id_suffix=post.slug %}
+        {% include 'blog/components/enhanced_post_meta.html' %}
+    {% endwith %}
+{% else %}
+<div class="blog-post-meta enhanced{% if compact %} compact{% endif %}"
+     id="post-meta-{{ id_suffix }}"
+     role="group"
+     aria-label="{% trans 'Article publication information' %}">
+
+    <div class="meta-item meta-date">
+        <span class="meta-icon" aria-hidden="true">📅</span>
+        <time datetime="{{ post.created_at|date:'c' }}"
+              aria-label="{% trans 'Published on' %} {{ post.created_at|date:'F j, Y' }}"
+              class="meta-value">
+            {% if compact %}
+                {{ post.created_at|time_ago }}
+            {% else %}
+                {{ post.created_at|date:"F j, Y" }}
+            {% endif %}
+        </time>
+    </div>
+
+    {% post_meta_separator as separator %}
+
+    {% if show_author|default:True %}
+        <span class="meta-separator" aria-hidden="true">{{ separator }}</span>
+        <div class="meta-item meta-author">
+            <span class="meta-icon" aria-hidden="true">👤</span>
+            <span class="meta-value author" aria-label="{% trans 'Author' %}">
+                {% if post.author.get_full_name %}
+                    {{ post.author.get_full_name }}
+                {% else %}
+                    {{ post.author.username }}
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
+
+    {% if show_reading_time|default:True %}
+        <span class="meta-separator" aria-hidden="true">{{ separator }}</span>
+        <div class="meta-item meta-reading-time">
+            <span class="meta-icon" aria-hidden="true">⏱️</span>
+            <span class="meta-value" aria-label="{% trans 'Estimated reading time' %}">
+                {{ post.content|reading_time }}
+            </span>
+        </div>
+    {% endif %}
+
+    {% if show_updated|default:True and post.updated_at != post.created_at %}
+        <span class="meta-separator" aria-hidden="true">{{ separator }}</span>
+        <div class="meta-item meta-updated">
+            <span class="meta-icon" aria-hidden="true">🔄</span>
+            <time datetime="{{ post.updated_at|date:'c' }}"
+                  aria-label="{% trans 'Last updated on' %} {{ post.updated_at|date:'F j, Y' }}"
+                  class="meta-value last-updated">
+                {% trans "Updated:" %} {{ post.updated_at|time_ago }}
+            </time>
+        </div>
+    {% endif %}
+
+    {% if show_stats|default:True and not compact %}
+        <span class="meta-separator" aria-hidden="true">{{ separator }}</span>
+        <div class="meta-item meta-stats">
+            <span class="meta-icon" aria-hidden="true">📊</span>
+            <span class="meta-value" aria-label="{% trans 'Word count' %}">
+                {{ post.content|word_count }} {% trans "words" %}
+            </span>
+        </div>
+    {% endif %}
+
+    {% comment %} View count - show if available and not minimal compact mode {% endcomment %}
+    {% with view_count=post.get_view_count %}
+    {% if view_count > 0 and not compact %}
+        <span class="meta-separator" aria-hidden="true">{{ separator }}</span>
+        <div class="meta-item meta-views">
+            <span class="meta-icon" aria-hidden="true">👁️</span>
+            <span class="meta-value" aria-label="{% trans 'View count' %}">
+                {{ view_count|format_view_count }} {% trans "views" %}
+            </span>
+        </div>
+    {% elif view_count > 0 and compact %}
+        <span class="meta-separator" aria-hidden="true">{{ separator }}</span>
+        <div class="meta-item meta-views compact">
+            <span class="meta-icon" aria-hidden="true">👁️</span>
+            <span class="meta-value">{{ view_count|format_view_count }}</span>
+        </div>
+    {% endif %}
+    {% endwith %}
+</div>
+{% endif %}

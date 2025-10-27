@@ -1,0 +1,95 @@
+{% load static %}
+{% load i18n %}
+{% load blog_extras %}
+
+{# Search Result Card Component with Highlighting #}
+{# Parameters: post, query #}
+
+<article class="blog-post-card search-result-card">
+    {% if post.featured_image %}
+        <div class="post-image">
+            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" loading="lazy">
+        </div>
+    {% endif %}
+
+    <div class="post-content">
+        <div class="post-meta">
+            <time datetime="{{ post.created_at|date:'Y-m-d' }}" class="post-date">
+                {{ post.created_at|date:"M d, Y" }}
+            </time>
+
+            {% if post.categories.exists %}
+                <div class="post-categories">
+                    {% for category in post.categories.all %}
+                        <a href="{% url 'blog:category_list' category.slug %}"
+                           class="blog-category taxonomy-item"
+                           aria-label="{% trans 'View posts in' %} {{ category.name }} {% trans 'category' %}">
+                            {{ category.name }}
+                        </a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <h3 class="post-title">
+            <a href="{% url 'blog:post_detail' post.slug %}">
+                {% if query %}
+                    {{ post.title|highlight_search:query|safe }}
+                {% else %}
+                    {{ post.title }}
+                {% endif %}
+            </a>
+        </h3>
+
+        <div class="post-content-preview">
+            {% if post.excerpt %}
+                <p class="post-excerpt">
+                    {% if query %}
+                        {{ post.excerpt|highlight_search:query|safe|linebreaks }}
+                    {% else %}
+                        {{ post.excerpt|linebreaks }}
+                    {% endif %}
+                </p>
+            {% else %}
+                <p class="post-excerpt">
+                    {% if query %}
+                        {{ post.content|striptags|truncatewords:30|highlight_search:query|safe }}
+                    {% else %}
+                        {{ post.content|striptags|truncatewords:30 }}
+                    {% endif %}
+                </p>
+            {% endif %}
+
+            <div class="read-more-wrapper">
+                <a href="{% url 'blog:post_detail' post.slug %}" class="read-more-link">
+                    {% trans "Continue reading" %} →
+                </a>
+            </div>
+        </div>
+
+        {% if post.tags.exists %}
+            <div class="post-tags">
+                {% for tag in post.tags.all|slice:":5" %}
+                    <a href="{% url 'blog:tag_list' tag.slug %}"
+                       class="blog-tag taxonomy-item"
+                       style="border-color: {{ tag.color|default:'var(--mauve)' }}"
+                       aria-label="{% trans 'View posts tagged with' %} {{ tag.name }}">
+                        {{ tag.name }}
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="post-footer">
+            <div class="post-author">
+                <span class="author-label">{% trans "By" %}</span>
+                <span class="author-name">{{ post.author.get_full_name|default:post.author.username }}</span>
+            </div>
+
+            <div class="post-reading-time">
+                <span class="reading-time-icon" aria-hidden="true">📖</span>
+                <span class="reading-time-text">{{ post.content|reading_time }}</span>
+            </div>
+        </div>
+    </div>
+</article>

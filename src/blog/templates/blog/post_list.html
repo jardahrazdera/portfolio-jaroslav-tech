@@ -1,0 +1,64 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load seo_tags %}
+
+{% block title %}{% page_title page_title="Blog" %}{% endblock %}
+
+{% block extra_head %}
+{% if debug %}
+<link rel="stylesheet" href="{% static 'blog/css/blog.css' %}">
+<script src="{% static 'blog/js/bookmarks.js' %}"></script>
+<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+{% else %}
+<link rel="stylesheet" href="{% static 'dist/blog.min.css' %}">
+<script src="{% static 'blog/js/bookmarks.js' %}"></script>
+<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+{% endif %}
+{% endblock %}
+
+{% block extra_meta %}
+{% seo_meta_tags %}
+{% endblock %}
+
+{% block structured_data %}
+{% structured_data_json_ld %}
+{% breadcrumb_json_ld %}
+{{ block.super }}
+{% endblock %}
+
+{% block before_main %}
+{% include 'blog/components/breadcrumb.html' %}
+{% endblock %}
+
+{% block content %}
+{% include 'blog/components/featured_posts.html' with featured_posts=featured_posts %}
+
+<section class="content-section">
+    <div class="container" x-data="bookmarkManager()">
+        <h2>{% if featured_posts %}{% trans "Recent Posts" %}{% else %}{% trans "Blog Posts" %}{% endif %}</h2>
+
+        {% include 'blog/components/sidebar.html' with categories=categories tags=tags %}
+
+        {% if posts %}
+            <div class="projects-grid">
+                {% for post in posts %}
+                    {% include 'blog/components/post_card.html' with post=post %}
+                {% endfor %}
+            </div>
+
+            {% include 'blog/components/pagination.html' with page_obj=page_obj url_name='blog:post_list' %}
+        {% else %}
+            <div class="hero-content">
+                <p class="hero-subtitle">
+                    {% if featured_posts %}
+                        {% trans "No additional posts available yet. Check back soon for updates!" %}
+                    {% else %}
+                        {% trans "No blog posts available yet. Check back soon for updates!" %}
+                    {% endif %}
+                </p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

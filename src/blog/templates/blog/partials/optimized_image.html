@@ -1,0 +1,60 @@
+{% comment %}
+Optimized image partial with WebP support, lazy loading, and responsive design.
+
+Context variables:
+- base_name: Image base name for processed files
+- alt_text: Alt text for accessibility
+- css_class: CSS classes to apply
+- sizes: Responsive sizes attribute
+- loading: Loading strategy (lazy/eager)
+- is_hero: Whether this is a hero image
+- webp_srcset: WebP source set
+- jpg_srcset: JPEG source set
+- fallback_url: Fallback image URL
+- is_critical: Whether this is a critical image
+{% endcomment %}
+
+{% if fallback_url %}
+<picture class="optimized-image {{ css_class }}"{% if is_critical %} data-critical="true"{% endif %}>
+    {% if webp_srcset %}
+    <source
+        {% if loading == 'lazy' and not is_critical %}data-srcset{% else %}srcset{% endif %}="{{ webp_srcset }}"
+        sizes="{{ sizes }}"
+        type="image/webp" />
+    {% endif %}
+
+    {% if jpg_srcset %}
+    <source
+        {% if loading == 'lazy' and not is_critical %}data-srcset{% else %}srcset{% endif %}="{{ jpg_srcset }}"
+        sizes="{{ sizes }}"
+        type="image/jpeg" />
+    {% endif %}
+
+    <img
+        {% if loading == 'lazy' and not is_critical %}
+        src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHZpZXdCb3g9IjAgMCAxMCAxMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBmMGYwIi8+PC9zdmc+"
+        data-src="{{ fallback_url }}"
+        {% else %}
+        src="{{ fallback_url }}"
+        {% endif %}
+        alt="{{ alt_text }}"
+        class="optimized-img{% if is_hero %} hero-img{% elif loading == 'lazy' %} lazy-img{% endif %}"
+        {% if is_critical %}
+        loading="eager"
+        fetchpriority="high"
+        {% else %}
+        loading="{{ loading }}"
+        {% endif %}
+        decoding="async"
+        {% if original_url %}data-original-fallback="{{ original_url }}"{% endif %}
+        onerror="this.onerror=null; if(this.dataset.originalFallback) { this.src=this.dataset.originalFallback; this.classList.add('fallback-loaded'); }" />
+</picture>
+{% else %}
+<!-- Fallback for missing image -->
+<div class="image-placeholder {{ css_class }}" role="img" aria-label="{{ alt_text }}">
+    <svg width="100" height="60" viewBox="0 0 100 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="100" height="60" fill="var(--surface0)" stroke="var(--overlay0)" stroke-dasharray="2,2"/>
+        <text x="50" y="35" text-anchor="middle" fill="var(--text)" font-size="8">No Image</text>
+    </svg>
+</div>
+{% endif %}

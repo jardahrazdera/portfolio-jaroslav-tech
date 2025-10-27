@@ -1,0 +1,50 @@
+{% comment %}
+Featured Posts Component
+Displays featured blog posts prominently at the top of the blog homepage
+Usage: {% include 'blog/components/featured_posts.html' with featured_posts=featured_posts %}
+Parameters:
+- featured_posts: QuerySet of featured posts (required)
+{% endcomment %}
+
+{% load i18n %}
+
+{% if featured_posts %}
+<section class="featured-posts-section">
+    <div class="container">
+        <h2 class="featured-posts-title">{% trans "Featured Posts" %}</h2>
+        <div class="featured-posts-grid">
+            {% for post in featured_posts %}
+                <article class="featured-post-card" role="article" aria-labelledby="featured-post-title-{{ post.slug }}">
+                    <div class="featured-post-content">
+                        <header class="featured-post-header">
+                            <h3 id="featured-post-title-{{ post.slug }}" class="featured-post-title">
+                                <a href="{% url 'blog:post_detail' post.slug %}" aria-describedby="featured-post-meta-{{ post.slug }}">
+                                    {{ post.title }}
+                                </a>
+                            </h3>
+
+                            {% include 'blog/components/enhanced_post_meta.html' with post=post show_updated=False compact=True show_reading_time=True show_author=True show_stats=False id_suffix=post.slug|add:'-featured' %}
+                        </header>
+
+                        <div class="featured-post-content-preview">
+                            {% if post.excerpt %}
+                                <p class="featured-post-excerpt">{{ post.excerpt|linebreaks }}</p>
+                            {% else %}
+                                <p class="featured-post-excerpt">{{ post.content|striptags|truncatewords:25 }}</p>
+                            {% endif %}
+                        </div>
+
+                        {% include 'blog/components/post_taxonomy.html' with post=post layout='horizontal' show_labels=False compact=True %}
+
+                        <div class="featured-post-actions">
+                            <a href="{% url 'blog:post_detail' post.slug %}" class="btn btn-primary featured-read-more" aria-label="Read full article: {{ post.title }}">
+                                {% trans "Read Article" %}
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}

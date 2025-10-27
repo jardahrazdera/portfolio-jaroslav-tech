@@ -1,0 +1,123 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}Unsubscribe from Newsletter{% endblock %}
+
+{% block extra_head %}
+{% if debug %}
+<link rel="stylesheet" href="{% static 'blog/css/blog.css' %}">
+{% else %}
+<link rel="stylesheet" href="{% static 'dist/blog.min.css' %}">
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<section class="content-section">
+    <div class="container">
+        <div class="newsletter-unsubscribe-general-page">
+            <header class="unsubscribe-header">
+                <div class="unsubscribe-icon">
+                    <i class="fas fa-envelope-open" aria-hidden="true"></i>
+                </div>
+                <h2>Unsubscribe from Newsletter</h2>
+                <p class="lead">
+                    We're sorry to see you want to unsubscribe from our newsletter.
+                </p>
+            </header>
+
+            <div class="unsubscribe-content">
+                <div class="unsubscribe-methods">
+                    <h3>How to Unsubscribe</h3>
+
+                    <div class="method-card">
+                        <div class="method-icon">
+                            <i class="fas fa-link" aria-hidden="true"></i>
+                        </div>
+                        <div class="method-content">
+                            <h4>Use the Unsubscribe Link</h4>
+                            <p>
+                                The easiest way to unsubscribe is to click the "Unsubscribe" link
+                                at the bottom of any newsletter email you've received from us.
+                            </p>
+                            <p class="text-muted">
+                                <small>This link is personalized and will instantly remove your subscription.</small>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="method-card">
+                        <div class="method-icon">
+                            <i class="fas fa-envelope" aria-hidden="true"></i>
+                        </div>
+                        <div class="method-content">
+                            <h4>Email Us Directly</h4>
+                            <p>
+                                If you can't find the unsubscribe link or need assistance,
+                                send us an email with your unsubscribe request.
+                            </p>
+                            <p>
+                                <a href="mailto:unsubscribe@jaroslav.tech?subject=Newsletter%20Unsubscribe%20Request" class="btn btn-secondary">
+                                    <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                                    Email Unsubscribe Request
+                                </a>
+                            </p>
+                            <p class="text-muted">
+                                <small>Please include the email address you want to unsubscribe in your message.</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="unsubscribe-alternative">
+                    <h3>Before You Go...</h3>
+                    <p>
+                        Would you prefer to adjust your subscription instead of unsubscribing completely?
+                        Currently, we only send:
+                    </p>
+                    <ul>
+                        <li>New blog post notifications (typically 1-2 per week)</li>
+                        <li>Occasional updates about important content</li>
+                        <li>No promotional emails or third-party content</li>
+                    </ul>
+                    <p>
+                        If the frequency is the issue, you can always re-subscribe later when you're ready.
+                    </p>
+                </div>
+
+                <div class="privacy-reminder">
+                    <div class="privacy-icon">
+                        <i class="fas fa-shield-alt" aria-hidden="true"></i>
+                    </div>
+                    <div class="privacy-content">
+                        <h4>Your Privacy is Protected</h4>
+                        <p>
+                            When you unsubscribe, we immediately stop sending you emails.
+                            We may keep your email address on our suppression list to prevent
+                            accidental re-subscription, but we never share or sell your information.
+                        </p>
+                        <p>
+                            <a href="{% url 'core:privacy_policy' %}" class="text-link">
+                                Read our full privacy policy
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="unsubscribe-actions">
+                <div class="hero-buttons">
+                    <a href="{% url 'blog:post_list' %}" class="btn btn-primary">
+                        <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                        Continue Reading Blog
+                    </a>
+                    <a href="{% url 'core:index' %}" class="btn btn-secondary">
+                        <i class="fas fa-home" aria-hidden="true"></i>
+                        Back to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

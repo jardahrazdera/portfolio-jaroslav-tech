@@ -1,0 +1,51 @@
+{% comment %}
+External Discussion Link Component
+Shows a "Join the Discussion" link when a post has a discussion_url set.
+Supports multiple platforms with proper icons and styling.
+{% endcomment %}
+
+{% if post.discussion_url %}
+    {% with platform=post.get_discussion_platform %}
+        <div class="discussion-section">
+            <div class="discussion-container">
+                <div class="discussion-header">
+                    <i class="fas fa-comments discussion-icon"></i>
+                    <h3 class="discussion-title">Join the Discussion</h3>
+                </div>
+
+                <div class="discussion-content">
+                    <p class="discussion-description">
+                        Continue the conversation about this post on external platforms.
+                        Share your thoughts, ask questions, and connect with other readers.
+                    </p>
+
+                    <div class="discussion-link-container">
+                        <a href="{{ post.discussion_url }}"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="discussion-link"
+                           aria-label="{{ platform.label }}">
+                            <div class="discussion-platform">
+                                <i class="{{ platform.icon }}"
+                                   style="color: {{ platform.color }};"
+                                   aria-hidden="true"></i>
+                                <span class="platform-name">{{ platform.name }}</span>
+                            </div>
+                            <div class="discussion-action">
+                                <span class="action-text">{{ platform.label }}</span>
+                                <i class="fas fa-external-link-alt external-icon" aria-hidden="true"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="discussion-footer">
+                    <p class="discussion-note">
+                        <i class="fas fa-info-circle" aria-hidden="true"></i>
+                        This link will open in a new tab
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% endwith %}
+{% endif %}

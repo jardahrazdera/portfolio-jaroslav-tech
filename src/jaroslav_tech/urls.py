@@ -22,10 +22,15 @@ from django.conf.urls.i18n import i18n_patterns
 from django.contrib.sitemaps.views import sitemap
 from core.sitemaps import StaticViewSitemap
 from core.views import RobotstxtView
+from blog.sitemaps import BlogPostSitemap, BlogCategorySitemap, BlogTagSitemap, BlogStaticSitemap
 
 
 sitemaps = {
     'static': StaticViewSitemap,
+    'blog_posts': BlogPostSitemap,
+    'blog_categories': BlogCategorySitemap,
+    'blog_tags': BlogTagSitemap,
+    'blog_static': BlogStaticSitemap,
 }
 
 urlpatterns = [
@@ -35,11 +40,14 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
     path('admin/', admin.site.urls),
+    path('ckeditor5/', include('django_ckeditor_5.urls')),
     path('', include('core.urls', namespace='core')),
     path('tracker/', include('devtracker.urls', namespace='devtracker')),
+    path('blog/', include('blog.urls', namespace='blog')),
 )
 
-# Serve static files in development mode
+# Serve static and media files in development mode
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

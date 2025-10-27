@@ -1,0 +1,46 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{{ tag.name }} - Blog - {{ block.super }}{% endblock %}
+
+{% block meta_description %}{% trans "Posts tagged with" %} {{ tag.name }} - {% trans "Read blog posts about" %} {{ tag.name|lower }}{% endblock %}
+
+{% block extra_head %}
+{% if debug %}
+<link rel="stylesheet" href="{% static 'blog/css/blog.css' %}">
+{% else %}
+<link rel="stylesheet" href="{% static 'dist/blog.min.css' %}">
+{% endif %}
+{% endblock %}
+
+{% block before_main %}
+{% include 'blog/components/breadcrumb.html' with tag=tag filter_type='tag' %}
+{% endblock %}
+
+{% block content %}
+<section class="content-section">
+    <div class="container">
+        <h2>{% trans "Posts tagged with" %} <span class="blog-tag" style="border-color: {{ tag.color }}">{{ tag.name }}</span></h2>
+
+        {% include 'blog/components/sidebar.html' with categories=categories tags=tags %}
+
+        {% if posts %}
+            <div class="projects-grid">
+                {% for post in posts %}
+                    {% include 'blog/components/post_card.html' with post=post %}
+                {% endfor %}
+            </div>
+
+            {% include 'blog/components/pagination.html' with page_obj=page_obj url_name='blog:tag_list' url_kwargs=tag %}
+        {% else %}
+            <div class="hero-content">
+                <p class="hero-subtitle">{% trans "No posts found with this tag yet. Check back soon for updates!" %}</p>
+                <div class="hero-buttons">
+                    <a href="{% url 'blog:post_list' %}" class="btn btn-primary">{% trans "View All Posts" %}</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

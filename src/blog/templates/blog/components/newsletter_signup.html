@@ -1,0 +1,183 @@
+{% load static %}
+
+<div class="newsletter-signup" x-data="newsletterSignup()">
+    <div class="newsletter-signup-header">
+        <h3 class="newsletter-title">
+            <i class="fas fa-envelope" aria-hidden="true"></i>
+            Subscribe to Newsletter
+        </h3>
+        <p class="newsletter-description">
+            Get the latest posts and updates delivered directly to your inbox.
+            No spam, unsubscribe anytime.
+        </p>
+    </div>
+
+    <form @submit.prevent="submitForm" class="newsletter-form" x-show="!isSubmitted">
+        <div class="form-group">
+            <label for="newsletter-email" class="visually-hidden">Email Address</label>
+            <div class="input-group">
+                <input
+                    type="email"
+                    id="newsletter-email"
+                    x-model="email"
+                    placeholder="Enter your email address"
+                    class="form-control"
+                    :class="{ 'is-invalid': errors.email }"
+                    required
+                    autocomplete="email"
+                >
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                    :disabled="isLoading"
+                    :class="{ 'loading': isLoading }"
+                >
+                    <span x-show="!isLoading">
+                        <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                        Subscribe
+                    </span>
+                    <span x-show="isLoading">
+                        <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        Subscribing...
+                    </span>
+                </button>
+            </div>
+
+            <!-- Error messages -->
+            <div x-show="errors.email" class="invalid-feedback" x-text="errors.email"></div>
+            <div x-show="errors.non_field_errors" class="invalid-feedback" x-text="errors.non_field_errors"></div>
+        </div>
+
+        <!-- GDPR Consent -->
+        <div class="form-check">
+            <input
+                type="checkbox"
+                id="newsletter-consent"
+                x-model="consent"
+                class="form-check-input"
+                :class="{ 'is-invalid': errors.consent }"
+                required
+            >
+            <label for="newsletter-consent" class="form-check-label">
+                I agree to receive newsletter emails and understand I can
+                <a href="{% url 'blog:newsletter_unsubscribe_general' %}" class="text-link">unsubscribe at any time</a>.
+            </label>
+            <div x-show="errors.consent" class="invalid-feedback" x-text="errors.consent"></div>
+        </div>
+    </form>
+
+    <!-- Success message -->
+    <div x-show="isSubmitted && !hasError" class="newsletter-success">
+        <div class="success-icon">
+            <i class="fas fa-check-circle" aria-hidden="true"></i>
+        </div>
+        <h4>Thank you for subscribing!</h4>
+        <p x-text="successMessage"></p>
+        <button @click="resetForm" class="btn btn-secondary btn-small">
+            Subscribe Another Email
+        </button>
+    </div>
+
+    <!-- Error message -->
+    <div x-show="hasError" class="newsletter-error">
+        <div class="error-icon">
+            <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+        </div>
+        <h4>Subscription Failed</h4>
+        <p x-text="errorMessage"></p>
+        <button @click="hasError = false" class="btn btn-secondary btn-small">
+            Try Again
+        </button>
+    </div>
+
+    <!-- Privacy notice -->
+    <div class="newsletter-privacy">
+        <small class="text-muted">
+            <i class="fas fa-shield-alt" aria-hidden="true"></i>
+            Your email is safe with us. We use double opt-in and never share your data.
+            Read our <a href="{% url 'core:privacy_policy' %}" class="text-link">privacy policy</a>.
+        </small>
+    </div>
+</div>
+
+<script>
+function newsletterSignup() {
+    return {
+        email: '',
+        consent: false,
+        isLoading: false,
+        isSubmitted: false,
+        hasError: false,
+        errors: {},
+        successMessage: '',
+        errorMessage: '',
+
+        async submitForm() {
+            if (!this.consent) {
+                this.errors.consent = 'You must agree to receive newsletter emails.';
+                return;
+            }
+
+            this.isLoading = true;
+            this.errors = {};
+
+            try {
+                const response = await fetch('{% url "blog:newsletter_subscribe_ajax" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-CSRFToken': this.getCSRFToken()
+                    },
+                    body: new URLSearchParams({
+                        'email': this.email,
+                        'consent': this.consent ? 'on' : '',
+                        'honeypot': '' // Anti-spam honeypot
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    this.isSubmitted = true;
+                    this.successMessage = data.message;
+
+                    // Track successful subscription
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'newsletter_subscribe', {
+                            'event_category': 'engagement',
+                            'email': this.email
+                        });
+                    }
+                } else {
+                    this.errors = data.errors || {};
+                    if (data.message && !Object.keys(this.errors).length) {
+                        this.hasError = true;
+                        this.errorMessage = data.message;
+                    }
+                }
+            } catch (error) {
+                console.error('Newsletter subscription error:', error);
+                this.hasError = true;
+                this.errorMessage = 'Sorry, there was a network error. Please try again.';
+            }
+
+            this.isLoading = false;
+        },
+
+        resetForm() {
+            this.email = '';
+            this.consent = false;
+            this.isSubmitted = false;
+            this.hasError = false;
+            this.errors = {};
+            this.successMessage = '';
+            this.errorMessage = '';
+        },
+
+        getCSRFToken() {
+            const token = document.querySelector('[name=csrfmiddlewaretoken]');
+            return token ? token.value : '';
+        }
+    }
+}
+</script>

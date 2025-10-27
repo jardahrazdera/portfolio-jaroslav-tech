@@ -1,0 +1,78 @@
+{% load image_tags %}
+
+<div class="lazy-image-container {{ css_class }}" data-loading="true">
+    {% if has_image %}
+        <!-- Loading placeholder -->
+        <div class="image-placeholder" style="background: var(--surface0); min-height: 200px; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="1.5" class="animate-pulse">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21,15 16,10 5,21"/>
+            </svg>
+        </div>
+
+        <!-- Actual responsive image -->
+        {% responsive_image post size=size css_class="lazy-image hidden" alt_text=alt_text lazy=True %}
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.querySelector('.lazy-image-container[data-loading="true"]');
+            if (!container) return;
+
+            const placeholder = container.querySelector('.image-placeholder');
+            const image = container.querySelector('.lazy-image img');
+
+            if (image) {
+                image.addEventListener('load', function() {
+                    placeholder.style.display = 'none';
+                    image.parentElement.classList.remove('hidden');
+                    container.removeAttribute('data-loading');
+                });
+
+                // Handle error case
+                image.addEventListener('error', function() {
+                    placeholder.innerHTML = '<span style="color: var(--subtext0);">Image failed to load</span>';
+                    container.removeAttribute('data-loading');
+                });
+            }
+        });
+        </script>
+    {% else %}
+        <!-- No image placeholder -->
+        <div class="no-image-placeholder" style="background: var(--surface0); min-height: 200px; display: flex; align-items: center; justify-content: center; border-radius: 8px; color: var(--subtext0);">
+            No image available
+        </div>
+    {% endif %}
+</div>
+
+<style>
+.lazy-image-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.lazy-image {
+    transition: opacity 0.3s ease-in-out;
+}
+
+.lazy-image.hidden {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: .5;
+    }
+}
+</style>

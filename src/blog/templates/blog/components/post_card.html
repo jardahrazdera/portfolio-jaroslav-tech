@@ -1,0 +1,53 @@
+{% comment %}
+Blog Post Card Component
+Reusable card component for displaying blog posts in list views
+Usage: {% include 'blog/components/post_card.html' with post=post %}
+{% endcomment %}
+{% load image_tags %}
+
+<article class="blog-post-card project-card" role="article" aria-labelledby="post-title-{{ post.slug }}">
+    {% if post.featured_image %}
+        <div class="post-card-image">
+            {% comment %}Use enhanced lazy loading for card images{% endcomment %}
+            {% if post.get_image_base_name|has_optimized_images %}
+                {% lazy_image_enhanced post.get_image_base_name post.title "card-image" "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" %}
+            {% else %}
+                {% comment %}Fallback to standard lazy image{% endcomment %}
+                {% lazy_image post size='medium' css_class='card-image' alt_text=post.title %}
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <header class="post-header">
+        <h3 id="post-title-{{ post.slug }}">
+            <a href="{% url 'blog:post_detail' post.slug %}" aria-describedby="post-meta-{{ post.slug }}">
+                {{ post.title }}
+            </a>
+        </h3>
+
+        {% include 'blog/components/enhanced_post_meta.html' with post=post show_updated=False compact=True show_reading_time=True show_author=True show_stats=False %}
+    </header>
+
+    <div class="post-content-preview">
+        {% if post.excerpt %}
+            <p class="post-excerpt">{{ post.excerpt|linebreaks }}</p>
+        {% else %}
+            <p class="post-excerpt">{{ post.content|striptags|truncatewords:30 }}</p>
+        {% endif %}
+
+        <div class="read-more-wrapper">
+            <a href="{% url 'blog:post_detail' post.slug %}" class="read-more-link" aria-label="Continue reading {{ post.title }}">
+                Continue reading →
+            </a>
+        </div>
+    </div>
+
+    {% include 'blog/components/post_taxonomy.html' with post=post layout='horizontal' show_labels=False compact=True %}
+
+    <div class="project-links">
+        <a href="{% url 'blog:post_detail' post.slug %}" class="btn btn-primary" aria-label="Read full article: {{ post.title }}">
+            Read Article
+        </a>
+        {% include 'blog/components/bookmark_button.html' with post=post size='small' compact=True %}
+    </div>
+</article>

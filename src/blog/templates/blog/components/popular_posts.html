@@ -1,0 +1,213 @@
+{% load static %}
+{% load i18n %}
+{% load blog_extras %}
+
+<!-- Popular Posts Component -->
+<div class="popular-posts-widget" x-data="popularPosts()">
+    {% if popular_posts %}
+        <div class="popular-posts">
+            <!-- Header -->
+            <div class="popular-posts__header">
+                <h3 class="popular-posts__title">
+                    <i class="fas fa-fire" aria-hidden="true"></i>
+                    {% if period == 'week' %}
+                        Popular This Week
+                    {% elif period == 'month' %}
+                        Popular This Month
+                    {% else %}
+                        Most Popular
+                    {% endif %}
+                </h3>
+
+                {% if show_period_selector %}
+                    <div class="popular-posts__period-selector">
+                        <select @change="changePeriod($event.target.value)" class="period-selector">
+                            <option value="week" {% if period == 'week' %}selected{% endif %}>This Week</option>
+                            <option value="month" {% if period == 'month' %}selected{% endif %}>This Month</option>
+                            <option value="all_time" {% if period == 'all_time' %}selected{% endif %}>All Time</option>
+                        </select>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Posts List -->
+            <div class="popular-posts__list">
+                {% for post in popular_posts %}
+                    <article class="popular-post-item"
+                             @click="trackClick('{{ post.slug }}', '{{ period }}')">
+
+                        <!-- Rank Badge -->
+                        <div class="popular-post-item__rank">
+                            <span class="rank-badge rank-badge--{{ forloop.counter }}">
+                                {{ forloop.counter }}
+                            </span>
+                        </div>
+
+                        <!-- Post Content -->
+                        <div class="popular-post-item__content">
+                            <!-- Title -->
+                            <h4 class="popular-post-item__title">
+                                <a href="{{ post.get_absolute_url }}"
+                                   class="popular-post-item__link"
+                                   :data-track-click="'popular_post_{{ post.slug }}'">
+                                    {{ post.title|truncatechars:60 }}
+                                </a>
+                            </h4>
+
+                            <!-- Metadata -->
+                            <div class="popular-post-item__meta">
+                                <!-- View count -->
+                                {% if post.total_views or post.period_views %}
+                                    <span class="popular-post-item__views">
+                                        <i class="fas fa-eye" aria-hidden="true"></i>
+                                        {% if period == 'week' and post.period_views %}
+                                            {{ post.period_views }} view{{ post.period_views|pluralize }}
+                                        {% elif period == 'month' and post.period_views %}
+                                            {{ post.period_views }} view{{ post.period_views|pluralize }}
+                                        {% else %}
+                                            {{ post.total_views }} view{{ post.total_views|pluralize }}
+                                        {% endif %}
+                                    </span>
+                                {% endif %}
+
+                                <!-- Reading time -->
+                                <span class="popular-post-item__reading-time">
+                                    <i class="fas fa-clock" aria-hidden="true"></i>
+                                    {{ post.get_reading_time }} min read
+                                </span>
+
+                                <!-- Primary category -->
+                                {% if post.categories.first %}
+                                    <span class="popular-post-item__category">
+                                        <i class="fas fa-folder" aria-hidden="true"></i>
+                                        {{ post.categories.first.name }}
+                                    </span>
+                                {% endif %}
+                            </div>
+
+                            <!-- Engagement indicators -->
+                            <div class="popular-post-item__indicators">
+                                <!-- Trending badge -->
+                                {% if post.is_trending %}
+                                    <span class="engagement-badge engagement-badge--trending">
+                                        <i class="fas fa-trending-up" aria-hidden="true"></i>
+                                        Trending
+                                    </span>
+                                {% endif %}
+
+                                <!-- High completion rate -->
+                                {% if post.get_reading_completion_rate > 75 %}
+                                    <span class="engagement-badge engagement-badge--engaging">
+                                        <i class="fas fa-heart" aria-hidden="true"></i>
+                                        Engaging
+                                    </span>
+                                {% endif %}
+
+                                <!-- Recent post -->
+                                {% load blog_extras %}
+                                {% with days_since=post.created_at|time_ago %}
+                                {% if "day" in days_since and "7" not in days_since and "week" not in days_since and "month" not in days_since %}
+                                    <span class="engagement-badge engagement-badge--new">
+                                        <i class="fas fa-sparkles" aria-hidden="true"></i>
+                                        New
+                                    </span>
+                                {% endif %}
+                                {% endwith %}
+                            </div>
+                        </div>
+
+                        <!-- Analytics preview (admin/debug only) -->
+                        {% if debug and post.get_view_stats %}
+                            <div class="popular-post-item__debug">
+                                <small class="text-muted">
+                                    Views: {{ post.get_view_stats.total_views }} |
+                                    Completion: {{ post.get_view_stats.completion_rate|floatformat:1 }}%
+                                </small>
+                            </div>
+                        {% endif %}
+                    </article>
+                {% endfor %}
+            </div>
+
+            <!-- View All Link -->
+            {% if show_view_all %}
+                <div class="popular-posts__footer">
+                    <a href="{% url 'blog:popular_posts' %}?period={{ period }}"
+                       class="popular-posts__view-all">
+                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        View All Popular Posts
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    {% else %}
+        <!-- Empty state -->
+        <div class="popular-posts popular-posts--empty">
+            <div class="popular-posts__empty">
+                <i class="fas fa-chart-line popular-posts__empty-icon" aria-hidden="true"></i>
+                <h4 class="popular-posts__empty-title">No Popular Posts Yet</h4>
+                <p class="popular-posts__empty-description">
+                    {% if period == 'week' %}
+                        No trending posts this week. Check back soon!
+                    {% elif period == 'month' %}
+                        No popular posts this month. Check back soon!
+                    {% else %}
+                        Popular posts will appear here as readers engage with content.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Popular Posts JavaScript -->
+<script>
+function popularPosts() {
+    return {
+        currentPeriod: '{{ period }}',
+
+        changePeriod(newPeriod) {
+            // Update URL with new period parameter
+            const url = new URL(window.location);
+            url.searchParams.set('period', newPeriod);
+            window.location.href = url.toString();
+        },
+
+        trackClick(postSlug, period) {
+            // Track popular post clicks
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'popular_post_click', {
+                    'event_category': 'popular_engagement',
+                    'event_label': postSlug,
+                    'custom_parameter_1': period,
+                    'custom_parameter_2': 'popular_widget'
+                });
+            }
+
+            // Backend tracking
+            if (typeof fetch !== 'undefined') {
+                fetch('{% url "blog:track_related_click" %}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': this.getCSRFToken()
+                    },
+                    body: JSON.stringify({
+                        'source': 'popular_posts',
+                        'target_post': postSlug,
+                        'context': 'popular_' + period,
+                        'widget_type': 'popular_posts'
+                    })
+                }).catch(error => {
+                    console.debug('Popular posts tracking error:', error);
+                });
+            }
+        },
+
+        getCSRFToken() {
+            const token = document.querySelector('[name=csrfmiddlewaretoken]');
+            return token ? token.value : '';
+        }
+    }
+}
+</script>

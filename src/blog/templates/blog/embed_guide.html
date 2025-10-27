@@ -1,0 +1,160 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Embed Guide - {{ block.super }}{% endblock %}
+
+{% block extra_head %}
+{% if debug %}
+<link rel="stylesheet" href="{% static 'blog/css/blog.css' %}">
+{% else %}
+<link rel="stylesheet" href="{% static 'dist/blog.min.css' %}">
+{% endif %}
+<style>
+.code-example {
+    background: var(--mantle);
+    border: 1px solid var(--surface0);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+}
+.code-example code {
+    color: var(--green);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="content-section">
+    <div class="container">
+        <article class="post-detail">
+            <header class="post-header">
+                <h2>Embed Guide - Simple Content Embedding</h2>
+                <p>How to easily embed content in your blog posts</p>
+            </header>
+
+            <div class="blog-content">
+                <h3>✨ Simple Embedding System</h3>
+                <p>The blog supports a simple, user-friendly embedding system. Just use shortcodes or paste URLs directly into your content - no complex syntax required!</p>
+
+                <h3>🚀 How It Works</h3>
+                <p>The embed system automatically processes your content and converts shortcodes and URLs into beautiful, responsive embeds that match the site's design.</p>
+
+                <h3>🎬 YouTube Videos</h3>
+                <p><strong>Two easy ways to embed YouTube videos:</strong></p>
+
+                <h4>Method 1: Simple Shortcode</h4>
+                <div class="code-example">
+                    <code>[youtube:dQw4w9WgXcQ]</code>
+                </div>
+
+                <h4>Method 2: Just Paste the URL</h4>
+                <div class="code-example">
+                    <code>https://www.youtube.com/watch?v=dQw4w9WgXcQ</code>
+                </div>
+                <p><em>The system automatically converts pasted URLs into shortcodes!</em></p>
+
+                <h3>🐦 Twitter/X Posts</h3>
+                <h4>Simple Shortcode</h4>
+                <div class="code-example">
+                    <code>[twitter:1234567890123456789]</code>
+                </div>
+
+                <h4>Or Paste URL</h4>
+                <div class="code-example">
+                    <code>https://twitter.com/user/status/1234567890123456789</code>
+                </div>
+
+                <h3>🖋️ CodePen</h3>
+                <h4>Simple Shortcode</h4>
+                <div class="code-example">
+                    <code>[codepen:chriscoyier/gfdDu]</code>
+                </div>
+
+                <h4>Or Paste URL</h4>
+                <div class="code-example">
+                    <code>https://codepen.io/chriscoyier/pen/gfdDu</code>
+                </div>
+
+                <h3>📄 GitHub Gists</h3>
+                <h4>Simple Shortcode</h4>
+                <div class="code-example">
+                    <code>[gist:mojombo/1]</code>
+                </div>
+
+                <h4>Or Paste URL</h4>
+                <div class="code-example">
+                    <code>https://gist.github.com/mojombo/1</code>
+                </div>
+
+                <h3>🌐 Any Website</h3>
+                <p>For other websites, use the generic embed format:</p>
+                <div class="code-example">
+                    <code>[embed:https://example.com:Optional Title]</code>
+                </div>
+
+                <h3>💡 How to Use in CKEditor</h3>
+                <ol>
+                    <li><strong>Open the post editor</strong> in Django admin</li>
+                    <li><strong>Type shortcodes directly</strong> in the content area</li>
+                    <li><strong>Or paste URLs</strong> - they work automatically on the frontend</li>
+                    <li><strong>Save your post</strong> and view it live!</li>
+                </ol>
+
+                <h3>💪 Why This System Rocks</h3>
+                <ul>
+                    <li><strong>Zero learning curve</strong> - Just type shortcodes or paste URLs</li>
+                    <li><strong>Auto-conversion</strong> - URLs become embeds automatically</li>
+                    <li><strong>Works everywhere</strong> - Admin, frontend, anywhere you add content</li>
+                    <li><strong>No buttons needed</strong> - Simple text-based approach</li>
+                </ul>
+
+                <h3>Security Features</h3>
+                <ul>
+                    <li><strong>Privacy-enhanced YouTube</strong>: Uses youtube-nocookie.com domain</li>
+                    <li><strong>Lazy loading</strong>: All iframes load lazily for better performance</li>
+                    <li><strong>Sandbox attributes</strong>: Generic embeds use iframe sandbox for security</li>
+                    <li><strong>Referrer policy</strong>: Strict origin policy for cross-site requests</li>
+                    <li><strong>Error handling</strong>: Invalid URLs show helpful error messages</li>
+                </ul>
+
+                <h3>Responsive Design</h3>
+                <ul>
+                    <li>All embeds are fully responsive and mobile-friendly</li>
+                    <li>Fixed-height embeds adjust to smaller screens</li>
+                    <li>Captions wrap gracefully on mobile devices</li>
+                    <li>Loading states and animations for better UX</li>
+                </ul>
+
+                <h3>Accessibility</h3>
+                <ul>
+                    <li>Proper iframe titles for screen readers</li>
+                    <li>Semantic HTML structure</li>
+                    <li>High contrast mode support</li>
+                    <li>Reduced motion preferences respected</li>
+                    <li>Keyboard navigation friendly</li>
+                </ul>
+
+                <h3>Theme Integration</h3>
+                <p>All embeds feature:</p>
+                <ul>
+                    <li>Catppuccin color palette integration</li>
+                    <li>Consistent border colors per platform (YouTube=red, Twitter=blue, etc.)</li>
+                    <li>Hover effects and smooth transitions</li>
+                    <li>Typography matching the blog design</li>
+                    <li>Print-friendly styles</li>
+                </ul>
+            </div>
+        </article>
+
+        <nav class="blog-navigation">
+            <div class="hero-buttons">
+                <a href="{% url 'blog:embed_demo' %}" class="btn btn-secondary">View Live Examples</a>
+                <a href="{% url 'blog:post_list' %}" class="btn btn-primary">&larr; Back to Blog</a>
+            </div>
+        </nav>
+    </div>
+</section>
+{% endblock %}

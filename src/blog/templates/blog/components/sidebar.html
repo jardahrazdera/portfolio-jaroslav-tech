@@ -1,0 +1,114 @@
+{% comment %}
+Blog Sidebar Component
+Shows available categories and tags for navigation
+Usage: {% include 'blog/components/sidebar.html' with categories=categories tags=tags %}
+Parameters:
+- categories: QuerySet of available categories (optional)
+- tags: QuerySet of available tags (optional)
+{% endcomment %}
+
+{% load i18n %}
+
+<aside class="blog-sidebar" role="complementary" aria-label="{% trans 'Blog navigation' %}">
+    <!-- Search Section -->
+    <section class="sidebar-section">
+        <h3 class="sidebar-title">
+            <span class="sidebar-icon" aria-hidden="true">🔍</span>
+            {% trans "Search" %}
+        </h3>
+        <form method="get" action="{% url 'blog:search' %}" class="sidebar-search-form" role="search" aria-label="{% trans 'Search blog posts' %}">
+            <div class="search-input-group">
+                <input
+                    type="search"
+                    name="q"
+                    value="{% if query %}{{ query }}{% endif %}"
+                    placeholder="{% trans 'Search posts...' %}"
+                    class="sidebar-search-input"
+                    aria-label="{% trans 'Search query' %}"
+                    required
+                >
+                <button type="submit" class="sidebar-search-submit" aria-label="{% trans 'Search' %}">
+                    <span class="search-icon" aria-hidden="true">🔍</span>
+                </button>
+            </div>
+        </form>
+    </section>
+
+    {% if categories %}
+        <section class="sidebar-section">
+            <h3 class="sidebar-title">
+                <span class="sidebar-icon" aria-hidden="true">📁</span>
+                {% trans "Categories" %}
+            </h3>
+            <div class="taxonomy-browse-grid">
+                {% for category in categories %}
+                    <a href="{% url 'blog:category_list' category.slug %}"
+                       class="taxonomy-browse-item category-item"
+                       aria-label="{% trans 'View posts in' %} {{ category.name }} {% trans 'category' %}">
+                        <span class="taxonomy-name">{{ category.name }}</span>
+                        <span class="taxonomy-count" aria-label="{{ category.post_count }} posts">{{ category.post_count }}</span>
+                    </a>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+
+    {% if tags %}
+        <section class="sidebar-section">
+            <h3 class="sidebar-title">
+                <span class="sidebar-icon" aria-hidden="true">🏷️</span>
+                {% trans "Tags" %}
+            </h3>
+            <div class="taxonomy-browse-cloud">
+                {% for tag in tags %}
+                    <a href="{% url 'blog:tag_list' tag.slug %}"
+                       class="taxonomy-browse-tag tag-item"
+                       style="border-color: {{ tag.color }}"
+                       aria-label="{% trans 'View posts tagged with' %} {{ tag.name }}">
+                        <span class="taxonomy-name">{{ tag.name }}</span>
+                        <span class="taxonomy-count" aria-label="{{ tag.post_count }} posts">{{ tag.post_count }}</span>
+                    </a>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+
+    <!-- Popular Posts Section -->
+    <section class="sidebar-section">
+        {% load blog_extras %}
+        {% popular_posts_widget period='week' limit=4 show_view_all=True %}
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="sidebar-section">
+        {% include 'blog/components/newsletter_signup.html' %}
+    </section>
+
+    <!-- Related Posts Section (only show on post detail pages) -->
+    {% if post %}
+        <section class="sidebar-section">
+            {% with recommendations=post.get_sidebar_recommendations %}
+                {% if recommendations.primary.posts %}
+                    {% include 'blog/components/related_posts_sidebar.html' with recommendations=recommendations %}
+                {% endif %}
+            {% endwith %}
+        </section>
+    {% endif %}
+
+    <section class="sidebar-section">
+        <h3 class="sidebar-title">
+            <span class="sidebar-icon" aria-hidden="true">🧭</span>
+            {% trans "Navigation" %}
+        </h3>
+        <div class="blog-sidebar-nav">
+            <a href="{% url 'blog:post_list' %}" class="btn btn-primary sidebar-nav-btn">
+                {% trans "All Posts" %}
+            </a>
+            <a href="{% url 'blog:saved_posts' %}" class="btn btn-secondary sidebar-nav-btn bookmark-nav-link">
+                <i class="fas fa-bookmark" aria-hidden="true"></i>
+                {% trans "Saved Posts" %}
+                <span x-show="getBookmarkCount() > 0" x-text="`(${getBookmarkCount()})`" class="bookmark-count"></span>
+            </a>
+        </div>
+    </section>
+</aside>

@@ -1,0 +1,117 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load image_tags %}
+{% load simple_embeds %}
+{% load seo_tags %}
+
+{% block title %}{% page_title post %}{% endblock %}
+
+{% block meta_description %}{{ post.get_meta_description }}{% endblock %}
+
+{% block extra_head %}
+{% if debug %}
+<link rel="stylesheet" href="{% static 'blog/css/blog.css' %}">
+<script src="{% static 'blog/js/bookmarks.js' %}"></script>
+<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+<script src="{% static 'blog/js/code-blocks.js' %}" defer></script>
+<script src="{% static 'blog/js/sharing-analytics.js' %}" defer></script>
+<script src="{% static 'blog/js/image-optimization.js' %}" defer></script>
+{% else %}
+<link rel="stylesheet" href="{% static 'dist/blog.min.css' %}">
+<script src="{% static 'blog/js/bookmarks.js' %}"></script>
+<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+<script src="{% static 'blog/js/code-blocks.js' %}" defer></script>
+<script src="{% static 'blog/js/sharing-analytics.js' %}" defer></script>
+<script src="{% static 'blog/js/image-optimization.js' %}" defer></script>
+{% endif %}
+
+{% comment %}Image optimization critical CSS and preload hints{% endcomment %}
+{% critical_image_css %}
+
+{% comment %}Preload hints for featured image{% endcomment %}
+{% if post.featured_image and post.get_image_base_name %}
+    {% image_preload_hints post.get_image_base_name "high" %}
+{% endif %}
+{% endblock %}
+
+{% block extra_meta %}
+{% seo_meta_tags post %}
+{% comment %}Enhanced image meta tags for social sharing{% endcomment %}
+{% image_meta_tags post %}
+{% endblock %}
+
+{% block structured_data %}
+{% structured_data_json_ld post %}
+{% breadcrumb_json_ld post %}
+{{ block.super }}
+{% endblock %}
+
+{% block before_main %}
+{% include 'blog/components/breadcrumb.html' with post=post %}
+{% endblock %}
+
+{% block content %}
+<section class="content-section">
+    <div class="container" x-data="bookmarkManager()">
+        <article class="post-detail">
+            <header class="post-header">
+                <h2>{{ post.title }}</h2>
+
+                {% include 'blog/components/enhanced_post_meta.html' with post=post show_updated=True compact=False show_reading_time=True show_author=True show_stats=True %}
+
+                {% include 'blog/components/post_taxonomy.html' with post=post layout='horizontal' show_labels=True compact=False %}
+
+                <div class="post-actions">
+                    {% include 'blog/components/bookmark_button.html' with post=post size='medium' %}
+                </div>
+            </header>
+
+
+            {% if post.excerpt %}
+                <div class="post-excerpt-detail">
+                    <em>{{ post.excerpt }}</em>
+                </div>
+            {% endif %}
+
+            <div class="blog-content">
+                {{ post.content|process_embeds|highlight_syntax|safe }}
+            </div>
+
+            {% if post.attachments.exists %}
+                {% include 'blog/components/file_attachments.html' with post=post %}
+            {% endif %}
+
+            {% include 'blog/components/social_sharing.html' with post=post sharing_data=sharing_data %}
+
+            {% include 'blog/components/discussion_link.html' with post=post %}
+        </article>
+
+        <!-- Newsletter Signup Section -->
+        <section class="post-newsletter-section">
+            <div class="newsletter-cta">
+                <h3>Enjoyed this post?</h3>
+                <p>Subscribe to get notified about new posts and updates!</p>
+            </div>
+            {% include 'blog/components/newsletter_signup.html' %}
+        </section>
+
+        <!-- Related Posts Section -->
+        {% with recommendations=post.get_reading_recommendations %}
+            {% if recommendations.primary.posts %}
+                {% include 'blog/components/related_posts_bottom.html' with recommendations=recommendations layout_type='bottom' %}
+            {% endif %}
+        {% endwith %}
+
+        <nav class="blog-navigation">
+            <div class="hero-buttons">
+                <a href="{% url 'blog:post_list' %}" class="btn btn-primary">&larr; Back to Blog</a>
+                <a href="{% url 'blog:saved_posts' %}" class="btn btn-secondary">
+                    <i class="fas fa-bookmark" aria-hidden="true"></i>
+                    Saved Posts
+                    <span x-show="getBookmarkCount() > 0" x-text="`(${getBookmarkCount()})`" class="bookmark-count"></span>
+                </a>
+            </div>
+        </nav>
+    </div>
+</section>
+{% endblock %}

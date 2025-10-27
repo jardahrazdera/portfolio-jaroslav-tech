@@ -1,0 +1,37 @@
+{{ site_name }} - Welcome to Our Newsletter!
+
+Hello and welcome!
+
+Thank you for confirming your subscription to the {{ site_name }} newsletter! We're excited to have you as part of our community.
+
+✅ YOUR SUBSCRIPTION IS NOW ACTIVE!
+You'll receive our latest posts, tutorials, and insights directly in your inbox.
+
+WHAT TO EXPECT:
+• Weekly Updates - Get the latest posts and tutorials delivered weekly
+• Exclusive Content - Subscriber-only tips, tricks, and insights
+• Early Access - Be the first to know about new projects and updates
+
+GET STARTED:
+Read Latest Posts: {{ blog_url }}
+Explore Website: {{ site_url }}
+
+🛡️ PRIVACY PROMISE
+We respect your privacy and will never share your email address. You can unsubscribe at any time using the link at the bottom of every email.
+
+STAY CONNECTED:
+Beyond the newsletter, you can also:
+• Follow us on social media for quick updates
+• Bookmark the blog for regular visits
+• Engage with posts through comments and discussions
+• Share interesting articles with your network
+
+If you have any questions or feedback, feel free to reach out. We love hearing from our subscribers!
+
+MANAGE YOUR SUBSCRIPTION:
+Unsubscribe: {{ unsubscribe_url }}
+Visit Website: {{ site_url }}
+Read Blog: {{ blog_url }}
+
+Thanks for joining us!
+The {{ site_name }} Team

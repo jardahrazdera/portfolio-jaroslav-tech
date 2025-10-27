@@ -1,0 +1,60 @@
+{% comment %}
+Post Taxonomy Component
+Displays categories and tags for a blog post with prominent styling
+Usage: {% include 'blog/components/post_taxonomy.html' with post=post layout='horizontal' %}
+Parameters:
+- post: Blog post object (required)
+- layout: Layout style ('horizontal', 'vertical', 'stacked') (default: 'horizontal')
+- show_labels: Show "Categories:" and "Tags:" labels (default: True)
+- compact: Use compact styling (default: False)
+{% endcomment %}
+
+{% load i18n %}
+
+{% if post.categories.exists or post.tags.exists %}
+    <div class="post-taxonomy{% if compact %} compact{% endif %} layout-{{ layout|default:'horizontal' }}"
+         role="group"
+         aria-label="{% trans 'Post categories and tags' %}">
+
+        {% if post.categories.exists %}
+            <div class="taxonomy-group categories-group">
+                {% if show_labels|default:True %}
+                    <span class="taxonomy-label">
+                        <span class="taxonomy-icon" aria-hidden="true">📁</span>
+                        {% trans "Categories:" %}
+                    </span>
+                {% endif %}
+                <div class="taxonomy-items">
+                    {% for category in post.categories.all %}
+                        <a href="{% url 'blog:category_list' category.slug %}"
+                           class="blog-category taxonomy-item"
+                           aria-label="{% trans 'View posts in' %} {{ category.name }} {% trans 'category' %}">
+                            {{ category.name }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if post.tags.exists %}
+            <div class="taxonomy-group tags-group">
+                {% if show_labels|default:True %}
+                    <span class="taxonomy-label">
+                        <span class="taxonomy-icon" aria-hidden="true">🏷️</span>
+                        {% trans "Tags:" %}
+                    </span>
+                {% endif %}
+                <div class="taxonomy-items">
+                    {% for tag in post.tags.all %}
+                        <a href="{% url 'blog:tag_list' tag.slug %}"
+                           class="blog-tag taxonomy-item"
+                           style="border-color: {{ tag.color }}"
+                           aria-label="{% trans 'View posts tagged with' %} {{ tag.name }}">
+                            {{ tag.name }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endif %}
