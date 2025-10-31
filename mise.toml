@@ -1,2 +1,6 @@
 [tools]
 python = "3.11"
+
+[env]
+# Ensure Python 3.11 is used for this project
+_.python.venv = { path = ".venv", create = true }
