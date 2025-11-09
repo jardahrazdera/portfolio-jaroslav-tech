@@ -3,13 +3,13 @@
                     TABLE OF CONTENTS
 =================================================================
 1. Color Themes & Variables
-2. Basic Reset & Setup  
+2. Basic Reset & Setup
 3. General Styling
 4. Header & Navigation
 5. Hero Section
 6. Content Sections
    - Skills Section
-   - About Section  
+   - About Section
    - Projects Section
    - Contact Section
 7. Footer
@@ -19,6 +19,7 @@
 11. Light Theme Adjustments
 12. Coming Soon Mode
 13. Terminal Title
+14. Server Metrics
 =================================================================
 */
 
@@ -36,6 +37,7 @@
     --maroon: #EBA0AC;
     --peach: #FAB387;
     --green: #A6E3A1;
+    --blue: #89B4FA;
     --font-family: 'JetBrains Mono', monospace;
     --shadow-color: rgba(0,0,0,0.2);
 }
@@ -53,6 +55,7 @@ body.light-theme {
     --maroon: #dc322f;
     --peach: #cb4b16;
     --green: #859900;
+    --blue: #268bd2;
     --shadow-color: rgba(101, 123, 131, 0.15);
 }
 
@@ -1009,4 +1012,178 @@ body.light-theme .coming-soon-overlay {
   50% {
     opacity: 0; /* Invisible */
   }
+}
+
+/* --- Server Metrics --- */
+
+.server-metrics {
+    background-color: var(--mantle);
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--crust);
+    margin-top: 70px; /* Account for fixed header */
+}
+
+.metrics-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    flex-wrap: wrap;
+}
+
+.metric-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.metric-circle-wrapper {
+    position: relative;
+    width: 90px;
+    height: 90px;
+}
+
+.metric-circle-svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.metric-circle-bg {
+    fill: none;
+    stroke: var(--crust);
+    stroke-width: 6;
+}
+
+.metric-circle-progress {
+    fill: none;
+    stroke-width: 6;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.5s ease, stroke 0.3s ease;
+}
+
+/* Metric-specific colors */
+.metric-circle-progress.cpu {
+    stroke: var(--blue);
+}
+
+.metric-circle-progress.ram {
+    stroke: var(--green);
+}
+
+.metric-circle-progress.load {
+    stroke: var(--peach);
+}
+
+.metric-value {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text);
+    text-align: center;
+    line-height: 1.2;
+}
+
+.metric-value-number {
+    display: block;
+    font-size: 1.3rem;
+}
+
+.metric-value-unit {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--subtext);
+}
+
+.metric-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--subtext);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Offline state */
+.metrics-container.offline .metric-circle-progress {
+    stroke: var(--overlay);
+    opacity: 0.3;
+}
+
+.metrics-container.offline .metric-value {
+    color: var(--overlay);
+}
+
+.metrics-container.offline .metric-label {
+    color: var(--overlay);
+}
+
+/* Loading state */
+.metrics-container.loading .metric-circle-progress {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .server-metrics {
+        padding: 1rem 0;
+    }
+
+    .metrics-container {
+        gap: clamp(1rem, 3vw, 1.5rem);
+    }
+
+    .metric-circle-wrapper {
+        width: 70px;
+        height: 70px;
+    }
+
+    .metric-value {
+        font-size: 0.9rem;
+    }
+
+    .metric-value-number {
+        font-size: 1.1rem;
+    }
+
+    .metric-value-unit {
+        font-size: 0.6rem;
+    }
+
+    .metric-label {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 375px) {
+    .metric-circle-wrapper {
+        width: 60px;
+        height: 60px;
+    }
+
+    .metric-value {
+        font-size: 0.8rem;
+    }
+
+    .metric-value-number {
+        font-size: 1rem;
+    }
+
+    .metric-label {
+        font-size: 0.7rem;
+    }
 }
