@@ -755,7 +755,7 @@ body.light-theme .terminal-response {
     
     /* Adjust hero section padding on mobile */
     .hero-section {
-        padding: 90px 0 35px; /* Use container for horizontal padding */
+        padding: 80px 0; /* Use container for horizontal padding */
     }
     
     .nav-links li:has(.theme-switcher) {
@@ -1017,9 +1017,38 @@ body.light-theme .coming-soon-overlay {
 
 .server-metrics {
     background-color: var(--mantle);
-    padding: 1.5rem 0;
+    padding: 2.5rem 0;
     border-bottom: 1px solid var(--crust);
     margin-top: 70px; /* Account for fixed header */
+}
+
+.metrics-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    padding: 0 1rem;
+}
+
+.metrics-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+}
+
+.metrics-prompt {
+    color: var(--green);
+    margin-right: 0.5rem;
+}
+
+.metrics-description {
+    font-family: 'JetBrains Mono', monospace;
+    line-height: 1.8;
+    color: var(--subtext);
+    font-size: clamp(0.95rem, 3vw, 1.1rem);
+    margin: clamp(1.5rem, 4vw, 2rem) auto clamp(1.5rem, 4vw, 2rem);
+    text-align: left;
+    max-width: min(800px, 90vw);
 }
 
 .metrics-container {
