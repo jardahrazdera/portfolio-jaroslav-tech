@@ -7,6 +7,7 @@ services:
     env_file: .env
     volumes:
       - static_volume:/app/staticfiles
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     depends_on:
       db:
         condition: service_healthy
