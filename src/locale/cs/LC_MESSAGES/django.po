@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Portfolio Jarka\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-11 15:36+0000\n"
+"POT-Creation-Date: 2025-11-09 21:32+0000\n"
 "PO-Revision-Date: 2025-07-21 13:31+0200\n"
 "Last-Translator: Jarek <jarek@jaroslav.tech>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -19,6 +19,351 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n "
 "<= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 "X-Generator: Gemini\n"
+
+#: blog/templates/blog/category_list.html:7
+msgid "Posts in category"
+msgstr ""
+
+#: blog/templates/blog/category_list.html:7 blog/templates/blog/tag_list.html:7
+msgid "Read blog posts about"
+msgstr ""
+
+#: blog/templates/blog/category_list.html:24
+msgid "Posts in"
+msgstr ""
+
+#: blog/templates/blog/category_list.html:38
+msgid "No posts found in this category yet. Check back soon for updates!"
+msgstr ""
+
+#: blog/templates/blog/category_list.html:40
+#: blog/templates/blog/tag_list.html:40
+#, fuzzy
+#| msgid "All Projects"
+msgid "View All Posts"
+msgstr "Všechny projekty"
+
+#: blog/templates/blog/components/breadcrumb.html:15
+msgid "Breadcrumb navigation"
+msgstr ""
+
+#: blog/templates/blog/components/breadcrumb.html:20
+msgid "Go to homepage"
+msgstr ""
+
+#: blog/templates/blog/components/breadcrumb.html:21
+msgid "Home"
+msgstr ""
+
+#: blog/templates/blog/components/breadcrumb.html:30
+#: blog/templates/blog/components/breadcrumb.html:43
+#: blog/templates/blog/components/breadcrumb.html:56
+msgid "Go to blog list"
+msgstr ""
+
+#: blog/templates/blog/components/breadcrumb.html:31
+#: blog/templates/blog/components/breadcrumb.html:44
+#: blog/templates/blog/components/breadcrumb.html:57
+#: blog/templates/blog/components/breadcrumb.html:72
+msgid "Blog"
+msgstr ""
+
+#: blog/templates/blog/components/enhanced_post_meta.html:26
+#: blog/templates/blog/components/post_meta.html:25
+msgid "Article publication information"
+msgstr ""
+
+#: blog/templates/blog/components/enhanced_post_meta.html:31
+#: blog/templates/blog/components/post_meta.html:28
+msgid "Published on"
+msgstr ""
+
+#: blog/templates/blog/components/enhanced_post_meta.html:47
+#: blog/templates/blog/components/post_meta.html:33
+msgid "Author"
+msgstr ""
+
+#: blog/templates/blog/components/enhanced_post_meta.html:61
+msgid "Estimated reading time"
+msgstr ""
+
+#: blog/templates/blog/components/enhanced_post_meta.html:72
+#: blog/templates/blog/components/post_meta.html:39
+msgid "Last updated on"
+msgstr ""
+
+#: blog/templates/blog/components/enhanced_post_meta.html:74
+msgid "Updated:"
+msgstr ""
+
+#: blog/templates/blog/components/enhanced_post_meta.html:83
+msgid "Word count"
+msgstr ""
+
+#: blog/templates/blog/components/enhanced_post_meta.html:84
+msgid "words"
+msgstr ""
+
+#: blog/templates/blog/components/enhanced_post_meta.html:96
+#, fuzzy
+#| msgid "View on GitHub"
+msgid "View count"
+msgstr "Zobrazit na GitHubu"
+
+#: blog/templates/blog/components/enhanced_post_meta.html:97
+msgid "views"
+msgstr ""
+
+#: blog/templates/blog/components/featured_posts.html:14
+msgid "Featured Posts"
+msgstr ""
+
+#: blog/templates/blog/components/featured_posts.html:41
+msgid "Read Article"
+msgstr ""
+
+#: blog/templates/blog/components/pagination.html:16
+msgid "Blog posts pagination"
+msgstr ""
+
+#: blog/templates/blog/components/pagination.html:24
+msgid "Go to previous page"
+msgstr ""
+
+#: blog/templates/blog/components/pagination.html:26
+#: blog/templates/blog/components/pagination.html:31
+msgid "Previous"
+msgstr ""
+
+#: blog/templates/blog/components/pagination.html:41
+#: devtracker/templates/devtracker/dashboard.html:145
+#: devtracker/templates/devtracker/project_list.html:256
+msgid "Page"
+msgstr ""
+
+#: blog/templates/blog/components/pagination.html:41
+#: devtracker/templates/devtracker/dashboard.html:145
+#: devtracker/templates/devtracker/project_list.html:256
+msgid "of"
+msgstr ""
+
+#: blog/templates/blog/components/pagination.html:42
+msgid "pages"
+msgstr ""
+
+#: blog/templates/blog/components/pagination.html:48
+msgid "Page numbers"
+msgstr ""
+
+#: blog/templates/blog/components/pagination.html:51
+msgid "Current page"
+msgstr ""
+
+#: blog/templates/blog/components/pagination.html:57
+msgid "Go to page"
+msgstr ""
+
+#: blog/templates/blog/components/pagination.html:73
+msgid "Go to next page"
+msgstr ""
+
+#: blog/templates/blog/components/pagination.html:74
+#: blog/templates/blog/components/pagination.html:79
+msgid "Next"
+msgstr ""
+
+#: blog/templates/blog/components/pagination.html:89
+#, python-format
+msgid ""
+"\n"
+"                Showing %(start)s-%(end)s of %(total)s posts\n"
+"            "
+msgstr ""
+
+#: blog/templates/blog/components/post_meta.html:34
+msgid "by"
+msgstr ""
+
+#: blog/templates/blog/components/post_meta.html:41
+msgid "Last updated:"
+msgstr ""
+
+#: blog/templates/blog/components/post_taxonomy.html:17
+msgid "Post categories and tags"
+msgstr ""
+
+#: blog/templates/blog/components/post_taxonomy.html:24
+msgid "Categories:"
+msgstr ""
+
+#: blog/templates/blog/components/post_taxonomy.html:31
+#: blog/templates/blog/components/search_result_card.html:26
+#: blog/templates/blog/components/sidebar.html:47
+msgid "View posts in"
+msgstr ""
+
+#: blog/templates/blog/components/post_taxonomy.html:31
+#: blog/templates/blog/components/search_result_card.html:26
+#: blog/templates/blog/components/sidebar.html:47
+msgid "category"
+msgstr ""
+
+#: blog/templates/blog/components/post_taxonomy.html:44
+msgid "Tags:"
+msgstr ""
+
+#: blog/templates/blog/components/post_taxonomy.html:52
+#: blog/templates/blog/components/search_result_card.html:76
+#: blog/templates/blog/components/sidebar.html:67
+msgid "View posts tagged with"
+msgstr ""
+
+#: blog/templates/blog/components/search_result_card.html:65
+msgid "Continue reading"
+msgstr ""
+
+#: blog/templates/blog/components/search_result_card.html:85
+msgid "By"
+msgstr ""
+
+#: blog/templates/blog/components/sidebar.html:12
+msgid "Blog navigation"
+msgstr ""
+
+#: blog/templates/blog/components/sidebar.html:17
+#: blog/templates/blog/components/sidebar.html:30
+#: blog/templates/blog/search_results.html:9
+#: blog/templates/blog/search_results.html:60
+#: blog/templates/blog/search_results.html:62
+msgid "Search"
+msgstr ""
+
+#: blog/templates/blog/components/sidebar.html:19
+#: blog/templates/blog/search_results.html:49
+msgid "Search blog posts"
+msgstr ""
+
+#: blog/templates/blog/components/sidebar.html:25
+#: blog/templates/blog/search_results.html:55
+msgid "Search posts..."
+msgstr ""
+
+#: blog/templates/blog/components/sidebar.html:27
+#: blog/templates/blog/search_results.html:57
+msgid "Search query"
+msgstr ""
+
+#: blog/templates/blog/components/sidebar.html:41
+msgid "Categories"
+msgstr ""
+
+#: blog/templates/blog/components/sidebar.html:60
+#: devtracker/templates/devtracker/project_detail.html:37
+msgid "Tags"
+msgstr ""
+
+#: blog/templates/blog/components/sidebar.html:101
+msgid "Navigation"
+msgstr ""
+
+#: blog/templates/blog/components/sidebar.html:105
+#, fuzzy
+#| msgid "All Projects"
+msgid "All Posts"
+msgstr "Všechny projekty"
+
+#: blog/templates/blog/components/sidebar.html:109
+msgid "Saved Posts"
+msgstr ""
+
+#: blog/templates/blog/post_list.html:39
+msgid "Recent Posts"
+msgstr ""
+
+#: blog/templates/blog/post_list.html:39
+msgid "Blog Posts"
+msgstr ""
+
+#: blog/templates/blog/post_list.html:55
+msgid "No additional posts available yet. Check back soon for updates!"
+msgstr ""
+
+#: blog/templates/blog/post_list.html:57
+msgid "No blog posts available yet. Check back soon for updates!"
+msgstr ""
+
+#: blog/templates/blog/search_results.html:7
+#, python-format
+msgid "Search Results for \"%(query)s\""
+msgstr ""
+
+#: blog/templates/blog/search_results.html:32
+#, python-format
+msgid ""
+"\n"
+"                        %(counter)s result for \"%(query)s\"\n"
+"                        "
+msgid_plural ""
+"\n"
+"                        %(counter)s results for \"%(query)s\"\n"
+"                        "
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: blog/templates/blog/search_results.html:39
+#, python-format
+msgid "No results found for \"%(query)s\""
+msgstr ""
+
+#: blog/templates/blog/search_results.html:42
+msgid "Search Blog Posts"
+msgstr ""
+
+#: blog/templates/blog/search_results.html:43
+msgid ""
+"Enter your search terms to find blog posts by title, content, or excerpt."
+msgstr ""
+
+#: blog/templates/blog/search_results.html:85
+msgid "No posts found"
+msgstr ""
+
+#: blog/templates/blog/search_results.html:86
+msgid "Try adjusting your search terms or browse by category:"
+msgstr ""
+
+#: blog/templates/blog/search_results.html:90
+msgid "Browse Categories:"
+msgstr ""
+
+#: blog/templates/blog/search_results.html:102
+#: blog/templates/blog/search_results.html:138
+msgid "Popular Tags:"
+msgstr ""
+
+#: blog/templates/blog/search_results.html:118
+msgid "Discover Blog Content"
+msgstr ""
+
+#: blog/templates/blog/search_results.html:119
+msgid ""
+"Use the search box above to find specific posts, or browse our categories "
+"and tags."
+msgstr ""
+
+#: blog/templates/blog/search_results.html:125
+msgid "Browse by Category:"
+msgstr ""
+
+#: blog/templates/blog/tag_list.html:7 blog/templates/blog/tag_list.html:24
+msgid "Posts tagged with"
+msgstr ""
+
+#: blog/templates/blog/tag_list.html:38
+msgid "No posts found with this tag yet. Check back soon for updates!"
+msgstr ""
 
 #: core/models.py:12
 msgid "Activate 'Coming Soon' Mode"
@@ -40,84 +385,84 @@ msgstr "Nastavení stránky"
 msgid "Site Settings"
 msgstr "Nastavení stránek"
 
-#: core/templates/core/base.html:94 core/templates/core/base.html:159
+#: core/templates/core/base.html:98 core/templates/core/base.html:167
 #: devtracker/templates/devtracker/components/nav.html:34
 msgid "Toggle theme"
 msgstr "Přepnout motiv"
 
-#: core/templates/core/base.html:116
+#: core/templates/core/base.html:120
 msgid "Coming soon"
 msgstr "Brzy spustíme"
 
-#: core/templates/core/base.html:117
+#: core/templates/core/base.html:121
 msgid "I'm working on it :)"
 msgstr "Pracuji na tom :)"
 
-#: core/templates/core/base.html:127
+#: core/templates/core/base.html:131
 msgid "About"
 msgstr "O mně"
 
-#: core/templates/core/base.html:128
+#: core/templates/core/base.html:132
 msgid "Skills"
 msgstr "Dovednosti"
 
-#: core/templates/core/base.html:129
+#: core/templates/core/base.html:133
 msgctxt "Portfolio menu item"
 msgid "Projects"
 msgstr "Projekty"
 
-#: core/templates/core/base.html:130
+#: core/templates/core/base.html:134
 msgid "Contact"
 msgstr "Kontakt"
 
-#: core/templates/core/base.html:131
+#: core/templates/core/base.html:139
 msgid "CV"
 msgstr "CV"
 
-#: core/templates/core/base.html:133
+#: core/templates/core/base.html:141
 msgid "Visit my GitHub profile"
 msgstr "Navštivte můj profil na GitHub"
 
-#: core/templates/core/base.html:140
+#: core/templates/core/base.html:148
 msgid "Visit my LinkedIn profile"
 msgstr "Navštivte můj profil na LinkedIn"
 
-#: core/templates/core/base.html:150
+#: core/templates/core/base.html:158
 #: devtracker/templates/devtracker/components/nav.html:25
 msgid "Switch to Czech"
 msgstr ""
 
-#: core/templates/core/base.html:154
+#: core/templates/core/base.html:162
 #: devtracker/templates/devtracker/components/nav.html:29
 msgid "Switch to English"
 msgstr ""
 
-#: core/templates/core/base.html:166
+#: core/templates/core/base.html:174
 #: devtracker/templates/devtracker/components/nav.html:41
 msgid "Open menu"
 msgstr "Otevřít menu"
 
-#: core/templates/core/base.html:179
+#: core/templates/core/base.html:191
 msgid "Back to top"
 msgstr "Zpět nahoru"
 
-#: core/templates/core/base.html:189
+#: core/templates/core/base.html:204
 msgid "All rights reserved."
 msgstr "Všechna práva vyhrazena."
 
-#: core/templates/core/base.html:190
+#: core/templates/core/base.html:205
 msgid "Catppuccin Theme"
 msgstr "Motiv Catppuccin"
 
-#: core/templates/core/cv.html:60
+#: core/templates/core/cv.html:65
 msgid "Hold up, hold up!"
 msgstr "Moment, moment!"
 
-#: core/templates/core/cv.html:61
+#: core/templates/core/cv.html:66
 msgid "This is my 'corporate' CV"
 msgstr "Toto je můj 'korporátní' životopis"
 
-#: core/templates/core/cv.html:62
+#: core/templates/core/cv.html:67
 msgid ""
 "It's full of buzzwords, metrics and LinkedIn-speak. If you want to see what "
 "I actually do, better check out my projects."
@@ -125,23 +470,23 @@ msgstr ""
 "Je plný módních slovíček, metrik a LinkedIn-řeči. Pokud chcete vidět, co "
 "opravdu dělám, raději se podívejte na mé projekty."
 
-#: core/templates/core/cv.html:65
+#: core/templates/core/cv.html:70
 msgid "Show me anyway"
 msgstr "Stejně mi to ukaž"
 
-#: core/templates/core/cv.html:68
+#: core/templates/core/cv.html:73
 msgid "Better show me projects"
 msgstr "Raději mi ukaž projekty"
 
-#: core/templates/core/cv.html:85
+#: core/templates/core/cv.html:90
 msgid "Download English CV"
 msgstr "Stáhnout CV EN"
 
-#: core/templates/core/cv.html:88
+#: core/templates/core/cv.html:93
 msgid "Download Czech CV"
 msgstr "Stáhnout CV CZ"
 
-#: core/templates/core/cv.html:92
+#: core/templates/core/cv.html:97
 msgid "Download CV"
 msgstr "Stáhnout CV"
 
@@ -149,19 +494,33 @@ msgstr "Stáhnout CV"
 msgid "Jarek - Fullstack Developer && DevOps Enthusiast"
 msgstr "Jarek - Fullstack vývojář && DevOps nadšenec"
 
-#: core/templates/core/index.html:16
+#: core/templates/core/index.html:21
+msgid ""
+"This page is self-hosted on my own hardware. Here's what the server is up to "
+"right now (updates every 5s). No cloud providers, no third-party services – "
+"just a physical machine doing its best to serve you this page. These metrics "
+"are pulled directly from the system in real-time, so you're seeing exactly "
+"what I see when I monitor my infrastructure."
+msgstr ""
+"Tato stránka je hostována na mém vlastním hardwaru. Zde vidíte, co server právě "
+"dělá (aktualizace každých 5s). Žádní cloudoví poskytovatelé, žádné služby "
+"třetích stran – jen fyzický stroj, který dělá maximum, aby vám tuto stránku "
+"zobrazil. Tyto metriky jsou získávány přímo ze systému v reálném čase, takže "
+"vidíte přesně to, co vidím já, když monitoruji svou infrastrukturu."
+
+#: core/templates/core/index.html:99
 msgid "Hello, I'm Jarek."
 msgstr "Ahoj, jsem Jarek."
 
-#: core/templates/core/index.html:19
+#: core/templates/core/index.html:102
 msgid "Fullstack Developer &&"
 msgstr "Fullstack Developer &&"
 
-#: core/templates/core/index.html:22
+#: core/templates/core/index.html:105
 msgid "DevOps Enthusiast"
 msgstr "DevOps Enthusiast"
 
-#: core/templates/core/index.html:25
+#: core/templates/core/index.html:108
 msgid ""
 "I specialize in creating scalable backend systems and intuitive web "
 "applications using modern technologies like Python, Django, and PostgreSQL. "
@@ -179,19 +538,19 @@ msgstr ""
 "učením a vždy zůstávám aktuální s nejlepšími postupy a vznikajícími "
 "technologiemi."
 
-#: core/templates/core/index.html:27
+#: core/templates/core/index.html:110
 msgid "View My Work"
 msgstr "Zobrazit mé práce"
 
-#: core/templates/core/index.html:28
+#: core/templates/core/index.html:111
 msgid "Get In Touch"
 msgstr "Kontaktujte mě"
 
-#: core/templates/core/index.html:36
+#: core/templates/core/index.html:119
 msgid "About Me"
 msgstr "O mně"
 
-#: core/templates/core/index.html:48
+#: core/templates/core/index.html:131
 msgid ""
 "I am a developer from the Czech Republic, driven by a passion for "
 "transforming complex problems into elegant software solutions. My focus is "
@@ -213,47 +572,47 @@ msgstr ""
 "filozofii: daří se mi v efektivním, terminálově orientovaném prostředí, "
 "které mi dává plnou kontrolu nad mým workflow."
 
-#: core/templates/core/index.html:57
+#: core/templates/core/index.html:140
 msgid "My Skillset"
 msgstr "Moje dovednosti"
 
-#: core/templates/core/index.html:60
+#: core/templates/core/index.html:143
 #: devtracker/templates/devtracker/project_list.html:61
 #: devtracker/templates/devtracker/project_list.html:174
 msgid "Backend"
 msgstr "Backend"
 
-#: core/templates/core/index.html:66
+#: core/templates/core/index.html:149
 msgid "Gunicorn"
 msgstr "Gunicorn"
 
-#: core/templates/core/index.html:70
+#: core/templates/core/index.html:153
 msgid "Frontend"
 msgstr "Frontend"
 
-#: core/templates/core/index.html:74
+#: core/templates/core/index.html:157
 msgid "Responsive Design"
 msgstr "Responzivní Design"
 
-#: core/templates/core/index.html:78
+#: core/templates/core/index.html:161
 msgid "DevOps & Tooling"
 msgstr "DevOps & Nástroje"
 
-#: core/templates/core/index.html:83
+#: core/templates/core/index.html:166
 msgid "CI/CD (GitHub Actions)"
 msgstr "CI/CD (GitHub Actions)"
 
-#: core/templates/core/index.html:93
+#: core/templates/core/index.html:176
 #: devtracker/templates/devtracker/project_list.html:4
 #: devtracker/templates/devtracker/project_list.html:9
 msgid "Projects"
 msgstr "Projekty"
 
-#: core/templates/core/index.html:96
+#: core/templates/core/index.html:179
 msgid "The Portfolio Meta-Project"
 msgstr "Meta-projekt Portfolia"
 
-#: core/templates/core/index.html:97
+#: core/templates/core/index.html:180
 msgid ""
 "What better showcases my skills than the very page presenting them? This "
 "entire website, from code to deployment, is my project. It all runs on my "
@@ -267,24 +626,24 @@ msgstr ""
 "praktické využití technologií jako Python, Django, Docker a CI/CD k "
 "vytvoření kompletního a robustního řešení."
 
-#: core/templates/core/index.html:98 core/templates/core/index.html:107
-#: core/templates/core/index.html:116
+#: core/templates/core/index.html:181 core/templates/core/index.html:190
+#: core/templates/core/index.html:199
 msgid "Technologies:"
 msgstr "Technologie:"
 
-#: core/templates/core/index.html:100 core/templates/core/index.html:118
+#: core/templates/core/index.html:183 core/templates/core/index.html:201
 msgid "GitHub"
 msgstr "GitHub"
 
-#: core/templates/core/index.html:101
+#: core/templates/core/index.html:184
 msgid "Live Demo"
 msgstr "Živá ukázka"
 
-#: core/templates/core/index.html:105
+#: core/templates/core/index.html:188
 msgid "DevTracker - Project Management System"
 msgstr "DevTracker - Systém pro správu projektů"
 
-#: core/templates/core/index.html:106
+#: core/templates/core/index.html:189
 msgid ""
 "A comprehensive Django-based project management system with time tracking, "
 "task management, and progress monitoring. Features user authentication, "
@@ -296,19 +655,19 @@ msgstr ""
 "autentizaci, vlastnictví projektů a krásné administrátorské rozhraní. "
 "Postavený s moderními designovými principy a komplexním testováním."
 
-#: core/templates/core/index.html:109
+#: core/templates/core/index.html:192
 msgid "Try DevTracker"
 msgstr "DevTracker"
 
-#: core/templates/core/index.html:110
+#: core/templates/core/index.html:193
 msgid "View Code"
 msgstr "Zobrazit kód"
 
-#: core/templates/core/index.html:114
+#: core/templates/core/index.html:197
 msgid "Lantern - Network Interface Manager"
 msgstr "Lantern - Správce síťových rozhraní"
 
-#: core/templates/core/index.html:115
+#: core/templates/core/index.html:198
 msgid ""
 "A lightweight TUI for managing network interfaces on Linux, built in Rust. "
 "Supports WiFi, VPN, and IPv4/IPv6 configurations through systemd-networkd. "
@@ -321,15 +680,15 @@ msgstr ""
 "technologickým stackem - od nízkoúrovňových sítí po vysokoúrovňové webové "
 "aplikace."
 
-#: core/templates/core/index.html:119
+#: core/templates/core/index.html:202
 msgid "In Development"
 msgstr "Ve vývoji"
 
-#: core/templates/core/index.html:128
+#: core/templates/core/index.html:211
 msgid "Contact Me"
 msgstr "Kontaktujte mě"
 
-#: core/templates/core/index.html:129
+#: core/templates/core/index.html:212
 msgid "I'm currently looking for new opportunities. Feel free to reach out!"
 msgstr "Momentálně hledám nové příležitosti. Neváhejte se ozvat!"
 
@@ -513,16 +872,6 @@ msgstr ""
 msgid "previous"
 msgstr ""
 
-#: devtracker/templates/devtracker/dashboard.html:145
-#: devtracker/templates/devtracker/project_list.html:256
-msgid "Page"
-msgstr ""
-
-#: devtracker/templates/devtracker/dashboard.html:145
-#: devtracker/templates/devtracker/project_list.html:256
-msgid "of"
-msgstr ""
-
 #: devtracker/templates/devtracker/dashboard.html:149
 #: devtracker/templates/devtracker/project_list.html:260
 msgid "next"
@@ -658,10 +1007,6 @@ msgstr ""
 
 #: devtracker/templates/devtracker/project_detail.html:28
 msgid "Progress"
-msgstr ""
-
-#: devtracker/templates/devtracker/project_detail.html:37
-msgid "Tags"
 msgstr ""
 
 #: devtracker/templates/devtracker/project_detail.html:48
