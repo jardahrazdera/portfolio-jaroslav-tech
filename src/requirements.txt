@@ -11,6 +11,7 @@ django-colorfield==0.11.0
 django-recaptcha==4.0.0
 django-redis==5.4.0
 redis==5.2.1
+psutil==6.1.1
 markdown2==2.4.13
 django-ckeditor-5==0.2.13
 pillow==10.4.0
