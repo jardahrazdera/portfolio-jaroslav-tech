@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib.sitemaps.views import sitemap
 from core.sitemaps import StaticViewSitemap
-from core.views import RobotstxtView
+from core.views import RobotstxtView, server_stats
 from blog.sitemaps import BlogPostSitemap, BlogCategorySitemap, BlogTagSitemap, BlogStaticSitemap
 
 
@@ -36,6 +36,7 @@ sitemaps = {
 urlpatterns = [
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('robots.txt', RobotstxtView.as_view()),
+    path('api/server-stats/', server_stats, name='server_stats'),
 ]
 
 urlpatterns += i18n_patterns(

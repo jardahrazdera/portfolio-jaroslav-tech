@@ -1,9 +1,14 @@
 # src/core/views.py
 import os
+import time
 
 import markdown2
+import psutil
 from django.shortcuts import render
 from django.views.generic import TemplateView
+from django.http import JsonResponse
+from django.core.cache import cache
+from django.views.decorators.cache import cache_page
 
 # Create your views here.
 def index(request):
@@ -59,6 +64,49 @@ def privacy_policy(request):
         }
     }
     return render(request, 'core/privacy_policy.html', context)
+
+
+@cache_page(5)  # Cache for 5 seconds
+def server_stats(request):
+    """
+    API endpoint that returns server metrics: CPU, RAM, and System Load.
+    Returns JSON with percentages and load average.
+    Cached for 5 seconds to reduce load.
+    """
+    try:
+        # Get CPU usage percentage (averaged over 1 second)
+        cpu_percent = round(psutil.cpu_percent(interval=1), 1)
+
+        # Get RAM usage percentage
+        memory = psutil.virtual_memory()
+        ram_percent = round(memory.percent, 1)
+
+        # Get system load average (1-minute average)
+        load_avg = psutil.getloadavg()[0]  # 1-minute load average
+
+        # Get CPU count to calculate load percentage
+        cpu_count = psutil.cpu_count()
+
+        # Calculate load as percentage (load / cpu_count * 100)
+        # Capped at 100% for display purposes
+        load_percent = min(100, round((load_avg / cpu_count) * 100, 1))
+
+        return JsonResponse({
+            'cpu': cpu_percent,
+            'ram': ram_percent,
+            'load': load_percent,
+            'load_raw': round(load_avg, 2)  # Include raw load for reference
+        })
+
+    except Exception as e:
+        # Return error response if something goes wrong
+        return JsonResponse({
+            'error': str(e),
+            'cpu': 0,
+            'ram': 0,
+            'load': 0,
+            'load_raw': 0
+        }, status=500)
 
 
 class RobotstxtView(TemplateView):
