@@ -206,11 +206,15 @@ Version with a robust language switcher.
     {% endblock %}
 
     {% if debug %}
+    <script src="{% static 'core/js/metrics.js' %}"></script>
+    <script defer src="{% static 'core/js/alpine.min.js' %}"></script>
     <script src="{% static 'core/js/main.js' %}"></script>
     {% else %}
+    <script src="{% static 'dist/metrics.min.js' %}"></script>
+    <script defer src="{% static 'core/js/alpine.min.js' %}"></script>
     <script src="{% static 'dist/bundle.min.js' %}"></script>
     {% endif %}
-    
+
     {% block extra_js %}{% endblock %}
 </body>
 </html>
