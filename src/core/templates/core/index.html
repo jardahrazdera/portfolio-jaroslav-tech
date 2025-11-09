@@ -9,6 +9,79 @@ This template extends base.html and provides the actual content for the main pag
 
 {% block title %}{% trans "Jarek - Fullstack Developer && DevOps Enthusiast" %}{% endblock %}
 
+{% block before_main %}
+<!-- Server Metrics Section -->
+<section class="server-metrics" x-data="serverMetrics">
+    <div class="metrics-container" :class="{ 'offline': !isOnline, 'loading': isLoading }">
+        <!-- CPU Metric -->
+        <div class="metric-card">
+            <div class="metric-circle-wrapper">
+                <svg class="metric-circle-svg" viewBox="0 0 80 80">
+                    <circle class="metric-circle-bg" cx="40" cy="40" r="36"></circle>
+                    <circle
+                        class="metric-circle-progress cpu"
+                        cx="40"
+                        cy="40"
+                        r="36"
+                        :stroke-dasharray="`${2 * Math.PI * 36}`"
+                        :stroke-dashoffset="getCircleProgress(cpu)"
+                    ></circle>
+                </svg>
+                <div class="metric-value">
+                    <span class="metric-value-number" x-text="cpu.toFixed(1)">0</span>
+                    <span class="metric-value-unit">%</span>
+                </div>
+            </div>
+            <span class="metric-label">CPU</span>
+        </div>
+
+        <!-- RAM Metric -->
+        <div class="metric-card">
+            <div class="metric-circle-wrapper">
+                <svg class="metric-circle-svg" viewBox="0 0 80 80">
+                    <circle class="metric-circle-bg" cx="40" cy="40" r="36"></circle>
+                    <circle
+                        class="metric-circle-progress ram"
+                        cx="40"
+                        cy="40"
+                        r="36"
+                        :stroke-dasharray="`${2 * Math.PI * 36}`"
+                        :stroke-dashoffset="getCircleProgress(ram)"
+                    ></circle>
+                </svg>
+                <div class="metric-value">
+                    <span class="metric-value-number" x-text="ram.toFixed(1)">0</span>
+                    <span class="metric-value-unit">%</span>
+                </div>
+            </div>
+            <span class="metric-label">RAM</span>
+        </div>
+
+        <!-- Load Metric -->
+        <div class="metric-card">
+            <div class="metric-circle-wrapper">
+                <svg class="metric-circle-svg" viewBox="0 0 80 80">
+                    <circle class="metric-circle-bg" cx="40" cy="40" r="36"></circle>
+                    <circle
+                        class="metric-circle-progress load"
+                        cx="40"
+                        cy="40"
+                        r="36"
+                        :stroke-dasharray="`${2 * Math.PI * 36}`"
+                        :stroke-dashoffset="getCircleProgress(load)"
+                    ></circle>
+                </svg>
+                <div class="metric-value">
+                    <span class="metric-value-number" x-text="load.toFixed(1)">0</span>
+                    <span class="metric-value-unit">%</span>
+                </div>
+            </div>
+            <span class="metric-label">Load</span>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
 {% block content %}
     <section class="hero-section">
         <div class="container">
