@@ -82,6 +82,7 @@ docker-compose.dev.yml
 
 # Development data
 dev_data/
+dev_*
 
 # MCP servers config
 .mcp.json
