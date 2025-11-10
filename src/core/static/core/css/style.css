@@ -1016,7 +1016,7 @@ body.light-theme .coming-soon-overlay {
 /* --- Server Metrics --- */
 
 .server-metrics {
-    background-color: var(--mantle);
+    background-color: var(--base);
     padding: 2.5rem 0;
     border-bottom: 1px solid var(--crust);
     margin-top: 70px; /* Account for fixed header */
