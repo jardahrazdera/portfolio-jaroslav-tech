@@ -33,8 +33,8 @@ This template extends base.html and provides the actual content for the main pag
                         cx="40"
                         cy="40"
                         r="36"
-                        :stroke-dasharray="`${2 * Math.PI * 36}`"
-                        :stroke-dashoffset="getCircleProgress(cpu)"
+                        :stroke-dasharray="`${getCircleProgress(cpu)} ${226.19 - getCircleProgress(cpu)}`"
+                        stroke-dashoffset="18.85"
                     ></circle>
                 </svg>
                 <div class="metric-value">
@@ -55,8 +55,8 @@ This template extends base.html and provides the actual content for the main pag
                         cx="40"
                         cy="40"
                         r="36"
-                        :stroke-dasharray="`${2 * Math.PI * 36}`"
-                        :stroke-dashoffset="getCircleProgress(ram)"
+                        :stroke-dasharray="`${getCircleProgress(ram)} ${226.19 - getCircleProgress(ram)}`"
+                        stroke-dashoffset="18.85"
                     ></circle>
                 </svg>
                 <div class="metric-value">
@@ -77,8 +77,8 @@ This template extends base.html and provides the actual content for the main pag
                         cx="40"
                         cy="40"
                         r="36"
-                        :stroke-dasharray="`${2 * Math.PI * 36}`"
-                        :stroke-dashoffset="getCircleProgress(load)"
+                        :stroke-dasharray="`${getCircleProgress(load)} ${226.19 - getCircleProgress(load)}`"
+                        stroke-dashoffset="18.85"
                     ></circle>
                 </svg>
                 <div class="metric-value">

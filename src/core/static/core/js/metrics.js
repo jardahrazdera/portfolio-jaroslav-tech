@@ -43,23 +43,12 @@ document.addEventListener('alpine:init', () => {
             }
         },
 
-        // Calculate stroke-dashoffset for circular progress
+        // Calculate stroke-dasharray length for circular progress (with 60-degree gap fixed at bottom)
         getCircleProgress(percentage) {
-            const radius = 36; // Matches the SVG circle radius
-            const circumference = 2 * Math.PI * radius;
+            const drawableArc = 188.49; // 300 degrees (360° - 60° gap)
             const progress = Math.min(100, Math.max(0, percentage)); // Clamp between 0-100
-            return circumference - (progress / 100) * circumference;
-        },
-
-        // Format network throughput
-        formatNetwork(mbps) {
-            if (mbps < 0.01) {
-                return '0 MB/s';
-            } else if (mbps < 1) {
-                return `${(mbps * 1024).toFixed(0)} KB/s`;
-            } else {
-                return `${mbps.toFixed(2)} MB/s`;
-            }
+            // Return how much of the drawable arc to fill
+            return (progress / 100) * drawableArc;
         },
 
         // Cleanup on component destroy

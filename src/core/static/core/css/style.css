@@ -1073,20 +1073,22 @@ body.light-theme .coming-soon-overlay {
 .metric-circle-svg {
     width: 100%;
     height: 100%;
-    transform: rotate(-90deg);
+    transform: rotate(-30deg) scale(-1, -1);
 }
 
 .metric-circle-bg {
     fill: none;
     stroke: var(--crust);
     stroke-width: 6;
+    stroke-dasharray: 188.49 37.70;
+    stroke-dashoffset: 18.85;
 }
 
 .metric-circle-progress {
     fill: none;
     stroke-width: 6;
     stroke-linecap: round;
-    transition: stroke-dashoffset 0.5s ease, stroke 0.3s ease;
+    transition: stroke-dasharray 0.5s ease, stroke 0.3s ease;
 }
 
 /* Metric-specific colors */
