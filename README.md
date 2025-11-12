@@ -3,55 +3,57 @@
 [![Portfolio CI/CD](https://github.com/jardahrazdera/portfolio-jaroslav-tech/actions/workflows/deploy.yml/badge.svg)](https://github.com/jardahrazdera/portfolio-jaroslav-tech/actions/workflows/deploy.yml)
 [![Django CI](https://github.com/jardahrazdera/portfolio-jaroslav-tech/actions/workflows/django-ci.yml/badge.svg)](https://github.com/jardahrazdera/portfolio-jaroslav-tech/actions/workflows/django-ci.yml)
 
-Welcome to the official repository for my personal portfolio, [jaroslav.tech](https://jaroslav.tech). This project is more than just a website; it's a comprehensive demonstration of my capabilities in full-stack web development, showcasing a robust backend built with Python and Django, a clean frontend, and modern, automated DevOps practices.
+Professional portfolio demonstrating Infrastructure & DevOps engineering expertise combined with full-stack development skills. Built with Django, containerized with Docker, and self-hosted on Proxmox with fully automated CI/CD deployment.
+
+**Live at:** **[https://jaroslav.tech](https://jaroslav.tech)**
+
+---
 
 ## 🎯 DevTracker - Project Management System
 
-The portfolio now includes **DevTracker**, a comprehensive project management system built with Django that demonstrates advanced web development capabilities:
+Portfolio includes **DevTracker**, a comprehensive project management system demonstrating advanced Django development:
 
 - **Complex Data Models** with relationships for projects, tasks, time tracking, and categorization
 - **Authentication & Authorization** with separate user and admin interfaces
-- **Time Tracking System** with full CRUD operations for logging work hours
-- **Project Organization** with public/private visibility controls and user separation
-- **Progress Tracking** with visual progress bars and completion metrics
-- **Responsive Design** using Catppuccin theme with light/dark mode support
+- **Time Tracking System** with full CRUD operations
+- **Project Organization** with public/private visibility controls
+- **Progress Tracking** with visual metrics and completion indicators
+- **Responsive Design** using Catppuccin theme with light/dark mode
 
-**Access DevTracker:** Available at `/tracker/` with demo projects showcasing real development workflows.
+**Access DevTracker:** Available at `/tracker/` with demo projects.
 
 [![DevTracker Demo](https://img.shields.io/badge/Demo-DevTracker-blue?style=for-the-badge)](https://jaroslav.tech/tracker/)
 
 ---
 
-## 🚀 Live Demo
-
-You can view the live site at: **[https://jaroslav.tech](https://jaroslav.tech)**
-
-**Click to the picture to see a short video on Vimeo.com:**
-
-<a href="https://vimeo.com/1104136541" target="_blank" rel="noopener noreferrer">
-  <img src="assets/thumbnail.jpg" alt="Click to see a short video on Vimeo.com">
-</a>
-
----
-
 ## ✨ Key Features
 
-This project is built with a focus on modern features and best practices to ensure a great user experience and easy maintenance.
+**Infrastructure & DevOps**
+* Fully automated CI/CD pipeline with GitHub Actions
+* Docker containerization with PostgreSQL and Redis
+* Zero-downtime deployments to production server
+* Self-hosted on Proxmox infrastructure
+* Redis caching for performance optimization
+* Real-time server metrics monitoring (CPU, RAM, disk, uptime)
 
-* **Fully Responsive Design:** The user interface is crafted with a mobile-first approach, ensuring a seamless experience across all devices. It uses a combination of CSS Flexbox and Grid along with media queries to adapt flawlessly to any screen size, from small mobile phones to large desktop monitors.
-* **Light & Dark Mode:** The application includes a theme switcher that supports both light and dark modes. It automatically detects the user's operating system preference via the `prefers-color-scheme` media query. The user's choice is then saved in their browser's `localStorage`, so their selected theme persists across sessions. This is implemented using CSS variables for easy color management.
-* **Internationalization (i18n):** To reach a broader audience, the website is fully bilingual (Czech and English). This is achieved using Django's built-in internationalization framework, including `gettext` for translating strings in both the backend and templates. The language can be switched seamlessly via a UI control that updates the session's language setting.
-* **Dynamic Content Management:** To avoid hardcoding content, most of the text and configuration on the site is managed through a customized Django admin panel. This allows for easy updates without touching the codebase. For instance, project descriptions, job titles, and even the "Coming Soon" mode can be toggled with a simple checkbox in the admin.
-* **Singleton Pattern for Global Settings:** To manage site-wide settings, the project employs the Singleton design pattern for a specific Django model. This ensures that there is only one row in the database for global configurations (like the "Coming Soon" switch), preventing inconsistencies and providing a single source of truth for the application's state.
-* **Clean and Sustainable Code:** The codebase adheres to the PEP 8 style guide and emphasizes readability and maintainability. It follows the "fat models, thin views" philosophy, with clear separation of concerns. Comprehensive comments and a logical project structure make the code easy to navigate and understand for other developers.
-* **Automated Deployment with CI/CD:** The entire deployment process is automated using GitHub Actions. Every push to the `main` branch triggers a workflow that builds, tests, and deploys the application to the production server. This ensures that every update is delivered quickly, reliably, and consistently, minimizing the risk of human error.
-* **Performance Optimization with Redis Caching:** To enhance performance and reduce database load, the application uses Redis for caching. Expensive queries, such as the project list, are cached to provide a faster user experience. The caching logic is implemented with user-specific keys to ensure data privacy and correctness.
+**Full-Stack Development**
+* Django backend with PostgreSQL database
+* Responsive frontend with mobile-first approach
+* Internationalization (i18n) supporting Czech and English
+* Dynamic content management through Django admin
+* Blog system with CKEditor rich text editor
+* Live GitHub API integration for repository stats
+
+**SEO & Performance**
+* Comprehensive SEO optimization (meta tags, Open Graph, structured data)
+* XML sitemap with multilingual support (hreflang)
+* Schema.org markup for rich search results
+* Redis caching with user-specific keys
+* Optimized database queries
 
 ---
 
 ## 🛠️ Tech Stack
-
-The project leverages a modern and robust technology stack to deliver high performance and scalability.
 
 <p align="left">
   <a href="https://www.python.org" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="40" height="40"/></a>
@@ -69,130 +71,68 @@ The project leverages a modern and robust technology stack to deliver high perfo
 
 ## 📂 Project Structure
 
-The project uses a `src` layout for a clean separation between the application code and the project's root-level configuration files (like `docker-compose.yml`).
-
 ```
 .
 ├── .github/              # CI/CD workflows (GitHub Actions)
-├── .gitignore            # Files and directories ignored by Git
-├── docker-compose.yml    # Docker configuration for services
-├── LICENSE               # MIT License
-├── README.md             # You are here!
-└── src/                  # Main source code directory
-    ├── core/             # The primary Django application (portfolio)
-    │   ├── models.py     # Database models
-    │   ├── views.py      # View logic
-    │   ├── urls.py       # App-specific URL routing
-    │   └── templates/    # HTML templates
-    ├── devtracker/       # DevTracker project management app
-    │   ├── models.py     # Data models for projects, tasks, and time tracking
-    │   ├── views.py      # Class-based views with authentication
-    │   ├── forms.py      # Model forms for project and time management
-    │   ├── urls.py       # DevTracker URL patterns
-    │   ├── templates/    # DevTracker-specific templates
-    │   ├── management/   # Custom Django commands for demo data
-    │   └── tests.py      # Comprehensive test suite
-    ├── jaroslav_tech/    # Django project-level configuration
-    │   ├── settings.py   # Project settings
-    │   └── urls.py       # Root URL configuration
-    ├── manage.py         # Django's command-line utility
-    └── requirements.txt  # Python dependencies
+├── docker-compose.yml    # Multi-service orchestration
+└── src/
+    ├── core/             # Portfolio app with SEO, i18n, server metrics
+    ├── devtracker/       # Project management system
+    ├── blog/             # Blog with CKEditor integration
+    └── jaroslav_tech/    # Django project configuration
 ```
+
+---
 
 ## ⚙️ Local Development
 
-The Docker method is highly recommended as it perfectly mirrors the production setup.
+1. **Clone and setup:**
+   ```bash
+   git clone https://github.com/jardahrazdera/portfolio-jaroslav-tech.git
+   cd portfolio-jaroslav-tech
+   cp .env.example .env
+   ```
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/jardahrazdera/portfolio-jaroslav-tech.git
-    cd portfolio-jaroslav-tech
-    ```
+2. **Run with Docker Compose:**
+   ```bash
+   docker compose up --build
+   ```
 
-2.  **Create the `.env` file:**
-    Copy the example file. The default values are configured for Docker.
-    ```bash
-    cp .env.example .env
-    ```
-
-3.  **Install Frontend Dependencies:**
-    This project uses `npm` to manage frontend libraries. This step is required once.
-    ```bash
-    cd frontend
-    npm install
-    cd ..
-    ```
-
-4.  **Run with Docker Compose:**
-    This command builds the images and starts the web app, database, and Redis.
-    ```bash
-    docker compose up --build
-    ```
-
-5.  **Access the application:**
-    - **Portfolio:** `http://localhost:8000`
-    - **DevTracker:** `http://localhost:8000/tracker/`
-    - **Admin Panel:** `http://localhost:8000/admin`
+3. **Access:**
+   - Portfolio: `http://localhost:8000`
+   - DevTracker: `http://localhost:8000/tracker/`
+   - Admin Panel: `http://localhost:8000/admin`
 
 ---
 
-## 🔄 Deployment & CI/CD
+## 🔄 CI/CD Deployment
 
-The project is configured for a fully automated, zero-downtime deployment using **GitHub Actions**. This CI/CD pipeline ensures that every change pushed to the `main` branch is automatically and safely deployed to production.
+Automated deployment pipeline on every push to `main`:
 
-**The deployment process is as follows:**
+1. Build Docker image with application code and dependencies
+2. Push to GitHub Container Registry (GHCR)
+3. SSH to production server
+4. Pull latest image and gracefully restart services
+5. Run database migrations, collect static files, compile translations
 
-1.  **Trigger:** The workflow is automatically triggered by a `push` event to the `main` branch.
-2.  **Build Docker Image:** A new Docker image is built based on the `src/Dockerfile`. This image contains the application code and all its dependencies, ensuring a consistent environment.
-3.  **Push to GitHub Container Registry (GHCR):** The newly built image is tagged and pushed to GHCR, a private container registry provided by GitHub.
-4.  **Deploy to Production Server:**
-    * The workflow securely connects to the production server using SSH keys stored in GitHub Secrets.
-    * It pulls the latest version of the `docker-compose.yml` file from the repository to ensure the server has the latest service definitions.
-    * It runs `docker compose pull` to download the new application image from GHCR.
-    * The services are gracefully restarted using `docker compose up -d`. Docker handles the process of stopping the old container and starting the new one with minimal downtime.
-    * Finally, post-deployment commands (`migrate`, `collectstatic`, `compilemessages`) are executed inside the newly running application container to apply any database changes and update static files or translations.
-
-This automated process not only accelerates the development cycle but also enhances reliability by eliminating manual deployment steps.
+Zero-downtime deployment ensures continuous availability.
 
 ---
 
-## 🧪 Testing & Quality Assurance
+## 🧪 Testing & Quality
 
-This project is committed to maintaining a high standard of code quality and stability. To achieve this, a comprehensive suite of automated tests has been developed using Django's built-in `TestCase` framework.
+Comprehensive test suite using Django's TestCase framework:
+* View and template integrity tests
+* Context data validation
+* Business logic verification (Singleton pattern for settings)
+* Redis caching functionality tests
 
-The goal of these tests is to ensure that all core functionalities work as expected and to prevent regressions as the project evolves.
-
-### Test Coverage
-
-The test suite is designed to cover various layers of the application:
-
-* **View & Template Integrity:** Tests verify that all primary views return a successful status code (`200 OK`) and that they render the correct templates. This ensures the basic navigation and structure of the site remain intact.
-* **Context Data Validation:** We test that the correct context data is passed to the templates. For example, we verify that the `general_setup` object from the context processor is available, ensuring dynamic data from the database is displayed properly on the frontend.
-* **Business Logic & Design Patterns:** Beyond standard checks, the tests validate the core application logic. A key example is the test for the **Singleton pattern** on the `GeneralSetup` model. This critical test guarantees that the architectural rule of having only one instance of site-wide settings is strictly enforced, preventing potential configuration conflicts.
-* **Caching Functionality:** The test suite includes specific tests for the Redis caching layer. These tests verify that cache hits and misses work as expected, that user-specific data is cached correctly, and that the cache expires properly.
-
-### Automated Testing with GitHub Actions
-
-To fully automate the testing process, a dedicated **Continuous Integration (CI)** pipeline has been set up using GitHub Actions. This workflow runs independently of the deployment pipeline and focuses solely on quality assurance.
-
-[![Django CI](https://github.com/jardahrazdera/portfolio-jaroslav-tech/actions/workflows/django-ci.yml/badge.svg)](https://github.com/jardahrazdera/portfolio-jaroslav-tech/actions/workflows/django-ci.yml)
-
-This CI workflow is configured to run on multiple triggers for comprehensive coverage:
-* **On every `push` and `pull request`** to the `main` branch, providing immediate feedback on new changes.
-* **On a regular schedule (nightly),** which helps to catch any potential issues that might arise over time, such as upstream dependency breakages or subtle bugs that were not triggered by recent commits.
-
-The workflow's job is to:
-1.  Set up a clean Python environment.
-2.  Install all project dependencies from `requirements.txt`.
-3.  Run the entire test suite.
-
-This multi-pronged approach acts as a robust safety net, ensuring that the project's stability and integrity are maintained at all times.
+Automated CI runs on every push, pull request, and nightly schedule via GitHub Actions.
 
 ---
 
 ## 📫 Contact
 
-If you have any questions, suggestions, or just want to connect, feel free to reach out.
-
 * **GitHub:** [jardahrazdera](https://github.com/jardahrazdera)
+* **LinkedIn:** [jaroslav-hrazdera](https://www.linkedin.com/in/jaroslav-hrazdera-326295382/)
 * **Email:** [jarek@jaroslav.tech](mailto:jarek@jaroslav.tech)
