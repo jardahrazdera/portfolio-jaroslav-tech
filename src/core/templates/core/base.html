@@ -74,8 +74,13 @@ Version with a robust language switcher.
     {% for language in languages %}
         <link rel="alternate" hreflang="{{ language.code }}" href="https://jaroslav.tech/{{ language.code }}{{ request.get_full_path | slice:'3:' }}">
     {% endfor %}
-    
-    <link rel="shortcut icon" href="{% static 'core/assets/favicon.svg' %}">
+
+    {# Favicon #}
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'core/assets/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'core/assets/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'core/assets/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'core/assets/site.webmanifest' %}">
+    <link rel="shortcut icon" href="{% static 'core/assets/favicon.ico' %}">
 
     {% if debug %}
     <link rel="stylesheet" href="{% static 'core/css/fonts.css' %}">
