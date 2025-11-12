@@ -420,12 +420,6 @@ a:hover {
     height: 100%;
     object-fit: cover;
     display: block;
-    filter: grayscale(100%);
-    transition: filter 0.3s ease;
-}
-
-.about-photo-container:hover .profile-photo {
-    filter: grayscale(0%);
 }
 
 .photo-terminal-overlay {
