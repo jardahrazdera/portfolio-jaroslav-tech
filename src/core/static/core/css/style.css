@@ -23,40 +23,64 @@
 =================================================================
 */
 
-/* --- Catppuccin Mocha (Dark) & Solarized Light Palettes --- */
+/* --- Catppuccin Frappe (Dark) & Latte (Light) Palettes --- */
 :root {
-    /* DARK (Mocha) THEME - Default */
-    --base: #1E1E2E;
-    --mantle: #181825;
-    --crust: #11111B;
-    --text: #CDD6F4;
-    --subtext: #A6ADC8;
-    --overlay: #9399B2;
-    --mauve: #CBA6F7;
-    --pink: #F5C2E7;
-    --maroon: #EBA0AC;
-    --peach: #FAB387;
-    --green: #A6E3A1;
-    --blue: #89B4FA;
+    /* DARK (Frappe) THEME - More vivid & warmer than Mocha */
+    --base: #303446;
+    --mantle: #292c3c;
+    --crust: #232634;
+    --surface0: #414559;
+    --surface1: #51576d;
+    --surface2: #626880;
+    --text: #c6d0f5;
+    --subtext: #a5adce;
+    --overlay: #949cbb;
+    --mauve: #ca9ee6;
+    --pink: #f4b8e4;
+    --maroon: #ea999c;
+    --red: #e78284;
+    --peach: #ef9f76;
+    --yellow: #e5c890;
+    --green: #a6d189;
+    --teal: #81c8be;
+    --sky: #99d1db;
+    --sapphire: #85c1dc;
+    --blue: #8caaee;
+    --lavender: #babbf1;
     --font-family: 'JetBrains Mono', monospace;
-    --shadow-color: rgba(0,0,0,0.2);
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    --base-overlay: rgba(48, 52, 70, 0.7);
+    --base-overlay-light: rgba(48, 52, 70, 0.6);
+    --mauve-overlay: rgba(202, 158, 230, 0.4);
 }
 
 body.light-theme {
-    /* LIGHT (Solarized) THEME - Softer & less bright with improved contrast */
-    --base: #fdf6e3;
-    --mantle: #f5efdc;
-    --crust: #eee8d5;
-    --text: #073642; /* Solarized base03 for better contrast (7.7:1) */
-    --subtext: #586e75; /* Solarized base01 (5.7:1) */
-    --overlay: #93a1a1;
-    --mauve: #6c71c4;
-    --pink: #d33682;
-    --maroon: #dc322f;
-    --peach: #cb4b16;
-    --green: #859900;
-    --blue: #268bd2;
-    --shadow-color: rgba(101, 123, 131, 0.15);
+    /* LIGHT (Latte) THEME - Vivid Catppuccin colors with excellent contrast */
+    --base: #eff1f5;
+    --mantle: #e6e9ef;
+    --crust: #dce0e8;
+    --surface0: #ccd0da;
+    --surface1: #bcc0cc;
+    --surface2: #acb0be;
+    --text: #4c4f69;
+    --subtext: #5c5f77;
+    --overlay: #6c6f85;
+    --mauve: #8839ef;
+    --pink: #ea76cb;
+    --maroon: #e64553;
+    --red: #d20f39;
+    --peach: #fe640b;
+    --yellow: #df8e1d;
+    --green: #40a02b;
+    --teal: #179299;
+    --sky: #04a5e5;
+    --sapphire: #209fb5;
+    --blue: #1e66f5;
+    --lavender: #7287fd;
+    --shadow-color: rgba(76, 79, 105, 0.15);
+    --base-overlay: rgba(239, 241, 245, 0.7);
+    --base-overlay-light: rgba(239, 241, 245, 0.5);
+    --mauve-overlay: rgba(136, 57, 239, 0.4);
 }
 
 /* --- Basic Reset & Setup --- */
@@ -200,7 +224,7 @@ a:hover {
 }
 
 .back-to-top-btn:hover .progress-ring-bg {
-    stroke: rgba(203, 166, 247, 0.4) !important;
+    stroke: var(--mauve-overlay) !important;
 }
 
 /* Light theme specific adjustments */
@@ -428,7 +452,7 @@ a:hover {
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(30, 30, 46, 0.7);
+    background: var(--base-overlay);
     padding: 20px;
     transform: translateY(100%);
     transition: transform 0.3s ease;
@@ -436,7 +460,7 @@ a:hover {
 
 /* Light theme overlay */
 body.light-theme .photo-terminal-overlay {
-    background: rgba(253, 246, 227, 0.7);
+    background: var(--base-overlay);
 }
 
 .about-photo-container:hover .photo-terminal-overlay {
@@ -486,7 +510,7 @@ body.light-theme .photo-hint-arrow {
 
 /* Light theme terminal text */
 body.light-theme .terminal-text {
-    color: #073642; /* Solarized base03 - dark color for light theme */
+    color: var(--text);
 }
 
 .terminal-response {
@@ -499,7 +523,7 @@ body.light-theme .terminal-text {
 
 /* Light theme terminal response */
 body.light-theme .terminal-response {
-    color: #073642; /* Solarized base03 - dark color for light theme */
+    color: var(--text);
 }
 
 .about-text p {
@@ -574,7 +598,7 @@ body.light-theme .terminal-response {
 }
 
 .github-stars .star-icon {
-    color: #f9c513;
+    color: var(--yellow);
 }
 
 .github-stars .star-count {
@@ -989,7 +1013,7 @@ body.coming-soon-active > footer {
     font-family: var(--font-family);
     
     /* Semi-transparent background using your theme's base color */
-    background-color: rgba(30, 30, 46, 0.6); /* Corresponds to --base color with alpha */
+    background-color: var(--base-overlay-light);
     
     /* Use backdrop-filter for a modern "glassmorphism" effect */
     -webkit-backdrop-filter: blur(10px);
@@ -1003,7 +1027,7 @@ body.coming-soon-active > footer {
 
 body.light-theme .coming-soon-overlay {
     /* Adjust overlay background for the light theme */
-    background-color: rgba(253, 246, 227, 0.5); /* Corresponds to light --base color */
+    background-color: var(--base-overlay-light);
 }
 
 .coming-soon-content {
@@ -1070,7 +1094,7 @@ body.light-theme .coming-soon-overlay {
 
 /* Color for the '$' prompt */
 .terminal .prompt {
-    color: #00FF00; /* Using a green color for the prompt */
+    color: var(--green);
     margin-right: 0.5em;
 }
 
