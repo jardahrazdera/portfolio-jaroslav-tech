@@ -195,15 +195,16 @@ This template extends base.html and provides the actual content for the main pag
                     </div>
                 </div>
                 <div class="project-card" data-github-repo="basecamp/omarchy">
-                    <h3>
-                        {% trans "Omarchy Linux Distribution - Open Source Contributor" %}
+                    <h3>{% trans "Omarchy Linux Distribution - Open Source Contributor" %}</h3>
+                    <div class="github-stars-container">
                         <span class="github-stars" data-repo="basecamp/omarchy">
+                            <span class="github-text">GitHub</span>
                             <svg class="star-icon" viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
                                 <path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/>
                             </svg>
                             <span class="star-count">...</span>
                         </span>
-                    </h3>
+                    </div>
                     <p>{% blocktrans %}Active contributor to Basecamp's enterprise-grade Arch-based Linux distribution. Personally invited by David Heinemeier Hansson to join the development team. Developed critical system components including the main DNS configuration script and boot process improvements. 10+ merged pull requests in a project used by thousands of developers worldwide.{% endblocktrans %}</p>
                     <p class="project-tech"><strong>{% trans "Technologies:" %}</strong> Bash, Linux, systemd, Git, DNS configuration</p>
                     <div class="project-links">

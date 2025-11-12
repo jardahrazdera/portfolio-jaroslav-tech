@@ -555,6 +555,12 @@ body.light-theme .terminal-response {
     margin-bottom: 0;
 }
 
+.github-stars-container {
+    display: flex;
+    justify-content: center;
+    margin: 0.75rem 0 1rem;
+}
+
 .github-stars {
     display: inline-flex;
     align-items: center;
@@ -562,19 +568,23 @@ body.light-theme .terminal-response {
     font-size: 0.9rem;
     font-weight: normal;
     color: var(--subtext);
-    margin-left: 0.5rem;
-    padding: 0.25rem 0.5rem;
+    padding: 0.35rem 0.75rem;
     background: var(--surface0);
-    border-radius: 4px;
+    border-radius: 6px;
     border: 1px solid var(--overlay);
 }
 
+.github-stars .github-text {
+    font-weight: 500;
+}
+
 .github-stars .star-icon {
-    color: var(--yellow);
+    color: #f9c513;
 }
 
 .github-stars .star-count {
     font-variant-numeric: tabular-nums;
+    font-weight: 600;
 }
 
 .project-tech {
