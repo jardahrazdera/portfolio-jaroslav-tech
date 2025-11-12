@@ -200,8 +200,18 @@ Version with a robust language switcher.
     {% block footer %}
     <footer class="main-footer">
         <div class="container">
-            <p>&copy; {% now "Y" %} Jaroslav Hrazděra. {% trans "All rights reserved." %}</p>
-            <p>{% trans "Infrastructure & DevOps Engineer | Omarchy Linux Contributor | Self-hosted on Proxmox" %}</p>
+            <p class="footer-tagline">{% trans "Built and hosted with" %} ❤️ {% trans "by Jarek" %}</p>
+            <p class="footer-description">{% trans "Infrastructure & DevOps Engineer | Omarchy Linux Contributor | Self-hosted on Proxmox" %}</p>
+            <div class="footer-links">
+                <a href="https://github.com/jardahrazdera" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <span class="footer-separator">•</span>
+                <a href="https://www.linkedin.com/in/jaroslav-hrazdera-326295382/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <span class="footer-separator">•</span>
+                <a href="mailto:jarek@jaroslav.tech">{% trans "Email" %}</a>
+                <span class="footer-separator">•</span>
+                <a href="{% url 'core:cv' %}">CV</a>
+            </div>
+            <p class="footer-copyright">&copy; {% now "Y" %} Jaroslav Hrazděra. {% trans "All rights reserved." %}</p>
         </div>
     </footer>
     {% endblock %}
