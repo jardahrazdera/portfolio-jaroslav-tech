@@ -544,6 +544,15 @@ body.light-theme .terminal-response {
 
 .project-card h3 {
     color: var(--pink);
+    margin-bottom: 1rem;
+}
+
+.project-card p {
+    margin-bottom: 1rem;
+}
+
+.project-card p:last-of-type {
+    margin-bottom: 0;
 }
 
 .project-tech {
