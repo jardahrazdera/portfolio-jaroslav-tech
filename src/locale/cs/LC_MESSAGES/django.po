@@ -517,6 +517,9 @@ msgid ""
 "practical infrastructure management and monitoring implementation. Updates "
 "every 5 seconds."
 msgstr ""
+"Monitoring v reálném čase infrastruktury, na které běží tento web. Všechny metriky "
+"jsou sbírány z mého self-hosted Proxmox serveru, což demonstruje praktickou správu "
+"infrastruktury a implementaci monitoringu. Aktualizace každých 5 sekund."
 
 #: core/templates/core/index.html:101
 msgid "Hello, I'm Jarek."
