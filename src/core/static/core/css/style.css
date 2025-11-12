@@ -511,9 +511,13 @@ body.light-theme .terminal-response {
     line-height: 1.8;
     color: var(--subtext);
     font-size: 1.1rem;
-    margin: 0 auto;
+    margin: 0 auto 1.5rem;
     text-align: left;
     max-width: min(800px, 90vw);
+}
+
+.about-text p:last-child {
+    margin-bottom: 0;
 }
 
 /* --- Projects Section --- */
