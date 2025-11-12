@@ -1,6 +1,6 @@
 # JAROSLAV HRAZDERA
 
-**Full-Stack Python Developer**
+**Infrastructure & DevOps Engineer**
 
 - 📧 **Email:** [jarek@jaroslav.tech](mailto:jarek@jaroslav.tech)
 - 🌍 **Location:** Brno, Czech Republic
@@ -11,84 +11,77 @@
 
 ## PROFESSIONAL SUMMARY
 
-Certified Python Backend Developer transitioning from IT infrastructure to software development. Active open source contributor to Basecamp's Omarchy Linux distribution. Personally invited by David Heinemeier Hansson to collaborate on system-level projects.
+Infrastructure & DevOps Engineer with 6+ years of experience in IT infrastructure management and automation. Active open source contributor to Basecamp's Omarchy Linux distribution. Personally invited by David Heinemeier Hansson to collaborate on system-level projects.
 
 **Core Differentiators:**
 
 - **Open Source Contributor:** 10+ merged pull requests to Basecamp's Omarchy project
 - **DHH Collaboration:** Direct invitation to join Omarchy-ISO development team
-- **Technical Foundation:** 6+ years of experience in IT infrastructure and automation
+- **Unique Combination:** Infrastructure expert with Python development skills
 - **Hardware Enthusiast:** Build custom 3D printers, experiment with IoT
 
 ---
 
 ## TECHNICAL SKILLS
 
-### Languages & Frameworks
+### DevOps & Infrastructure
+
+- **Operating Systems:** Linux (Arch/Omarchy daily driver), Ubuntu, Debian
+- **Containerization:** Docker, Docker Compose
+- **Virtualization:** Proxmox
+- **Web Servers:** Nginx, Apache
+- **CI/CD:** GitHub Actions, Automated Testing
+- **Version Control:** Git, GitHub, GitLab
+
+### Automation & Development
 
 - **Backend:** Python, Django, Flask, Django REST Framework, SQL
+- **Scripting:** Bash, Python automation
 - **Frontend:** JavaScript, HTML5, CSS3, Responsive Design, Bootstrap
 - **Database:** PostgreSQL, MySQL, SQLite
 - **Testing:** Unit Testing, Integration Testing
-
-### DevOps & Infrastructure
-
-- **Containerization:** Docker, Docker Compose
-- **Virtualization:** Proxmox
-- **Version Control:** Git, GitHub, GitLab
-- **CI/CD:** GitHub Actions, Automated Testing
-- **Operating Systems:** Linux (Arch/Omarchy daily driver), Ubuntu, Debian
-- **Web Servers:** Nginx, Apache
 
 ---
 
 ## PROFESSIONAL EXPERIENCE
 
-### Technical Manager & IT Specialist
+### IT Infrastructure Manager & Technical Specialist
 
 **Gridoff Solar s.r.o.** | Brno, Czech Republic | *September 2019 - Present*
 
-- Built and maintain company WordPress website, increased traffic by 200%
-- Developed Python scripts for business process automation, saving 15+ hours weekly
-- Created tools for processing photovoltaic monitoring system data
-- Implemented API integrations for various monitoring platforms
-- Reduced IT costs by 75% through strategic self-hosting and Docker adoption
-- Introduced containerization for simplified application management
+- Manage and maintain complete IT infrastructure including servers, networks, and monitoring systems
+- Implemented Docker containerization for simplified application and service management
+- Developed Python scripts for infrastructure process automation, saving 15+ hours weekly
+- Designed and implemented API integrations for photovoltaic system monitoring
+- Reduced IT costs by 75% through strategic self-hosting and infrastructure optimization
+- Built and maintain company WordPress website and internal data processing tools
 
-**Technologies:** Python, WordPress, Docker, JavaScript, API Integration, Linux
+**Technologies:** Linux, Docker, Python automation, Bash, API integrations, Nginx, WordPress
 
-### IT Consultant & Web Administrator
+### IT Consultant & Infrastructure Administrator
 
 **Self-Employed** | Brno, Czech Republic | *November 2012 - August 2019*
 
-- Created 15+ web presentations, primarily WordPress
-- Wrote Python scripts for report automation and data processing
-- Basic PHP modifications and simple web applications
-- Payment gateway and e-commerce solution implementations
+- Managed web servers and hosting infrastructure for 15+ clients
+- Wrote Python scripts for report automation and system management
+- Implemented WordPress solutions with focus on performance and security
+- Basic PHP modifications and payment system integrations
 
-**Technologies:** WordPress, Python, PHP, JavaScript, MySQL, HTML5, CSS3, Linux
+**Technologies:** Linux server administration, WordPress, Python, PHP, MySQL, Apache, Nginx
 
 ### Network Administrator
 
 **Airanet s.r.o.** | Brno, Czech Republic | *June 2007 - September 2012*
 
 - Network infrastructure management and customer support
+- MikroTik router configuration and management automation through scripting
 - Created company website and customer portal
-- MikroTik router configuration and management automation
 
-**Technologies:** HTML/CSS, JavaScript, Network Protocols, Bash
+**Technologies:** Network protocols, MikroTik, Bash scripting, HTML/CSS, JavaScript
 
 ---
 
 ## DEVELOPMENT PROJECTS
-
-### DevTracker - Project Management System
-
-**Technologies:** Django, PostgreSQL, Docker, Alpine.js, GitHub Actions
-
-- My main Python/Django project demonstrating full-stack capabilities
-- Complete application with authentication, authorization, and REST API
-- 95% test coverage, deployed with Docker Compose
 
 ### Omarchy Linux Distribution - Open Source Contributor
 
@@ -100,13 +93,21 @@ Certified Python Backend Developer transitioning from IT infrastructure to softw
 - Developed the main DNS configuration script for the entire distribution
 - 10+ merged pull requests with system component improvements
 
+### DevTracker - Project Management System
+
+**Technologies:** Django, PostgreSQL, Docker, Alpine.js, GitHub Actions
+
+- Infrastructure automation tool and project management system
+- Complete application with authentication, authorization, and REST API
+- 95% test coverage, deployed with Docker Compose
+
 ### Portfolio Platform
 
 **Technologies:** Django, PostgreSQL, Docker, HTML5, CSS3, JavaScript, Redis
 **Live Demo:** [jaroslav.tech](https://jaroslav.tech)
 
-- Bilingual portfolio with integrated DevTracker application
-- Practical demonstration of my development skills
+- Bilingual portfolio demonstrating infrastructure and development projects
+- Practical showcase of DevOps and development skills
 - Containerized deployment with CI/CD
 
 ---
