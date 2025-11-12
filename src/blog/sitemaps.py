@@ -29,7 +29,7 @@ class BlogCategorySitemap(Sitemap):
         return Category.objects.all()
 
     def location(self, obj):
-        return reverse('blog:category_detail', kwargs={'slug': obj.slug})
+        return reverse('blog:category_list', kwargs={'slug': obj.slug})
 
 
 class BlogTagSitemap(Sitemap):
@@ -42,7 +42,7 @@ class BlogTagSitemap(Sitemap):
         return Tag.objects.all()
 
     def location(self, obj):
-        return reverse('blog:tag_detail', kwargs={'slug': obj.slug})
+        return reverse('blog:tag_list', kwargs={'slug': obj.slug})
 
 
 class BlogStaticSitemap(Sitemap):
@@ -52,7 +52,7 @@ class BlogStaticSitemap(Sitemap):
     i18n = True
 
     def items(self):
-        return ['blog:post_list', 'blog:category_list', 'blog:tag_list']
+        return ['blog:post_list']
 
     def location(self, item):
         return reverse(item)

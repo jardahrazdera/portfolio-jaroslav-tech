@@ -22,15 +22,10 @@ from django.conf.urls.i18n import i18n_patterns
 from django.contrib.sitemaps.views import sitemap
 from core.sitemaps import StaticViewSitemap
 from core.views import RobotstxtView, server_stats
-from blog.sitemaps import BlogPostSitemap, BlogCategorySitemap, BlogTagSitemap, BlogStaticSitemap
 
 
 sitemaps = {
     'static': StaticViewSitemap,
-    'blog_posts': BlogPostSitemap,
-    'blog_categories': BlogCategorySitemap,
-    'blog_tags': BlogTagSitemap,
-    'blog_static': BlogStaticSitemap,
 }
 
 urlpatterns = [
