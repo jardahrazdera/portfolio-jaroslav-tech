@@ -448,22 +448,23 @@ msgstr "Zpět nahoru"
 
 #: core/templates/core/base.html:205
 msgid "Built and hosted with"
-msgstr ""
+msgstr "Postaveno a hostováno s"
 
 #: core/templates/core/base.html:205
 msgid "by Jarek"
-msgstr ""
+msgstr "od Jarka"
 
 #: core/templates/core/base.html:206
 msgid ""
 "Infrastructure & DevOps Engineer | Omarchy Linux Contributor | Self-hosted "
 "on Proxmox"
 msgstr ""
+"Infrastructure & DevOps Engineer | Omarchy Linux Contributor | Self-hosted na Proxmoxu"
 
 #: core/templates/core/base.html:212
 #: devtracker/templates/devtracker/register.html:56
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: core/templates/core/base.html:216
 msgid "All rights reserved."
