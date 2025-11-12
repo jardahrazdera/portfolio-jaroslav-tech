@@ -676,13 +676,6 @@ msgid "The Portfolio Meta-Project"
 msgstr "Meta-projekt Portfolia"
 
 #: core/templates/core/index.html:190
-#, fuzzy
-#| msgid ""
-#| "What better showcases my skills than the very page presenting them? This "
-#| "entire website, from code to deployment, is my project. It all runs on my "
-#| "own server using virtualization, which I personally manage, and "
-#| "demonstrates the practical use of technologies like Python, Django, "
-#| "Docker, and CI/CD to build a complete, robust solution."
 msgid ""
 "What better showcases my infrastructure skills than the very platform "
 "presenting them? This entire website, from infrastructure to deployment, is "
@@ -692,11 +685,12 @@ msgid ""
 "production-grade solution. The server infrastructure, monitoring, backups, "
 "and deployment pipeline are all designed and maintained by me."
 msgstr ""
-"Co lépe ukáže mé schopnosti než samotná stránka, která je prezentuje? Celý "
-"tento web, od kódu až po nasazení, je můj projekt. Vše běží na mém vlastním "
-"serveru s použití virtualizace, který si sám spravuji, a demonstruje to "
-"praktické využití technologií jako Python, Django, Docker a CI/CD k "
-"vytvoření kompletního a robustního řešení."
+"Co lépe demonstruje moje infrastrukturní dovednosti než samotná platforma, která je "
+"prezentuje? Celý tento web, od infrastruktury po deployment, je můj projekt. Běží na "
+"mém self-hosted serveru využívajícím Proxmox virtualizaci, kterou osobně spravuji, a "
+"demonstruje praktické využití technologií jako Python, Django, Docker a CI/CD k "
+"vytvoření kompletního, produkčního řešení. Serverová infrastruktura, monitoring, "
+"zálohy a deployment pipeline jsou všechny navrženy a spravovány mnou."
 
 #: core/templates/core/index.html:191 core/templates/core/index.html:209
 #: core/templates/core/index.html:218 core/templates/core/index.html:227
@@ -713,7 +707,7 @@ msgstr "Živá ukázka"
 
 #: core/templates/core/index.html:198
 msgid "Omarchy Linux Distribution - Open Source Contributor"
-msgstr ""
+msgstr "Omarchy Linux Distribuce - Open Source Contributor"
 
 #: core/templates/core/index.html:208
 msgid ""
@@ -723,6 +717,11 @@ msgid ""
 "DNS configuration script and boot process improvements. 10+ merged pull "
 "requests in a project used by thousands of developers worldwide."
 msgstr ""
+"Aktivní contributor do Basecamp's enterprise-grade Arch-based Linux distribuce. "
+"Osobně pozván Davidem Heinemeierem Hanssonem k připojení do vývojového týmu. "
+"Vyvinul kritické systémové komponenty včetně hlavního DNS konfiguračního skriptu "
+"a vylepšení boot procesu. 10+ merged pull requestů v projektu používaném tisíci "
+"vývojářů po celém světě."
 
 #: core/templates/core/index.html:211
 #, fuzzy
@@ -735,18 +734,11 @@ msgid "My Contributions"
 msgstr ""
 
 #: core/templates/core/index.html:216
-#, fuzzy
-#| msgid "DevTracker - Project Management System"
 msgid "DevTracker - Infrastructure Automation & Project Management"
-msgstr "DevTracker - Systém pro správu projektů"
+msgstr "DevTracker - Infrastrukturní Automatizace & Správa Projektů"
 
 #: core/templates/core/index.html:217
-#, fuzzy, python-format
-#| msgid ""
-#| "A comprehensive Django-based project management system with time "
-#| "tracking, task management, and progress monitoring. Features user "
-#| "authentication, project ownership, and a beautiful admin interface. Built "
-#| "with modern design principles and comprehensive testing."
+#, python-format
 msgid ""
 "A comprehensive Django-based system for infrastructure automation and "
 "project management with time tracking, task management, and progress "
@@ -755,10 +747,11 @@ msgid ""
 "testing (95%% coverage), Docker containerization, and automated deployment "
 "pipeline."
 msgstr ""
-"Komplexní systém pro správu projektů postavený na Djangu s časovým "
-"sledováním, správou úkolů a monitorováním pokroku. Obsahuje uživatelskou "
-"autentizaci, vlastnictví projektů a krásné administrátorské rozhraní. "
-"Postavený s moderními designovými principy a komplexním testováním."
+"Komplexní Django-based systém pro automatizaci infrastruktury a správu projektů "
+"s time trackingem, task managementem a monitorováním pokroku. Zahrnuje autentizaci "
+"uživatelů, vlastnictví projektů a výkonné admin rozhraní. Postaveno s důrazem na "
+"infrastrukturní spolehlivost—komprehenzivní testování (95%% pokrytí), Docker "
+"kontejnerizace a automatizovaný deployment pipeline."
 
 #: core/templates/core/index.html:220
 msgid "Try DevTracker"
@@ -770,16 +763,9 @@ msgstr "Zobrazit kód"
 
 #: core/templates/core/index.html:225
 msgid "Lantern - Network Interface Manager"
-msgstr "Lantern - Správce síťových rozhraní"
+msgstr "Lantern - Správce Síťových Rozhraní"
 
 #: core/templates/core/index.html:226
-#, fuzzy
-#| msgid ""
-#| "A lightweight TUI for managing network interfaces on Linux, built in "
-#| "Rust. Supports WiFi, VPN, and IPv4/IPv6 configurations through systemd-"
-#| "networkd. This systems-level project showcases my ability to work across "
-#| "the entire technology stack - from low-level networking to high-level web "
-#| "applications."
 msgid ""
 "A lightweight TUI (Terminal User Interface) for managing network interfaces "
 "on Linux, built in Rust. Supports WiFi, VPN, and IPv4/IPv6 configurations "
@@ -787,11 +773,11 @@ msgid ""
 "work across the entire technology stack—from low-level networking and "
 "systems programming to high-level infrastructure automation."
 msgstr ""
-"Lehké TUI pro správu síťových rozhraní na Linuxu, postavené v Rustu. "
-"Podporuje WiFi, VPN a IPv4/IPv6 konfigurace přes systemd-networkd. Tento "
-"systémový projekt ukazuje moji schopnost pracovat napříč celým "
-"technologickým stackem - od nízkoúrovňových sítí po vysokoúrovňové webové "
-"aplikace."
+"Lehký TUI (Terminal User Interface) pro správu síťových rozhraní na Linuxu, postavený "
+"v Rustu. Podporuje WiFi, VPN a IPv4/IPv6 konfigurace přes systemd-networkd. Tento "
+"systémový projekt demonstruje moji schopnost pracovat napříč celým technologickým "
+"stackem—od low-level networkingu a systémového programování po high-level "
+"infrastrukturní automatizaci."
 
 #: core/templates/core/index.html:230
 msgid "In Development"
