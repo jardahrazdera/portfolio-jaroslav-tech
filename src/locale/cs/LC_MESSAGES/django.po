@@ -635,7 +635,7 @@ msgstr ""
 
 #: core/templates/core/index.html:160
 msgid "Automation & Scripting"
-msgstr ""
+msgstr "Automatizace & Skriptování"
 
 #: core/templates/core/index.html:162
 msgid "Python (Primary automation language)"
@@ -658,10 +658,8 @@ msgid "Infrastructure as Code"
 msgstr ""
 
 #: core/templates/core/index.html:170
-#, fuzzy
-#| msgid "In Development"
 msgid "Development & Tools"
-msgstr "Ve vývoji"
+msgstr "Vývoj & Nástroje"
 
 #: core/templates/core/index.html:173
 msgid "PostgreSQL & Database Management"
