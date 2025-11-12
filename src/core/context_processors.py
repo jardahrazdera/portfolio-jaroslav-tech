@@ -19,8 +19,8 @@ def seo_defaults(request):
     """
     return {
         'seo': {
-            'title': 'Jarek - Fullstack Developer & DevOps Enthusiast',
-            'description': 'Personal portfolio of a passionate Fullstack Developer and DevOps enthusiast from the Czech Republic.',
+            'title': 'Jarek - Infrastructure & DevOps Engineer | Linux, Docker, Python Automation',
+            'description': 'Infrastructure & DevOps Engineer with expertise in Linux server administration, Docker, Python automation, and self-hosting. Open source contributor to Omarchy Linux. Based in Czech Republic.',
             'image': 'https://jaroslav.tech/static/core/assets/thumbnail.jpg',
             'url': request.build_absolute_uri(),
         }
