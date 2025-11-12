@@ -189,4 +189,38 @@ document.addEventListener('DOMContentLoaded', function() {
             // (navigate to home page)
         });
     });
+
+    // --- GitHub Stars Fetcher ---
+    const fetchGitHubStars = async () => {
+        const starElements = document.querySelectorAll('.github-stars[data-repo]');
+
+        for (const element of starElements) {
+            const repo = element.getAttribute('data-repo');
+            if (!repo) continue;
+
+            try {
+                const response = await fetch(`https://api.github.com/repos/${repo}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    const stars = data.stargazers_count;
+
+                    // Format the number (e.g., 7774 -> 7.8k)
+                    const formattedStars = stars >= 1000
+                        ? `${(stars / 1000).toFixed(1)}k`
+                        : stars.toString();
+
+                    const countElement = element.querySelector('.star-count');
+                    if (countElement) {
+                        countElement.textContent = formattedStars;
+                    }
+                }
+            } catch (error) {
+                console.log(`Could not fetch stars for ${repo}:`, error);
+                // Leave the "..." placeholder if fetch fails
+            }
+        }
+    };
+
+    // Fetch stars on page load
+    fetchGitHubStars();
 });
