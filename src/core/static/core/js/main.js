@@ -8,7 +8,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (hamburgerMenu) {
         hamburgerMenu.addEventListener('click', () => {
             navLinks.classList.toggle('active');
-            
+            hamburgerMenu.classList.toggle('active');
+
             // Hide/show CV Download button when menu is open
             const cvActions = document.querySelector('.cv-actions');
             if (cvActions) {
@@ -25,6 +26,9 @@ document.addEventListener('DOMContentLoaded', function() {
         link.addEventListener('click', () => {
             if (navLinks.classList.contains('active')) {
                 navLinks.classList.remove('active');
+                if (hamburgerMenu) {
+                    hamburgerMenu.classList.remove('active');
+                }
 
                 // Show CV Download button again when menu closes
                 const cvActions = document.querySelector('.cv-actions');
@@ -43,6 +47,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (!isClickInsideMenu && !isClickOnHamburger) {
                 navLinks.classList.remove('active');
+                if (hamburgerMenu) {
+                    hamburgerMenu.classList.remove('active');
+                }
 
                 // Show CV Download button again when menu closes
                 const cvActions = document.querySelector('.cv-actions');
@@ -156,6 +163,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         // Close mobile menu if open
                         if (navLinks.classList.contains('active')) {
                             navLinks.classList.remove('active');
+                            if (hamburgerMenu) {
+                                hamburgerMenu.classList.remove('active');
+                            }
                         }
                     }
                 }
@@ -200,6 +210,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Close mobile menu if open
                     if (navLinks.classList.contains('active')) {
                         navLinks.classList.remove('active');
+                        if (hamburgerMenu) {
+                            hamburgerMenu.classList.remove('active');
+                        }
                     }
                 }
             }
