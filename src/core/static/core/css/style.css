@@ -23,64 +23,65 @@
 =================================================================
 */
 
-/* --- Catppuccin Frappe (Dark) & Latte (Light) Palettes --- */
+/* --- Enhanced Portfolio Color Palette (Custom) --- */
 :root {
-    /* DARK (Frappe) THEME - More vivid & warmer than Mocha */
-    --base: #303446;
-    --mantle: #292c3c;
-    --crust: #232634;
-    --surface0: #414559;
-    --surface1: #51576d;
-    --surface2: #626880;
-    --text: #c6d0f5;
-    --subtext: #a5adce;
-    --overlay: #949cbb;
-    --mauve: #ca9ee6;
-    --pink: #f4b8e4;
-    --maroon: #ea999c;
-    --red: #e78284;
-    --peach: #ef9f76;
-    --yellow: #e5c890;
-    --green: #a6d189;
-    --teal: #81c8be;
-    --sky: #99d1db;
-    --sapphire: #85c1dc;
-    --blue: #8caaee;
-    --lavender: #babbf1;
+    /* DARK THEME - Enhanced Frappe with better contrast & vivid accents */
+    --base: #1a1b26;
+    --mantle: #16161e;
+    --crust: #0f0f14;
+    --surface0: #2a2b37;
+    --surface1: #3a3b4a;
+    --surface2: #4a4b5d;
+    --text: #e5e9f0;
+    --subtext: #b4b9d0;
+    --overlay: #8d93ab;
+    --mauve: #b67bef;
+    --pink: #ff85d8;
+    --maroon: #ff6b7a;
+    --red: #ff5f67;
+    --peach: #ff9e64;
+    --yellow: #ffb86c;
+    --green: #73daca;
+    --teal: #4fd6be;
+    --sky: #5dc8f5;
+    --sapphire: #51b5e3;
+    --blue: #5b8def;
+    --lavender: #9d8fff;
     --font-family: 'JetBrains Mono', monospace;
-    --shadow-color: rgba(0, 0, 0, 0.2);
-    --base-overlay: rgba(48, 52, 70, 0.7);
-    --base-overlay-light: rgba(48, 52, 70, 0.6);
-    --mauve-overlay: rgba(202, 158, 230, 0.4);
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --base-overlay: rgba(26, 27, 38, 0.7);
+    --base-overlay-light: rgba(26, 27, 38, 0.6);
+    --mauve-overlay: rgba(182, 123, 239, 0.4);
 }
 
 body.light-theme {
-    /* LIGHT (Latte) THEME - Vivid Catppuccin colors with excellent contrast */
-    --base: #eff1f5;
-    --mantle: #e6e9ef;
-    --crust: #dce0e8;
-    --surface0: #ccd0da;
-    --surface1: #bcc0cc;
-    --surface2: #acb0be;
-    --text: #4c4f69;
-    --subtext: #5c5f77;
-    --overlay: #6c6f85;
-    --mauve: #8839ef;
-    --pink: #ea76cb;
-    --maroon: #e64553;
-    --red: #d20f39;
-    --peach: #fe640b;
-    --yellow: #df8e1d;
-    --green: #40a02b;
-    --teal: #179299;
-    --sky: #04a5e5;
-    --sapphire: #209fb5;
-    --blue: #1e66f5;
-    --lavender: #7287fd;
-    --shadow-color: rgba(76, 79, 105, 0.15);
-    --base-overlay: rgba(239, 241, 245, 0.7);
-    --base-overlay-light: rgba(239, 241, 245, 0.5);
-    --mauve-overlay: rgba(136, 57, 239, 0.4);
+    /* LIGHT THEME - Enhanced Latte with stronger contrast & bold accents */
+    --base: #fafbfd;
+    --mantle: #f0f2f5;
+    --crust: #e6e8ed;
+    --surface0: #d4d6db;
+    --surface1: #c4c6cc;
+    --surface2: #b4b6bd;
+    --text: #2e3247;
+    --subtext: #4e5166;
+    --overlay: #6e7185;
+    --mauve: #7c3aed;
+    --pink: #db2777;
+    --maroon: #dc2626;
+    --red: #c91b1b;
+    --peach: #ea580c;
+    --yellow: #d97706;
+    --green: #059669;
+    --teal: #0891b2;
+    --sky: #0284c7;
+    --sapphire: #0369a1;
+    --blue: #2563eb;
+    --lavender: #6366f1;
+    --font-family: 'JetBrains Mono', monospace;
+    --shadow-color: rgba(46, 50, 71, 0.15);
+    --base-overlay: rgba(250, 251, 253, 0.7);
+    --base-overlay-light: rgba(250, 251, 253, 0.5);
+    --mauve-overlay: rgba(124, 58, 237, 0.4);
 }
 
 /* --- Basic Reset & Setup --- */
