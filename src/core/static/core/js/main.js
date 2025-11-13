@@ -84,6 +84,20 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 localStorage.setItem('theme', 'dark');
             }
+
+            // Close mobile menu if open
+            if (navLinks && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                if (hamburgerMenu) {
+                    hamburgerMenu.classList.remove('active');
+                }
+
+                // Show CV Download button again when menu closes
+                const cvActions = document.querySelector('.cv-actions');
+                if (cvActions) {
+                    cvActions.style.display = '';
+                }
+            }
         });
     });
 
