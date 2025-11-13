@@ -371,7 +371,7 @@ a:hover {
     line-height: 1.8;
     color: var(--subtext);
     font-size: 1.1rem;
-    margin: 0 auto 1.5rem;
+    margin: 1.5rem auto 1.5rem;
     text-align: left;
     max-width: min(800px, 90vw);
 }
