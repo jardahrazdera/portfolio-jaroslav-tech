@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
         link.addEventListener('click', () => {
             if (navLinks.classList.contains('active')) {
                 navLinks.classList.remove('active');
-                
+
                 // Show CV Download button again when menu closes
                 const cvActions = document.querySelector('.cv-actions');
                 if (cvActions) {
@@ -33,6 +33,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         });
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (event) => {
+        if (navLinks && navLinks.classList.contains('active')) {
+            const isClickInsideMenu = navLinks.contains(event.target);
+            const isClickOnHamburger = hamburgerMenu && hamburgerMenu.contains(event.target);
+
+            if (!isClickInsideMenu && !isClickOnHamburger) {
+                navLinks.classList.remove('active');
+
+                // Show CV Download button again when menu closes
+                const cvActions = document.querySelector('.cv-actions');
+                if (cvActions) {
+                    cvActions.style.display = '';
+                }
+            }
+        }
     });
 
     // Select ALL theme toggle buttons by a class name instead of a single ID.
