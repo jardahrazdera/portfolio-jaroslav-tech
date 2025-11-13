@@ -847,19 +847,23 @@ body.light-theme .terminal-response {
 /* Tablet breakpoint - for iPads and similar devices */
 @media (max-width: 1024px) {
     .nav-links {
-        display: none;
+        display: flex;
         flex-direction: column;
         position: absolute;
         top: 100%;
         left: 0;
         width: 100%;
         background-color: var(--mantle);
-        padding: 20px 0;
+        padding: 0;
         z-index: 999;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, padding 0.3s ease;
     }
 
     .nav-links.active {
-        display: flex;
+        max-height: 500px;
+        padding: 20px 0;
     }
 
     .nav-links li {
