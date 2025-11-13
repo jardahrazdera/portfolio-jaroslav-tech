@@ -354,7 +354,10 @@ a:hover {
 
 .hero-intro {
     font-size: 1.2rem;
-    color: var(--peach);
+    background: linear-gradient(135deg, var(--yellow) 0%, var(--red) 70%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .hero-title {
@@ -365,12 +368,12 @@ a:hover {
 }
 
 .hero-subtitle {
-    font-size: clamp(0.95rem, 3vw, 1.1rem);
-    max-width: min(800px, 90vw);
-    margin: clamp(1.5rem, 4vw, 2rem) auto clamp(1.5rem, 4vw, 2rem);
+    line-height: 1.8;
     color: var(--subtext);
+    font-size: 1.1rem;
+    margin: 0 auto 1.5rem;
     text-align: left;
-    line-height: 1.6;
+    max-width: min(800px, 90vw);
 }
 
 .hero-buttons {
@@ -544,6 +547,15 @@ body.light-theme .terminal-response {
 
 .about-text p:last-child {
     margin-bottom: 0;
+}
+
+.metrics-description {
+    line-height: 1.8;
+    color: var(--subtext);
+    font-size: 1.1rem;
+    margin: 0 auto 1.5rem;
+    text-align: left;
+    max-width: min(800px, 90vw);
 }
 
 /* --- Projects Section --- */
@@ -756,21 +768,16 @@ body.light-theme .terminal-response {
     .hero-title {
         font-size: clamp(2rem, 8vw, 2.5rem);
     }
-    
-    .hero-subtitle {
-        font-size: 0.95rem;
-        margin: 20px auto 25px;
-    }
-    
+
     .about-photo-container {
         width: 200px;
         height: 200px;
     }
-    
+
     .container {
         padding: 0 12px;
     }
-    
+
     .btn {
         padding: 14px 24px;
         min-height: 48px;
@@ -783,21 +790,16 @@ body.light-theme .terminal-response {
     .hero-title {
         font-size: clamp(1.8rem, 7vw, 2.2rem);
     }
-    
-    .hero-subtitle {
-        font-size: 0.9rem;
-        margin: 18px auto 22px;
-    }
-    
+
     .about-photo-container {
         width: 180px;
         height: 180px;
     }
-    
+
     .container {
         padding: 0 10px;
     }
-    
+
     .btn {
         padding: 12px 20px;
         min-height: 44px;
@@ -809,21 +811,16 @@ body.light-theme .terminal-response {
     .hero-title {
         font-size: clamp(1.6rem, 6vw, 2rem);
     }
-    
-    .hero-subtitle {
-        font-size: 0.85rem;
-        margin: 15px auto 20px;
-    }
-    
+
     .about-photo-container {
         width: 160px;
         height: 160px;
     }
-    
+
     .container {
         padding: 0 8px;
     }
-    
+
     .btn {
         padding: 10px 18px;
         font-size: 0.9rem;
@@ -906,14 +903,11 @@ body.light-theme .terminal-response {
         height: 220px;
     }
     
-    .hero-subtitle {
+    .hero-subtitle,
+    .about-text p,
+    .metrics-description {
         font-size: 1rem;
         text-align: left;
-    }
-    
-    .about-text p {
-        text-align: left;
-        font-size: 1rem;
     }
     
     /* Hide hint arrows on mobile - hover doesn't work well on touch devices */
@@ -1128,7 +1122,7 @@ body.light-theme .coming-soon-overlay {
 
 .server-metrics {
     background-color: var(--base);
-    padding: 2.5rem 0;
+    padding: 80px 0;
     border-bottom: 1px solid var(--crust);
     margin-top: 70px; /* Account for fixed header */
 }
@@ -1136,28 +1130,19 @@ body.light-theme .coming-soon-overlay {
 .metrics-header {
     text-align: center;
     margin-bottom: 1.5rem;
-    padding: 0 1rem;
 }
 
 .metrics-title {
     font-size: clamp(1.1rem, 2.5vw, 1.4rem);
     font-weight: 600;
-    color: var(--text);
-    margin-bottom: 0.5rem;
+    color: var(--mauve);
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .metrics-prompt {
     color: var(--green);
     margin-right: 0.5rem;
-}
-
-.metrics-description {
-    line-height: 1.6;
-    color: var(--subtext);
-    font-size: clamp(0.95rem, 3vw, 1.1rem);
-    margin: clamp(1.5rem, 4vw, 2rem) auto clamp(1.5rem, 4vw, 2rem);
-    text-align: left;
-    max-width: min(800px, 90vw);
 }
 
 .metrics-box {
