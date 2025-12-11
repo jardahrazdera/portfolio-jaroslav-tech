@@ -24,22 +24,31 @@ Infrastructure & DevOps Engineer s 6+ lety zkušeností ve správě IT infrastru
 
 ## TECHNICKÉ DOVEDNOSTI
 
-### DevOps a infrastruktura
+### Cloud Native & Orchestrace
+
+- **Kubernetes:** Kontejnerová orchestrace, Helm package management, ArgoCD GitOps
+- **Kontejnerizace:** Docker, Docker Compose, kontejnerové registry
+- **Monitoring:** Prometheus, Grafana, Loki agregace logů
+- **Infrastruktura:** Traefik Ingress Controller, Velero zálohování & disaster recovery
+- **CI/CD:** GitHub Actions, automatizované testování
+
+### Infrastruktura & Bezpečnost
 
 - **Operační systémy:** Linux (Arch/Omarchy jako hlavní systém), Ubuntu, Debian
-- **Kontejnerizace:** Docker, Docker Compose
 - **Virtualizace:** Proxmox
-- **Webové servery:** Nginx, Apache
-- **CI/CD:** GitHub Actions, automatizované testování
+- **Webové servery:** Nginx, Apache, Traefik
+- **Bezpečnost:** Trivy skenování zranitelností, Falco runtime security, Sealed Secrets
+- **Síť:** RBAC, Network Policies, správa sítí
 - **Správa verzí:** Git, GitHub, GitLab
 
-### Automatizace a vývoj
+### Vývoj & Automatizace
 
-- **Backend:** Python, Django, Flask, Django REST Framework, SQL
+- **Backend:** Python, Django, Flask, FastAPI, Django REST Framework, SQL
 - **Skripting:** Bash, Python automation
 - **Frontend:** JavaScript, HTML5, CSS3, responzivní design, Bootstrap
-- **Databáze:** PostgreSQL, MySQL, SQLite
-- **Testování:** Unit testy, integrační testování
+- **Databáze:** PostgreSQL, Redis, MySQL, SQLite
+- **Testování:** Unit testy, integrační testování, pytest
+- **Konfigurace:** Infrastructure as Code, správa konfigurace
 
 ---
 
