@@ -24,22 +24,31 @@ Infrastructure & DevOps Engineer with 6+ years of experience in IT infrastructur
 
 ## TECHNICAL SKILLS
 
-### DevOps & Infrastructure
+### Cloud Native & Orchestration
+
+- **Kubernetes:** Container orchestration, Helm package management, ArgoCD GitOps
+- **Containerization:** Docker, Docker Compose, Container Registries
+- **Monitoring:** Prometheus, Grafana, Loki log aggregation
+- **Infrastructure:** Traefik Ingress Controller, Velero backup & disaster recovery
+- **CI/CD:** GitHub Actions, Automated Testing
+
+### Infrastructure & Security
 
 - **Operating Systems:** Linux (Arch/Omarchy daily driver), Ubuntu, Debian
-- **Containerization:** Docker, Docker Compose
 - **Virtualization:** Proxmox
-- **Web Servers:** Nginx, Apache
-- **CI/CD:** GitHub Actions, Automated Testing
+- **Web Servers:** Nginx, Apache, Traefik
+- **Security:** Trivy vulnerability scanning, Falco runtime security, Sealed Secrets
+- **Network:** RBAC, Network Policies, system administration
 - **Version Control:** Git, GitHub, GitLab
 
-### Automation & Development
+### Development & Automation
 
-- **Backend:** Python, Django, Flask, Django REST Framework, SQL
+- **Backend:** Python, Django, Flask, FastAPI, Django REST Framework, SQL
 - **Scripting:** Bash, Python automation
 - **Frontend:** JavaScript, HTML5, CSS3, Responsive Design, Bootstrap
-- **Database:** PostgreSQL, MySQL, SQLite
-- **Testing:** Unit Testing, Integration Testing
+- **Database:** PostgreSQL, Redis, MySQL, SQLite
+- **Testing:** Unit Testing, Integration Testing, pytest
+- **Configuration:** Infrastructure as Code, Configuration Management
 
 ---
 
