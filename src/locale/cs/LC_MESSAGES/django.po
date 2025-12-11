@@ -609,68 +609,64 @@ msgid "My Skillset"
 msgstr "Moje dovednosti"
 
 #: core/templates/core/index.html:147
-msgid "Infrastructure & DevOps"
-msgstr ""
+msgid "Cloud Native & Orchestration"
+msgstr "Cloud Native & Orchestrace"
 
 #: core/templates/core/index.html:149
-msgid "Linux (Arch/Omarchy daily driver)"
-msgstr ""
-
-#: core/templates/core/index.html:151
-msgid "Server Management & Self-hosting"
-msgstr ""
-
-#: core/templates/core/index.html:152
-msgid "Proxmox Virtualization"
-msgstr ""
-
-#: core/templates/core/index.html:153
-msgid "Nginx & Apache Web Servers"
-msgstr ""
+msgid "Kubernetes & Container Orchestration"
+msgstr "Kubernetes & Kontejnerová Orchestrace"
 
 #: core/templates/core/index.html:154
-msgid "Network Administration"
-msgstr ""
-
-#: core/templates/core/index.html:155
-msgid "CI/CD (GitHub Actions)"
-msgstr "CI/CD (GitHub Actions)"
+msgid "Velero Backup & DR"
+msgstr "Velero Zálohování & Obnova"
 
 #: core/templates/core/index.html:156
+msgid "Container Registries"
+msgstr "Kontejnerové Registry"
+
+#: core/templates/core/index.html:157
 msgid "System Monitoring & Logging"
-msgstr ""
+msgstr "Monitoring a logování systémů"
 
-#: core/templates/core/index.html:160
-msgid "Automation & Scripting"
-msgstr "Automatizace & Skriptování"
-
-#: core/templates/core/index.html:162
-msgid "Python (Primary automation language)"
-msgstr ""
+#: core/templates/core/index.html:161
+msgid "Infrastructure & Security"
+msgstr "Infrastruktura & Bezpečnost"
 
 #: core/templates/core/index.html:163
-msgid "Bash Scripting"
-msgstr ""
+msgid "Linux (Arch/Omarchy daily driver)"
+msgstr "Linux (Arch/Omarchy jako hlavní systém)"
 
 #: core/templates/core/index.html:164
-msgid "Configuration Management"
-msgstr ""
+msgid "Virtualization"
+msgstr "Virtualizace"
 
 #: core/templates/core/index.html:165
-msgid "Process Automation"
-msgstr ""
+msgid "Server Management"
+msgstr "Správa serverů"
 
 #: core/templates/core/index.html:166
-msgid "Infrastructure as Code"
-msgstr ""
+msgid "Network Administration"
+msgstr "Správa sítí"
 
-#: core/templates/core/index.html:170
-msgid "Development & Tools"
-msgstr "Vývoj & Nástroje"
+#: core/templates/core/index.html:171
+msgid "Web Servers"
+msgstr "Webové servery"
 
-#: core/templates/core/index.html:173
-msgid "PostgreSQL & Database Management"
-msgstr ""
+#: core/templates/core/index.html:175
+msgid "Development & Automation"
+msgstr "Vývoj & Automatizace"
+
+#: core/templates/core/index.html:178
+msgid "Automation"
+msgstr "Automatizace"
+
+#: core/templates/core/index.html:183
+msgid "Testing"
+msgstr "Testování"
+
+#: core/templates/core/index.html:184
+msgid "Configuration Management"
+msgstr "Správa konfigurace"
 
 #: core/templates/core/index.html:186
 #: devtracker/templates/devtracker/project_list.html:4
