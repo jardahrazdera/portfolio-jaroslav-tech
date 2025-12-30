@@ -50,7 +50,7 @@ Infrastructure & DevOps Engineer with 6+ years of experience in IT infrastructur
 - **Frontend:** JavaScript, HTML5, CSS3, Responsive Design, Bootstrap
 - **Database:** PostgreSQL, Redis, MySQL, SQLite
 - **Testing:** Unit Testing, Integration Testing, pytest
-- **Configuration:** Infrastructure as Code, Configuration Management
+- **Configuration:** Ansible, Terraform (OpenTofu), Infrastructure as Code, Configuration Management
 
 ---
 
