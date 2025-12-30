@@ -31,6 +31,7 @@ Infrastructure & DevOps Engineer with 6+ years of experience in IT infrastructur
 - **Monitoring:** Prometheus, Grafana, Loki log aggregation
 - **Infrastructure:** Traefik Ingress Controller, Velero backup & disaster recovery
 - **CI/CD:** GitHub Actions, Automated Testing
+- **Cloud Services:** AWS, Google Cloud (GCS)
 
 ### Infrastructure & Security
 
