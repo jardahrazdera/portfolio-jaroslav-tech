@@ -50,7 +50,7 @@ Infrastructure & DevOps Engineer s 6+ lety zkušeností ve správě IT infrastru
 - **Frontend:** JavaScript, HTML5, CSS3, responzivní design, Bootstrap
 - **Databáze:** PostgreSQL, Redis, MySQL, SQLite
 - **Testování:** Unit testy, integrační testování, pytest
-- **Konfigurace:** Infrastructure as Code, správa konfigurace
+- **Konfigurace:** Ansible, Terraform (OpenTofu), Infrastructure as Code, správa konfigurace
 
 ---
 
