@@ -97,7 +97,7 @@ Infrastructure & DevOps Engineer with 6+ years of experience in IT infrastructur
 ### Omarchy Linux Distribution - Open Source Contributor
 
 **Technologies:** Bash, Linux, Git
-**GitHub Stars:** 7.7k+ | **Active Users:** Thousands of developers worldwide
+**GitHub Stars:** 18.7k+ | **Active Users:** Thousands of developers worldwide
 
 - Active contributor to enterprise-scale Arch-based distribution by Basecamp
 - Personally invited by David Heinemeier Hansson to collaborate on ISO image development
