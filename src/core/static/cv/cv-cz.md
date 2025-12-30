@@ -31,6 +31,7 @@ Infrastructure & DevOps Engineer s 6+ lety zkušeností ve správě IT infrastru
 - **Monitoring:** Prometheus, Grafana, Loki agregace logů
 - **Infrastruktura:** Traefik Ingress Controller, Velero zálohování & disaster recovery
 - **CI/CD:** GitHub Actions, automatizované testování
+- **Cloudové služby:** AWS, Google Cloud (GCS)
 
 ### Infrastruktura & Bezpečnost
 
