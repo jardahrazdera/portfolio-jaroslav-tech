@@ -34,7 +34,7 @@ Infrastructure & DevOps Engineer with 6+ years of experience in IT infrastructur
 
 ### Infrastructure & Security
 
-- **Operating Systems:** Linux (Arch/Omarchy daily driver), Ubuntu, Debian
+- **Operating Systems:** Linux (Arch/Omarchy daily driver), systemd, Ubuntu, Debian
 - **Virtualization:** Proxmox
 - **Web Servers:** Nginx, Apache, Traefik
 - **Security:** Trivy vulnerability scanning, Falco runtime security, Sealed Secrets
@@ -44,6 +44,7 @@ Infrastructure & DevOps Engineer with 6+ years of experience in IT infrastructur
 ### Development & Automation
 
 - **Backend:** Python, Django, Flask, FastAPI, Django REST Framework, SQL
+- **Systems Programming:** Rust, Ratatui
 - **Scripting:** Bash, Python automation
 - **Frontend:** JavaScript, HTML5, CSS3, Responsive Design, Bootstrap
 - **Database:** PostgreSQL, Redis, MySQL, SQLite
