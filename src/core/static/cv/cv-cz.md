@@ -34,7 +34,7 @@ Infrastructure & DevOps Engineer s 6+ lety zkušeností ve správě IT infrastru
 
 ### Infrastruktura & Bezpečnost
 
-- **Operační systémy:** Linux (Arch/Omarchy jako hlavní systém), Ubuntu, Debian
+- **Operační systémy:** Linux (Arch/Omarchy jako hlavní systém), systemd, Ubuntu, Debian
 - **Virtualizace:** Proxmox
 - **Webové servery:** Nginx, Apache, Traefik
 - **Bezpečnost:** Trivy skenování zranitelností, Falco runtime security, Sealed Secrets
@@ -44,6 +44,7 @@ Infrastructure & DevOps Engineer s 6+ lety zkušeností ve správě IT infrastru
 ### Vývoj & Automatizace
 
 - **Backend:** Python, Django, Flask, FastAPI, Django REST Framework, SQL
+- **Systémové programování:** Rust, Ratatui
 - **Skripting:** Bash, Python automation
 - **Frontend:** JavaScript, HTML5, CSS3, responzivní design, Bootstrap
 - **Databáze:** PostgreSQL, Redis, MySQL, SQLite
