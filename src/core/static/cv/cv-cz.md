@@ -15,7 +15,7 @@
 
 ### Hlavní přednosti
 
-- **DevOps myšlení**: Silný zastánce "Infrastructure as Code" a automatizace namísto manuálních operací.
+- **DevOps myšlení**: Silný zastánce "Infrastructure as Code" and automatizace namísto manuálních operací.
 - **Dopad v Open Source**: 10+ sloučených PR do Omarchy (18,7k+ hvězd); pozván do hlavního vývojového týmu ISO.
 - **Hybridní dovednosti**: Stabilita infrastruktury se setkává s backendovou logikou v Pythonu pro řešení komplexních platformních problémů.
 - **Hardware & IoT**: Hluboké porozumění fyzickým hardwarovým omezením díky vlastním sestavám a IoT projektům.
@@ -26,24 +26,24 @@
 
 ### Cloud Native & Platform Engineering
 
-**Orchestrace**: Kubernetes, Helm, ArgoCD (GitOps), Pod Security Standards, Network Policies
-**Cloudoví poskytovatelé**: AWS, Google Cloud Platform (GCP)
-**CI/CD & Automatizace**: GitHub Actions, Ansible, Terraform (OpenTofu), Pipeline pro automatizované testování
-**Observabilita**: Prometheus, Grafana, Loki, Architektura metrik a alertingu
+**Orchestrace**: Kubernetes, Helm, ArgoCD (GitOps), Pod Security Standards, Network Policies  
+**Cloudoví poskytovatelé**: AWS, Google Cloud Platform (GCP)  
+**CI/CD & Automatizace**: GitHub Actions, Ansible, Terraform (OpenTofu), Pipeline pro automatizované testování  
+**Observabilita**: Prometheus, Grafana, Loki, Architektura metrik a alertingu  
 **Kontejnerizace**: Docker, Docker Compose, Strategie pro Container Registries
 
 ### Infrastruktura a bezpečnost
 
-**Operační systémy**: Linux (Arch jako daily driver), systemd, Ubuntu, Debian, AlmaLinux (RHEL)
-**Úložiště a obnova**: Longhorn storage, integrace zálohování Velero
-**Bezpečnost**: Trivy (skenování), Falco (runtime), Sealed Secrets, implementace RBAC
+**Operační systémy**: Linux (Arch jako daily driver), systemd, Ubuntu, Debian, AlmaLinux (RHEL)  
+**Úložiště a obnova**: Longhorn storage, integrace zálohování Velero  
+**Bezpečnost**: Trivy (skenování), Falco (runtime), Sealed Secrets, implementace RBAC  
 **Sítě**: Traefik Ingress, Calico/Flannel (Canal), VPN, MikroTik
 
 ### Vývoj a skriptování
 
-**Backend Stack**: Python (Django, Flask, FastAPI), REST Frameworky, optimalizace SQL
-**Systémové programování**: Rust (základy), Ratatui, Bash skriptování pro automatizaci
-**Databáze**: PostgreSQL, Redis, MySQL, SQLite
+**Backend Stack**: Python (Django, Flask, FastAPI), REST Frameworky, optimalizace SQL  
+**Systémové programování**: Rust (základy), Ratatui, Bash skriptování pro automatizaci  
+**Databáze**: PostgreSQL, Redis, MySQL, SQLite  
 **Frontend**: JavaScript, HTML5, CSS3, Bootstrap
 
 ---

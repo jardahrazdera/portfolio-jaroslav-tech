@@ -26,24 +26,24 @@
 
 ### Cloud Native & Platform Engineering
 
-**Orchestration**: Kubernetes, Helm, ArgoCD (GitOps), Pod Security Standards, Network Policies
-**Cloud Providers**: AWS, Google Cloud Platform (GCP)
-**CI/CD & Automation**: GitHub Actions, Ansible, Terraform (OpenTofu), Automated Testing pipelines
-**Observability**: Prometheus, Grafana, Loki, Metrics & Alerting architecture
+**Orchestration**: Kubernetes, Helm, ArgoCD (GitOps), Pod Security Standards, Network Policies  
+**Cloud Providers**: AWS, Google Cloud Platform (GCP)  
+**CI/CD & Automation**: GitHub Actions, Ansible, Terraform (OpenTofu), Automated Testing pipelines  
+**Observability**: Prometheus, Grafana, Loki, Metrics & Alerting architecture  
 **Containerization**: Docker, Docker Compose, Container Registries strategies
 
 ### Infrastructure & Security
 
-**Operating Systems**: Linux (Arch daily driver), Ubuntu, Debian, AlmaLinux (RHEL)
-**Storage & Recovery**: Longhorn storage, Velero backup integration
-**Security**: Trivy (scanning), Falco (runtime), Sealed Secrets, RBAC implementation
+**Operating Systems**: Linux (Arch daily driver), Ubuntu, Debian, AlmaLinux (RHEL)  
+**Storage & Recovery**: Longhorn storage, Velero backup integration  
+**Security**: Trivy (scanning), Falco (runtime), Sealed Secrets, RBAC implementation  
 **Networking**: Traefik Ingress, Calico/Flannel (Canal), VPNs, MikroTik
 
 ### Development & Scripting
 
-**Backend Stack**: Python (Django, Flask, FastAPI), REST Frameworks, SQL optimization
-**Systems Programming**: Rust (Basic), Ratatui, Bash scripting for automation
-**Databases**: PostgreSQL, Redis, MySQL, SQLite
+**Backend Stack**: Python (Django, Flask, FastAPI), REST Frameworks, SQL optimization  
+**Systems Programming**: Rust (Basic), Ratatui, Bash scripting for automation  
+**Databases**: PostgreSQL, Redis, MySQL, SQLite  
 **Frontend**: JavaScript, HTML5, CSS3, Bootstrap
 
 ---
