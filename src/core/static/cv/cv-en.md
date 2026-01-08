@@ -1,156 +1,144 @@
-# JAROSLAV HRAZDERA
+# Jaroslav Hrazdera
+## Platform - DevOps Engineer
 
-**Infrastructure & DevOps Engineer**
+📧 jarek@jaroslav.tech | 🌍 Brno, Czech Republic  
+🌐 [jaroslav.tech](https://jaroslav.tech) | 💻 [github.com/jardahrazdera](https://github.com/jardahrazdera)
 
-- 📧 **Email:** [jarek@jaroslav.tech](mailto:jarek@jaroslav.tech)
-- 🌍 **Location:** Brno, Czech Republic
-- 🌐 **Website:** [jaroslav.tech](https://jaroslav.tech)
-- 💻 **GitHub:** [github.com/jardahrazdera](https://github.com/jardahrazdera)
-
----
-
-## PROFESSIONAL SUMMARY
-
-Infrastructure & DevOps Engineer with 6+ years of experience in IT infrastructure management and automation. Active open source contributor to Basecamp's Omarchy Linux distribution. Personally invited by David Heinemeier Hansson to collaborate on system-level projects.
-
-**Core Differentiators:**
-
-- **Open Source Contributor:** 10+ merged pull requests to Basecamp's Omarchy project
-- **DHH Collaboration:** Direct invitation to join Omarchy-ISO development team
-- **Unique Combination:** Infrastructure expert with Python development skills
-- **Hardware Enthusiast:** Build custom 3D printers, experiment with IoT
+**Seeking:** Remote or Hybrid Platform/DevOps/SRE role  
+**Available:** Immediately
 
 ---
 
-## TECHNICAL SKILLS
+## Professional Summary
 
-### Cloud Native & Orchestration
+**Platform & DevOps Engineer** bridging the gap between infrastructure operations and software development. With **6+ years** of hands-on experience, I specialize in building robust, automated environments using Kubernetes, Python, and GitOps workflows. I treat infrastructure as a product, focusing on reliability, security, and developer experience. Active open-source contributor to Basecamp’s **Omarchy Linux**, personally invited by **DHH** to collaborate on core system components.
 
-- **Kubernetes:** Container orchestration, Helm package management, ArgoCD GitOps
-- **Containerization:** Docker, Docker Compose, Container Registries
-- **Monitoring:** Prometheus, Grafana, Loki log aggregation
-- **Infrastructure:** Traefik Ingress Controller, Velero backup & disaster recovery
-- **CI/CD:** GitHub Actions, Automated Testing
-- **Cloud Services:** AWS, Google Cloud (GCS)
+### Core Differentiators
+
+- **DevOps Mindset**: Strong advocate for "Infrastructure as Code" and automation over manual operations.
+- **Open Source Impact**: 10+ merged PRs to Omarchy (18.7k+ stars); invited to the core ISO dev team.
+- **Hybrid Skillset**: Infrastructure stability meets Python backend logic to solve complex platform problems.
+- **Hardware & IoT**: Deep understanding of physical hardware constraints via custom builds and IoT projects.
+
+---
+
+## Technical Skills
+
+### Cloud Native & Platform Engineering
+
+**Orchestration**: Kubernetes, Helm, ArgoCD (GitOps), Pod Security Standards, Network Policies
+**Cloud Providers**: AWS, Google Cloud Platform (GCP)
+**CI/CD & Automation**: GitHub Actions, Ansible, Terraform (OpenTofu), Automated Testing pipelines
+**Observability**: Prometheus, Grafana, Loki, Metrics & Alerting architecture
+**Containerization**: Docker, Docker Compose, Container Registries strategies
 
 ### Infrastructure & Security
 
-- **Operating Systems:** Linux (Arch/Omarchy daily driver), systemd, Ubuntu, Debian
-- **Virtualization:** Proxmox
-- **Web Servers:** Nginx, Apache, Traefik
-- **Security:** Trivy vulnerability scanning, Falco runtime security, Sealed Secrets
-- **Network:** RBAC, Network Policies, system administration
-- **Version Control:** Git, GitHub, GitLab
+**Operating Systems**: Linux (Arch daily driver), Ubuntu, Debian, AlmaLinux (RHEL)
+**Storage & Recovery**: Longhorn storage, Velero backup integration
+**Security**: Trivy (scanning), Falco (runtime), Sealed Secrets, RBAC implementation
+**Networking**: Traefik Ingress, Calico/Flannel (Canal), VPNs, MikroTik
 
-### Development & Automation
+### Development & Scripting
 
-- **Backend:** Python, Django, Flask, FastAPI, Django REST Framework, SQL
-- **Systems Programming:** Rust, Ratatui
-- **Scripting:** Bash, Python automation
-- **Frontend:** JavaScript, HTML5, CSS3, Responsive Design, Bootstrap
-- **Database:** PostgreSQL, Redis, MySQL, SQLite
-- **Testing:** Unit Testing, Integration Testing, pytest
-- **Configuration:** Ansible, Terraform (OpenTofu), Infrastructure as Code, Configuration Management
+**Backend Stack**: Python (Django, Flask, FastAPI), REST Frameworks, SQL optimization
+**Systems Programming**: Rust (Basic), Ratatui, Bash scripting for automation
+**Databases**: PostgreSQL, Redis, MySQL, SQLite
+**Frontend**: JavaScript, HTML5, CSS3, Bootstrap
 
 ---
 
-## PROFESSIONAL EXPERIENCE
+## Professional Experience
 
 ### IT Infrastructure Manager & Technical Specialist
+**Gridoff Solar s.r.o.** | Brno, Czech Republic | *September 2019 - December 2025*
 
-**Gridoff Solar s.r.o.** | Brno, Czech Republic | *September 2019 - Present*
+- **Platform Engineering**: Orchestrated complete IT infrastructure, transitioning legacy processes to modern, containerized workflows using Docker.
+- **Automation**: Developed custom Python automation scripts, eliminating manual toil and **saving 15+ hours weekly**.
+- **Integration**: Designed and deployed API integration layers for photovoltaic monitoring systems.
+- **Cost Optimization**: **Reduced IT costs by 75%** through strategic self-hosting and resource optimization.
+- **Internal Tools**: Built and maintained internal data processing tools and company web presence (WordPress).
 
-- Manage and maintain complete IT infrastructure including servers, networks, and monitoring systems
-- Implemented Docker containerization for simplified application and service management
-- Developed Python scripts for infrastructure process automation, saving 15+ hours weekly
-- Designed and implemented API integrations for photovoltaic system monitoring
-- Reduced IT costs by 75% through strategic self-hosting and infrastructure optimization
-- Built and maintain company WordPress website and internal data processing tools
-
-**Technologies:** Linux, Docker, Python automation, Bash, API integrations, Nginx, WordPress
+**Technologies**: Linux, Docker, Python, Bash, Nginx, API Integrations, Automation
 
 ### IT Consultant & Infrastructure Administrator
-
 **Self-Employed** | Brno, Czech Republic | *November 2012 - August 2019*
 
-- Managed web servers and hosting infrastructure for 15+ clients
-- Wrote Python scripts for report automation and system management
-- Implemented WordPress solutions with focus on performance and security
-- Basic PHP modifications and payment system integrations
+- **Hosting Operations**: Provisioned and managed high-availability web server infrastructure for **15+ clients**.
+- **Scripting**: Wrote Python scripts to automate system reporting and management tasks.
+- **Web Solutions**: Delivered performance-tuned WordPress solutions with security hardening.
+- **Backend Logic**: Implemented PHP modifications and payment gateway integrations.
 
-**Technologies:** Linux server administration, WordPress, Python, PHP, MySQL, Apache, Nginx
+**Technologies**: Linux Administration, Python automation, Nginx/Apache, MySQL, PHP
 
 ### Network Administrator
-
 **Airanet s.r.o.** | Brno, Czech Republic | *June 2007 - September 2012*
 
-- Network infrastructure management and customer support
-- MikroTik router configuration and management automation through scripting
-- Created company website and customer portal
+- **Network Engineering**: Managed ISP network infrastructure and provided L2/L3 support.
+- **Router Automation**: Automated MikroTik configuration and management via scripting.
+- **Frontend**: Developed customer portals and company presentation layers.
 
-**Technologies:** Network protocols, MikroTik, Bash scripting, HTML/CSS, JavaScript
+**Technologies**: Network Protocols, MikroTik, Bash, HTML/CSS, JavaScript
 
 ---
 
-## DEVELOPMENT PROJECTS
+## Development Projects & Open Source
 
-### Omarchy Linux Distribution - Open Source Contributor
+### DevOps Assessment - Production-Ready Infrastructure
+**GitHub**: [github.com/jardahrazdera/devops-assessment](https://github.com/jardahrazdera/devops-assessment)
+**Stack**: Kubernetes (k3d), ArgoCD, Prometheus, Grafana, PostgreSQL, Redis, FastAPI
 
-**Technologies:** Bash, Linux, Git
-**GitHub Stars:** 18.7k+ | **Active Users:** Thousands of developers worldwide
+- **Full-Stack DevOps**: Containerized FastAPI app with caching (Redis) and persistence (PostgreSQL).
+- **GitOps Workflow**: Implemented declarative deployment via ArgoCD with self-healing capabilities.
+- **Observability**: Integrated full monitoring stack (Prometheus/Grafana) and security scanning (Trivy).
+- **CI/CD**: Automated testing and build pipelines via GitHub Actions ensuring production quality.
 
-- Active contributor to enterprise-scale Arch-based distribution by Basecamp
-- Personally invited by David Heinemeier Hansson to collaborate on ISO image development
-- Developed the main DNS configuration script for the entire distribution
-- 10+ merged pull requests with system component improvements
+### Kubernetes Homelab - On-Premise Platform
+**Stack**: k3s, ArgoCD, Longhorn, Velero, Prometheus, Loki, Falco, Sealed Secrets
+
+- **Private Cloud**: Designed a production-grade 2-node cluster demonstrating enterprise platform skills.
+- **Security & Storage**: Implemented Network Policies, RBAC, Falco runtime security, and distributed storage.
+- **Disaster Recovery**: Configured automated backups via Velero for business continuity.
+
+### Omarchy Linux Distribution - Core Contributor
+**Impact**: 18.7k+ Stars | Used by thousands worldwide
+**Stack**: Bash, Linux System Internals, Git
+
+- **System Engineering**: Authored the main DNS configuration script for the entire distribution.
+- **Collaboration**: Personally invited by **David Heinemeier Hansson** to join the ISO development team.
+- **Code Quality**: **10+ merged pull requests** optimizing system components and stability.
 
 ### DevTracker - Project Management System
+**Stack**: Django, PostgreSQL, Docker, Alpine.js, GitHub Actions
 
-**Technologies:** Django, PostgreSQL, Docker, Alpine.js, GitHub Actions
-
-- Infrastructure automation tool and project management system
-- Complete application with authentication, authorization, and REST API
-- 95% test coverage, deployed with Docker Compose
+- **Architecture**: Built a complete project management platform with REST API and strong auth patterns.
+- **Reliability**: Achieved **95% test coverage**, deployed via Docker Compose.
 
 ### Portfolio Platform
+**Live Demo**: [jaroslav.tech](https://jaroslav.tech)
 
-**Technologies:** Django, PostgreSQL, Docker, HTML5, CSS3, JavaScript, Redis
-**Live Demo:** [jaroslav.tech](https://jaroslav.tech)
-
-- Bilingual portfolio demonstrating infrastructure and development projects
-- Practical showcase of DevOps and development skills
-- Containerized deployment with CI/CD
+- **Showcase**: Bilingual, containerized portfolio application demonstrating DevOps and coding skills.
 
 ---
 
-## EDUCATION & CERTIFICATIONS
+## Education & Certifications
 
 ### Python Backend Developer Certification
-
 **CodersLab IT Academy** | *January 2025 - August 2025*
-
-- 169-hour intensive bootcamp - Python, Django, PostgreSQL
-- Focus on OOP, REST APIs, and Test-Driven Development
+169-hour intensive bootcamp focusing on OOP, REST APIs, TDD, and Python ecosystem.
 
 ### Electronics Engineering
-
 **Secondary School of Industrial Electronics** | Prague | *2010*
 
 ### Additional Certifications
-
 - Electrical Engineering Professional Qualification
 - Photovoltaic Systems Electrician
 - Master of Brewing Arts (MBA)
 
 ---
 
-## LANGUAGES
+## Languages & Additional Info
 
-- **Czech:** Native Speaker
-- **English:** B1 (Proficient in technical documentation, active open source contributor)
-
----
-
-## ADDITIONAL
-
-- **Driving License:** B, C
+**Czech**: Native Speaker
+**English**: B1 (Technically proficient, active open source contributor)
+**Driving License**: B, C

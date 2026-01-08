@@ -1,156 +1,144 @@
-# JAROSLAV HRAZDERA
+# Jaroslav Hrazdera
+## Platform a DevOps inženýr
 
-**Infrastructure & DevOps Engineer**
+📧 jarek@jaroslav.tech | 🌍 Brno, Česká republika  
+🌐 [jaroslav.tech](https://jaroslav.tech) | 💻 [github.com/jardahrazdera](https://github.com/jardahrazdera)
 
-- 📧 **Email:** [jarek@jaroslav.tech](mailto:jarek@jaroslav.tech)
-- 🌍 **Lokalita:** Brno, Česká republika
-- 🌐 **Web:** [jaroslav.tech](https://jaroslav.tech)
-- 💻 **GitHub:** [github.com/jardahrazdera](https://github.com/jardahrazdera)
-
----
-
-## PROFESNÍ SHRNUTÍ
-
-Infrastructure & DevOps Engineer s 6+ lety zkušeností ve správě IT infrastruktury a automatizaci. Aktivní open source přispěvatel do Omarchy Linux distribuce od Basecamp. Osobně pozván Davidem Heinemeierem Hanssonem ke spolupráci na systémových projektech.
-
-**Co mě odlišuje:**
-
-- **Open Source Contributor:** 10+ přijatých pull requestů do Omarchy projektu od Basecamp
-- **Spolupráce s DHH:** Přímá pozvánka do vývojového týmu Omarchy-ISO
-- **Unikátní kombinace:** Infrastructure expert s Python development skills
-- **Hardware nadšenec:** Stavím vlastní 3D tiskárny, experimentuji s IoT
+**Hledám:** Remote nebo hybridní roli Platform/DevOps/SRE  
+**Dostupnost:** Ihned
 
 ---
 
-## TECHNICKÉ DOVEDNOSTI
+## Profesní shrnutí
 
-### Cloud Native & Orchestrace
+**Platform & DevOps Engineer** propojující svět infrastrukturních operací a vývoje softwaru. S více než **6 lety** praktických zkušeností se specializuji na budování robustních, automatizovaných prostředí s využitím Kubernetes, Pythonu a GitOps workflows. K infrastruktuře přistupuji jako k produktu, se zaměřením na spolehlivost, bezpečnost a "developer experience". Aktivní open-source přispěvatel do projektu **Omarchy Linux** od Basecampu, osobně pozván **DHH** ke spolupráci na klíčových systémových komponentách.
 
-- **Kubernetes:** Kontejnerová orchestrace, Helm package management, ArgoCD GitOps
-- **Kontejnerizace:** Docker, Docker Compose, kontejnerové registry
-- **Monitoring:** Prometheus, Grafana, Loki agregace logů
-- **Infrastruktura:** Traefik Ingress Controller, Velero zálohování & disaster recovery
-- **CI/CD:** GitHub Actions, automatizované testování
-- **Cloudové služby:** AWS, Google Cloud (GCS)
+### Hlavní přednosti
 
-### Infrastruktura & Bezpečnost
-
-- **Operační systémy:** Linux (Arch/Omarchy jako hlavní systém), systemd, Ubuntu, Debian
-- **Virtualizace:** Proxmox
-- **Webové servery:** Nginx, Apache, Traefik
-- **Bezpečnost:** Trivy skenování zranitelností, Falco runtime security, Sealed Secrets
-- **Síť:** RBAC, Network Policies, správa sítí
-- **Správa verzí:** Git, GitHub, GitLab
-
-### Vývoj & Automatizace
-
-- **Backend:** Python, Django, Flask, FastAPI, Django REST Framework, SQL
-- **Systémové programování:** Rust, Ratatui
-- **Skripting:** Bash, Python automation
-- **Frontend:** JavaScript, HTML5, CSS3, responzivní design, Bootstrap
-- **Databáze:** PostgreSQL, Redis, MySQL, SQLite
-- **Testování:** Unit testy, integrační testování, pytest
-- **Konfigurace:** Ansible, Terraform (OpenTofu), Infrastructure as Code, správa konfigurace
+- **DevOps myšlení**: Silný zastánce "Infrastructure as Code" a automatizace namísto manuálních operací.
+- **Dopad v Open Source**: 10+ sloučených PR do Omarchy (18,7k+ hvězd); pozván do hlavního vývojového týmu ISO.
+- **Hybridní dovednosti**: Stabilita infrastruktury se setkává s backendovou logikou v Pythonu pro řešení komplexních platformních problémů.
+- **Hardware & IoT**: Hluboké porozumění fyzickým hardwarovým omezením díky vlastním sestavám a IoT projektům.
 
 ---
 
-## PRACOVNÍ ZKUŠENOSTI
+## Technické dovednosti
 
-### IT Infrastructure Manager & Technical Specialist
+### Cloud Native & Platform Engineering
 
-**Gridoff Solar s.r.o.** | Brno, Česká republika | *Září 2019 - Současnost*
+**Orchestrace**: Kubernetes, Helm, ArgoCD (GitOps), Pod Security Standards, Network Policies
+**Cloudoví poskytovatelé**: AWS, Google Cloud Platform (GCP)
+**CI/CD & Automatizace**: GitHub Actions, Ansible, Terraform (OpenTofu), Pipeline pro automatizované testování
+**Observabilita**: Prometheus, Grafana, Loki, Architektura metrik a alertingu
+**Kontejnerizace**: Docker, Docker Compose, Strategie pro Container Registries
 
-- Správa a údržba kompletní IT infrastruktury včetně serverů, sítí a monitorovacích systémů
-- Implementace Docker kontejnerizace pro zjednodušení správy aplikací a služeb
-- Vytvořil Python skripty pro automatizaci infrastrukturních procesů, úspora 15+ hodin týdně
-- Navrhl a implementoval API integrace pro monitoring fotovoltaických systémů
-- Snížil IT náklady o 75% strategickým self-hostingem a optimalizací infrastruktury
-- Vytvořil a spravuji firemní WordPress web a interní nástroje pro zpracování dat
+### Infrastruktura a bezpečnost
 
-**Technologie:** Linux, Docker, Python automation, Bash, API integrations, Nginx, WordPress
+**Operační systémy**: Linux (Arch jako daily driver), systemd, Ubuntu, Debian, AlmaLinux (RHEL)
+**Úložiště a obnova**: Longhorn storage, integrace zálohování Velero
+**Bezpečnost**: Trivy (skenování), Falco (runtime), Sealed Secrets, implementace RBAC
+**Sítě**: Traefik Ingress, Calico/Flannel (Canal), VPN, MikroTik
 
-### IT konzultant & správce infrastruktury
+### Vývoj a skriptování
 
+**Backend Stack**: Python (Django, Flask, FastAPI), REST Frameworky, optimalizace SQL
+**Systémové programování**: Rust (základy), Ratatui, Bash skriptování pro automatizaci
+**Databáze**: PostgreSQL, Redis, MySQL, SQLite
+**Frontend**: JavaScript, HTML5, CSS3, Bootstrap
+
+---
+
+## Profesní zkušenosti
+
+### Manažer IT infrastruktury a technický specialista
+**Gridoff Solar s.r.o.** | Brno, Česká republika | *Září 2019 - Prosinec 2025*
+
+- **Platform Engineering**: Řídil kompletní IT infrastrukturu a převedl starší procesy na moderní, kontejnerizované workflow pomocí Dockeru.
+- **Automatizace**: Vyvinul vlastní automatizační skripty v Pythonu, čímž eliminoval manuální dřinu a **ušetřil 15+ hodin týdně**.
+- **Integrace**: Navrhl a nasadil integrační API vrstvy pro systémy monitorování fotovoltaiky.
+- **Optimalizace nákladů**: **Snížil náklady na IT o 75 %** díky strategickému self-hostingu a optimalizaci zdrojů.
+- **Interní nástroje**: Vytvořil a spravoval interní nástroje pro zpracování dat a firemní webovou prezentaci (WordPress).
+
+**Technologie**: Linux, Docker, Python, Bash, Nginx, API integrace, Automatizace
+
+### IT konzultant a správce infrastruktury
 **OSVČ** | Brno, Česká republika | *Listopad 2012 - Srpen 2019*
 
-- Správa webových serverů a hostingové infrastruktury pro 15+ klientů
-- Napsal Python skripty pro automatizaci reportů a správy systémů
-- Implementace WordPress řešení s důrazem na výkon a bezpečnost
-- Základní úpravy PHP a integrace platebních systémů
+- **Hostingové operace**: Zřizoval a spravoval vysoce dostupnou infrastrukturu webových serverů pro **15+ klientů**.
+- **Skriptování**: Psal skripty v Pythonu pro automatizaci systémových reportů a úloh správy.
+- **Webová řešení**: Dodával výkonnostně vyladěná řešení na WordPressu s posílenou bezpečností.
+- **Backend logika**: Implementoval úpravy v PHP a integrace platebních bran.
 
-**Technologie:** Linux server administration, WordPress, Python, PHP, MySQL, Apache, Nginx
+**Technologie**: Správa Linuxu, automatizace v Pythonu, Nginx/Apache, MySQL, PHP
 
-### Síťový administrátor
-
+### Správce sítě
 **Airanet s.r.o.** | Brno, Česká republika | *Červen 2007 - Září 2012*
 
-- Správa síťové infrastruktury a zákaznická podpora
-- Konfigurace a automatizace správy MikroTik routerů pomocí skriptů
-- Vytvořil webové stránky společnosti a zákaznický portál
+- **Síťové inženýrství**: Spravoval síťovou infrastrukturu ISP a poskytoval L2/L3 podporu.
+- **Automatizace routerů**: Automatizoval konfiguraci a správu MikroTiků pomocí skriptování.
+- **Frontend**: Vyvíjel zákaznické portály a prezentační vrstvy společnosti.
 
-**Technologie:** Network protocols, MikroTik, Bash scripting, HTML/CSS, JavaScript
-
----
-
-## VÝVOJÁŘSKÉ PROJEKTY
-
-### Omarchy Linux distribuce - Open Source Contributor
-
-**Technologie:** Bash, Linux, Git
-**GitHub Stars:** 18.7k+ | **Aktivní uživatelé:** Tisíce vývojářů po celém světě
-
-- Aktivní přispěvatel do enterprise-scale Arch-based distribuce od Basecamp
-- Osobně pozván Davidem Heinemeierem Hanssonem ke spolupráci na vývoji ISO obrazu
-- Vyvinul hlavní DNS konfigurační skript pro celou distribuci
-- 10+ merged pull requestů s vylepšeními systémových komponent
-
-### DevTracker - Systém pro správu projektů
-
-**Technologie:** Django, PostgreSQL, Docker, Alpine.js, GitHub Actions
-
-- Infrastrukturní automatizační nástroj a systém pro správu projektů
-- Kompletní aplikace s autentizací, autorizací a REST API
-- Testovací pokrytí 95%, nasazeno s Docker Compose
-
-### Portfolio platforma
-
-**Technologie:** Django, PostgreSQL, Docker, HTML5, CSS3, JavaScript, Redis
-**Web:** [jaroslav.tech](https://jaroslav.tech)
-
-- Dvojjazyčné portfolio s demonstrací infrastructure a development projektů
-- Praktická ukázka DevOps a vývojářských schopností
-- Kontejnerizované nasazení s CI/CD
+**Technologie**: Síťové protokoly, MikroTik, Bash, HTML/CSS, JavaScript
 
 ---
 
-## VZDĚLÁNÍ A CERTIFIKACE
+## Vývojové projekty a Open Source
 
-### Python Backend Developer certifikace
+### DevOps Assessment - Infrastruktura připravená pro produkci
+**GitHub**: [github.com/jardahrazdera/devops-assessment](https://github.com/jardahrazdera/devops-assessment)
+**Stack**: Kubernetes (k3d), ArgoCD, Prometheus, Grafana, PostgreSQL, Redis, FastAPI
 
+- **Full-Stack DevOps**: Kontejnerizovaná aplikace FastAPI s cachováním (Redis) a perzistencí (PostgreSQL).
+- **GitOps Workflow**: Implementoval deklarativní nasazení přes ArgoCD se schopností "self-healing".
+- **Observabilita**: Integroval kompletní monitorovací stack (Prometheus/Grafana) a bezpečnostní skenování (Trivy).
+- **CI/CD**: Automatizované testovací a sestavovací pipeliny přes GitHub Actions zajišťující produkční kvalitu.
+
+### Kubernetes Homelab - On-Premise Platforma
+**Stack**: k3s, ArgoCD, Longhorn, Velero, Prometheus, Loki, Falco, Sealed Secrets
+
+- **Privátní Cloud**: Navrhl produkční 2-node cluster demonstrující dovednosti v oblasti podnikových platforem.
+- **Bezpečnost a úložiště**: Implementoval Network Policies, RBAC, runtime bezpečnost Falco a distribuované úložiště.
+- **Disaster Recovery**: Nakonfiguroval automatizované zálohování přes Velero pro zajištění kontinuity provozu.
+
+### Distribuce Omarchy Linux - Hlavní přispěvatel
+**Dopad**: 18,7k+ Hvězd | Používáno tisíci lidmi po celém světě
+**Stack**: Bash, Linux System Internals, Git
+
+- **Systémové inženýrství**: Autor hlavního konfiguračního skriptu DNS pro celou distribuci.
+- **Spolupráce**: Osobně pozván **Davidem Heinemeierem Hanssonem** do vývojového týmu ISO.
+- **Kvalita kódu**: **10+ sloučených pull requestů** optimalizujících systémové komponenty a stabilitu.
+
+### DevTracker - Systém pro řízení projektů
+**Stack**: Django, PostgreSQL, Docker, Alpine.js, GitHub Actions
+
+- **Architektura**: Vybudoval kompletní platformu pro řízení projektů s REST API a silnými autentizačními vzory.
+- **Spolehlivost**: Dosáhl **95% pokrytí testy**, nasazeno pomocí Docker Compose.
+
+### Portfoliová platforma
+**Live Demo**: [jaroslav.tech](https://jaroslav.tech)
+
+- **Ukázka**: Dvojjazyčná, kontejnerizovaná portfoliová aplikace demonstrující DevOps a programátorské dovednosti.
+
+---
+
+## Vzdělání a certifikace
+
+### Certifikace Python Backend Developer
 **CodersLab IT Academy** | *Leden 2025 - Srpen 2025*
-
-- 169hodinový intenzivní bootcamp - Python, Django, PostgreSQL
-- Zaměření na OOP, REST API a test-driven development
+169 hodinový intenzivní bootcamp zaměřený na OOP, REST API, TDD a ekosystém Pythonu.
 
 ### Elektronické inženýrství
-
 **Střední průmyslová škola elektrotechnická** | Praha | *2010*
 
 ### Další certifikace
-
-- Elektrotechnická kvalifikace
-- Elektrikář fotovoltaických systémů
-- Mistr sladovnictví a pivovarnictví (MBA)
-
----
-
-## JAZYKY
-
-- **Čeština:** Rodilý mluvčí
-- **Angličtina:** B1 (Silná technická angličtina, aktivní v open source komunikaci)
+- Odborná způsobilost v elektrotechnice (Vyhláška 50/78 Sb.)
+- Elektrotechnik pro fotovoltaické systémy
+- Mistr pivovarnického umění (MBA)
 
 ---
 
-## DALŠÍ
+## Jazyky a doplňující info
 
-- **Řidičský průkaz:** B, C
+**Čeština**: Rodilý mluvčí
+**Angličtina**: B1 (Technicky zdatný, aktivní open source přispěvatel)
+**Řidičský průkaz**: B, C
