@@ -38,6 +38,7 @@
 **Úložiště a obnova**: Longhorn storage, integrace zálohování Velero  
 **Bezpečnost**: Trivy (skenování), Falco (runtime), Sealed Secrets, implementace RBAC  
 **Sítě**: Traefik Ingress, Calico/Flannel (Canal), VPN, MikroTik
+**IoT a Protokoly**: MQTT, Eclipse Mosquitto, Integrace IoT zařízení
 
 ### Vývoj a skriptování
 

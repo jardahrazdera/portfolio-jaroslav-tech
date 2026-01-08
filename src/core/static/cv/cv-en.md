@@ -38,6 +38,7 @@
 **Storage & Recovery**: Longhorn storage, Velero backup integration  
 **Security**: Trivy (scanning), Falco (runtime), Sealed Secrets, RBAC implementation  
 **Networking**: Traefik Ingress, Calico/Flannel (Canal), VPNs, MikroTik
+**IoT & Protocols**: MQTT, Eclipse Mosquitto, IoT Device Integration
 
 ### Development & Scripting
 
