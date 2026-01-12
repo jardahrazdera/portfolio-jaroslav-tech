@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Portfolio Jarka\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-12 15:30+0000\n"
+"POT-Creation-Date: 2026-01-12 10:36+0000\n"
 "PO-Revision-Date: 2025-07-21 13:31+0200\n"
 "Last-Translator: Jarek <jarek@jaroslav.tech>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -385,88 +385,89 @@ msgstr "Nastavení stránky"
 msgid "Site Settings"
 msgstr "Nastavení stránek"
 
-#: core/templates/core/base.html:99 core/templates/core/base.html:168
+#: core/templates/core/base.html:105 core/templates/core/base.html:174
 #: devtracker/templates/devtracker/components/nav.html:34
 msgid "Toggle theme"
 msgstr "Přepnout motiv"
 
-#: core/templates/core/base.html:121
+#: core/templates/core/base.html:127
 msgid "Coming soon"
 msgstr "Brzy spustíme"
 
-#: core/templates/core/base.html:122
+#: core/templates/core/base.html:128
 msgid "I'm working on it :)"
 msgstr "Pracuji na tom :)"
 
-#: core/templates/core/base.html:132
+#: core/templates/core/base.html:138
 msgid "About"
 msgstr "O mně"
 
-#: core/templates/core/base.html:133
+#: core/templates/core/base.html:139
 msgid "Skills"
 msgstr "Dovednosti"
 
-#: core/templates/core/base.html:134
+#: core/templates/core/base.html:140
 msgctxt "Portfolio menu item"
 msgid "Projects"
 msgstr "Projekty"
 
-#: core/templates/core/base.html:135
+#: core/templates/core/base.html:141
 msgid "Contact"
 msgstr "Kontakt"
 
-#: core/templates/core/base.html:140
+#: core/templates/core/base.html:146
 msgid "CV"
 msgstr "CV"
 
-#: core/templates/core/base.html:142
+#: core/templates/core/base.html:148
 msgid "Visit my GitHub profile"
 msgstr "Navštivte můj profil na GitHub"
 
-#: core/templates/core/base.html:149
+#: core/templates/core/base.html:155
 msgid "Visit my LinkedIn profile"
 msgstr "Navštivte můj profil na LinkedIn"
 
-#: core/templates/core/base.html:159
+#: core/templates/core/base.html:165
 #: devtracker/templates/devtracker/components/nav.html:25
 msgid "Switch to Czech"
 msgstr ""
 
-#: core/templates/core/base.html:163
+#: core/templates/core/base.html:169
 #: devtracker/templates/devtracker/components/nav.html:29
 msgid "Switch to English"
 msgstr ""
 
-#: core/templates/core/base.html:175
+#: core/templates/core/base.html:181
 #: devtracker/templates/devtracker/components/nav.html:41
 msgid "Open menu"
 msgstr "Otevřít menu"
 
-#: core/templates/core/base.html:192
+#: core/templates/core/base.html:198
 msgid "Back to top"
 msgstr "Zpět nahoru"
 
-#: core/templates/core/base.html:205
+#: core/templates/core/base.html:211
 msgid "Built and hosted with"
 msgstr "Postaveno a hostováno s"
 
-#: core/templates/core/base.html:205
+#: core/templates/core/base.html:211
 msgid "by Jarek"
 msgstr "od Jarka"
 
-#: core/templates/core/base.html:206
+#: core/templates/core/base.html:212
 msgid ""
 "Infrastructure & DevOps Engineer | Omarchy Linux Contributor | Self-hosted "
 "on Proxmox"
 msgstr ""
-"Infrastructure & DevOps Engineer | Omarchy Linux Contributor | Self-hosted na Proxmoxu"
+"Infrastructure & DevOps Engineer | Omarchy Linux Contributor | Self-hosted "
+"na Proxmoxu"
 
-#: core/templates/core/base.html:212
+#: core/templates/core/base.html:218
 #: devtracker/templates/devtracker/register.html:56
 msgid "Email"
 msgstr "Email"
 
-#: core/templates/core/base.html:216
+#: core/templates/core/base.html:222
 msgid "All rights reserved."
 msgstr "Všechna práva vyhrazena."
 
@@ -508,8 +509,9 @@ msgstr "Stáhnout CV"
 
 #: core/templates/core/index.html:10
 msgid ""
-"Jarek - Infrastructure & DevOps Engineer | Linux, Docker, Python Automation"
-msgstr ""
+"Jarek - DevOps & Platform Engineer | Linux, Containers, Infrastructure as "
+"Code"
+msgstr "Jarek - DevOps & Platform Engineer | Linux, Kontejnery, Infrastructure as Code"
 
 #: core/templates/core/index.html:21
 msgid ""
@@ -518,141 +520,136 @@ msgid ""
 "practical infrastructure management and monitoring implementation. Updates "
 "every 5 seconds."
 msgstr ""
-"Monitoring v reálném čase infrastruktury, na které běží tento web. Všechny metriky "
-"jsou sbírány z mého self-hosted Proxmox serveru, což demonstruje praktickou správu "
-"infrastruktury a implementaci monitoringu. Aktualizace každých 5 sekund."
+"Monitoring v reálném čase infrastruktury, na které běží tento web. Všechny "
+"metriky jsou sbírány z mého self-hosted Proxmox serveru, což demonstruje "
+"praktickou správu infrastruktury a implementaci monitoringu. Aktualizace "
+"každých 5 sekund."
 
 #: core/templates/core/index.html:101
 msgid "Hello, I'm Jarek."
 msgstr "Ahoj, jsem Jarek."
 
 #: core/templates/core/index.html:104
-msgid "Infrastructure, DevOps Engineer &&"
-msgstr ""
+msgid "DevOps & Platform Engineer"
+msgstr "DevOps & Platform Engineer"
 
 #: core/templates/core/index.html:107
-msgid "Automation Specialist"
-msgstr ""
-
-#: core/templates/core/index.html:110
 msgid ""
-"I build and manage production-grade IT infrastructure with expertise in "
-"Linux server administration, Docker containerization, and Python automation. "
-"With 6+ years of hands-on experience, I specialize in creating reliable, "
-"scalable systems that solve real-world infrastructure challenges. Currently "
-"contributing to Basecamp's Omarchy Linux distribution, personally invited by "
-"David Heinemeier Hansson."
+"Bridging the gap between reliable infrastructure and modern DevOps. With "
+"over 6 years of experience and a deep background in Linux systems, I "
+"architect scalable, automated platforms using containerization and "
+"Infrastructure as Code. Currently contributing to Basecamp's Omarchy Linux "
+"distribution, personally invited by David Heinemeier Hansson."
 msgstr ""
-"Buduji a spravuji produkční IT infrastrukturu s expertízou v Linux správě "
-"serverů, Docker kontejnerizaci a Python automatizaci. S více než 6 lety "
-"praktických zkušeností se specializuji na vytváření spolehlivých, "
-"škálovatelných systémů, které řeší reálné infrastrukturní výzvy. Aktuálně "
-"přispívám do Basecamp's Omarchy Linux distribuce, osobně pozván Davidem "
-"Heinemeierem Hanssonem."
+"Spojuji svět spolehlivé infrastruktury s moderním DevOps přístupem. S více než "
+"6 lety zkušeností a hlubokými znalostmi Linuxových systémů navrhuji "
+"škálovatelné, automatizované platformy s využitím kontejnerizace a "
+"Infrastructure as Code. Aktivně přispívám do linuxové distribuce Omarchy od "
+"Basecampu, kam mě osobně pozval David Heinemeier Hansson."
 
-#: core/templates/core/index.html:112
+#: core/templates/core/index.html:109
 msgid "View My Work"
 msgstr "Zobrazit mé práce"
 
-#: core/templates/core/index.html:113
+#: core/templates/core/index.html:110
 msgid "Get In Touch"
 msgstr "Kontaktujte mě"
 
-#: core/templates/core/index.html:121
+#: core/templates/core/index.html:118
 msgid "About Me"
 msgstr "O mně"
 
-#: core/templates/core/index.html:133
+#: core/templates/core/index.html:130
 msgid ""
-"I am an Infrastructure & DevOps Engineer from the Czech Republic, driven by "
-"a passion for transforming complex infrastructure challenges into elegant "
-"automated solutions. My focus is on building and managing robust IT systems, "
-"with deep expertise in Linux server administration, containerization, and "
-"network management."
+"I am a DevOps & Infrastructure Engineer from the Czech Republic, dedicated "
+"to modernizing operations through automation and solid engineering "
+"principles. My foundation is built on deep Linux and networking knowledge, "
+"which I now leverage to design robust, cloud-native environments and "
+"container orchestration platforms."
 msgstr ""
-"Jsem Infrastructure & DevOps Engineer z České republiky, kterého pohání "
-"vášeň pro transformaci komplexních infrastrukturních výzev do elegantních "
-"automatizovaných řešení. Zaměřuji se na budování a správu robustních IT "
-"systémů, s hlubokými znalostmi v oblasti správy Linux serverů, "
-"kontejnerizace a správy sítí."
+"Jsem DevOps & Infrastructure Engineer z České republiky. Mým cílem je "
+"modernizace provozu IT systémů skrze automatizaci a osvědčené inženýrské "
+"principy. Stavím na pevných základech v oblasti Linuxu a síťování, které "
+"nyní využívám při návrhu robustních cloud-native prostředí a platforem pro "
+"orchestraci kontejnerů."
 
-#: core/templates/core/index.html:134
+#: core/templates/core/index.html:131
 msgid ""
-"I leverage Python for infrastructure automation and tooling, with practical "
-"experience in frameworks like Django and Flask for building internal systems "
-"and monitoring tools. My choice of <strong>Omarchy</strong> Linux "
-"distribution as a daily driver reflects my philosophy: I thrive in "
-"efficient, terminal-centric environments that give me full control over my "
-"workflow and infrastructure."
+"I treat infrastructure as software, utilizing Python and modern tooling to "
+"build custom automation and internal developer platforms. Whether it's "
+"crafting CI/CD pipelines or developing monitoring solutions, I aim for "
+"efficiency and observability. As a daily user and contributor to "
+"<strong>Omarchy</strong> Linux, I maintain a strong connection to the system "
+"internals that power modern tech stacks."
 msgstr ""
-"Využívám Python pro automatizaci infrastruktury a tvorbu nástrojů, s "
-"praktickými zkušenostmi ve frameworcích jako Django a Flask pro budování "
-"interních systémů a monitorovacích nástrojů. Má volba <strong>Omarchy</"
-"strong> Linux distribuce jako denního systému odráží moji filosofii: "
-"Prosperuji v efektivních, terminálově zaměřených prostředích, která mi "
-"dávají plnou kontrolu nad mým workflow a infrastrukturou."
+"K infrastruktuře přistupuji jako k softwaru. Využívám Python a moderní "
+"nástroje k tvorbě automatizace na míru a interních vývojářských platforem "
+"(IDP). Ať už jde o CI/CD pipeliny nebo monitorovací řešení, vždy cílím na "
+"efektivitu a transparentnost (observability). Jakožto denní uživatel a "
+"přispěvatel do <strong>Omarchy</strong> Linuxu si udržuji silný kontakt s "
+"\"vnitřnostmi\" systémů, které pohánějí moderní technologie."
 
-#: core/templates/core/index.html:135
+#: core/templates/core/index.html:132
 msgid ""
-"What sets me apart is my unique combination of infrastructure expertise and "
-"software development skills. I don't just manage systems—I automate them. I "
-"don't just deploy applications—I architect the infrastructure that makes "
-"them reliable and scalable."
+"My approach combines the reliability of seasoned systems administration with "
+"the agility of modern DevOps. I don't just maintain servers; I engineer "
+"resilient platforms. My goal is to abstract complexity and provide stable, "
+"scalable foundations that allow applications and developers to thrive."
 msgstr ""
-"Co mě odlišuje, je unikátní kombinace infrastrukturní expertízy a "
-"vývojářských dovedností. Nejen spravuji systémy—automatizuji je. Nejen "
-"nasazuji aplikace—stavím infrastrukturu, která je dělá spolehlivými a "
-"škálovatelnými."
+"Můj přístup kombinuje spolehlivost zkušeného systémového administrátora s "
+"flexibilitou moderního DevOps. Nestarám se jen o servery; inženýrsky buduji "
+"odolné platformy. Mým cílem je abstrahovat složitost a poskytovat stabilní, "
+"škálovatelné základy, na kterých mohou aplikace i vývojáři růst."
 
-#: core/templates/core/index.html:144
+#: core/templates/core/index.html:141
 msgid "My Skillset"
 msgstr "Moje dovednosti"
 
-#: core/templates/core/index.html:147
+#: core/templates/core/index.html:144
 msgid "Cloud Native & Orchestration"
 msgstr "Cloud Native & Orchestrace"
 
-#: core/templates/core/index.html:149
+#: core/templates/core/index.html:146
 msgid "Kubernetes & Container Orchestration"
 msgstr "Kubernetes & Kontejnerová Orchestrace"
 
-#: core/templates/core/index.html:154
+#: core/templates/core/index.html:151
 msgid "Velero Backup & DR"
 msgstr "Velero Zálohování & Obnova"
 
-#: core/templates/core/index.html:156
+#: core/templates/core/index.html:153
 msgid "Container Registries"
 msgstr "Kontejnerové Registry"
 
-#: core/templates/core/index.html:157
+#: core/templates/core/index.html:154
 msgid "System Monitoring & Logging"
 msgstr "Monitoring a logování systémů"
 
-#: core/templates/core/index.html:161
+#: core/templates/core/index.html:159
 msgid "Infrastructure & Security"
 msgstr "Infrastruktura & Bezpečnost"
 
-#: core/templates/core/index.html:163
+#: core/templates/core/index.html:161
 msgid "Linux (Arch/Omarchy daily driver)"
 msgstr "Linux (Arch/Omarchy jako hlavní systém)"
 
-#: core/templates/core/index.html:164
+#: core/templates/core/index.html:162
 msgid "Virtualization"
 msgstr "Virtualizace"
 
-#: core/templates/core/index.html:165
+#: core/templates/core/index.html:163
 msgid "Server Management"
 msgstr "Správa serverů"
 
-#: core/templates/core/index.html:166
+#: core/templates/core/index.html:164
 msgid "Network Administration"
 msgstr "Správa sítí"
 
-#: core/templates/core/index.html:171
+#: core/templates/core/index.html:170
 msgid "Web Servers"
 msgstr "Webové servery"
 
-#: core/templates/core/index.html:175
+#: core/templates/core/index.html:174
 msgid "Development & Automation"
 msgstr "Vývoj & Automatizace"
 
@@ -668,17 +665,17 @@ msgstr "Testování"
 msgid "Configuration Management"
 msgstr "Správa konfigurace"
 
-#: core/templates/core/index.html:186
+#: core/templates/core/index.html:194
 #: devtracker/templates/devtracker/project_list.html:4
 #: devtracker/templates/devtracker/project_list.html:9
 msgid "Projects"
 msgstr "Projekty"
 
-#: core/templates/core/index.html:189
+#: core/templates/core/index.html:197
 msgid "The Portfolio Meta-Project"
 msgstr "Meta-projekt Portfolia"
 
-#: core/templates/core/index.html:190
+#: core/templates/core/index.html:198
 msgid ""
 "What better showcases my infrastructure skills than the very platform "
 "presenting them? This entire website, from infrastructure to deployment, is "
@@ -696,24 +693,24 @@ msgstr ""
 "Serverová infrastruktura, monitoring, zálohy a deployment pipeline jsou "
 "všechny navrženy a spravovány mnou."
 
-#: core/templates/core/index.html:191 core/templates/core/index.html:209
-#: core/templates/core/index.html:218 core/templates/core/index.html:227
+#: core/templates/core/index.html:199 core/templates/core/index.html:217
+#: core/templates/core/index.html:226 core/templates/core/index.html:235
 msgid "Technologies:"
 msgstr "Technologie:"
 
-#: core/templates/core/index.html:193 core/templates/core/index.html:229
+#: core/templates/core/index.html:201 core/templates/core/index.html:237
 msgid "GitHub"
 msgstr "GitHub"
 
-#: core/templates/core/index.html:194
+#: core/templates/core/index.html:202
 msgid "Live Demo"
 msgstr "Živá ukázka"
 
-#: core/templates/core/index.html:198
+#: core/templates/core/index.html:206
 msgid "Omarchy Linux Distribution - Open Source Contributor"
 msgstr "Omarchy Linux Distribuce - Open Source Contributor"
 
-#: core/templates/core/index.html:208
+#: core/templates/core/index.html:216
 msgid ""
 "Active contributor to Basecamp's enterprise-grade Arch-based Linux "
 "distribution. Personally invited by David Heinemeier Hansson to join the "
@@ -727,21 +724,21 @@ msgstr ""
 "konfiguračního skriptu a vylepšení boot procesu. 10+ merged pull requestů v "
 "projektu používaném tisíci vývojářů po celém světě."
 
-#: core/templates/core/index.html:211
+#: core/templates/core/index.html:219
 #, fuzzy
 #| msgid "New Project"
 msgid "View Project"
 msgstr "Nový projekt"
 
-#: core/templates/core/index.html:212
+#: core/templates/core/index.html:220
 msgid "My Contributions"
 msgstr ""
 
-#: core/templates/core/index.html:216
+#: core/templates/core/index.html:224
 msgid "DevTracker - Infrastructure Automation & Project Management"
 msgstr "DevTracker - Infrastrukturní Automatizace & Správa Projektů"
 
-#: core/templates/core/index.html:217
+#: core/templates/core/index.html:225
 #, python-format
 msgid ""
 "A comprehensive Django-based system for infrastructure automation and "
@@ -758,19 +755,19 @@ msgstr ""
 "testování (95%% pokrytí), Docker kontejnerizace a automatizovaný deployment "
 "pipeline."
 
-#: core/templates/core/index.html:220
+#: core/templates/core/index.html:228
 msgid "Try DevTracker"
 msgstr "DevTracker"
 
-#: core/templates/core/index.html:221
+#: core/templates/core/index.html:229
 msgid "View Code"
 msgstr "Zobrazit kód"
 
-#: core/templates/core/index.html:225
+#: core/templates/core/index.html:233
 msgid "Lantern - Network Interface Manager"
 msgstr "Lantern - Správce Síťových Rozhraní"
 
-#: core/templates/core/index.html:226
+#: core/templates/core/index.html:234
 msgid ""
 "A lightweight TUI (Terminal User Interface) for managing network interfaces "
 "on Linux, built in Rust. Supports WiFi, VPN, and IPv4/IPv6 configurations "
@@ -784,21 +781,21 @@ msgstr ""
 "celým technologickým stackem—od low-level networkingu a systémového "
 "programování po high-level infrastrukturní automatizaci."
 
-#: core/templates/core/index.html:230
+#: core/templates/core/index.html:238
 msgid "In Development"
 msgstr "Ve vývoji"
 
-#: core/templates/core/index.html:239
+#: core/templates/core/index.html:247
 msgid "Contact Me"
 msgstr "Kontaktujte mě"
 
-#: core/templates/core/index.html:240
+#: core/templates/core/index.html:248
 msgid ""
-"I'm currently open to Infrastructure, DevOps, and SRE opportunities. Feel "
+"I'm currently open to Platform Engineering, DevOps, and SRE opportunities. Feel "
 "free to reach out!"
 msgstr ""
-"Aktuálně hledám Infrastructure, DevOps a SRE příležitosti. "
-"Neváhejte mě kontaktovat!"
+"Aktuálně hledám Platform Engineering, DevOps a SRE příležitosti. Neváhejte mě "
+"kontaktovat!"
 
 #: devtracker/templates/404.html:4 devtracker/templates/404.html:13
 msgid "Page Not Found"
@@ -1518,3 +1515,42 @@ msgstr ""
 #: devtracker/templates/devtracker/timelog_form.html:93
 msgid "Total logged:"
 msgstr ""
+
+#~ msgid ""
+#~ "I am an Infrastructure & DevOps Engineer from the Czech Republic, driven "
+#~ "by a passion for transforming complex infrastructure challenges into "
+#~ "elegant automated solutions. My focus is on building and managing robust "
+#~ "IT systems, with deep expertise in Linux server administration, "
+#~ "containerization, and network management."
+#~ msgstr ""
+#~ "Jsem Infrastructure & DevOps Engineer z České republiky, kterého pohání "
+#~ "vášeň pro transformaci komplexních infrastrukturních výzev do elegantních "
+#~ "automatizovaných řešení. Zaměřuji se na budování a správu robustních IT "
+#~ "systémů, s hlubokými znalostmi v oblasti správy Linux serverů, "
+#~ "kontejnerizace a správy sítí."
+
+#~ msgid ""
+#~ "I leverage Python for infrastructure automation and tooling, with "
+#~ "practical experience in frameworks like Django and Flask for building "
+#~ "internal systems and monitoring tools. My choice of <strong>Omarchy</"
+#~ "strong> Linux distribution as a daily driver reflects my philosophy: I "
+#~ "thrive in efficient, terminal-centric environments that give me full "
+#~ "control over my workflow and infrastructure."
+#~ msgstr ""
+#~ "Využívám Python pro automatizaci infrastruktury a tvorbu nástrojů, s "
+#~ "praktickými zkušenostmi ve frameworcích jako Django a Flask pro budování "
+#~ "interních systémů a monitorovacích nástrojů. Má volba <strong>Omarchy</"
+#~ "strong> Linux distribuce jako denního systému odráží moji filosofii: "
+#~ "Prosperuji v efektivních, terminálově zaměřených prostředích, která mi "
+#~ "dávají plnou kontrolu nad mým workflow a infrastrukturou."
+
+#~ msgid ""
+#~ "What sets me apart is my unique combination of infrastructure expertise "
+#~ "and software development skills. I don't just manage systems—I automate "
+#~ "them. I don't just deploy applications—I architect the infrastructure "
+#~ "that makes them reliable and scalable."
+#~ msgstr ""
+#~ "Co mě odlišuje, je unikátní kombinace infrastrukturní expertízy a "
+#~ "vývojářských dovedností. Nejen spravuji systémy—automatizuji je. Nejen "
+#~ "nasazuji aplikace—stavím infrastrukturu, která je dělá spolehlivými a "
+#~ "škálovatelnými."
