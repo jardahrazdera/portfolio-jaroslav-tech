@@ -7,7 +7,7 @@ File: src/core/templates/core/index.html
 This template extends base.html and provides the actual content for the main page.
 {% endcomment %}
 
-{% block title %}{% trans "Jarek - Infrastructure & DevOps Engineer | Linux, Docker, Python Automation" %}{% endblock %}
+{% block title %}{% trans "Jarek - DevOps & Platform Engineer | Linux, Containers, Infrastructure as Code" %}{% endblock %}
 
 {% block before_main %}
 <!-- Server Metrics Section -->
@@ -101,13 +101,10 @@ This template extends base.html and provides the actual content for the main pag
                 <p class="hero-intro">{% trans "Hello, I'm Jarek." %}</p>
                     <div class="title-container terminal">
                         <h1 class="title-line">
-                            <span class="prompt">$/~</span> {% trans "Infrastructure, DevOps Engineer &&" %}
-                        </h1>
-                        <h1 class="title-line">
-                            {% trans "Automation Specialist" %}<span class="cursor">_</span>
+                            <span class="prompt">$/~</span> {% trans "DevOps & Platform Engineer" %}<span class="cursor">_</span>
                         </h1>
                     </div>
-                <p class="hero-subtitle">{% trans "I build and manage production-grade IT infrastructure with expertise in Linux server administration, Docker containerization, and Python automation. With 6+ years of hands-on experience, I specialize in creating reliable, scalable systems that solve real-world infrastructure challenges. Currently contributing to Basecamp's Omarchy Linux distribution, personally invited by David Heinemeier Hansson." %}</p>
+                <p class="hero-subtitle">{% trans "Bridging the gap between reliable infrastructure and modern DevOps. With over 6 years of experience and a deep background in Linux systems, I architect scalable, automated platforms using containerization and Infrastructure as Code. Currently contributing to Basecamp's Omarchy Linux distribution, personally invited by David Heinemeier Hansson." %}</p>
                 <div class="hero-buttons">
                     <a href="#projects" class="btn btn-primary">{% trans "View My Work" %}</a>
                     <a href="#contact" class="btn btn-primary">{% trans "Get In Touch" %}</a>
@@ -130,9 +127,9 @@ This template extends base.html and provides the actual content for the main pag
                         </div>
                     </div>
                     <div class="about-text">
-                        <p>{% blocktrans %}I am an Infrastructure & DevOps Engineer from the Czech Republic, driven by a passion for transforming complex infrastructure challenges into elegant automated solutions. My focus is on building and managing robust IT systems, with deep expertise in Linux server administration, containerization, and network management.{% endblocktrans %}</p>
-                        <p>{% blocktrans %}I leverage Python for infrastructure automation and tooling, with practical experience in frameworks like Django and Flask for building internal systems and monitoring tools. My choice of <strong>Omarchy</strong> Linux distribution as a daily driver reflects my philosophy: I thrive in efficient, terminal-centric environments that give me full control over my workflow and infrastructure.{% endblocktrans %}</p>
-                        <p>{% blocktrans %}What sets me apart is my unique combination of infrastructure expertise and software development skills. I don't just manage systems—I automate them. I don't just deploy applications—I architect the infrastructure that makes them reliable and scalable.{% endblocktrans %}</p>
+                        <p>{% blocktrans %}I am a DevOps & Infrastructure Engineer from the Czech Republic, dedicated to modernizing operations through automation and solid engineering principles. My foundation is built on deep Linux and networking knowledge, which I now leverage to design robust, cloud-native environments and container orchestration platforms.{% endblocktrans %}</p>
+                        <p>{% blocktrans %}I treat infrastructure as software, utilizing Python and modern tooling to build custom automation and internal developer platforms. Whether it's crafting CI/CD pipelines or developing monitoring solutions, I aim for efficiency and observability. As a daily user and contributor to <strong>Omarchy</strong> Linux, I maintain a strong connection to the system internals that power modern tech stacks.{% endblocktrans %}</p>
+                        <p>{% blocktrans %}My approach combines the reliability of seasoned systems administration with the agility of modern DevOps. I don't just maintain servers; I engineer resilient platforms. My goal is to abstract complexity and provide stable, scalable foundations that allow applications and developers to thrive.{% endblocktrans %}</p>
                     </div>
                 </div>
             </div>
@@ -248,7 +245,7 @@ This template extends base.html and provides the actual content for the main pag
     <section id="contact" class="content-section">
         <div class="container">
             <h2>{% trans "Contact Me" %}</h2>
-            <p>{% trans "I'm currently open to Infrastructure, DevOps, and SRE opportunities. Feel free to reach out!" %}</p>
+            <p>{% trans "I'm currently open to Platform Engineering, DevOps, and SRE opportunities. Feel free to reach out!" %}</p>
             <a href="mailto:jarek@jaroslav.tech" class="btn btn-primary">jarek@jaroslav.tech</a>
         </div>
     </section>
