@@ -95,7 +95,7 @@
 - **CI/CD**: Automated testing and build pipelines via GitHub Actions ensuring production quality.
 
 ### Kubernetes Homelab - On-Premise Platform
-**Stack**: k3s, ArgoCD, Longhorn, Velero, Prometheus, Loki, Falco, Sealed Secrets
+**Stack**: k3s, ArgoCD, Gitea, Longhorn, Velero, Prometheus, Loki, Falco, Sealed Secrets
 
 - **Private Cloud**: Designed a production-grade 2-node cluster demonstrating enterprise platform skills.
 - **Security & Storage**: Implemented Network Policies, RBAC, Falco runtime security, and distributed storage.

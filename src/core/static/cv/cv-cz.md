@@ -95,7 +95,7 @@
 - **CI/CD**: Automatizované testovací a sestavovací pipeliny přes GitHub Actions zajišťující produkční kvalitu.
 
 ### Kubernetes Homelab - On-Premise Platforma
-**Stack**: k3s, ArgoCD, Longhorn, Velero, Prometheus, Loki, Falco, Sealed Secrets
+**Stack**: k3s, ArgoCD, Gitea, Longhorn, Velero, Prometheus, Loki, Falco, Sealed Secrets
 
 - **Privátní Cloud**: Navrhl produkční 2-node cluster demonstrující dovednosti v oblasti podnikových platforem.
 - **Bezpečnost a úložiště**: Implementoval Network Policies, RBAC, runtime bezpečnost Falco a distribuované úložiště.
